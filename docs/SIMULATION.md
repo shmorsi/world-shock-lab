@@ -54,6 +54,15 @@ Pass criteria (M2, docs/PLAN.md §6): |bias| ≤ 5% of the peak response + 4 Mon
 |---|---|---|---|---|---|---|
 | placebo, event_HC3 | 0.003 | 2.000 | 0.683 | 0.896 | 0.860 | 200 |
 
+## Proxy BVAR (moving-block bootstrap)
+
+BVAR with 4 lags on data from the VAR(2) above, identified with a noisy instrument (z = ε₀ + ν), 90% percentile bands from 200 bootstrap draws in each of 100 samples (T = 400). The first row uses the pre-registered prior tightness 0.2. The second row is effectively no prior, for comparison.
+
+| prior tightness | coverage 90, other variables | coverage 90, normalized variable's own path | max |bias| / peak, other variables | max |bias|, own path | median first-stage F |
+|---|---|---|---|---|---|
+| 0.2 (pre-registered) | 0.838 | 0.750 | 0.077 | 0.053 | 373.059 |
+| none (OLS VAR) | 0.872 | 0.861 | 0.059 | 0.026 | 359.078 |
+
 ## Consistency
 
 RMSE of the dense LP (HC1) across all horizons: 0.0773 at T = 250, 0.0263 at T = 2000 (ratio 0.34).
@@ -65,3 +74,4 @@ RMSE of the dense LP (HC1) across all horizons: 0.0773 at T = 250, 0.0263 at T =
 - **LP-IV, strong instrument** (median effective F 499): Wald bands cover 0.886.
 - **LP-IV, weak instrument** (median effective F 1.14): the point estimate is meaningless (mean bias 65 times the peak response). Wald bands cover 0.993 here only because they are enormous, so they carry no information. Anderson–Rubin sets keep coverage 0.893. Every LP-IV result we report will therefore show the effective F and the Anderson–Rubin set.
 - **Placebo:** an unrelated series produces responses indistinguishable from zero; the 90% band contains zero in 0.896 of draws.
+- **Proxy BVAR:** percentile bootstrap bands are too narrow even without a prior (coverage 0.87 for a nominal 0.90), as Kilian (1998) documents for persistent VARs. Shrinkage then biases the normalized variable's own path toward zero (coverage 0.75). The responses we compare with LPs cover 0.84. This is the bias-variance trade-off: VAR bands are narrower than LP bands partly because they are too narrow, so wherever the two disagree the LP is the more trustworthy guide to uncertainty.
