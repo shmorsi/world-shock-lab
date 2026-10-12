@@ -87,7 +87,8 @@ def test_placebo_rejects_a_real_effect() -> None:
     price = _random_walk(3000, 6, daily_sd=0.002)  # quiet market, so the effect is sharp
     events = _events(price, 120, 7)
     logp = np.log(price.to_numpy())
-    idx = price.index.get_indexer(pd.DatetimeIndex(events["ts"].dt.tz_localize(None).dt.normalize()))
+    event_days = pd.DatetimeIndex(events["ts"].dt.tz_localize(None).dt.normalize())
+    idx = price.index.get_indexer(event_days)
     for j, sh in zip(idx, events["s"], strict=True):  # each event moves the price by 0.5% per unit
         logp[j:] += 0.005 * sh
     moved = pd.Series(np.exp(logp), index=price.index)
