@@ -59,9 +59,11 @@ def all_announcements() -> pd.Series:
     return out
 
 
-def proxy_events() -> pd.DataFrame:
-    """BoC events (protocol v2) with proxy_bp = day-0 change in the 2-year yield."""
-    b = ev.boc()
+def proxy_events(exclude_fomc_same_day: bool = True) -> pd.DataFrame:
+    """BoC events (protocol v2) with proxy_bp = day-0 change in the 2-year yield. With
+    ``exclude_fomc_same_day=False`` the FOMC-day events are included (flagged), for the
+    secondary subsample the protocol reports separately."""
+    b = ev.boc(exclude_fomc_same_day=exclude_fomc_same_day)
     w = window_changes(load_series(PROXY_SERIES, ASSUMED_CA_CLOSE), b["ts"], 0)
     b["proxy_bp"] = w["d0"]
     return b.dropna(subset=["proxy_bp"])

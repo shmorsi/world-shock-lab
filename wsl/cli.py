@@ -93,6 +93,28 @@ def analyze() -> None:
     typer.echo(f"wrote {write_report()}")
 
 
+@app.command("evaluate")
+def evaluate(
+    validation: Annotated[bool, typer.Option(help="Model selection on 2015-2018.")] = False,
+    final: Annotated[bool, typer.Option(help="The single run on the 2019-2026 test set.")] = False,
+    report: Annotated[bool, typer.Option(help="Write docs/ML_BENCHMARK.md.")] = False,
+    rerun_reason: Annotated[str | None, typer.Option(help="Required for any second final run.")]
+    = None,
+) -> None:
+    """M5 ML benchmark under the pre-registered protocol."""
+    from wsl.ml import evaluate as ev
+    from wsl.ml import report as rep
+
+    if validation:
+        out = ev.run_validation()
+        typer.echo(f"validation done; candidates: {out['candidates']}")
+    if final:
+        out = ev.run_final(rerun_reason)
+        typer.echo(f"final run done: {out['verdict']}")
+    if report or validation or final:
+        typer.echo(f"wrote {rep.write()}")
+
+
 @validate_app.command("simulation")
 def validate_simulation() -> None:
     """Monte Carlo recovery of known impulse responses -> docs/SIMULATION.md (~1 minute)."""
