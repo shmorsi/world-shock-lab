@@ -1,12 +1,12 @@
-# World Shock Lab: pre-registered evaluation configuration (protocol v1)
+# World Shock Lab: pre-registered evaluation configuration (protocol v2)
 #
 # Written 2026-10-12, at M0, before any estimation or model fitting.
 # Do NOT edit after test results exist. If a change is unavoidable, bump protocol_version,
 # record the reason in docs/EVALUATION_PROTOCOL.md (Change log), and report both versions.
 # The pipeline stores sha256(this file) in every results JSON.
 
-protocol_version: 1
-frozen_on: "2026-10-12"
+protocol_version: 2
+frozen_on: "2026-10-12"   # v1 tagged protocol-v1; v2 amends BoC same-day events (see change log)
 
 splits:
   # Inclusive bounds, compared against the announcement timestamp in the event's local time zone.
@@ -23,6 +23,8 @@ event_families:
   boc:
     shock_source: boc_fad_proxy     # daily change in BD.CDN.2YR.DQ.YLD on FADs
     realtime_features: [d_ca2y]
+    scheduled_only: true            # unscheduled moves (4) are crisis responses, time unknown
+    exclude_fomc_same_day: true     # v2: the daily proxy would also contain the 14:00 Fed news
   opec:
     shock_source: kaenzig_daily
     realtime_features: [Front, 3M, 6M, 12M]   # raw futures surprises (%), not the full-sample PC
@@ -72,7 +74,7 @@ decision_rule:
 subsamples_secondary:
   - exclude_unscheduled_2020_03
   - by_event_family
-  - exclude_fomc_boc_collision_days
+  - boc_including_fomc_same_day   # v2: the excluded BoC events, reported for transparency
 
 in_sample_specs:                     # causal estimation; robustness alternatives listed separately
   daily_lp:

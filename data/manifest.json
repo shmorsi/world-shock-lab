@@ -39,6 +39,1332 @@
     }
    ]
   },
+  "fred/observations/BAA10Y": {
+   "pinned": "09e988c8ae620d73327ad0e3a04bf016269f86d434a9747af9a79d60af103078",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/BAA10Y/2026-10-12T165028Z_09e988c8ae62.json",
+     "retrieved_at": "2026-10-12T16:50:28Z",
+     "sha256": "09e988c8ae620d73327ad0e3a04bf016269f86d434a9747af9a79d60af103078",
+     "size": 1009171,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=BAA10Y&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/CPIAUCNS": {
+   "pinned": "238f09dbad24b4e5ded319f3aa363056f1f847f29f997979656006675ca3890f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/CPIAUCNS/2026-10-12T165031Z_238f09dbad24.json",
+     "retrieved_at": "2026-10-12T16:50:31Z",
+     "sha256": "238f09dbad24b4e5ded319f3aa363056f1f847f29f997979656006675ca3890f",
+     "size": 130948,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCNS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/CPIAUCSL": {
+   "pinned": "94e3cb7e4a44e6a7b69ad360ee01b3c24c7df6fdbf3941719cbf84cd94abb3aa",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/CPIAUCSL/2026-10-12T165038Z_94e3cb7e4a44.json",
+     "retrieved_at": "2026-10-12T16:50:38Z",
+     "sha256": "94e3cb7e4a44e6a7b69ad360ee01b3c24c7df6fdbf3941719cbf84cd94abb3aa",
+     "size": 92393,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCSL&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DCOILBRENTEU": {
+   "pinned": "3796e9e8a774693a8ddac457137d5bde8af86f7ab150b80a0299e0b955f147a9",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DCOILBRENTEU/2026-10-12T165018Z_3796e9e8a774.json",
+     "retrieved_at": "2026-10-12T16:50:18Z",
+     "sha256": "3796e9e8a774693a8ddac457137d5bde8af86f7ab150b80a0299e0b955f147a9",
+     "size": 982921,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILBRENTEU&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DCOILWTICO": {
+   "pinned": "52c63b324ac4d875baaf98c07ed04aeeb8061c607392c4acc86193d3c3a48b0e",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DCOILWTICO/2026-10-12T165014Z_52c63b324ac4.json",
+     "retrieved_at": "2026-10-12T16:50:14Z",
+     "sha256": "52c63b324ac4d875baaf98c07ed04aeeb8061c607392c4acc86193d3c3a48b0e",
+     "size": 1017028,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILWTICO&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXBZUS": {
+   "pinned": "83c2e743e33bb912588e0ea0e362ff3515455f09af126005a1e31f1339246b5a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXBZUS/2026-10-12T164943Z_83c2e743e33b.json",
+     "retrieved_at": "2026-10-12T16:49:43Z",
+     "sha256": "83c2e743e33bb912588e0ea0e362ff3515455f09af126005a1e31f1339246b5a",
+     "size": 801973,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXBZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXCAUS": {
+   "pinned": "f0b38c518d57a7d93398e9551062566307633f8e58f03df58881ed215b16f888",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXCAUS/2026-10-12T164922Z_f0b38c518d57.json",
+     "retrieved_at": "2026-10-12T16:49:22Z",
+     "sha256": "f0b38c518d57a7d93398e9551062566307633f8e58f03df58881ed215b16f888",
+     "size": 1408119,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCAUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXCHUS": {
+   "pinned": "7d428fd53c05e2a38bacfc12992b7e82d716dd12fd86377ef3a3e9faf21dd19a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXCHUS/2026-10-12T164950Z_7d428fd53c05.json",
+     "retrieved_at": "2026-10-12T16:49:50Z",
+     "sha256": "7d428fd53c05e2a38bacfc12992b7e82d716dd12fd86377ef3a3e9faf21dd19a",
+     "size": 1154987,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCHUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXINUS": {
+   "pinned": "f759bfaf7c12675b47fc31b1117e7be1b4cd149a372ce2e70aeb7b21501907cd",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXINUS/2026-10-12T165003Z_f759bfaf7c12.json",
+     "retrieved_at": "2026-10-12T16:50:03Z",
+     "sha256": "f759bfaf7c12675b47fc31b1117e7be1b4cd149a372ce2e70aeb7b21501907cd",
+     "size": 1347083,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXINUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXJPUS": {
+   "pinned": "163caa670faafd65b46d109ae2aa29177f191b9851fb7e4e23b6bc1924914378",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXJPUS/2026-10-12T164930Z_163caa670faa.json",
+     "retrieved_at": "2026-10-12T16:49:30Z",
+     "sha256": "163caa670faafd65b46d109ae2aa29177f191b9851fb7e4e23b6bc1924914378",
+     "size": 1411622,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXJPUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXKOUS": {
+   "pinned": "a9290bf2110f9bf3b89eecfb488b809a0850aebd41ae543bcaa077ede88b5eef",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXKOUS/2026-10-12T164948Z_a9290bf2110f.json",
+     "retrieved_at": "2026-10-12T16:49:48Z",
+     "sha256": "a9290bf2110f9bf3b89eecfb488b809a0850aebd41ae543bcaa077ede88b5eef",
+     "size": 1160105,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXKOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXMXUS": {
+   "pinned": "fdbc60fe38cce4d19148482f0ab582d35d805141c2c37b3f8d7b9fe2d74db318",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXMXUS/2026-10-12T164939Z_fdbc60fe38cc.json",
+     "retrieved_at": "2026-10-12T16:49:39Z",
+     "sha256": "fdbc60fe38cce4d19148482f0ab582d35d805141c2c37b3f8d7b9fe2d74db318",
+     "size": 833182,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXMXUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXNOUS": {
+   "pinned": "c406a7154da6a069e6bdc36d34b134c896a8746241fcf04bcec816f3e93a5167",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXNOUS/2026-10-12T165009Z_c406a7154da6.json",
+     "retrieved_at": "2026-10-12T16:50:09Z",
+     "sha256": "c406a7154da6a069e6bdc36d34b134c896a8746241fcf04bcec816f3e93a5167",
+     "size": 1408911,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXNOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXSZUS": {
+   "pinned": "6fed1c7327886ea039194ea311d8066c76d28349fe46312a5e641d5cd3f4f151",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXSZUS/2026-10-12T164953Z_6fed1c732788.json",
+     "retrieved_at": "2026-10-12T16:49:53Z",
+     "sha256": "6fed1c7327886ea039194ea311d8066c76d28349fe46312a5e641d5cd3f4f151",
+     "size": 1408070,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXSZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXUSAL": {
+   "pinned": "2f1ab2ccb9b1937f9f2a9b808d2323f1c93d32e00447dd83d337e0edf3e5b384",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXUSAL/2026-10-12T164956Z_2f1ab2ccb9b1.json",
+     "retrieved_at": "2026-10-12T16:49:56Z",
+     "sha256": "2f1ab2ccb9b1937f9f2a9b808d2323f1c93d32e00447dd83d337e0edf3e5b384",
+     "size": 1408042,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSAL&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXUSEU": {
+   "pinned": "c5238b2bd122e8ee449dbd7353c1216227cf17f6b36d72df768cdcec95438e90",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXUSEU/2026-10-12T164927Z_c5238b2bd122.json",
+     "retrieved_at": "2026-10-12T16:49:27Z",
+     "sha256": "c5238b2bd122e8ee449dbd7353c1216227cf17f6b36d72df768cdcec95438e90",
+     "size": 700889,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSEU&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DEXUSUK": {
+   "pinned": "32eb1b88badfb21b5bb172bc0facf5fa61ed8c99a80a5f19aceee5a1cf9f76d9",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DEXUSUK/2026-10-12T164934Z_32eb1b88badf.json",
+     "retrieved_at": "2026-10-12T16:49:34Z",
+     "sha256": "32eb1b88badfb21b5bb172bc0facf5fa61ed8c99a80a5f19aceee5a1cf9f76d9",
+     "size": 1408075,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSUK&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFEDTAR": {
+   "pinned": "32e9d1c3920396821d73dfea3bf2de4f9b6cb42731d47f101af3cad243faec0a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFEDTAR/2026-10-12T164911Z_32e9d1c39203.json",
+     "retrieved_at": "2026-10-12T16:49:11Z",
+     "sha256": "32e9d1c3920396821d73dfea3bf2de4f9b6cb42731d47f101af3cad243faec0a",
+     "size": 902570,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTAR&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFEDTARL": {
+   "pinned": "98beb1e064e543dd097bdab1e9dcbee4af4871bc3df9d5081eaf951aa214386d",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFEDTARL/2026-10-12T164919Z_98beb1e064e5.json",
+     "retrieved_at": "2026-10-12T16:49:19Z",
+     "sha256": "98beb1e064e543dd097bdab1e9dcbee4af4871bc3df9d5081eaf951aa214386d",
+     "size": 618393,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTARL&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFEDTARU": {
+   "pinned": "4164b60f98feee7faba376e5456e17a7395435f4ee6de99ba0d38645130dd2ca",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFEDTARU/2026-10-12T164916Z_4164b60f98fe.json",
+     "retrieved_at": "2026-10-12T16:49:16Z",
+     "sha256": "4164b60f98feee7faba376e5456e17a7395435f4ee6de99ba0d38645130dd2ca",
+     "size": 618607,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTARU&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFF": {
+   "pinned": "35398886dece3eac09b54110cb28417add2dd83f8c54fd8774f52f5d2767cba0",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFF/2026-10-12T164908Z_35398886dece.json",
+     "retrieved_at": "2026-10-12T16:49:08Z",
+     "sha256": "35398886dece3eac09b54110cb28417add2dd83f8c54fd8774f52f5d2767cba0",
+     "size": 2527033,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFF&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFII10": {
+   "pinned": "d02039db9fe4b927d7268b563793f040b31402c5b20449f8fb31cef67efc822b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFII10/2026-10-12T164858Z_d02039db9fe4.json",
+     "retrieved_at": "2026-10-12T16:48:58Z",
+     "sha256": "d02039db9fe4b927d7268b563793f040b31402c5b20449f8fb31cef67efc822b",
+     "size": 589489,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DFII5": {
+   "pinned": "c9394c55d482638c1711fcd010bc7689378aa95bf09b0388079afcf7a5a5db13",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DFII5/2026-10-12T164852Z_c9394c55d482.json",
+     "retrieved_at": "2026-10-12T16:48:52Z",
+     "sha256": "c9394c55d482638c1711fcd010bc7689378aa95bf09b0388079afcf7a5a5db13",
+     "size": 590309,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII5&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DGS1": {
+   "pinned": "38bdeb53f33810cd59f1f0295829f304862feb24f2f60538054217d24c541f11",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DGS1/2026-10-12T164838Z_38bdeb53f338.json",
+     "retrieved_at": "2026-10-12T16:48:38Z",
+     "sha256": "38bdeb53f33810cd59f1f0295829f304862feb24f2f60538054217d24c541f11",
+     "size": 1615384,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS1&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DGS10": {
+   "pinned": "1d81d6fa034cd901c41514115ecf9a400af7db4d6612471ab7d470d61213b118",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DGS10/2026-10-12T164849Z_1d81d6fa034c.json",
+     "retrieved_at": "2026-10-12T16:48:49Z",
+     "sha256": "1d81d6fa034cd901c41514115ecf9a400af7db4d6612471ab7d470d61213b118",
+     "size": 1604848,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DGS2": {
+   "pinned": "3697cb6ed360c20ef1907dc2b394ce969c0f2698e9e04b28627655dc6c22bb39",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DGS2/2026-10-12T164841Z_3697cb6ed360.json",
+     "retrieved_at": "2026-10-12T16:48:41Z",
+     "sha256": "3697cb6ed360c20ef1907dc2b394ce969c0f2698e9e04b28627655dc6c22bb39",
+     "size": 1255186,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DGS5": {
+   "pinned": "165b70f2e41dd36cac156b58c875e659375b7e3013d8bee8dfcc31dc48815c18",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DGS5/2026-10-12T164843Z_165b70f2e41d.json",
+     "retrieved_at": "2026-10-12T16:48:43Z",
+     "sha256": "165b70f2e41dd36cac156b58c875e659375b7e3013d8bee8dfcc31dc48815c18",
+     "size": 1604694,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS5&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/DHHNGSP": {
+   "pinned": "5cd5c8fd61cd3d097d8657c6bb7b28279b9f005d8dcd708ae08dcb880a500c0f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/DHHNGSP/2026-10-12T165022Z_5cd5c8fd61cd.json",
+     "retrieved_at": "2026-10-12T16:50:22Z",
+     "sha256": "5cd5c8fd61cd3d097d8657c6bb7b28279b9f005d8dcd708ae08dcb880a500c0f",
+     "size": 731169,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DHHNGSP&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/INDPRO": {
+   "pinned": "2d1005e67eff1e958f34edb8a9e3677cfac471f31907d14842646acc2cdfd485",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/INDPRO/2026-10-12T165041Z_2d1005e67eff.json",
+     "retrieved_at": "2026-10-12T16:50:41Z",
+     "sha256": "2d1005e67eff1e958f34edb8a9e3677cfac471f31907d14842646acc2cdfd485",
+     "size": 126616,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=INDPRO&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/PCEPILFE": {
+   "pinned": "42c6cb92d9f2d56e42a023bb7ebf3d1b75460f7f92f9acb44aa533e43fb296f8",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/PCEPILFE/2026-10-12T165046Z_42c6cb92d9f2.json",
+     "retrieved_at": "2026-10-12T16:50:46Z",
+     "sha256": "42c6cb92d9f2d56e42a023bb7ebf3d1b75460f7f92f9acb44aa533e43fb296f8",
+     "size": 79053,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=PCEPILFE&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/T10YIE": {
+   "pinned": "4807155b87729aa66a1dc4688b9f8e9b37e7245a414c38bedc9e15eb660adfc2",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/T10YIE/2026-10-12T164905Z_4807155b8772.json",
+     "retrieved_at": "2026-10-12T16:49:05Z",
+     "sha256": "4807155b87729aa66a1dc4688b9f8e9b37e7245a414c38bedc9e15eb660adfc2",
+     "size": 588503,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=T10YIE&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/T5YIE": {
+   "pinned": "5794cea86c9cda84e9ad1157ceb06fc1544eb5c287c2d19931b0ac73cee1f7b6",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/T5YIE/2026-10-12T164902Z_5794cea86c9c.json",
+     "retrieved_at": "2026-10-12T16:49:02Z",
+     "sha256": "5794cea86c9cda84e9ad1157ceb06fc1544eb5c287c2d19931b0ac73cee1f7b6",
+     "size": 588550,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=T5YIE&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/UNRATE": {
+   "pinned": "664a9e49209127fc351057d8442bc9a49ef5c7b8b542b5d67b8659f078a946cd",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/UNRATE/2026-10-12T165043Z_664a9e492091.json",
+     "retrieved_at": "2026-10-12T16:50:43Z",
+     "sha256": "664a9e49209127fc351057d8442bc9a49ef5c7b8b542b5d67b8659f078a946cd",
+     "size": 89119,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/observations/VIXCLS": {
+   "pinned": "29b3d6cf20804ff039dd513850eaa7f42db6404de62a566dd9a051f742a685d0",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/observations/VIXCLS/2026-10-12T165025Z_29b3d6cf2080.json",
+     "retrieved_at": "2026-10-12T16:50:25Z",
+     "sha256": "29b3d6cf20804ff039dd513850eaa7f42db6404de62a566dd9a051f742a685d0",
+     "size": 919780,
+     "url": "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&file_type=json&observation_start=1900-01-01&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/BAA10Y": {
+   "pinned": "f5db724da0ee5e590ad2071d89d08ac5387912371ff08227a17e63125917fb92",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/BAA10Y/2026-10-12T165029Z_f5db724da0ee.json",
+     "retrieved_at": "2026-10-12T16:50:29Z",
+     "sha256": "f5db724da0ee5e590ad2071d89d08ac5387912371ff08227a17e63125917fb92",
+     "size": 1746,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=BAA10Y&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/CPIAUCNS": {
+   "pinned": "0912c25f40ac367ed8b3a8d718b5c4f57b8eeaeb170516f74ae58a63b8af6654",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/CPIAUCNS/2026-10-12T165032Z_0912c25f40ac.json",
+     "retrieved_at": "2026-10-12T16:50:32Z",
+     "sha256": "0912c25f40ac367ed8b3a8d718b5c4f57b8eeaeb170516f74ae58a63b8af6654",
+     "size": 735,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=CPIAUCNS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/CPIAUCSL": {
+   "pinned": "31d37987823a53f87076b85036f3aed3061b0e85e0f41240987db9d1e5c43061",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/CPIAUCSL/2026-10-12T165038Z_31d37987823a.json",
+     "retrieved_at": "2026-10-12T16:50:38Z",
+     "sha256": "31d37987823a53f87076b85036f3aed3061b0e85e0f41240987db9d1e5c43061",
+     "size": 3158,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=CPIAUCSL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DCOILBRENTEU": {
+   "pinned": "072131c7b7e95eb9ad4070c4ba2577c3a99b38d7b1a28f811a7708ecf5d24376",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DCOILBRENTEU/2026-10-12T165020Z_072131c7b7e9.json",
+     "retrieved_at": "2026-10-12T16:50:20Z",
+     "sha256": "072131c7b7e95eb9ad4070c4ba2577c3a99b38d7b1a28f811a7708ecf5d24376",
+     "size": 621,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DCOILBRENTEU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DCOILWTICO": {
+   "pinned": "148767dc9fd08fcc8b0a36c175346d20d75788a8bd76f47dee9bdb95a3a36e0c",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DCOILWTICO/2026-10-12T165016Z_148767dc9fd0.json",
+     "retrieved_at": "2026-10-12T16:50:16Z",
+     "sha256": "148767dc9fd08fcc8b0a36c175346d20d75788a8bd76f47dee9bdb95a3a36e0c",
+     "size": 654,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DCOILWTICO&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXBZUS": {
+   "pinned": "0da1d13cedfb19a42333a886a66f97d753008ba89dd8897dd9b86c94b17fca7f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXBZUS/2026-10-12T164944Z_0da1d13cedfb.json",
+     "retrieved_at": "2026-10-12T16:49:44Z",
+     "sha256": "0da1d13cedfb19a42333a886a66f97d753008ba89dd8897dd9b86c94b17fca7f",
+     "size": 767,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXBZUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXCAUS": {
+   "pinned": "c3a3eaf792d31174370395102063e6387db53800ee6605e75eea49a1af819211",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXCAUS/2026-10-12T164923Z_c3a3eaf792d3.json",
+     "retrieved_at": "2026-10-12T16:49:23Z",
+     "sha256": "c3a3eaf792d31174370395102063e6387db53800ee6605e75eea49a1af819211",
+     "size": 764,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXCAUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXCHUS": {
+   "pinned": "962ab928320f68293b7be29fc0f90272840541b8817b2586c7927753e844b88c",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXCHUS/2026-10-12T164951Z_962ab928320f.json",
+     "retrieved_at": "2026-10-12T16:49:51Z",
+     "sha256": "962ab928320f68293b7be29fc0f90272840541b8817b2586c7927753e844b88c",
+     "size": 785,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXCHUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXINUS": {
+   "pinned": "546d56ebb55ad599c76008b329a1aaf7d8c58347bca4948a6256305d39c4876a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXINUS/2026-10-12T165004Z_546d56ebb55a.json",
+     "retrieved_at": "2026-10-12T16:50:04Z",
+     "sha256": "546d56ebb55ad599c76008b329a1aaf7d8c58347bca4948a6256305d39c4876a",
+     "size": 761,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXINUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXJPUS": {
+   "pinned": "cbf32ff89f8225dfb12d55f1e3b41057b5ba473bf8b37335ffc01f1a65a90752",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXJPUS/2026-10-12T164931Z_cbf32ff89f82.json",
+     "retrieved_at": "2026-10-12T16:49:31Z",
+     "sha256": "cbf32ff89f8225dfb12d55f1e3b41057b5ba473bf8b37335ffc01f1a65a90752",
+     "size": 758,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXJPUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXKOUS": {
+   "pinned": "77446aa3c7ecbe7fab74451fe24f5d6dd04e24296388806013fef3d55f05035a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXKOUS/2026-10-12T164948Z_77446aa3c7ec.json",
+     "retrieved_at": "2026-10-12T16:49:48Z",
+     "sha256": "77446aa3c7ecbe7fab74451fe24f5d6dd04e24296388806013fef3d55f05035a",
+     "size": 770,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXKOUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXMXUS": {
+   "pinned": "f33d375d05e4e48cf768cf4be2105572cf48ffcbaa77e423bb0d2c13a3db405a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXMXUS/2026-10-12T164940Z_f33d375d05e4.json",
+     "retrieved_at": "2026-10-12T16:49:40Z",
+     "sha256": "f33d375d05e4e48cf768cf4be2105572cf48ffcbaa77e423bb0d2c13a3db405a",
+     "size": 761,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXMXUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXNOUS": {
+   "pinned": "d69828c8132e0a040e27756e1da4abac0c343bca26a729006122f30f5f5c2e28",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXNOUS/2026-10-12T165010Z_d69828c8132e.json",
+     "retrieved_at": "2026-10-12T16:50:10Z",
+     "sha256": "d69828c8132e0a040e27756e1da4abac0c343bca26a729006122f30f5f5c2e28",
+     "size": 770,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXNOUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXSZUS": {
+   "pinned": "e22e633d0a2d701762e82d2ef3832371a1b30eaca82cd4cc2a172bf3d5fe0a20",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXSZUS/2026-10-12T164954Z_e22e633d0a2d.json",
+     "retrieved_at": "2026-10-12T16:49:54Z",
+     "sha256": "e22e633d0a2d701762e82d2ef3832371a1b30eaca82cd4cc2a172bf3d5fe0a20",
+     "size": 758,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXSZUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXUSAL": {
+   "pinned": "718c5756124f943e61462df439e697204f1149ab193171f40cacc7c38d75a0f5",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXUSAL/2026-10-12T164957Z_718c5756124f.json",
+     "retrieved_at": "2026-10-12T16:49:57Z",
+     "sha256": "718c5756124f943e61462df439e697204f1149ab193171f40cacc7c38d75a0f5",
+     "size": 770,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXUSAL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXUSEU": {
+   "pinned": "37e2ce99b1e25cd81a306ab484f064a998849e1da2f60ce33a5addb118eeb9b0",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXUSEU/2026-10-12T164927Z_37e2ce99b1e2.json",
+     "retrieved_at": "2026-10-12T16:49:27Z",
+     "sha256": "37e2ce99b1e25cd81a306ab484f064a998849e1da2f60ce33a5addb118eeb9b0",
+     "size": 736,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXUSEU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DEXUSUK": {
+   "pinned": "b338a6ce2ef9b949b89ad2d9fc8efda72015d2a449d321a7b02eb72fb44e2698",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DEXUSUK/2026-10-12T164935Z_b338a6ce2ef9.json",
+     "retrieved_at": "2026-10-12T16:49:35Z",
+     "sha256": "b338a6ce2ef9b949b89ad2d9fc8efda72015d2a449d321a7b02eb72fb44e2698",
+     "size": 781,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DEXUSUK&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFEDTAR": {
+   "pinned": "88ee8eb1e4c078a2ee797557f6bd5625702f39eed0b74fa1770468a71174d6fb",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFEDTAR/2026-10-12T164912Z_88ee8eb1e4c0.json",
+     "retrieved_at": "2026-10-12T16:49:12Z",
+     "sha256": "88ee8eb1e4c078a2ee797557f6bd5625702f39eed0b74fa1770468a71174d6fb",
+     "size": 1183,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFEDTAR&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFEDTARL": {
+   "pinned": "600eb91a154618a1326e79c938ed3a886b098dc4fbff8c1024bee8c381ffed43",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFEDTARL/2026-10-12T164920Z_600eb91a1546.json",
+     "retrieved_at": "2026-10-12T16:49:20Z",
+     "sha256": "600eb91a154618a1326e79c938ed3a886b098dc4fbff8c1024bee8c381ffed43",
+     "size": 678,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFEDTARL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFEDTARU": {
+   "pinned": "64a1a8dffecce1a86cf30ca25713e6bc538651a1e80180b5ea23620974c82ac4",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFEDTARU/2026-10-12T164917Z_64a1a8dffecc.json",
+     "retrieved_at": "2026-10-12T16:49:17Z",
+     "sha256": "64a1a8dffecce1a86cf30ca25713e6bc538651a1e80180b5ea23620974c82ac4",
+     "size": 678,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFEDTARU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFF": {
+   "pinned": "ff100bf0e7f2102c23ef5b9b662f9cc116ee19678c8df34644f9c7c9ccef620d",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFF/2026-10-12T164909Z_ff100bf0e7f2.json",
+     "retrieved_at": "2026-10-12T16:49:09Z",
+     "sha256": "ff100bf0e7f2102c23ef5b9b662f9cc116ee19678c8df34644f9c7c9ccef620d",
+     "size": 4435,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFF&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFII10": {
+   "pinned": "05cfa011b05b72383b392805ba409cc6379c764dd083bbd1899ca3caca21d63b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFII10/2026-10-12T164859Z_05cfa011b05b.json",
+     "retrieved_at": "2026-10-12T16:48:59Z",
+     "sha256": "05cfa011b05b72383b392805ba409cc6379c764dd083bbd1899ca3caca21d63b",
+     "size": 1098,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFII10&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DFII5": {
+   "pinned": "f15afd755a8cc6a03d2cb8927f5f5e9823e2ec467a135f8a5d6a4a4bd1feda4e",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DFII5/2026-10-12T164853Z_f15afd755a8c.json",
+     "retrieved_at": "2026-10-12T16:48:53Z",
+     "sha256": "f15afd755a8cc6a03d2cb8927f5f5e9823e2ec467a135f8a5d6a4a4bd1feda4e",
+     "size": 1096,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DFII5&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DGS1": {
+   "pinned": "217146090fbefd75e84bc02e96e8b2c922fdaa57e2c4424e44e14e4372446379",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DGS1/2026-10-12T164839Z_217146090fbe.json",
+     "retrieved_at": "2026-10-12T16:48:39Z",
+     "sha256": "217146090fbefd75e84bc02e96e8b2c922fdaa57e2c4424e44e14e4372446379",
+     "size": 1076,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DGS1&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DGS10": {
+   "pinned": "99f485d71a12a229aca95bc3c276ba11a0eb75af9c919b5e4e86441ecf315cd1",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DGS10/2026-10-12T164850Z_99f485d71a12.json",
+     "retrieved_at": "2026-10-12T16:48:50Z",
+     "sha256": "99f485d71a12a229aca95bc3c276ba11a0eb75af9c919b5e4e86441ecf315cd1",
+     "size": 1054,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DGS10&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DGS2": {
+   "pinned": "607ce860c8aabdda73e65719ca8ff38f26e086007e76943853cfc85a970c89c0",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DGS2/2026-10-12T164842Z_607ce860c8aa.json",
+     "retrieved_at": "2026-10-12T16:48:42Z",
+     "sha256": "607ce860c8aabdda73e65719ca8ff38f26e086007e76943853cfc85a970c89c0",
+     "size": 1076,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DGS2&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DGS5": {
+   "pinned": "94861e61548c00c63d35a214f024de8592d25d56aad01a0cb292c10deb11384a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DGS5/2026-10-12T164844Z_94861e61548c.json",
+     "retrieved_at": "2026-10-12T16:48:44Z",
+     "sha256": "94861e61548c00c63d35a214f024de8592d25d56aad01a0cb292c10deb11384a",
+     "size": 1076,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DGS5&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/DHHNGSP": {
+   "pinned": "efe3067b2ded14d0edf062039c1123094586d0c6036277cedda621787b64d53f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/DHHNGSP/2026-10-12T165023Z_efe3067b2ded.json",
+     "retrieved_at": "2026-10-12T16:50:23Z",
+     "sha256": "efe3067b2ded14d0edf062039c1123094586d0c6036277cedda621787b64d53f",
+     "size": 623,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=DHHNGSP&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/INDPRO": {
+   "pinned": "89fd8a2b0e52bb3be8bae9860f75193f2498404e12cf7cb9332535587993d909",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/INDPRO/2026-10-12T165041Z_89fd8a2b0e52.json",
+     "retrieved_at": "2026-10-12T16:50:41Z",
+     "sha256": "89fd8a2b0e52bb3be8bae9860f75193f2498404e12cf7cb9332535587993d909",
+     "size": 744,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=INDPRO&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/PCEPILFE": {
+   "pinned": "0b4d2b4a48f3900293ed6a2ec1c2e12d9a57ac41d3dcc02487d1cc4b695088a4",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/PCEPILFE/2026-10-12T165047Z_0b4d2b4a48f3.json",
+     "retrieved_at": "2026-10-12T16:50:47Z",
+     "sha256": "0b4d2b4a48f3900293ed6a2ec1c2e12d9a57ac41d3dcc02487d1cc4b695088a4",
+     "size": 2570,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=PCEPILFE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/T10YIE": {
+   "pinned": "1717a1cd33eebd37a80ec554797d63c775c45f7c22abcc0bcf71059eff3765de",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/T10YIE/2026-10-12T164906Z_1717a1cd33ee.json",
+     "retrieved_at": "2026-10-12T16:49:06Z",
+     "sha256": "1717a1cd33eebd37a80ec554797d63c775c45f7c22abcc0bcf71059eff3765de",
+     "size": 1178,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=T10YIE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/T5YIE": {
+   "pinned": "4950344b07305d0ad31fd4ba35a38b0422a32e1dbec9bf109a63694a7f0397ac",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/T5YIE/2026-10-12T164903Z_4950344b0730.json",
+     "retrieved_at": "2026-10-12T16:49:03Z",
+     "sha256": "4950344b07305d0ad31fd4ba35a38b0422a32e1dbec9bf109a63694a7f0397ac",
+     "size": 1169,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=T5YIE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/UNRATE": {
+   "pinned": "d54f8244ff6331dd7cdd23f63b674ce61b11d95a486b61056515bbef729f9b51",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/UNRATE/2026-10-12T165044Z_d54f8244ff63.json",
+     "retrieved_at": "2026-10-12T16:50:44Z",
+     "sha256": "d54f8244ff6331dd7cdd23f63b674ce61b11d95a486b61056515bbef729f9b51",
+     "size": 1036,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=UNRATE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/series/VIXCLS": {
+   "pinned": "950e291a8d07d4ec15e541a2db43685e59d8011fcafccfba0fbd32e2e2529c57",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/series/VIXCLS/2026-10-12T165026Z_950e291a8d07.json",
+     "retrieved_at": "2026-10-12T16:50:26Z",
+     "sha256": "950e291a8d07d4ec15e541a2db43685e59d8011fcafccfba0fbd32e2e2529c57",
+     "size": 657,
+     "url": "https://api.stlouisfed.org/fred/series?series_id=VIXCLS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/BAA10Y": {
+   "pinned": "7808a61f4063f34b766d3d1f2c2aab7857463452c6925bfbf4fffbd97f40b5e3",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/BAA10Y/2026-10-12T165030Z_7808a61f4063.json",
+     "retrieved_at": "2026-10-12T16:50:30Z",
+     "sha256": "7808a61f4063f34b766d3d1f2c2aab7857463452c6925bfbf4fffbd97f40b5e3",
+     "size": 2255,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=BAA10Y&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/CPIAUCNS": {
+   "pinned": "19e47e0d8256e4ee527ce1a6e863966129c113fc484062470d165472b165d682",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/CPIAUCNS/2026-10-12T165037Z_19e47e0d8256.json",
+     "retrieved_at": "2026-10-12T16:50:37Z",
+     "sha256": "19e47e0d8256e4ee527ce1a6e863966129c113fc484062470d165472b165d682",
+     "size": 1930,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=CPIAUCNS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/CPIAUCSL": {
+   "pinned": "004492e3d94b716612fb1bc3e0aff5fdbd7a62b44b9d217307eda5448f833fd2",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/CPIAUCSL/2026-10-12T165040Z_004492e3d94b.json",
+     "retrieved_at": "2026-10-12T16:50:40Z",
+     "sha256": "004492e3d94b716612fb1bc3e0aff5fdbd7a62b44b9d217307eda5448f833fd2",
+     "size": 2166,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=CPIAUCSL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DCOILBRENTEU": {
+   "pinned": "f97b59fbe8067c79bc0713e20ade65bb8d7dd8b536be6712c0c6739c89bd30ae",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DCOILBRENTEU/2026-10-12T165021Z_f97b59fbe806.json",
+     "retrieved_at": "2026-10-12T16:50:21Z",
+     "sha256": "f97b59fbe8067c79bc0713e20ade65bb8d7dd8b536be6712c0c6739c89bd30ae",
+     "size": 1425,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DCOILBRENTEU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DCOILWTICO": {
+   "pinned": "a4df33d74c35c70107659d12055f83e73b5ad2bc63e7307cd208a5e8e420bc9e",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DCOILWTICO/2026-10-12T165017Z_a4df33d74c35.json",
+     "retrieved_at": "2026-10-12T16:50:17Z",
+     "sha256": "a4df33d74c35c70107659d12055f83e73b5ad2bc63e7307cd208a5e8e420bc9e",
+     "size": 1801,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DCOILWTICO&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXBZUS": {
+   "pinned": "306c57648a45107859189354c8393d048d14e53a93899af183d589e6835a8e81",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXBZUS/2026-10-12T164947Z_306c57648a45.json",
+     "retrieved_at": "2026-10-12T16:49:47Z",
+     "sha256": "306c57648a45107859189354c8393d048d14e53a93899af183d589e6835a8e81",
+     "size": 1563,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXBZUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXCAUS": {
+   "pinned": "f43f0b017326678f551ea9d19602a1db874d050a9b595ccc295df68a0392f7a5",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXCAUS/2026-10-12T164926Z_f43f0b017326.json",
+     "retrieved_at": "2026-10-12T16:49:26Z",
+     "sha256": "f43f0b017326678f551ea9d19602a1db874d050a9b595ccc295df68a0392f7a5",
+     "size": 1563,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXCAUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXCHUS": {
+   "pinned": "8e76c950683a9a4e5b226280aeee4385cc4f7d4913cf855874928f713ba039f7",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXCHUS/2026-10-12T164952Z_8e76c950683a.json",
+     "retrieved_at": "2026-10-12T16:49:52Z",
+     "sha256": "8e76c950683a9a4e5b226280aeee4385cc4f7d4913cf855874928f713ba039f7",
+     "size": 1562,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXCHUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXINUS": {
+   "pinned": "4f988de9c6f3e43e71c9a0971e80eeef2861c2f0cdf607d49005cdd67c38b899",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXINUS/2026-10-12T165007Z_4f988de9c6f3.json",
+     "retrieved_at": "2026-10-12T16:50:07Z",
+     "sha256": "4f988de9c6f3e43e71c9a0971e80eeef2861c2f0cdf607d49005cdd67c38b899",
+     "size": 1562,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXINUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXJPUS": {
+   "pinned": "699aaa83568d53874a1996a14881d0440f86f2711f342f5ddf5f92a9677e1e30",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXJPUS/2026-10-12T164933Z_699aaa83568d.json",
+     "retrieved_at": "2026-10-12T16:49:33Z",
+     "sha256": "699aaa83568d53874a1996a14881d0440f86f2711f342f5ddf5f92a9677e1e30",
+     "size": 1562,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXJPUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXKOUS": {
+   "pinned": "e917e34c72a7ca265c7d2f1e1403e7adb569dcc9fc6dac6bb0a6ec0526f2f651",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXKOUS/2026-10-12T164949Z_e917e34c72a7.json",
+     "retrieved_at": "2026-10-12T16:49:49Z",
+     "sha256": "e917e34c72a7ca265c7d2f1e1403e7adb569dcc9fc6dac6bb0a6ec0526f2f651",
+     "size": 1567,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXKOUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXMXUS": {
+   "pinned": "cad22f7bd8556ec291fb023b34498a62bcc2f61e0a5f1e8cc64a086a3bc43173",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXMXUS/2026-10-12T164942Z_cad22f7bd855.json",
+     "retrieved_at": "2026-10-12T16:49:42Z",
+     "sha256": "cad22f7bd8556ec291fb023b34498a62bcc2f61e0a5f1e8cc64a086a3bc43173",
+     "size": 1563,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXMXUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXNOUS": {
+   "pinned": "8227453af3426b0e7bc0e766782b5e7fe2cc6345c2ead833a132a03fb754bc14",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXNOUS/2026-10-12T165013Z_8227453af342.json",
+     "retrieved_at": "2026-10-12T16:50:13Z",
+     "sha256": "8227453af3426b0e7bc0e766782b5e7fe2cc6345c2ead833a132a03fb754bc14",
+     "size": 1563,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXNOUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXSZUS": {
+   "pinned": "42755981a332290d35f50779c654b7a6a604bb859d0871829fbd11291fb7220c",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXSZUS/2026-10-12T164955Z_42755981a332.json",
+     "retrieved_at": "2026-10-12T16:49:55Z",
+     "sha256": "42755981a332290d35f50779c654b7a6a604bb859d0871829fbd11291fb7220c",
+     "size": 1568,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXSZUS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXUSAL": {
+   "pinned": "466b6ba3fa2b45a09b0b0a8702ecb5e5e3ae5b909c9d66a97dfec0277bf48094",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXUSAL/2026-10-12T165000Z_466b6ba3fa2b.json",
+     "retrieved_at": "2026-10-12T16:50:00Z",
+     "sha256": "466b6ba3fa2b45a09b0b0a8702ecb5e5e3ae5b909c9d66a97dfec0277bf48094",
+     "size": 1566,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXUSAL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXUSEU": {
+   "pinned": "8535377032e95be8f1a1e84c279a40c5f43d103a0a1e9fc094b1721f98ed00ea",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXUSEU/2026-10-12T164929Z_8535377032e9.json",
+     "retrieved_at": "2026-10-12T16:49:29Z",
+     "sha256": "8535377032e95be8f1a1e84c279a40c5f43d103a0a1e9fc094b1721f98ed00ea",
+     "size": 1702,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXUSEU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DEXUSUK": {
+   "pinned": "970683f659660d34fee9f7535bca42edc510f9697ac195e14b4e5f7e5374688b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DEXUSUK/2026-10-12T164938Z_970683f65966.json",
+     "retrieved_at": "2026-10-12T16:49:38Z",
+     "sha256": "970683f659660d34fee9f7535bca42edc510f9697ac195e14b4e5f7e5374688b",
+     "size": 1571,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DEXUSUK&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFEDTAR": {
+   "pinned": "96ebbdfc23a2c2140a545a36f74f2a8c2b646ade92c37b47183a1817dfe9893f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFEDTAR/2026-10-12T164916Z_96ebbdfc23a2.json",
+     "retrieved_at": "2026-10-12T16:49:16Z",
+     "sha256": "96ebbdfc23a2c2140a545a36f74f2a8c2b646ade92c37b47183a1817dfe9893f",
+     "size": 1825,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFEDTAR&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFEDTARL": {
+   "pinned": "7c51e855a31b0f952fbae8e58cc1eacbaf8a869e7a0fd8737fe8c434e66beb17",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFEDTARL/2026-10-12T164921Z_7c51e855a31b.json",
+     "retrieved_at": "2026-10-12T16:49:21Z",
+     "sha256": "7c51e855a31b0f952fbae8e58cc1eacbaf8a869e7a0fd8737fe8c434e66beb17",
+     "size": 1569,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFEDTARL&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFEDTARU": {
+   "pinned": "66ffbfbd5f0b6f5dc9e5a67668e125cf81cc9b5ff5ff5825e8aa9892eade743a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFEDTARU/2026-10-12T164918Z_66ffbfbd5f0b.json",
+     "retrieved_at": "2026-10-12T16:49:18Z",
+     "sha256": "66ffbfbd5f0b6f5dc9e5a67668e125cf81cc9b5ff5ff5825e8aa9892eade743a",
+     "size": 1569,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFEDTARU&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFF": {
+   "pinned": "2f2ea14217972861299a7d62128dbd5cd0788bcb39027d52befc3725ecee8708",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFF/2026-10-12T164910Z_2f2ea1421797.json",
+     "retrieved_at": "2026-10-12T16:49:10Z",
+     "sha256": "2f2ea14217972861299a7d62128dbd5cd0788bcb39027d52befc3725ecee8708",
+     "size": 1567,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFF&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFII10": {
+   "pinned": "15b80389c1dcd2e699540086ca6abaf6499f4f56a2f7f6ad38d35efc842510c7",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFII10/2026-10-12T164900Z_15b80389c1dc.json",
+     "retrieved_at": "2026-10-12T16:49:00Z",
+     "sha256": "15b80389c1dcd2e699540086ca6abaf6499f4f56a2f7f6ad38d35efc842510c7",
+     "size": 2199,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFII10&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DFII5": {
+   "pinned": "d1a8859a5b9c4a89046f146adde959b4f2950700eb82ab1bbfdcb1e15503e879",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DFII5/2026-10-12T164857Z_d1a8859a5b9c.json",
+     "retrieved_at": "2026-10-12T16:48:57Z",
+     "sha256": "d1a8859a5b9c4a89046f146adde959b4f2950700eb82ab1bbfdcb1e15503e879",
+     "size": 2201,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DFII5&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DGS1": {
+   "pinned": "2bed3f53d2241a64c50d6a9f2807134c15b8c05a6d7d9654e1fe3ee5e456be90",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DGS1/2026-10-12T164840Z_2bed3f53d224.json",
+     "retrieved_at": "2026-10-12T16:48:40Z",
+     "sha256": "2bed3f53d2241a64c50d6a9f2807134c15b8c05a6d7d9654e1fe3ee5e456be90",
+     "size": 1803,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DGS1&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DGS10": {
+   "pinned": "a1a138fae2d71383f1f236d9902acdf09c7a024bcbf2c2b3f9350ded1922d970",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DGS10/2026-10-12T164851Z_a1a138fae2d7.json",
+     "retrieved_at": "2026-10-12T16:48:51Z",
+     "sha256": "a1a138fae2d71383f1f236d9902acdf09c7a024bcbf2c2b3f9350ded1922d970",
+     "size": 1803,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DGS10&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DGS2": {
+   "pinned": "335b46b50659cee90a74cd18c6535693b687718f41fa47f47ffca6a130fec019",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DGS2/2026-10-12T164842Z_335b46b50659.json",
+     "retrieved_at": "2026-10-12T16:48:42Z",
+     "sha256": "335b46b50659cee90a74cd18c6535693b687718f41fa47f47ffca6a130fec019",
+     "size": 1801,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DGS2&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DGS5": {
+   "pinned": "452b443e0eb8d439221a8a1762ce94b298ca7c2bc02b6ff7ab892618655c2d25",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DGS5/2026-10-12T164849Z_452b443e0eb8.json",
+     "retrieved_at": "2026-10-12T16:48:49Z",
+     "sha256": "452b443e0eb8d439221a8a1762ce94b298ca7c2bc02b6ff7ab892618655c2d25",
+     "size": 1805,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DGS5&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/DHHNGSP": {
+   "pinned": "f733e52961d0a6524fe76989524c5caa3c9ce399e56592eff62b45abc79ebd2b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/DHHNGSP/2026-10-12T165024Z_f733e52961d0.json",
+     "retrieved_at": "2026-10-12T16:50:24Z",
+     "sha256": "f733e52961d0a6524fe76989524c5caa3c9ce399e56592eff62b45abc79ebd2b",
+     "size": 1319,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=DHHNGSP&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/INDPRO": {
+   "pinned": "d86174e7edda02b2e135e72bf80b4f77da8b1c7d07cd44b943c416a48f734672",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/INDPRO/2026-10-12T165042Z_d86174e7edda.json",
+     "retrieved_at": "2026-10-12T16:50:42Z",
+     "sha256": "d86174e7edda02b2e135e72bf80b4f77da8b1c7d07cd44b943c416a48f734672",
+     "size": 1725,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=INDPRO&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/PCEPILFE": {
+   "pinned": "a2f44413bdbd75693754c5f2a0667613233482f7064e7e15ce080e7f5392248c",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/PCEPILFE/2026-10-12T165049Z_a2f44413bdbd.json",
+     "retrieved_at": "2026-10-12T16:50:49Z",
+     "sha256": "a2f44413bdbd75693754c5f2a0667613233482f7064e7e15ce080e7f5392248c",
+     "size": 2597,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=PCEPILFE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/T10YIE": {
+   "pinned": "56f1f352244ffa7545dae826ca79aca6a70af273d131b2d502c762f7790ea138",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/T10YIE/2026-10-12T164907Z_56f1f352244f.json",
+     "retrieved_at": "2026-10-12T16:49:07Z",
+     "sha256": "56f1f352244ffa7545dae826ca79aca6a70af273d131b2d502c762f7790ea138",
+     "size": 1657,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=T10YIE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/T5YIE": {
+   "pinned": "767312757e06042df75470b74fe194eb2f839fa72c2962528b2d181272e84b57",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/T5YIE/2026-10-12T164904Z_767312757e06.json",
+     "retrieved_at": "2026-10-12T16:49:04Z",
+     "sha256": "767312757e06042df75470b74fe194eb2f839fa72c2962528b2d181272e84b57",
+     "size": 1659,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=T5YIE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/UNRATE": {
+   "pinned": "6e3773f6d50787afc8f41675014857a2ed35a63b2871e351956ce36bdcb59908",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/UNRATE/2026-10-12T165045Z_6e3773f6d507.json",
+     "retrieved_at": "2026-10-12T16:50:45Z",
+     "sha256": "6e3773f6d50787afc8f41675014857a2ed35a63b2871e351956ce36bdcb59908",
+     "size": 1978,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=UNRATE&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
+  "fred/tags/VIXCLS": {
+   "pinned": "1d4ac77570c60b2bdadb302b237cc2a17f46aecd688608bdf1438b80eef45098",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=UTF-8",
+     "path": "data/raw/fred/tags/VIXCLS/2026-10-12T165027Z_1d4ac77570c6.json",
+     "retrieved_at": "2026-10-12T16:50:27Z",
+     "sha256": "1d4ac77570c60b2bdadb302b237cc2a17f46aecd688608bdf1438b80eef45098",
+     "size": 1324,
+     "url": "https://api.stlouisfed.org/fred/series/tags?series_id=VIXCLS&file_type=json&api_key=REDACTED"
+    }
+   ]
+  },
   "iacoviello/gpr_daily": {
    "pinned": "d1226e6f1b81ffc64dbef8f2176dd92f0ef4ffa2e7a4d1bb4deb0e13e5ccc568",
    "retrievals": [

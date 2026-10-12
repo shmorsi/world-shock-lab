@@ -173,19 +173,22 @@ On these days a daily-window BoC proxy also contains the 14:00 ET Fed news.
 ### 3.1 FRED (Federal Reserve Bank of St. Louis)
 
 - **API:** https://api.stlouisfed.org/fred/ . It is reachable from this machine (it answers with HTTP 400 when no key is sent) and needs a free key in `.env` as `FRED_API_KEY`, which is **not yet set**. The website (fred.stlouisfed.org) times out from this machine when called with curl, so the pipeline uses the API only.
-- **Terms:** the FRED API terms of use apply. Their URL could not be confirmed from this machine, so it is recorded in M1 (open item O-6). Each series also carries its own copyright tag, summarized below. Tags were verified on the series pages on 2026-10-12, except those marked *pending*.
+- **Terms:** FRED API terms of use (https://fred.stlouisfed.org/docs/api/terms_of_use.html, read 2026-10-12).
+  - Third-party copyrighted series need the owner's permission for any use beyond personal use. FRED cannot grant it.
+  - Products must say they use the FRED® API but are not endorsed or certified by the Federal Reserve Bank of St. Louis (the notice is in README.md).
+- **Copyright tags:** read from the API (`fred/series/tags`) in M1, which resolves O-6:
 
-| Series | What | Copyright tag / note | Policy |
+| Series | What | Copyright tag (API) | Policy |
 |---|---|---|---|
-| DGS1, DGS2, DGS10 | US Treasury constant-maturity yields (H.15) | US government, public domain (*pending tag check*) | [C] |
-| DEXCAUS | USD/CAD, H.10 | **Public domain, citation requested.** These are **noon buying rates in New York**. | [C] |
-| DEXUSEU, DEXJPUS, DEXUSUK, DEXMXUS, DEXBZUS, DEXKOUS, DEXCHUS, DEXSZUS, DEXUSAL, DEXINUS | Other H.10 FX | Same as DEXCAUS (*pending per-series check*) | [C] |
-| DCOILWTICO, DCOILBRENTEU, DHHNGSP | WTI, Brent, Henry Hub spot (EIA) | Public domain (*pending tag check*) | [C] |
-| T5YIE, T10YIE | Breakeven inflation | (*pending*) | (*pending*) |
-| VIXCLS | VIX close | **"Copyrighted: Citation Required"** (CBOE) | [D] |
-| BAA10Y | Moody's Baa – 10Y spread | **Moody's copyright: may not be copied, redistributed or stored without consent** | **[L]** |
-| SP500 | S&P 500 | **"Copyrighted: Pre-Approval Required"**, and **only 10 years of daily history** | **Not used.** We use SPY (§3.3). |
-| CPIAUCSL, INDPRO, UNRATE, PCEPILFE | US monthly macro | (*pending*) | (*pending*) |
+| DGS1, DGS2, DGS5, DGS10, DFII5, DFII10 | US Treasury nominal and TIPS constant-maturity yields (H.15) | public domain: citation requested | [C] |
+| DFF, DFEDTAR, DFEDTARU, DFEDTARL | Effective fed funds rate and target (range) | public domain: citation requested | [C] |
+| DEXCAUS and 11 other H.10 FX series | FX, **noon buying rates in New York** | public domain: citation requested | [C] |
+| DCOILWTICO, DCOILBRENTEU, DHHNGSP | WTI, Brent, Henry Hub spot (EIA) | public domain: citation requested | [C] |
+| T5YIE, T10YIE | Breakeven inflation | **copyrighted: citation required** | [D]. For anything published, we compute breakevens ourselves as DGS5 − DFII5 and DGS10 − DFII10 (public-domain inputs, same definition). T5YIE and T10YIE serve only as a cross-check. |
+| VIXCLS | VIX close (CBOE) | **copyrighted: citation required** | [D], never published (O-9) |
+| BAA10Y | Moody's Baa – 10Y spread | **copyrighted**. The notes say it may not be copied, redistributed or stored without Moody's consent. | **[L]** (O-9) |
+| SP500 | S&P 500 | "Copyrighted: Pre-Approval Required", and only 10 years of history | **Not used.** We use SPY (§3.3). |
+| CPIAUCNS, CPIAUCSL, INDPRO, UNRATE, PCEPILFE | US monthly macro | public domain: citation requested | [C] |
 
 ### 3.2 Bank of Canada Valet API
 
@@ -290,6 +293,7 @@ The day-0 window for a series must contain the announcement. The table records w
 | O-3 | Whether CanDeal-sourced Valet yields, and statistics derived from them (our BoC proxy), may be published | M6 / M7 |
 | O-4 | Whether showing realized returns on specific dates (Event Replay) is acceptable under Yahoo's terms. The fallback is to show only model error metrics, not levels or returns. | M7 |
 | O-5 | Whether the OECD's CC BY 4.0 covers SDMX data | M1 |
-| O-6 | FRED copyright tags for the *pending* rows in §3.1 (check via `fred/series` API metadata once a key is set), plus the URL of the FRED API terms of use | M1 |
+| ~~O-6~~ | **Resolved in M1:** tags read from the FRED API, terms URL recorded (§3.1). | — |
 | O-7 | Pre-2017 USD/CAD closing rate (BoC legacy noon and closing archive). Not required, because H.10 with a timing-aware window covers it. | Optional |
 | O-8 | **Found in M1: OECD CPI is incomplete for some countries.** Checked in both `DF_PRICES_ALL` and `DF_KEI` on 2026-10-12: CPI ends 2025-12 for FRA, ITA and NOR, 2024-07 for MEX, and 2021-06 for JPN (and JPN has no CPI in `DF_KEI`). Candidate replacements are IMF data and national agencies; some agencies need an API key, which would need your approval. US and Canada are unaffected (FRED, StatCan). | M4 (cross-country panel) |
+| O-9 | **VIX (CBOE) and Moody's Baa via FRED:** FRED's terms require the owner's permission for non-personal use. These series are used only for local research computations, and nothing derived from them is published until this is settled. Options: ask CBOE and Moody's, or for regimes use realized volatility of public-domain Treasury yields instead of VIX. | M7 (public site) |

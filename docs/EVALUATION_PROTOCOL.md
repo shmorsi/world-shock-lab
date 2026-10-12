@@ -1,4 +1,4 @@
-# Evaluation protocol (pre-registered, v1)
+# Evaluation protocol (pre-registered, v2)
 
 - **Frozen:** 2026-10-12, at M0, **before any estimation, model fitting or look at outcome data around events.**
 - **Machine-readable version:** `config/evaluation.yaml`. Its SHA-256 is written into every results file. If this document and the YAML disagree, the YAML wins and the disagreement is a bug.
@@ -19,14 +19,19 @@ All bounds are inclusive and use the announcement timestamp in the event's local
 
 | Split | Window | FOMC (JK) | OPEC (Känzig daily) | BoC FAD (proxy) |
 |---|---|---|---|---|
-| Train | earliest → 2014-12-31 | 234 (from 1990-02-08) | 111 (from 1983-07-19) | 112 scheduled (from 2001-01-23) |
-| Validation | 2015-01-01 → 2018-12-31 | 32 | 10 | 32 scheduled |
-| Test | 2019-01-01 → 2026-09-30 | 68 | 48 (data end 2025-12-01) | 62 scheduled (10 on FOMC days) |
+| Train | earliest → 2014-12-31 | 234 (from 1990-02-08) | 111 (from 1983-07-19) | 112 scheduled (from 2001-01-23); 111 after v2 |
+| Validation | 2015-01-01 → 2018-12-31 | 32 | 10 | 32 scheduled; 32 after v2 |
+| Test | 2019-01-01 → 2026-09-30 | 68 | 48 (data end 2025-12-01) | 62 scheduled; 52 after v2 (10 on FOMC days) |
 | Live | 2026-10-01 → | forward | — | forward |
 
 The FOMC and OPEC counts were computed on 2026-10-12 from the pinned source files (see `data/SOURCES.md`). They count events, not outcomes. The BoC counts come from `data/events/boc_fad.csv`, built and validated in M1, and are logged in the change log as a factual completion, not a protocol change.
 
-FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train, 0 in validation, **10 of 62 BoC test events**. Under v1 these stay in the primary test sample and are reported separately as a secondary subsample (§7). Whether to amend that before M3 is an open decision, recorded here before any result exists.
+FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train, 0 in validation, **10 of 62 BoC test events**.
+
+**v2 amendment (2026-10-12, before any estimation):** BoC events on FOMC days are excluded from the BoC event family, leaving 111 / 32 / 52 scheduled events.
+- **Why exclude them from the BoC family:** on those days the daily CA 2Y change, which is our BoC proxy, also contains the effect of the 14:00 ET Fed announcement. That makes it a contaminated measure of the BoC surprise, with an error correlated with a shock that also moves the outcomes.
+- **Why keep them in the FOMC family:** the JK surprise is a 30-minute window and stays clean. The BoC announced earlier the same morning (09:45–10:00 ET), so its decision cannot respond to that day's Fed surprise; on those days it only adds noise to Canadian outcomes, not bias.
+- **Transparency:** the excluded BoC events are still reported as a secondary subsample.
 
 **Why these cut points**
 - The test window holds about 8 years of events, including the 2020 emergency cuts, the 2022–23 hiking cycle and the 2024–26 easing. The validation window holds 4 years.
@@ -94,11 +99,11 @@ FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train
 5. **Secondary splits** are descriptive only and cannot overturn the verdict:
    - excluding the March 2020 unscheduled events
    - by event family
-   - excluding FOMC/BoC same-day collisions
+   - the BoC events dropped by the v2 amendment (FOMC same day), reported separately
 
 **Test-set access.**
 - Test events are loaded only by `wsl evaluate --final`.
-- That command refuses to run unless the git working tree is clean and `sha256(config/evaluation.yaml)` matches the hash recorded at the `protocol-v1` tag.
+- That command refuses to run unless the git working tree is clean and `sha256(config/evaluation.yaml)` matches the hash recorded at the latest `protocol-v*` tag (currently `protocol-v2`).
 - It writes `results/final_eval/<timestamp>.json`, and that file is committed.
 - Every further run is logged in the change log with its reason.
 
@@ -138,3 +143,4 @@ These are fixed now so robustness checks are clearly labelled as robustness.
 |---|---|---|---|---|
 | 2026-10-12 | v1 | Initial protocol | — | No |
 | 2026-10-12 | v1 (no change) | BoC event counts filled in (112 / 32 / 62); collision imbalance noted | Factual completion promised in §2; `config/evaluation.yaml` unchanged | No |
+| 2026-10-12 | v2 | BoC family excludes FOMC same-day events (primary); they are reported as a secondary subsample | The daily BoC proxy on those days also contains the Fed announcement (contaminated shock measure). Found while building the BoC list in M1. Approved by the project owner. | No: no estimation of any kind had been run |

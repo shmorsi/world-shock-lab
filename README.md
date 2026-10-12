@@ -32,4 +32,6 @@ make test-data      # checks on the built data
 
 ## Licence
 
-Code: MIT. Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Series whose terms forbid redistribution (Yahoo prices, Moody's spreads) are only ever published as derived statistics.
+Code: MIT. Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Yahoo prices are only ever published as derived statistics. Nothing derived from VIX or Moody's spreads is published until their permission questions are settled (open item O-9).
+
+This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.

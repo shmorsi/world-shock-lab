@@ -21,6 +21,9 @@ defaults:
 
 series:
   # ---------------------------------------------------------------- FRED (needs FRED_API_KEY)
+  # Copyright tags read from the FRED API in M1 (fred/series/tags): public domain unless noted.
+  # T5YIE/T10YIE, VIXCLS and BAA10Y are third-party copyrighted; FRED's API terms require the
+  # owner's permission for non-personal use, so they are D/L and never published (SOURCES.md).
   # Treasury: quotes "at or near 3:30 PM" (Treasury yield-curve methodology page, 2026-10-12)
   - {id: US1Y, source: fred, key: DGS1, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 1-year constant maturity"}
   - {id: US2Y, source: fred, key: DGS2, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 2-year constant maturity"}
@@ -28,8 +31,8 @@ series:
   - {id: US10Y, source: fred, key: DGS10, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 10-year constant maturity"}
   - {id: US5Y_REAL, source: fred, key: DFII5, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 5-year TIPS constant maturity"}
   - {id: US10Y_REAL, source: fred, key: DFII10, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 10-year TIPS constant maturity"}
-  - {id: US_BE5Y, source: fred, key: T5YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 5-year breakeven inflation"}
-  - {id: US_BE10Y, source: fred, key: T10YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 10-year breakeven inflation"}
+  - {id: US_BE5Y, source: fred, key: T5YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: D, name: "US 5-year breakeven inflation"}
+  - {id: US_BE10Y, source: fred, key: T10YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: D, name: "US 10-year breakeven inflation"}
   - {id: EFFR, source: fred, key: DFF, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Effective federal funds rate"}
   - {id: FF_TARGET, source: fred, key: DFEDTAR, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Fed funds target (to 2008-12-15)"}
   - {id: FF_TARGET_UPPER, source: fred, key: DFEDTARU, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Fed funds target range, upper limit (from 2008-12-16)"}

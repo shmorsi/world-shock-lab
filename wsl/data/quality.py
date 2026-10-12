@@ -23,6 +23,7 @@ from wsl.paths import CLEAN_DIR, DATA_QUALITY_REPORT, MANIFEST, ROOT
 
 SEED = 20261012
 STALE_DAYS = {"D": 45, "M": 150, "A": 3 * 366}
+EXPECTED_END = {"FF_TARGET": "discontinued by design: replaced by the target range from 2008-12-16"}
 
 
 def _table(df: pd.DataFrame) -> str:
@@ -85,7 +86,8 @@ def section_pending(series: pd.DataFrame) -> str:
     if not pending:
         return "## 3. Pending sources\n\nNone: every registered series was built.\n"
     df = pd.DataFrame([{"series": s.id, "source": s.source, "key": s.key} for s in pending])
-    reason = {"fred": "FRED_API_KEY not set in .env"}
+    reason = {"fred": "FRED_API_KEY not set in .env",
+              "oecd": "no data at source (dropped from registry)"}
     df["reason"] = df["source"].map(reason).fillna("artifact not fetched")
     return (f"## 3. Pending sources\n\n{len(pending)} registered series are not built yet.\n\n"
             + _table(df.groupby(["source", "reason"])["series"].agg(
@@ -246,24 +248,54 @@ def section_boc_times(boc: pd.DataFrame) -> str:
             + _table(collapsed))
 
 
+def _ok_series(obs: pd.DataFrame, sid: str) -> pd.Series:
+    s = obs[(obs["series_id"] == sid) & (obs["status"] == STATUS_OK)]
+    return s.set_index("date")["value"]
+
+
 def section_cross_source(obs: pd.DataFrame) -> str:
     def yoy(sid: str) -> pd.Series:
-        s = obs[(obs["series_id"] == sid) & (obs["status"] == STATUS_OK)].set_index("date")
-        v = s["value"]
+        v = _ok_series(obs, sid)
         return (100 * (v / v.shift(12) - 1)).dropna()
+
+    have = set(obs["series_id"])
     rows = []
-    pairs = [("CA_CPI_NSA", "CAN_CPI", "Canada CPI YoY: StatCan vs OECD")]
-    for a, b, label in pairs:
-        if not {a, b} <= set(obs["series_id"]):
-            continue
-        ya, yb = yoy(a), yoy(b)
-        common = ya.index.intersection(yb.index)
-        d = (ya[common] - yb[common]).abs()
-        rows.append({"check": label, "months": len(common), "max |diff| pp": float(d.max()),
-                     "months > 0.15pp": int((d > 0.15).sum())})
-    return ("## 11. Cross-source consistency\n\n" + _table(pd.DataFrame(rows)) +
-            "\nFurther checks (FRED vs OECD US CPI; VIXCLS vs Yahoo ^VIX; TSX vs EWC × "
-            "USD/CAD) run once FRED data is available.\n")
+    for a, b, label in [("CA_CPI_NSA", "CAN_CPI", "Canada CPI YoY: StatCan vs OECD"),
+                        ("US_CPI_NSA", "USA_CPI", "US CPI YoY: FRED (BLS) vs OECD")]:
+        if {a, b} <= have:
+            ya, yb = yoy(a), yoy(b)
+            common = ya.index.intersection(yb.index)
+            d = (ya[common] - yb[common]).abs()
+            rows.append({"check": label, "n": len(common), "max |diff|": f"{d.max():.4f} pp",
+                         "n > tolerance": int((d > 0.15).sum()), "tolerance": "0.15 pp"})
+    if {"VIX", "VIX_YAHOO.close"} <= have:
+        a, b = _ok_series(obs, "VIX"), _ok_series(obs, "VIX_YAHOO.close")
+        common = a.index.intersection(b.index)
+        d = (a[common] - b[common]).abs()
+        rows.append({"check": "VIX close: FRED (CBOE) vs Yahoo ^VIX", "n": len(common),
+                     "max |diff|": f"{d.max():.2f} index pts",
+                     "n > tolerance": int((d > 0.05).sum()), "tolerance": "0.05 pts"})
+    for be, nom, real in [("US_BE5Y", "US5Y", "US5Y_REAL"), ("US_BE10Y", "US10Y", "US10Y_REAL")]:
+        if {be, nom, real} <= have:
+            calc = (_ok_series(obs, nom) - _ok_series(obs, real)).dropna()
+            fred = _ok_series(obs, be)
+            common = calc.index.intersection(fred.index)
+            d = (calc[common] - fred[common]).abs() * 100
+            rows.append({"check": f"{be}: FRED vs our {nom} − {real} (public-domain inputs)",
+                         "n": len(common), "max |diff|": f"{d.max():.2f} bp",
+                         "n > tolerance": int((d > 0.5).sum()), "tolerance": "0.5 bp"})
+    return ("## 11. Cross-source consistency\n\nOnly counts and discrepancy sizes are "
+            "reported.\n\n" + _table(pd.DataFrame(rows)))
+
+
+def section_nonpositive(obs: pd.DataFrame, series: pd.DataFrame) -> str:
+    prices = series[(series["units"] == "price") & (series["source"] != "yahoo")]["series_id"]
+    bad = obs[obs["series_id"].isin(prices) & (obs["status"] == STATUS_OK)
+              & (obs["value"] <= 0)][["series_id", "date"]]
+    return ("## 13. Non-positive commodity prices\n\nThese are real prints, not errors, so "
+            "they are kept as reported. Log returns are undefined across them; any "
+            "estimate that needs a log change drops the affected windows and logs the drop.\n\n"
+            + _table(bad))
 
 
 def section_stale(obs: pd.DataFrame, series: pd.DataFrame) -> str:
@@ -277,7 +309,8 @@ def section_stale(obs: pd.DataFrame, series: pd.DataFrame) -> str:
         freq = freq_of[str(sid)]
         age = (asof - d).days
         if age > STALE_DAYS[str(freq)]:
-            rows.append({"series": sid, "freq": freq, "last value": d, "days old": age})
+            rows.append({"series": sid, "freq": freq, "last value": d, "days old": age,
+                         "note": EXPECTED_END.get(str(sid), "")})
     return ("## 12. Stale or discontinued series\n\nLast observation older than 45 days "
             "(daily), 150 days (monthly) or 3 years (annual). The OECD CPI gaps are in the "
             "source itself: both OECD CPI dataflows end at these dates for these countries "
@@ -319,6 +352,7 @@ def write_report(path: Path = DATA_QUALITY_REPORT) -> Path:
         section_boc_times(events["boc"]),
         section_cross_source(obs),
         section_stale(obs, series),
+        section_nonpositive(obs, series),
     ])
     path.write_text(body)
     return path.relative_to(ROOT)
