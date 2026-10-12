@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+import numpy as np
 import pandas as pd
 
 
@@ -58,3 +59,13 @@ def window_positions(
     after = int(obs_ts.searchsorted(announcement, side="right"))
     before = int(obs_ts.searchsorted(announcement, side="left")) - 1
     return (before if before >= 0 else None, after if after < len(obs_ts) else None)
+
+
+def utc_ns(ts: pd.DatetimeIndex | pd.Series) -> np.ndarray:
+    """Timezone-aware timestamps as int64 nanoseconds since the epoch (UTC), whatever the
+    stored resolution (pandas 3 may store s/ms/us)."""
+    idx = pd.DatetimeIndex(ts)
+    if idx.tz is None:
+        raise ValueError("timestamps must be timezone-aware")
+    arr = idx.tz_convert("UTC").as_unit("ns").tz_localize(None).to_numpy(dtype="datetime64[ns]")
+    return arr.astype("int64")

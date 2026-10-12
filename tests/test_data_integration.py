@@ -29,8 +29,12 @@ def test_every_series_has_provenance() -> None:
     obs, series = _read("obs"), _read("series")
     assert set(obs["series_id"]) == set(series["series_id"])
     cache = RawCache()
-    for _, row in series.iterrows():
+    for _, row in series[series["source"] != "derived"].iterrows():
         assert cache.pinned_record(row["artifact_key"]).sha256 == row["sha256"]
+    derived = series[series["source"] == "derived"]
+    assert set(derived["series_id"]) == {"US_BE5Y_PD", "US_BE10Y_PD", "CA_BANKS_EW6"}
+    for _, row in derived.iterrows():  # every input is itself a built series
+        assert set(row["url"].removeprefix("derived:").split(",")) <= set(series["series_id"])
 
 
 def test_event_counts_match_m0_verification() -> None:

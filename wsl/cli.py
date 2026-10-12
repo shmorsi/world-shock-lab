@@ -74,6 +74,14 @@ def events_boc_fad(
         typer.echo(line)
 
 
+@app.command("replicate")
+def replicate() -> None:
+    """M3: replication table, placebo tests, BoC proxy validation -> docs/REPLICATION.md."""
+    from wsl.analysis.report import write_report
+
+    typer.echo(f"wrote {write_report()}")
+
+
 @validate_app.command("simulation")
 def validate_simulation() -> None:
     """Monte Carlo recovery of known impulse responses -> docs/SIMULATION.md (~1 minute)."""

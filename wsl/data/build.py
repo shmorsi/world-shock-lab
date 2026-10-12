@@ -18,9 +18,10 @@ import pandas as pd
 from wsl.data import schemas
 from wsl.data.cache import RawCache
 from wsl.data.fetch import SERIES_SOURCES
-from wsl.data.registry import SeriesSpec, by_source, load_registry
+from wsl.data.registry import DerivedSpec, SeriesSpec, by_source, load_derived, load_registry
 from wsl.data.sources import statcan
-from wsl.data.transforms import datetimes_to_ns
+from wsl.data.sources.base import obs_frame
+from wsl.data.transforms import datetimes_to_ns, ew_return_index
 from wsl.paths import (
     CLEAN_DIR,
     DUCKDB_PATH,
@@ -80,6 +81,43 @@ def _series_rows(specs: list[SeriesSpec], parsed_artifacts: dict[str, str],
     return rows
 
 
+def derive(obs: pd.DataFrame, series: pd.DataFrame,
+           specs: list[DerivedSpec]) -> tuple[pd.DataFrame, list[dict[str, object]]]:
+    """Compute derived series from built ones. Provenance: a composite hash of the inputs'
+    pinned artifact hashes, the latest input retrieval time, and the formula."""
+    ok = obs[obs["status"] == "ok"]
+    meta = series.set_index("series_id")
+    frames, rows = [], []
+    for d in specs:
+        missing = [i for i in d.inputs if i not in meta.index]
+        if missing:
+            continue
+        wide = ok[ok["series_id"].isin(d.inputs)].pivot(index="date", columns="series_id",
+                                                         values="value")[list(d.inputs)]
+        if d.op == "spread":
+            values = (wide[d.inputs[0]] - wide[d.inputs[1]]).dropna()
+            formula = f"{d.inputs[0]} - {d.inputs[1]} on dates where both are available"
+        else:
+            values = ew_return_index(wide, d.min_inputs or len(d.inputs)).dropna()
+            formula = (f"equal-weight daily-rebalanced index of {', '.join(d.inputs)}; "
+                       f"at least {d.min_inputs} members per day; base 100")
+        frames.append(obs_frame(d.id, values.index, values.to_numpy()))
+        shas = sorted(str(meta.loc[i, "sha256"]) for i in d.inputs)
+        rows.append({
+            "series_id": d.id, "parent_id": d.id, "source": "derived", "key": d.op,
+            "name": d.name, "freq": d.freq, "units": d.units, "country": d.country or "",
+            "asset_class": d.asset_class, "obs_time": d.obs_time,
+            "obs_time_verified": d.obs_time_verified, "tz": d.tz, "policy": d.policy,
+            "event_window_ok": d.event_window_ok, "artifact_key": f"derived/{d.id}",
+            "sha256": hashlib.sha256("".join(shas).encode()).hexdigest(),
+            "url": "derived:" + ",".join(d.inputs),
+            "retrieved_at": max(str(meta.loc[i, "retrieved_at"]) for i in d.inputs),
+            "transformations": json.dumps([formula]),
+        })
+    out = pd.concat(frames, ignore_index=True) if frames else obs.iloc[0:0]
+    return out, rows
+
+
 def build(cache: RawCache | None = None) -> list[str]:
     cache = cache or RawCache()
     specs = load_registry()
@@ -103,10 +141,14 @@ def build(cache: RawCache | None = None) -> list[str]:
                      f"{len(parsed.obs):,} rows")
 
     obs = pd.concat(obs_frames, ignore_index=True)
+    series = pd.DataFrame(series_rows)
+    derived_obs, derived_rows = derive(obs, series, load_derived())
+    obs = pd.concat([obs, derived_obs], ignore_index=True)
+    series = pd.concat([series, pd.DataFrame(derived_rows)], ignore_index=True)
+    lines.append(f"ok   derived: {len(derived_rows)} series, {len(derived_obs):,} rows")
     obs["date"] = obs["date"].astype("datetime64[ns]")
     obs["value"] = obs["value"].astype("float64")
     schemas.OBS.validate(obs)
-    series = pd.DataFrame(series_rows)
     schemas.SERIES.validate(series)
     obs.to_parquet(CLEAN_DIR / "obs.parquet", index=False)
     series.to_parquet(CLEAN_DIR / "series.parquet", index=False)

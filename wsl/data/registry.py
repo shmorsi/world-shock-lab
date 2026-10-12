@@ -83,6 +83,46 @@ def validate_registry(specs: list[SeriesSpec]) -> None:
             raise ValueError(f"{s.id}: a {s.obs_time} series cannot be used for event windows")
 
 
+DERIVED_OPS = frozenset({"spread", "ew_return_index"})
+
+
+@dataclass(frozen=True)
+class DerivedSpec:
+    id: str
+    op: str
+    inputs: tuple[str, ...]
+    freq: str
+    units: str
+    asset_class: str
+    obs_time: str
+    obs_time_verified: bool
+    tz: str
+    policy: str
+    event_window_ok: bool
+    name: str
+    country: str | None = None
+    min_inputs: int | None = None
+
+
+def load_derived(path: Path = SERIES_REGISTRY) -> list[DerivedSpec]:
+    raw = yaml.safe_load(path.read_text())
+    defaults: dict[str, Any] = raw.get("defaults", {})
+    out = []
+    for entry in raw.get("derived", []):
+        merged = {**defaults, **entry, "inputs": tuple(entry["inputs"])}
+        spec = DerivedSpec(**merged)
+        if spec.op not in DERIVED_OPS:
+            raise ValueError(f"{spec.id}: unknown op {spec.op!r}")
+        if spec.op == "spread" and len(spec.inputs) != 2:
+            raise ValueError(f"{spec.id}: spread needs exactly two inputs")
+        out.append(spec)
+    base_ids = {s.id for s in load_registry(path)}
+    clash = base_ids & {d.id for d in out}
+    if clash:
+        raise ValueError(f"derived ids clash with registry ids: {sorted(clash)}")
+    return out
+
+
 def by_source(specs: list[SeriesSpec]) -> dict[str, list[SeriesSpec]]:
     out: dict[str, list[SeriesSpec]] = {}
     for s in specs:

@@ -14,6 +14,11 @@
 #   event_window_ok  false for series that must never be used to measure announcement effects
 #
 # Sources with many similar series use `expand` (one series per listed code).
+#
+# `derived` series are computed by the build from other series (never downloaded):
+#   op: spread           inputs [a, b] -> a - b
+#   op: ew_return_index  inputs [tr series...] -> equal-weight, daily-rebalanced index of the
+#                        inputs' returns (base 100); a day needs at least `min_inputs` members
 
 defaults:
   event_window_ok: true
@@ -49,6 +54,7 @@ series:
   - {id: USDCHF, source: fred, key: DEXSZUS, freq: D, units: fx, country: CHE, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "CHF per USD (H.10 noon)"}
   - {id: AUDUSD, source: fred, key: DEXUSAL, freq: D, units: fx, country: AUS, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "USD per AUD (H.10 noon)"}
   - {id: USDINR, source: fred, key: DEXINUS, freq: D, units: fx, country: IND, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "INR per USD (H.10 noon)"}
+  - {id: USD_BROAD, source: fred, key: DTWEXBGS, freq: D, units: index, country: USA, asset_class: fx, obs_time: "12:00", tz: America/New_York, policy: C, name: "Nominal broad U.S. dollar index (H.10, from 2006)"}
   - {id: USDNOK, source: fred, key: DEXNOUS, freq: D, units: fx, country: NOR, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "NOK per USD (H.10 noon)"}
   - {id: WTI, source: fred, key: DCOILWTICO, freq: D, units: price, country: USA, asset_class: commodity, obs_time: "14:30", tz: America/New_York, policy: C, name: "WTI spot, Cushing (EIA)"}
   - {id: BRENT, source: fred, key: DCOILBRENTEU, freq: D, units: price, country: WLD, asset_class: commodity, obs_time: close_unknown, tz: Europe/London, policy: C, name: "Brent spot (EIA)"}
@@ -129,3 +135,11 @@ series:
   - {id: GPRC_CAN, source: iacoviello, key: "gpr_monthly:GPRC_CAN", freq: M, units: index, country: CAN, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Country GPR, Canada, monthly"}
   - {id: TPU, source: iacoviello, key: "tpu:TPU_MONTHLY:TPU", freq: M, units: index, country: USA, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Trade Policy Uncertainty, monthly"}
   - {id: TPUD, source: iacoviello, key: "tpu:TPU_DAILY:TPUD_index", freq: D, units: index, country: USA, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Trade Policy Uncertainty, daily (from 2015; few articles per day)"}
+
+derived:
+  # Breakevens from public-domain inputs; identical to FRED's copyrighted T5YIE/T10YIE
+  # (checked in docs/DATA_QUALITY.md §11), so these are the versions we may publish.
+  - {id: US_BE5Y_PD, op: spread, inputs: [US5Y, US5Y_REAL], freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US 5-year breakeven = DGS5 - DFII5"}
+  - {id: US_BE10Y_PD, op: spread, inputs: [US10Y, US10Y_REAL], freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US 10-year breakeven = DGS10 - DFII10"}
+  # Big-6 Canadian banks, equal weight: longer history than ZEB.TO (2010) and no fund fees.
+  - {id: CA_BANKS_EW6, op: ew_return_index, inputs: [RY.tr, TD.tr, BNS.tr, BMO.tr, CM.tr, NA.tr], min_inputs: 5, freq: D, units: index, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "Big-6 Canadian banks, equal-weight total-return index"}

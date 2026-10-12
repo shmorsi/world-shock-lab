@@ -67,6 +67,32 @@ def datetimes_to_ns(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def ew_return_index(members: pd.DataFrame, min_inputs: int, base: float = 100.0) -> pd.Series:
+    """Equal-weight, daily-rebalanced index from member level series (columns).
+
+    Each member's return is taken between its consecutive available values. On a date where
+    at least ``min_inputs`` members have a return, the index moves by their average return;
+    otherwise the date is NaN and nothing is filled.
+    """
+    members = members.sort_index()
+    rets = pd.DataFrame({c: members[c].dropna().pct_change() for c in members.columns},
+                        index=members.index)
+    enough = members.notna().sum(axis=1).to_numpy() >= min_inputs
+    out = np.full(len(members), np.nan)
+    if not enough.any():
+        return pd.Series(out, index=members.index)
+    first = int(np.argmax(enough))
+    counts = rets.notna().sum(axis=1).to_numpy()
+    avg = rets.mean(axis=1).to_numpy()
+    level = base
+    out[first] = level
+    for i in range(first + 1, len(members)):
+        if counts[i] >= min_inputs and not np.isnan(avg[i]):
+            level *= 1.0 + float(avg[i])
+            out[i] = level
+    return pd.Series(out, index=members.index)
+
+
 def log_change_pct(level: pd.Series) -> pd.Series:
     """100 × log change between consecutive available values; undefined (NaN) for prices <= 0."""
     lvl = level.dropna()

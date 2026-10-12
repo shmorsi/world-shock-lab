@@ -39,7 +39,7 @@ SERIES = DataFrameSchema(
         "freq": Column(str, Check.isin(["D", "M", "A"])),
         "policy": Column(str, Check.isin(["C", "D", "L"])),
         "sha256": Column(str, Check.str_matches(r"^[0-9a-f]{64}$")),
-        "url": Column(str, Check.str_startswith("https://")),
+        "url": Column(str, Check.str_matches(r"^(https://|derived:)")),
         "retrieved_at": Column(str),
     },
     strict=False,
