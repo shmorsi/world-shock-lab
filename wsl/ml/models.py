@@ -162,10 +162,9 @@ class RidgeModel(Linear):
         D = super()._design(X)
         Z = self.prep.transform(X)
         shocks = [c for cols in SHOCK_COLS.values() for c in cols]
-        for s in shocks:
-            for c in STATE_COLS:
-                D[f"{s}×{c}"] = Z[s].to_numpy() * Z[c].to_numpy()
-        return D
+        inter = {f"{s}×{c}": Z[s].to_numpy() * Z[c].to_numpy()
+                 for s in shocks for c in STATE_COLS}
+        return pd.concat([D, pd.DataFrame(inter, index=D.index)], axis=1)
 
     def fit(self, X: pd.DataFrame, y: np.ndarray) -> RidgeModel:
         self.prep = Prep().fit(X)
