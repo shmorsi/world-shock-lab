@@ -5,7 +5,10 @@ the scores x_i u_i:
 
 * HC0 / HC1: Eicker-Huber-White (HC1 scales by n / (n - k));
 * HC3: scores scaled by 1 / (1 - h_ii) (MacKinnon-White), the default for small event samples;
-* NW: Newey-West with Bartlett weights w_l = 1 - l / (L + 1), l = 1..L.
+* NW: Newey-West with Bartlett weights w_l = 1 - l / (L + 1), l = 1..L;
+* CL: clustered by group (CR1: G/(G-1) · (n-1)/(n-k)), e.g. one cluster per announcement in
+  an event panel. With one observation per time period and no lags this equals Driscoll-Kraay
+  with zero lags.
 
 Rows with any missing value in y or X are dropped (listwise) and the count is reported;
 nothing is imputed. Cross-checked against statsmodels in tests/test_ols.py.
@@ -19,7 +22,7 @@ from typing import Literal
 import numpy as np
 from numpy.typing import NDArray
 
-CovType = Literal["HC0", "HC1", "HC3", "NW"]
+CovType = Literal["HC0", "HC1", "HC3", "NW", "CL"]
 Array = NDArray[np.float64]
 
 
@@ -75,6 +78,7 @@ def ols(
     nw_lags: int | None = None,
     names: tuple[str, ...] | None = None,
     df_correction: bool = False,
+    groups: NDArray[np.int64] | None = None,
 ) -> OLSResult:
     """OLS of y on X (X must already contain a constant if one is wanted)."""
     y = np.asarray(y, dtype=float).reshape(-1)
@@ -83,6 +87,7 @@ def ols(
         X = X[:, None]
     keep = complete_rows(y, X)
     y, X = y[keep], X[keep]
+    g = np.asarray(groups)[keep] if groups is not None else None
     n, k = X.shape
     if n <= k:
         raise ValueError(f"not enough observations: n={n}, k={k}")
@@ -98,6 +103,14 @@ def ols(
         h = np.einsum("ij,jk,ik->i", X, xtx_inv, X)
         s3 = scores / (1.0 - h)[:, None]
         meat = s3.T @ s3
+    elif cov_type == "CL":
+        if g is None:
+            raise ValueError("CL covariance needs groups")
+        ids, inv = np.unique(g, return_inverse=True)
+        summed = np.zeros((len(ids), k))
+        np.add.at(summed, inv, scores)
+        G = len(ids)
+        meat = summed.T @ summed * (G / (G - 1)) * ((n - 1) / (n - k))
     elif cov_type == "NW":
         if nw_lags is None:
             raise ValueError("NW covariance needs nw_lags")

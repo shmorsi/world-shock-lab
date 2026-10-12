@@ -84,6 +84,15 @@ def replicate() -> None:
     typer.echo(f"wrote {write_report()}")
 
 
+@app.command("analyze")
+def analyze() -> None:
+    """M4: proxy BVAR vs LP, state dependence, Canada lens, exporters, network, robustness
+    -> docs/RESULTS.md and results/m4/ (several minutes)."""
+    from wsl.analysis.m4_report import write_report
+
+    typer.echo(f"wrote {write_report()}")
+
+
 @validate_app.command("simulation")
 def validate_simulation() -> None:
     """Monte Carlo recovery of known impulse responses -> docs/SIMULATION.md (~1 minute)."""

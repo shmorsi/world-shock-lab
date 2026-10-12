@@ -1,4 +1,4 @@
-.PHONY: setup fetch events build report data simulation replicate preview test test-data lint typecheck check all
+.PHONY: setup fetch events build report data simulation replicate analyze preview test test-data lint typecheck check all
 
 setup:            ## create the pinned environment (Python 3.12 via uv)
 	uv sync
@@ -23,6 +23,9 @@ simulation:       ## Monte Carlo validation of the estimators -> docs/SIMULATION
 replicate:        ## M3 replication, placebo, BoC proxy validation -> docs/REPLICATION.md, results/m3/
 	uv run wsl replicate
 
+analyze:          ## M4 results -> docs/RESULTS.md, results/m4/
+	uv run wsl analyze
+
 preview:          ## milestone preview page -> web/preview/index.html
 	uv run wsl export preview
 
@@ -40,4 +43,4 @@ typecheck:
 
 check: lint typecheck test
 
-all: setup data check test-data simulation replicate preview
+all: setup data check test-data simulation replicate analyze preview

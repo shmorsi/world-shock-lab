@@ -43,6 +43,7 @@ def write(path: Path = OUT) -> Path:
             mc.placebo()]),
     ]
     small, large = mc.consistency()
+    bv_rows = [mc.proxy_bvar_mc(lam=0.2), mc.proxy_bvar_mc(lam=1e4)]
 
     parts = [
         "# Simulation recovery of known impulse responses\n",
@@ -68,6 +69,19 @@ def write(path: Path = OUT) -> Path:
                          "draws": int(s["R"])})
         parts.append(f"## {title}\n")
         parts.append(_md(pd.DataFrame(rows)))
+    parts.append("## Proxy BVAR (moving-block bootstrap)\n")
+    parts.append(
+        "BVAR with 4 lags on data from the VAR(2) above, identified with a noisy instrument "
+        "(z = ε₀ + ν), 90% percentile bands from 200 bootstrap draws in each of 100 samples "
+        "(T = 400). The first row uses the pre-registered prior tightness 0.2. The second "
+        "row is effectively no prior, for comparison.\n")
+    parts.append(_md(pd.DataFrame([{
+        "prior tightness": "0.2 (pre-registered)" if r["lam"] == 0.2 else "none (OLS VAR)",
+        "coverage 90, other variables": r["coverage90_other_variables"],
+        "coverage 90, normalized variable's own path": r["coverage90_own_path"],
+        "max |bias| / peak, other variables": r["max_abs_bias_other_over_peak"],
+        "max |bias|, own path": r["max_abs_bias_own_path"],
+        "median first-stage F": r["median_first_stage_f"]} for r in bv_rows])))
     parts.append("## Consistency\n")
     parts.append(f"RMSE of the dense LP (HC1) across all horizons: {small:.4f} at T = 250, "
                  f"{large:.4f} at T = 2000 (ratio {large / small:.2f}).\n")
@@ -100,6 +114,14 @@ def write(path: Path = OUT) -> Path:
         "will therefore show the effective F and the Anderson–Rubin set.\n"
         f"- **Placebo:** an unrelated series produces responses indistinguishable from zero; "
         f"the 90% band contains zero in {placebo_runs[0].coverage90.mean():.3f} of draws.\n"
+        f"- **Proxy BVAR:** percentile bootstrap bands are too narrow even without a prior "
+        f"(coverage {bv_rows[1]['coverage90_other_variables']:.2f} for a nominal 0.90), as "
+        "Kilian (1998) documents for persistent VARs. Shrinkage then biases the normalized "
+        "variable's own path toward zero (coverage "
+        f"{bv_rows[0]['coverage90_own_path']:.2f}). The responses we compare with LPs cover "
+        f"{bv_rows[0]['coverage90_other_variables']:.2f}. This is the bias-variance trade-off: "
+        "VAR bands are narrower than LP bands partly because they are too narrow, so wherever "
+        "the two disagree the LP is the more trustworthy guide to uncertainty.\n"
     )
     path.write_text("\n".join(parts))
     return path.relative_to(ROOT)

@@ -43,8 +43,9 @@ PERIODS = {"2001-2014 (train)": ("2001-01-01", "2014-12-31"),
            "2015-2018 (validation)": ("2015-01-01", "2018-12-31"),
            "2019-2026 (test)": ("2019-01-01", "2026-09-30")}
 OUTCOMES = ["USDCAD", "CA10Y", "TSX.tr", "CA_BANKS_EW6"]
-# Valet GoC yields have an undocumented close (O-1); same assumption as for the proxy.
-ASSUMED = {"CA2Y": ASSUMED_CA_CLOSE, "CA10Y": ASSUMED_CA_CLOSE}
+# Valet GoC yields have an undocumented close; M3 showed it is after 14:00 ET (O-1), and the
+# same 16:00 assumption is used for every GoC benchmark yield.
+ASSUMED = {sid: ASSUMED_CA_CLOSE for sid in ("CA2Y", "CA3Y", "CA5Y", "CA10Y", "CA_LONG")}
 PER = 10.0  # responses per 10 bp of proxy
 
 

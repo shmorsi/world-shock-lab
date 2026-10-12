@@ -20,6 +20,7 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
+from wsl.estimation import bvar
 from wsl.estimation.irf import IRF
 from wsl.estimation.lp import event_lp, lp
 from wsl.estimation.lpiv import lp_iv
@@ -197,3 +198,34 @@ def consistency(T_small: int = 250, T_large: int = 2000, R: int = 100,
         return float(np.sqrt(np.mean((r.estimates - r.truth) ** 2)))
 
     return rmse(small), rmse(large)
+
+
+def proxy_bvar_mc(R: int = 100, T: int = 400, p: int = 4, lam: float = 0.2,
+                  own_lag_mean: float = 0.0, draws: int = 200,
+                  seed: int = SEED + 5) -> dict[str, float]:
+    """Proxy BVAR (pre-registered tightness) on the textbook VAR with a noisy instrument:
+    bias and moving-block bootstrap coverage, split into the normalized variable's own path
+    (h >= 1) and the other variables' responses."""
+    var = textbook_var()
+    truth = var.irf(H)[:, :, 0] / var.irf(H)[0, 0, 0]
+    rng = np.random.default_rng(seed)
+    est, cov, fs = [], [], []
+    for _ in range(R):
+        Y, eps = var.simulate(T, rng)
+        z = eps[:, 0] + rng.standard_normal(T)
+        r = bvar.proxy_bvar(Y, z, p=p, horizons=H, lam=lam, own_lag_mean=own_lag_mean,
+                            draws=draws, seed=int(rng.integers(1 << 31)))
+        est.append(r.irf)
+        cov.append((r.lo90 <= truth) & (truth <= r.hi90))
+        fs.append(r.first_stage_f)
+    bias = np.mean(est, axis=0) - truth
+    c = np.mean(cov, axis=0)
+    peak = np.max(np.abs(truth[:, 1:]), axis=0)
+    return {
+        "R": float(R), "lam": lam, "p": float(p),
+        "coverage90_other_variables": float(c[:, 1:].mean()),
+        "coverage90_own_path": float(c[1:, 0].mean()),
+        "max_abs_bias_other_over_peak": float(np.max(np.abs(bias[:, 1:]) / peak)),
+        "max_abs_bias_own_path": float(np.max(np.abs(bias[1:, 0]))),
+        "median_first_stage_f": float(np.median(fs)),
+    }
