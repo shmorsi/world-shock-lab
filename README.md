@@ -2,7 +2,7 @@
 
 How the world, and Canada in particular, reacts to identified economic shocks: monetary policy surprises, oil supply news, and trade-policy and geopolitical risk.
 
-**Status: M3 (identification & replication) complete. Published findings replicate, placebo tests pass, and the Bank of Canada proxy passes its pre-set validation criteria. Every number in this repo is produced by code in it.**
+**Status: M4 complete: proxy BVAR vs LP, regime tests, the Canada lens, oil exporters, a spillover network and a robustness matrix (docs/RESULTS.md). Every number in this repo is produced by code in it.**
 
 ## Quick start
 
@@ -13,6 +13,7 @@ make data           # fetch -> BoC event list -> build -> data-quality report
 make check          # ruff, mypy, unit + property + simulation-recovery tests
 make simulation     # regenerate docs/SIMULATION.md
 make replicate      # regenerate docs/REPLICATION.md and results/m3/
+make analyze        # regenerate docs/RESULTS.md and results/m4/
 make test-data      # checks on the built data
 ```
 
@@ -28,7 +29,8 @@ make test-data      # checks on the built data
 | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) | Generated data-quality report: coverage, gaps, invalid values, second-source checks |
 | [docs/SIMULATION.md](docs/SIMULATION.md) | Generated Monte Carlo report: do the estimators recover known impulse responses, with correct coverage? |
 | [docs/REPLICATION.md](docs/REPLICATION.md) | Generated: paper-vs-ours table, placebo tests, Bank of Canada proxy validation, closing-time check |
-| `results/m3/` | Results files with full provenance (input hashes, code version, protocol hash, label) |
+| [docs/RESULTS.md](docs/RESULTS.md) | Generated: proxy BVAR vs LP, state dependence with FDR control, Fed vs BoC transmission to Canada, oil exporters vs importers, spillover network, robustness matrix |
+| `results/m3/`, `results/m4/` | Results files with full provenance (input hashes, code version, protocol hash, label) |
 | `web/preview/` | Milestone preview page (`make preview`); template plus generated `index.html` |
 | [config/series.yaml](config/series.yaml) | Registry of every ingested series, with units, observation time and licence policy |
 | [data/events/boc_fad.csv](data/events/boc_fad.csv) | Bank of Canada rate announcements 2000–2026, built from official press releases and validated against the target-rate series |

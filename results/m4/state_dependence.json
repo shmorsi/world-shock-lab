@@ -1,0 +1,7565 @@
+{
+ "name": "m4/state_dependence",
+ "provenance": {
+  "generated_at": "2026-10-12T23:16:36Z",
+  "git_sha": "34893d78e55d86bd1dcdc08f11866f64fa3fac18-dirty",
+  "data_built_at": "2026-10-12T22:21:06Z",
+  "evaluation_config_sha256": "54506ff0c5444323c5a745c0c52ba9a10d3a217c18be65db3028dbf93bad6141",
+  "manifest_sha256": "fe6e5b98888f3f66dd393c4d5c9db1c04324f9d7e8300f668d97da574f1b7e09",
+  "series": {
+   "AUDUSD": {
+    "sha256": "2f1ab2ccb9b1937f9f2a9b808d2323f1c93d32e00447dd83d337e0edf3e5b384",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSAL&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "BMO.tr": {
+    "sha256": "3972f2c582f865d4710b997837d9b28c91887e6ca69f35d3edfa337ab964e9c3",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BMO.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "BNS.tr": {
+    "sha256": "3a1e3c20fbf1e6eb329fec095ad4730ee425fe09b693cdc905b3a21b01cbda1b",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BNS.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "BOC_TARGET": {
+    "sha256": "7f5a68d3ead1dfa06f8231b9c6c451803441262d97f11332df0783d5bef868bc",
+    "url": "https://www.bankofcanada.ca/valet/observations/CBC20210/json?start_date=1900-01-01",
+    "policy": "C"
+   },
+   "CA10Y": {
+    "sha256": "fd43f53858d50f2734370f1c6e9af1fc8d86519ec494c6ec95f97c26801533c9",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.10YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA2Y": {
+    "sha256": "463f863041785717c704ec6f86a8557c7af4739479b47e53900ccfcebac7e7ef",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA3Y": {
+    "sha256": "4d5abaf4ab1e29def2df52452513dddc890de3230291fa68cebfb9a0f25efeac",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.3YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA5Y": {
+    "sha256": "4fbf328091917c3436c84eb10d3562fd9521060254919a85caf656b57f9628c6",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.5YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA_BANKS_EW6": {
+    "sha256": "6cb91772824eb22a5ea7802622b32aec42c42449fd1f3af4d0e7edd13822d541",
+    "url": "derived:RY.tr,TD.tr,BNS.tr,BMO.tr,CM.tr,NA.tr",
+    "policy": "L"
+   },
+   "CA_CPI_NSA": {
+    "sha256": "7ab2eca8bdfb9e6e25a195f2cb5b87b741bc6aeb322fe15a0a365f4c26fb5846",
+    "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690973%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01",
+    "policy": "C"
+   },
+   "CA_LONG": {
+    "sha256": "ec07fb22aa1237ec4e7e3286128f5b7a02915883cbd6a51fda46f823b778fa9b",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.LONG.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CM.tr": {
+    "sha256": "fcf23d1f72d4adb4522278d4a5bef46d0f70b8b43ad8dcb6da8d9d40e880d5c4",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CM.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "ENOR.tr": {
+    "sha256": "9387e4ba6d0110657e142429bce53b37670dacf5ec0ad8f78c6b75bfaa543cc1",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ENOR?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EURUSD": {
+    "sha256": "c5238b2bd122e8ee449dbd7353c1216227cf17f6b36d72df768cdcec95438e90",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSEU&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "EWA.tr": {
+    "sha256": "3d500ac5def8ac6bbe158913b5ded1aee63b4ce45abed493e4ead8ee0c474f4c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWC.tr": {
+    "sha256": "b75c548a30f9a9cddfb4444422c28def3e2ea6bd1d98c4d96154966df29635d8",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWC?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWG.tr": {
+    "sha256": "210437ad6129ba3c2cd17b3f2948476bae10db5b09ff6db101e2aec6215c9b1c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWG?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWI.tr": {
+    "sha256": "b943532bc9a98f4ce8693a6aa940b7d49fbb9a8fed0e1c5a40485b211ee82b8b",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWJ.tr": {
+    "sha256": "145e48cc634dcac926c742b7085665a6a5d700abd800e809efaf7cd222489a83",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWJ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWQ.tr": {
+    "sha256": "98e4d8331656d455d0903a97eb21ab5943cb8ff994ff04c9b23e8fec5edf9690",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWQ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWU.tr": {
+    "sha256": "bad6a514f88a7ffb1b0cfd914b7cbf0ef02c236cf2fe8565c8629c802a860921",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWU?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWW.tr": {
+    "sha256": "f9bb25643314556454848889a0fdcdf21561fd18176cd00be04e6e3e21e842cb",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWW?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWY.tr": {
+    "sha256": "c2a0043a82ea7fd188f08031096caf828c65f7cb74035949969d3405cf9faed7",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWZ.tr": {
+    "sha256": "88eb9bee03f9dfa9bfa11e918e565547cad7d31199c8691c83f9da44261405c7",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWZ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "FF_TARGET": {
+    "sha256": "32e9d1c3920396821d73dfea3bf2de4f9b6cb42731d47f101af3cad243faec0a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTAR&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "FF_TARGET_UPPER": {
+    "sha256": "4164b60f98feee7faba376e5456e17a7395435f4ee6de99ba0d38645130dd2ca",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTARU&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "FXI.tr": {
+    "sha256": "84dd3d11fcc63a08e894d5dc1eed8c0d86716d1c999f167150574b48d4e5f4e4",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/FXI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "GBPUSD": {
+    "sha256": "32eb1b88badfb21b5bb172bc0facf5fa61ed8c99a80a5f19aceee5a1cf9f76d9",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSUK&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "INDA.tr": {
+    "sha256": "4db51e83a02f75b57ba4664e89fbdde2d9f65a4d0b5c802ac13ad9f031622392",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/INDA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "NA.tr": {
+    "sha256": "fe0a269f6abe5ea690f7a93f31415cfada4c091f947a398ccadcb816ea70f527",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NA.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "RY.tr": {
+    "sha256": "46cdc21a56d23775421edcbbb8c3926817941b74ce03cbe1caca4e282beab484",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RY.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "SPY.tr": {
+    "sha256": "befb97b1c9dfc2b231e85303b6069896c46127c5c029a97b06f008d3a1b8f4dd",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "TD.tr": {
+    "sha256": "134817a05435944bd52751e2738523b6976aeec4cb1673d6fb871d0b2c3d9047",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/TD.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "TSX.tr": {
+    "sha256": "316f67bbcf7d09f38e47abac2d89c8cfaea5740e83d9429d7c188152c4fbb4f8",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPTSE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "US10Y": {
+    "sha256": "1d81d6fa034cd901c41514115ecf9a400af7db4d6612471ab7d470d61213b118",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US10Y_REAL": {
+    "sha256": "d02039db9fe4b927d7268b563793f040b31402c5b20449f8fb31cef67efc822b",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US1Y": {
+    "sha256": "38bdeb53f33810cd59f1f0295829f304862feb24f2f60538054217d24c541f11",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS1&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US2Y": {
+    "sha256": "3697cb6ed360c20ef1907dc2b394ce969c0f2698e9e04b28627655dc6c22bb39",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US5Y": {
+    "sha256": "165b70f2e41dd36cac156b58c875e659375b7e3013d8bee8dfcc31dc48815c18",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS5&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US5Y_REAL": {
+    "sha256": "c9394c55d482638c1711fcd010bc7689378aa95bf09b0388079afcf7a5a5db13",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII5&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDBRL": {
+    "sha256": "83c2e743e33bb912588e0ea0e362ff3515455f09af126005a1e31f1339246b5a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXBZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCAD": {
+    "sha256": "f0b38c518d57a7d93398e9551062566307633f8e58f03df58881ed215b16f888",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCAUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCHF": {
+    "sha256": "6fed1c7327886ea039194ea311d8066c76d28349fe46312a5e641d5cd3f4f151",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXSZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCNY": {
+    "sha256": "7d428fd53c05e2a38bacfc12992b7e82d716dd12fd86377ef3a3e9faf21dd19a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCHUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDINR": {
+    "sha256": "f759bfaf7c12675b47fc31b1117e7be1b4cd149a372ce2e70aeb7b21501907cd",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXINUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDJPY": {
+    "sha256": "163caa670faafd65b46d109ae2aa29177f191b9851fb7e4e23b6bc1924914378",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXJPUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDKRW": {
+    "sha256": "a9290bf2110f9bf3b89eecfb488b809a0850aebd41ae543bcaa077ede88b5eef",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXKOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDMXN": {
+    "sha256": "fdbc60fe38cce4d19148482f0ab582d35d805141c2c37b3f8d7b9fe2d74db318",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXMXUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDNOK": {
+    "sha256": "c406a7154da6a069e6bdc36d34b134c896a8746241fcf04bcec816f3e93a5167",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXNOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USD_BROAD": {
+    "sha256": "66372546ee8bbef9f079fa57128b3bc9902b194625b092606156dcb2898d3990",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DTWEXBGS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US_BE10Y_PD": {
+    "sha256": "cb31c9ae96a2f929e92c36fc5b7cff9fb14c1702ff7c5e05cdf477a307fee30c",
+    "url": "derived:US10Y,US10Y_REAL",
+    "policy": "C"
+   },
+   "US_BE5Y_PD": {
+    "sha256": "b7d83954bfb877da5f3f61865f82e21a661ab38bc93a28eb9b9bf243d76417d2",
+    "url": "derived:US5Y,US5Y_REAL",
+    "policy": "C"
+   },
+   "US_CPI_NSA": {
+    "sha256": "238f09dbad24b4e5ded319f3aa363056f1f847f29f997979656006675ca3890f",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCNS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "VIX": {
+    "sha256": "29b3d6cf20804ff039dd513850eaa7f42db6404de62a566dd9a051f742a685d0",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "D"
+   },
+   "WTI": {
+    "sha256": "52c63b324ac4d875baaf98c07ed04aeeb8061c607392c4acc86193d3c3a48b0e",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILWTICO&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "XEG.tr": {
+    "sha256": "9bba93098167f9e24408e62ed3812ad2419aa9c6f0d0d28f7854bb9d2a2dc37e",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XEG.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "XLE.tr": {
+    "sha256": "7343d3218dc73bd29c6822ed190a1249b4b4bb87c9828960815b48647d91bc70",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "XLF.tr": {
+    "sha256": "0c9490488c984264948f7ff4cf7cbf8559496671a0ab0c40bc1585cd69ed878c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "ZEB.tr": {
+    "sha256": "4bf71aae96ebbcf42b2d38a1330a1efae6cb370bfa4f79b99e291bcd23e91bdc",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZEB.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   }
+  },
+  "event_tables": {
+   "events_boc": [
+    {
+     "artifact_key": "data/events/boc_fad.csv",
+     "sha256": "1f1954b5d367e40696f8422d32c3def632ada33ef852a53421ad4f28eb2496f8"
+    }
+   ],
+   "events_fomc": [
+    {
+     "artifact_key": "jk_fed/shocks_t",
+     "sha256": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01"
+    },
+    {
+     "artifact_key": "jk_fed/surprises",
+     "sha256": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300"
+    }
+   ],
+   "events_fomc_bs": [
+    {
+     "artifact_key": "bauer_swanson/surprises",
+     "sha256": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668"
+    }
+   ],
+   "events_opec": [
+    {
+     "artifact_key": "kaenzig/oil_supply_news",
+     "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de"
+    }
+   ],
+   "shocks_monthly": [
+    {
+     "artifact_key": "jk_fed/shocks_m",
+     "sha256": "61f98ad4a10b27923abf8da39d6466351189fb922a3bbc4f798a0052615b4c86"
+    },
+    {
+     "artifact_key": "jk_ecb/shocks_m",
+     "sha256": "89c5b2ec39509057b3c71f44218424fc8d15d4041b16f31c96613f8fe0965534"
+    },
+    {
+     "artifact_key": "bauer_swanson/surprises",
+     "sha256": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668"
+    },
+    {
+     "artifact_key": "kaenzig/oil_supply_news",
+     "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de"
+    },
+    {
+     "artifact_key": "baumeister_hamilton/supply",
+     "sha256": "00d392b04200cc2e337c16fdc13b8e25086fd92b7543f053b0e58ba5d1fcfa72"
+    },
+    {
+     "artifact_key": "baumeister_hamilton/demand",
+     "sha256": "ea5d57e935fa0423cc2910d6a8902798cc3f6f0efbbaa53926f26621eea26aa0"
+    }
+   ]
+  }
+ },
+ "results": [
+  {
+   "family": "fomc",
+   "outcome": "US2Y",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 161,
+    "baseline": 158
+   },
+   "base_effect": [
+    11.167070200639934,
+    12.430774747096619,
+    12.037800822266453,
+    11.40542569850984,
+    11.573171772387562,
+    11.873559728814342,
+    11.390565405703265,
+    10.557291176470326,
+    11.476670084839574,
+    12.47579893553625,
+    12.375457504983164,
+    12.11839090002163,
+    12.394840978081568,
+    12.614509308041693,
+    11.381086807058201,
+    9.586733567985057,
+    11.095395080893509,
+    10.607940090990493,
+    9.421858128356348,
+    9.799522551548032,
+    11.443585639289408
+   ],
+   "interaction": [
+    [
+     -5.720402670643027
+    ],
+    [
+     -6.075592860244317
+    ],
+    [
+     -5.139786586977723
+    ],
+    [
+     -3.845070740206021
+    ],
+    [
+     -5.528376946326184
+    ],
+    [
+     -7.458803645054696
+    ],
+    [
+     -7.801392801753924
+    ],
+    [
+     -7.822615286488646
+    ],
+    [
+     -7.671079627518136
+    ],
+    [
+     -7.367464139493072
+    ],
+    [
+     -6.303305728009497
+    ],
+    [
+     -7.54488482874576
+    ],
+    [
+     -9.067727280598758
+    ],
+    [
+     -9.191838304368433
+    ],
+    [
+     -8.781210380397821
+    ],
+    [
+     -5.749556443888964
+    ],
+    [
+     -7.217103835129562
+    ],
+    [
+     -7.523749632320258
+    ],
+    [
+     -5.170877560341635
+    ],
+    [
+     -5.375276861216077
+    ],
+    [
+     -7.164741145524129
+    ]
+   ],
+   "interaction_se": [
+    [
+     1.7874972247110497
+    ],
+    [
+     2.3381180029288755
+    ],
+    [
+     2.280922160868392
+    ],
+    [
+     2.5630474043172495
+    ],
+    [
+     2.9323124394116733
+    ],
+    [
+     3.0039718851664357
+    ],
+    [
+     3.4474969623308094
+    ],
+    [
+     3.7084346064222724
+    ],
+    [
+     3.8261810027377052
+    ],
+    [
+     4.321350890726912
+    ],
+    [
+     4.613613651512254
+    ],
+    [
+     4.815387048715442
+    ],
+    [
+     5.102914892191855
+    ],
+    [
+     5.138846760436939
+    ],
+    [
+     5.887325381302757
+    ],
+    [
+     5.552683273189252
+    ],
+    [
+     5.715264203653379
+    ],
+    [
+     5.505090506002064
+    ],
+    [
+     5.649112912360744
+    ],
+    [
+     5.830950613519753
+    ],
+    [
+     6.039119547289006
+    ]
+   ],
+   "p_joint": 0.239,
+   "p_headline": 0.015,
+   "q_joint": 0.6533333333333334,
+   "q_headline": 0.32
+  },
+  {
+   "family": "fomc",
+   "outcome": "US2Y",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 85,
+    "cutting": 120,
+    "baseline": 128
+   },
+   "base_effect": [
+    7.508103612020953,
+    6.942410296854678,
+    8.008844450317925,
+    7.786694996256942,
+    6.174614224304816,
+    6.0800576846498675,
+    5.768217716676143,
+    5.450382791286178,
+    6.242711524479584,
+    6.446521157437782,
+    7.368233232540111,
+    6.082086965758065,
+    5.322828712949328,
+    5.383147046263709,
+    6.255094709023994,
+    7.0209033483657075,
+    8.85603356222732,
+    6.940033685934768,
+    8.544500206284425,
+    9.385515459372241,
+    9.829560897442564
+   ],
+   "interaction": [
+    [
+     3.2932401202139885,
+     -2.889400833592833
+    ],
+    [
+     6.499408769618109,
+     -0.8568333844856879
+    ],
+    [
+     3.117536993098419,
+     -1.0261588533856711
+    ],
+    [
+     1.7149028008930933,
+     0.3794341736689997
+    ],
+    [
+     4.064548767128539,
+     0.43391029371290524
+    ],
+    [
+     2.7175396721273612,
+     -1.4445646449564633
+    ],
+    [
+     2.771665555494109,
+     -2.3097954013252573
+    ],
+    [
+     3.237206211575701,
+     -3.175208401423204
+    ],
+    [
+     2.859105638706441,
+     -2.5939661695181275
+    ],
+    [
+     3.568552911954013,
+     -0.9206717694117644
+    ],
+    [
+     3.1057324363829655,
+     -1.4234640043441371
+    ],
+    [
+     4.282960413909049,
+     -2.0921802166752026
+    ],
+    [
+     4.08385118370352,
+     -2.4501657135530817
+    ],
+    [
+     5.594795399554004,
+     -2.857523920235251
+    ],
+    [
+     5.48996334784647,
+     -6.485093144501409
+    ],
+    [
+     5.276121083564204,
+     -6.876312814558202
+    ],
+    [
+     3.7205096998324567,
+     -9.288274291455785
+    ],
+    [
+     4.676054393516081,
+     -7.334408493120614
+    ],
+    [
+     1.8204150905443686,
+     -8.668442793505982
+    ],
+    [
+     2.624463186435475,
+     -9.87048946778426
+    ],
+    [
+     3.5424416581147096,
+     -10.458065627132056
+    ]
+   ],
+   "interaction_se": [
+    [
+     2.640485126253736,
+     2.275628298764997
+    ],
+    [
+     3.230582322047784,
+     2.0974457474579253
+    ],
+    [
+     3.178211553995937,
+     2.2474435206765713
+    ],
+    [
+     3.8396589681441573,
+     2.8168848870574994
+    ],
+    [
+     3.929234056227347,
+     3.221598549754526
+    ],
+    [
+     3.444111842173669,
+     2.976235464388521
+    ],
+    [
+     3.6903248315799777,
+     3.3914792232024173
+    ],
+    [
+     4.435506806604628,
+     3.583849321036227
+    ],
+    [
+     4.7684611480469234,
+     3.587750637508553
+    ],
+    [
+     5.428494995461829,
+     3.806538016561114
+    ],
+    [
+     5.440463974423102,
+     3.966017326807613
+    ],
+    [
+     5.952864795478244,
+     4.397368341513909
+    ],
+    [
+     6.6854363339161615,
+     5.2470074681691505
+    ],
+    [
+     7.34335935926357,
+     5.379156875282537
+    ],
+    [
+     7.8740577856720035,
+     6.256033903972285
+    ],
+    [
+     7.524269681233431,
+     6.312389102696282
+    ],
+    [
+     7.721333276856091,
+     6.560103760886612
+    ],
+    [
+     7.479109565642169,
+     6.3977213316976504
+    ],
+    [
+     7.63378596890129,
+     6.400582646011854
+    ],
+    [
+     8.081922636683366,
+     6.428348618953882
+    ],
+    [
+     8.100237688840972,
+     6.610833040192841
+    ]
+   ],
+   "p_joint": 0.96,
+   "p_headline": 0.552,
+   "q_joint": 0.96,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "fomc",
+   "outcome": "US2Y",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 126,
+    "baseline": 206
+   },
+   "base_effect": [
+    8.329439521443152,
+    9.38066200374026,
+    7.246008251024459,
+    5.298060132398029,
+    4.017644517635631,
+    3.257384588929332,
+    1.6780008027634912,
+    1.6264375920255127,
+    3.5844865625040736,
+    5.026820413264905,
+    5.208151719945736,
+    3.4416667064889257,
+    1.8019182671154885,
+    3.189020100869626,
+    2.1604915591818115,
+    2.4076081156443534,
+    2.348230179108192,
+    1.6164182322724348,
+    2.7406147453750775,
+    2.0227133765036074,
+    1.0879018193319423
+   ],
+   "interaction": [
+    [
+     -3.00281851299506
+    ],
+    [
+     -3.1766368386749857
+    ],
+    [
+     1.3434250633660985
+    ],
+    [
+     5.46253060767845
+    ],
+    [
+     5.814884352810981
+    ],
+    [
+     4.954327504799007
+    ],
+    [
+     6.510899489624651
+    ],
+    [
+     5.3630550929172305
+    ],
+    [
+     3.748648741482185
+    ],
+    [
+     3.374657806490757
+    ],
+    [
+     4.1550332407284545
+    ],
+    [
+     5.09232588908686
+    ],
+    [
+     6.558735699132721
+    ],
+    [
+     4.356576114413464
+    ],
+    [
+     4.526665565411306
+    ],
+    [
+     4.917247701029017
+    ],
+    [
+     5.509203898729397
+    ],
+    [
+     5.399507656454184
+    ],
+    [
+     4.350479232087082
+    ],
+    [
+     6.181655607080261
+    ],
+    [
+     8.651674227816555
+    ]
+   ],
+   "interaction_se": [
+    [
+     2.0105692952692595
+    ],
+    [
+     1.9354611370108115
+    ],
+    [
+     1.9969321547855252
+    ],
+    [
+     2.2732221023120442
+    ],
+    [
+     2.82923348918923
+    ],
+    [
+     2.8694696002471556
+    ],
+    [
+     3.293236043348127
+    ],
+    [
+     3.7305450018130815
+    ],
+    [
+     3.4275185442344154
+    ],
+    [
+     3.7052557739484233
+    ],
+    [
+     3.9345980249712724
+    ],
+    [
+     4.264250372369146
+    ],
+    [
+     4.630682440517699
+    ],
+    [
+     4.756838426205611
+    ],
+    [
+     5.415772323662349
+    ],
+    [
+     5.116334221388049
+    ],
+    [
+     5.459921226418321
+    ],
+    [
+     5.317624085941567
+    ],
+    [
+     5.16587401657001
+    ],
+    [
+     5.430438847758108
+    ],
+    [
+     5.710749571999455
+    ]
+   ],
+   "p_joint": 0.182,
+   "p_headline": 0.104,
+   "q_joint": 0.5599999999999999,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "fomc",
+   "outcome": "SPY.tr",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 152,
+    "baseline": 134
+   },
+   "base_effect": [
+    -0.9673008211774092,
+    -0.7722413095509977,
+    -0.9354154961365636,
+    -1.160063407139236,
+    -1.1112822659757338,
+    -1.0714631337932952,
+    -1.4822304322585076,
+    -1.3425165523637659,
+    -1.5232435797849526,
+    -1.5989221193148886,
+    -1.5923676428828257,
+    -1.4481369127290598,
+    -1.3729940163360197,
+    -1.4081425885119083,
+    -1.489444656355773,
+    -1.4645806545932716,
+    -1.5184555428918571,
+    -1.3890605857205587,
+    -1.2067347267787492,
+    -1.092121278069684,
+    -0.9255520213533431
+   ],
+   "interaction": [
+    [
+     0.014984398319317638
+    ],
+    [
+     -0.5699717257644251
+    ],
+    [
+     -0.12768264651880723
+    ],
+    [
+     -0.029468924042487313
+    ],
+    [
+     0.17131137081033995
+    ],
+    [
+     -0.07103531330480702
+    ],
+    [
+     0.4263346301057079
+    ],
+    [
+     0.28279123823469854
+    ],
+    [
+     0.42753869890441903
+    ],
+    [
+     0.6808196171579345
+    ],
+    [
+     0.4718075131013302
+    ],
+    [
+     0.4447700600362022
+    ],
+    [
+     0.13227403578078833
+    ],
+    [
+     0.3511605574820264
+    ],
+    [
+     0.29367395497646887
+    ],
+    [
+     -0.014176100801598519
+    ],
+    [
+     -0.10829529141105729
+    ],
+    [
+     -0.26746104786505
+    ],
+    [
+     -0.48975383721931115
+    ],
+    [
+     -0.28333161935853285
+    ],
+    [
+     -0.48228180319493097
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.2769517142034831
+    ],
+    [
+     0.3795115242145658
+    ],
+    [
+     0.488039734766919
+    ],
+    [
+     0.5587143543810794
+    ],
+    [
+     0.6238134622352669
+    ],
+    [
+     0.6003787014029297
+    ],
+    [
+     0.5975005310184082
+    ],
+    [
+     0.7396880874763717
+    ],
+    [
+     0.6558575708778381
+    ],
+    [
+     0.7808810397058166
+    ],
+    [
+     0.718783784569442
+    ],
+    [
+     0.794782625723476
+    ],
+    [
+     0.8413698470592549
+    ],
+    [
+     0.8895084426119988
+    ],
+    [
+     1.006339288073817
+    ],
+    [
+     0.92113987580802
+    ],
+    [
+     0.9509307669478385
+    ],
+    [
+     1.0234326598459846
+    ],
+    [
+     1.0777019442039064
+    ],
+    [
+     0.9377350297884008
+    ],
+    [
+     0.9761378132892816
+    ]
+   ],
+   "p_joint": 0.561,
+   "p_headline": 0.912,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.96
+  },
+  {
+   "family": "fomc",
+   "outcome": "SPY.tr",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 85,
+    "cutting": 75,
+    "baseline": 126
+   },
+   "base_effect": [
+    -0.9073842757887162,
+    -1.1122266466077781,
+    -0.813158959374445,
+    -0.9500460785382091,
+    -0.8615345420943639,
+    -0.9044216183479967,
+    -0.760251370818822,
+    -0.5270840509885486,
+    -0.7118416811709048,
+    -0.6123150938404811,
+    -0.8747363680520764,
+    -0.8850043672930462,
+    -0.845820741216751,
+    -0.6770864138876173,
+    -0.44973452259880664,
+    -0.5820134107838515,
+    -0.4301891745948409,
+    -0.5791544038043286,
+    -1.0030710740027624,
+    -0.723993753291939,
+    -0.8754129389146907
+   ],
+   "interaction": [
+    [
+     0.022999713663316424,
+     -0.152547751803675
+    ],
+    [
+     -0.07687052934860547,
+     -0.22835605166902806
+    ],
+    [
+     -0.7196662984476636,
+     -0.2046845913421087
+    ],
+    [
+     -1.0808572214097154,
+     0.10076414711285561
+    ],
+    [
+     -0.9911811485242399,
+     0.28946296520239817
+    ],
+    [
+     -0.44796435730246903,
+     -0.20766285490668673
+    ],
+    [
+     -1.1145623814880439,
+     -0.3985217924317226
+    ],
+    [
+     -1.6146562146621302,
+     -0.5701505086243701
+    ],
+    [
+     -1.1977690909636178,
+     -0.39352979093783325
+    ],
+    [
+     -1.1170713645952532,
+     -0.5538662404059911
+    ],
+    [
+     -0.7775186157443646,
+     -0.5301850379965217
+    ],
+    [
+     -0.5139153564024316,
+     -0.338277855597694
+    ],
+    [
+     -0.7282781081799928,
+     -0.7758699953478607
+    ],
+    [
+     -1.0357605345713101,
+     -0.8090406286682406
+    ],
+    [
+     -1.6565253385055276,
+     -1.3261949858437383
+    ],
+    [
+     -1.4416903659029179,
+     -1.5685619896619998
+    ],
+    [
+     -1.7437960315575918,
+     -2.14361815738752
+    ],
+    [
+     -1.486167992867155,
+     -1.9872710597549748
+    ],
+    [
+     -0.6268375786451791,
+     -1.3596439967097067
+    ],
+    [
+     -0.9283743180547795,
+     -1.1913534713168787
+    ],
+    [
+     -0.6032854549326369,
+     -0.963362049309438
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.3911427812581341,
+     0.3695741955611299
+    ],
+    [
+     0.5242903144639105,
+     0.4116230676396604
+    ],
+    [
+     0.6454952577177188,
+     0.5579107318821374
+    ],
+    [
+     0.801392164606365,
+     0.6649537125100552
+    ],
+    [
+     0.7826209420009799,
+     0.748026154553295
+    ],
+    [
+     0.7200540320061588,
+     0.7097726153613698
+    ],
+    [
+     0.7273982560454414,
+     0.6548466718479391
+    ],
+    [
+     0.7982955276162228,
+     0.769770325911609
+    ],
+    [
+     0.7379099866981464,
+     0.7064158151929654
+    ],
+    [
+     0.7619512840328062,
+     0.7651090534790419
+    ],
+    [
+     0.7169287273480311,
+     0.7384723262293278
+    ],
+    [
+     0.7325382772258062,
+     0.8008662345890245
+    ],
+    [
+     0.8415243352413788,
+     0.8378952512369068
+    ],
+    [
+     0.8601441620615657,
+     0.8962243589628102
+    ],
+    [
+     0.8734498559683694,
+     0.9667204248274028
+    ],
+    [
+     0.8760878347335613,
+     0.9614529095874872
+    ],
+    [
+     0.8522133518519812,
+     1.061618139936451
+    ],
+    [
+     0.9337492174703154,
+     1.0825778525225112
+    ],
+    [
+     0.8775198280887304,
+     1.0736324675871456
+    ],
+    [
+     0.8552329482943163,
+     0.9594706033496176
+    ],
+    [
+     0.8805325522877138,
+     0.9910759818300603
+    ]
+   ],
+   "p_joint": 0.147,
+   "p_headline": 0.834,
+   "q_joint": 0.5113043478260869,
+   "q_headline": 0.9531428571428572
+  },
+  {
+   "family": "fomc",
+   "outcome": "SPY.tr",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 87,
+    "baseline": 198
+   },
+   "base_effect": [
+    -1.0183169068479065,
+    -0.9648144784426412,
+    -0.9488098539664502,
+    -1.4775035539114203,
+    -1.1353499795505944,
+    -1.2796496750682627,
+    -1.2120282372897786,
+    -0.8571607317293496,
+    -0.9235641093088972,
+    -0.7810858197594801,
+    -0.97791127048233,
+    -0.8730497339183211,
+    -0.8428849828767787,
+    -0.6053319258237247,
+    -0.6864324971004456,
+    -1.0355232575741247,
+    -1.4557164590531675,
+    -1.3744436259698978,
+    -1.1332262105977529,
+    -1.1150716156028966,
+    -0.944176337726744
+   ],
+   "interaction": [
+    [
+     0.06971794189239025
+    ],
+    [
+     -0.4522081319815191
+    ],
+    [
+     -0.15271830595423397
+    ],
+    [
+     0.5537185743401963
+    ],
+    [
+     0.2629500314178437
+    ],
+    [
+     0.2480936475582939
+    ],
+    [
+     0.028031831102552102
+    ],
+    [
+     -0.5376206456857476
+    ],
+    [
+     -0.5128675233272262
+    ],
+    [
+     -0.5908605484275387
+    ],
+    [
+     -0.556509244748076
+    ],
+    [
+     -0.5127333083773644
+    ],
+    [
+     -0.860209159872407
+    ],
+    [
+     -1.0654826507932598
+    ],
+    [
+     -1.1401254633554945
+    ],
+    [
+     -0.9142530151910541
+    ],
+    [
+     -0.39751871044528286
+    ],
+    [
+     -0.5648770922065676
+    ],
+    [
+     -0.9622695681905774
+    ],
+    [
+     -0.5373245364430493
+    ],
+    [
+     -0.8249935338021984
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.32034488475537165
+    ],
+    [
+     0.3443171044630605
+    ],
+    [
+     0.4591513246274507
+    ],
+    [
+     0.5162630236316437
+    ],
+    [
+     0.6177905296470476
+    ],
+    [
+     0.5862043641415297
+    ],
+    [
+     0.6288580799381996
+    ],
+    [
+     0.8472295572083207
+    ],
+    [
+     0.7054882289420094
+    ],
+    [
+     0.8791208706699465
+    ],
+    [
+     0.8035015822550308
+    ],
+    [
+     0.9188525485063795
+    ],
+    [
+     0.9792422054935764
+    ],
+    [
+     1.0606467906105024
+    ],
+    [
+     1.1872902542961272
+    ],
+    [
+     1.0673864374716553
+    ],
+    [
+     1.0569561483687946
+    ],
+    [
+     1.027052102874269
+    ],
+    [
+     1.0782569382123348
+    ],
+    [
+     0.9379708702336478
+    ],
+    [
+     0.992118702766526
+    ]
+   ],
+   "p_joint": 0.37,
+   "p_headline": 0.676,
+   "q_joint": 0.7239024390243902,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "fomc",
+   "outcome": "USDCAD",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 161,
+    "baseline": 158
+   },
+   "base_effect": [
+    0.344195698005486,
+    0.3683851449253074,
+    0.5459098559733695,
+    0.50460311649933,
+    0.41486903651223944,
+    0.49325322903491375,
+    0.4827609114051963,
+    0.5692682191153532,
+    0.7587655871133454,
+    0.8249324968493036,
+    0.8485632058441249,
+    0.8166105131430107,
+    0.8091172437949844,
+    0.8117603203446278,
+    0.7849994681530709,
+    0.8014956081389699,
+    0.7598730143530626,
+    0.5152124506863646,
+    0.5726410140327136,
+    0.6638672290651396,
+    0.5402497851903368
+   ],
+   "interaction": [
+    [
+     -0.09673062889587794
+    ],
+    [
+     0.014370895653793823
+    ],
+    [
+     -0.2293342124407242
+    ],
+    [
+     -0.2878788236791181
+    ],
+    [
+     -0.20695711041840836
+    ],
+    [
+     -0.30860777584440735
+    ],
+    [
+     -0.27590509550462655
+    ],
+    [
+     -0.40118722314672567
+    ],
+    [
+     -0.5674735862690429
+    ],
+    [
+     -0.7029759802484078
+    ],
+    [
+     -0.6808091146062006
+    ],
+    [
+     -0.6303307165424394
+    ],
+    [
+     -0.5915754922096988
+    ],
+    [
+     -0.5881703141248618
+    ],
+    [
+     -0.4742790613074917
+    ],
+    [
+     -0.46512500775419685
+    ],
+    [
+     -0.4174126487041826
+    ],
+    [
+     -0.10378851190828149
+    ],
+    [
+     -0.13905227239463538
+    ],
+    [
+     -0.2554197146199313
+    ],
+    [
+     -0.12061526624262739
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.1538908467242676
+    ],
+    [
+     0.18311793405221025
+    ],
+    [
+     0.17979201322373795
+    ],
+    [
+     0.2075386145424381
+    ],
+    [
+     0.19817492541816198
+    ],
+    [
+     0.2142454852207517
+    ],
+    [
+     0.24164288808562515
+    ],
+    [
+     0.2718312980232477
+    ],
+    [
+     0.2891645685807544
+    ],
+    [
+     0.3058295864934119
+    ],
+    [
+     0.3215852488662517
+    ],
+    [
+     0.3342607244810982
+    ],
+    [
+     0.3552417617941741
+    ],
+    [
+     0.370576218462767
+    ],
+    [
+     0.3956217227604088
+    ],
+    [
+     0.41276710591696353
+    ],
+    [
+     0.41506992750335014
+    ],
+    [
+     0.4140685648495632
+    ],
+    [
+     0.4198302822287556
+    ],
+    [
+     0.4425522549335547
+    ],
+    [
+     0.4539731654427972
+    ]
+   ],
+   "p_joint": 0.642,
+   "p_headline": 0.143,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.5113043478260869
+  },
+  {
+   "family": "fomc",
+   "outcome": "USDCAD",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 85,
+    "cutting": 120,
+    "baseline": 128
+   },
+   "base_effect": [
+    0.38436392225895083,
+    0.3990214896011514,
+    0.5538532162533075,
+    0.5568128044931315,
+    0.4884415476365202,
+    0.44896899455080896,
+    0.5317551294116066,
+    0.6494335277635234,
+    0.6384074032790538,
+    0.5023040301809151,
+    0.5132147125674508,
+    0.5416499298981235,
+    0.6394433391209221,
+    0.4772083726514776,
+    0.5019162514440993,
+    0.5446311918260196,
+    0.6150310071727263,
+    0.6103045114419847,
+    0.5620992349877286,
+    0.6495287697567942,
+    0.6077633510333363
+   ],
+   "interaction": [
+    [
+     0.13071747768843742,
+     -0.2804884997401063
+    ],
+    [
+     0.36345188594288996,
+     -0.17116803294181965
+    ],
+    [
+     0.19114912217091656,
+     -0.4239439808344566
+    ],
+    [
+     0.2193160651573895,
+     -0.6427589769841122
+    ],
+    [
+     0.07496004485447263,
+     -0.5155620712214251
+    ],
+    [
+     0.18368821899690427,
+     -0.46846802616336397
+    ],
+    [
+     0.009404909591571024,
+     -0.5560950127601253
+    ],
+    [
+     -0.2201195400993663,
+     -0.7122255568563753
+    ],
+    [
+     -0.1763728751659324,
+     -0.5811501604067595
+    ],
+    [
+     0.17489972581382054,
+     -0.47443548262916097
+    ],
+    [
+     0.15060729437867135,
+     -0.39918657227918225
+    ],
+    [
+     -0.029146868401212223,
+     -0.3907351345632836
+    ],
+    [
+     -0.07874704953823111,
+     -0.5051914415017366
+    ],
+    [
+     0.21647615369822198,
+     -0.29232778509986185
+    ],
+    [
+     0.14900965577080477,
+     -0.2028295456413246
+    ],
+    [
+     0.0035282851113464186,
+     -0.20426894984662214
+    ],
+    [
+     -0.20625755437600166,
+     -0.3030653024069692
+    ],
+    [
+     -0.11747267138137173,
+     -0.33707034549062714
+    ],
+    [
+     0.1148762600395537,
+     -0.2317825225081586
+    ],
+    [
+     -0.05839564755182635,
+     -0.3505216441125404
+    ],
+    [
+     -0.18508180366777968,
+     -0.2813654810600791
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.2066669399144713,
+     0.20608129246154527
+    ],
+    [
+     0.260420920314501,
+     0.25748263925684856
+    ],
+    [
+     0.29951380453265647,
+     0.28735136547389634
+    ],
+    [
+     0.32842288725619334,
+     0.32034985987179376
+    ],
+    [
+     0.3192660692856092,
+     0.31728896463193695
+    ],
+    [
+     0.3360491849112505,
+     0.30423979498969916
+    ],
+    [
+     0.3784146727367571,
+     0.2983236097392429
+    ],
+    [
+     0.40300050590851705,
+     0.32032244068103277
+    ],
+    [
+     0.4126838789320304,
+     0.3574486650044317
+    ],
+    [
+     0.4149868037107702,
+     0.35704848568695086
+    ],
+    [
+     0.434980384244243,
+     0.38863976095317776
+    ],
+    [
+     0.40046424135197506,
+     0.38973652223171384
+    ],
+    [
+     0.4625668694741129,
+     0.4493314705255789
+    ],
+    [
+     0.4740516187151917,
+     0.4479553930655802
+    ],
+    [
+     0.48861090879656394,
+     0.46554172298886554
+    ],
+    [
+     0.5345502331564672,
+     0.4813941905138822
+    ],
+    [
+     0.49897225536707374,
+     0.4637691528520383
+    ],
+    [
+     0.5197767401119201,
+     0.48089252542358785
+    ],
+    [
+     0.5388781161575263,
+     0.49799730570858525
+    ],
+    [
+     0.5207183722804762,
+     0.5145210099226684
+    ],
+    [
+     0.5554478632859258,
+     0.5354183740443773
+    ]
+   ],
+   "p_joint": 0.146,
+   "p_headline": 0.078,
+   "q_joint": 0.5113043478260869,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "fomc",
+   "outcome": "USDCAD",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 126,
+    "baseline": 206
+   },
+   "base_effect": [
+    0.3774959123585664,
+    0.3836330288001571,
+    0.5370050318925429,
+    0.46921414882330514,
+    0.4725158083535332,
+    0.43825517451812523,
+    0.45241090791596944,
+    0.4888332153404721,
+    0.4808633382734987,
+    0.4001104551104736,
+    0.43769674695882993,
+    0.3571380389736671,
+    0.4452878697319798,
+    0.4356133576930133,
+    0.48882217657799143,
+    0.4575177660528536,
+    0.47485240189682304,
+    0.4762857785544528,
+    0.5738905775696043,
+    0.5437614113723938,
+    0.4758233876595182
+   ],
+   "interaction": [
+    [
+     -0.2170860890919219
+    ],
+    [
+     -0.037116987303775724
+    ],
+    [
+     -0.32454547245488047
+    ],
+    [
+     -0.3477235920939155
+    ],
+    [
+     -0.4083564727996873
+    ],
+    [
+     -0.34628195807408596
+    ],
+    [
+     -0.34887515614521236
+    ],
+    [
+     -0.4428096724907511
+    ],
+    [
+     -0.31221328861504144
+    ],
+    [
+     -0.222488146047644
+    ],
+    [
+     -0.21495934167166078
+    ],
+    [
+     -0.058393204919209254
+    ],
+    [
+     -0.18406058221600177
+    ],
+    [
+     -0.1625690445576427
+    ],
+    [
+     -0.14379110514175727
+    ],
+    [
+     -0.0489039544143741
+    ],
+    [
+     -0.08365402415535061
+    ],
+    [
+     -0.09260503690467184
+    ],
+    [
+     -0.20688892567054576
+    ],
+    [
+     -0.16578137834198944
+    ],
+    [
+     -0.10444017567771971
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.15290621031258014
+    ],
+    [
+     0.18790879861865234
+    ],
+    [
+     0.1877613130700405
+    ],
+    [
+     0.22020146277137473
+    ],
+    [
+     0.20695090557725096
+    ],
+    [
+     0.21315424384299195
+    ],
+    [
+     0.2160190794783793
+    ],
+    [
+     0.22806059154062389
+    ],
+    [
+     0.24776923601090245
+    ],
+    [
+     0.2583486334678609
+    ],
+    [
+     0.28541540494509754
+    ],
+    [
+     0.3126869776781345
+    ],
+    [
+     0.3335473622329518
+    ],
+    [
+     0.33293399551487857
+    ],
+    [
+     0.35148168799353435
+    ],
+    [
+     0.36295465909949887
+    ],
+    [
+     0.35779624840706886
+    ],
+    [
+     0.3818776171155832
+    ],
+    [
+     0.39123720477662116
+    ],
+    [
+     0.4296177640945093
+    ],
+    [
+     0.44916526209009705
+    ]
+   ],
+   "p_joint": 0.257,
+   "p_headline": 0.118,
+   "q_joint": 0.663225806451613,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA2Y",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 112,
+    "baseline": 108
+   },
+   "base_effect": [
+    7.303997842896517,
+    9.396577929694743,
+    9.278020719182555,
+    8.470036327172867,
+    8.304631965470996,
+    9.373583310827753,
+    9.192743909742047,
+    8.444315243349825,
+    9.869917118619675,
+    10.157911624957434,
+    9.417841446222708,
+    8.539643460737565,
+    4.980579659463179,
+    5.6545258538566845,
+    4.972674171256729,
+    3.4547239989862186,
+    4.680814163223313,
+    3.698268297569989,
+    2.0202525234636233,
+    2.1233675492983206,
+    -1.0158766486650557
+   ],
+   "interaction": [
+    [
+     -2.056400360520789
+    ],
+    [
+     -3.6075490585861774
+    ],
+    [
+     -3.928961483511556
+    ],
+    [
+     -1.2366250984394773
+    ],
+    [
+     -0.4882550190034103
+    ],
+    [
+     -3.6733616128717044
+    ],
+    [
+     -4.1632624120368975
+    ],
+    [
+     -3.8417326619565166
+    ],
+    [
+     -4.731717000618252
+    ],
+    [
+     -4.802177524788664
+    ],
+    [
+     -4.409712884929569
+    ],
+    [
+     -4.2411588408700895
+    ],
+    [
+     -0.33695992282965076
+    ],
+    [
+     -1.9360941651273613
+    ],
+    [
+     -0.5799298123039813
+    ],
+    [
+     1.3177056587946483
+    ],
+    [
+     1.3249286764188433
+    ],
+    [
+     0.4393978916352793
+    ],
+    [
+     4.7997478531155595
+    ],
+    [
+     5.244100123593248
+    ],
+    [
+     6.769303447665692
+    ]
+   ],
+   "interaction_se": [
+    [
+     2.2203221028397575
+    ],
+    [
+     3.5314306849251356
+    ],
+    [
+     3.730552525979384
+    ],
+    [
+     3.689861582893556
+    ],
+    [
+     3.6289348471248615
+    ],
+    [
+     3.862807858413878
+    ],
+    [
+     3.7341573672237387
+    ],
+    [
+     4.491650699444503
+    ],
+    [
+     5.048207808479247
+    ],
+    [
+     5.096301057033135
+    ],
+    [
+     5.520069947781118
+    ],
+    [
+     5.795821485913953
+    ],
+    [
+     6.469812911990092
+    ],
+    [
+     6.166885021264581
+    ],
+    [
+     6.17620843620912
+    ],
+    [
+     6.229274359829338
+    ],
+    [
+     6.178385005784623
+    ],
+    [
+     6.2715249783854015
+    ],
+    [
+     6.480729233177549
+    ],
+    [
+     7.108548405233423
+    ],
+    [
+     7.613404191970177
+    ]
+   ],
+   "p_joint": 0.068,
+   "p_headline": 0.371,
+   "q_joint": 0.49684210526315786,
+   "q_headline": 0.7239024390243902
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA2Y",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 60,
+    "cutting": 61,
+    "baseline": 99
+   },
+   "base_effect": [
+    6.204072834937005,
+    5.551952981619543,
+    3.6613234401823624,
+    4.975006381824488,
+    4.474735250450447,
+    3.4822246248727597,
+    3.4816083303984238,
+    4.141836702083931,
+    5.463392635157774,
+    4.882145451751699,
+    2.503902866958369,
+    0.5503708974160069,
+    -0.3209813694284165,
+    -1.6616802665190973,
+    -0.3466073994043875,
+    -0.10750412517138166,
+    1.884135081636219,
+    1.436040711079505,
+    1.6996359949394213,
+    0.9199862777993496,
+    -0.2833652933204279
+   ],
+   "interaction": [
+    [
+     -1.961763003839107,
+     -0.02163025212718592
+    ],
+    [
+     -0.886439323013134,
+     2.530332452695222
+    ],
+    [
+     -2.0645068535919737,
+     5.949607706807158
+    ],
+    [
+     -3.190294843145668,
+     6.201837617849353
+    ],
+    [
+     -0.5988460977760114,
+     6.668947083509056
+    ],
+    [
+     1.7836331982506386,
+     5.228251000517352
+    ],
+    [
+     4.637116799360799,
+     3.0859325984496797
+    ],
+    [
+     2.9996402596650213,
+     1.591424749566814
+    ],
+    [
+     1.9087015278018025,
+     1.1805727626364033
+    ],
+    [
+     3.6328443243668365,
+     1.9062075180827218
+    ],
+    [
+     8.160995228955226,
+     3.5136235270083027
+    ],
+    [
+     9.583035822644323,
+     4.546291391905842
+    ],
+    [
+     8.630435309102568,
+     5.201833488375615
+    ],
+    [
+     9.57154670408126,
+     6.2543185415412115
+    ],
+    [
+     9.508771964505913,
+     4.317043099105256
+    ],
+    [
+     8.902003492478014,
+     4.259640058952086
+    ],
+    [
+     8.558503980804089,
+     2.6172811273489134
+    ],
+    [
+     6.599921226947551,
+     0.6373711554079884
+    ],
+    [
+     9.673092751833847,
+     2.219393330295236
+    ],
+    [
+     11.921973434840437,
+     3.725815767845579
+    ],
+    [
+     10.07128624984607,
+     2.7336474624214744
+    ]
+   ],
+   "interaction_se": [
+    [
+     2.5861440725479437,
+     1.6652281933710011
+    ],
+    [
+     4.098428204599835,
+     2.646363550372809
+    ],
+    [
+     4.326981125959332,
+     3.1042632550415865
+    ],
+    [
+     4.246209874270359,
+     3.1880475863539997
+    ],
+    [
+     4.325494708063816,
+     3.875376698737265
+    ],
+    [
+     4.815703395312469,
+     4.125061620913556
+    ],
+    [
+     4.942306060539002,
+     4.545737710525715
+    ],
+    [
+     5.833322538343217,
+     5.805248767859803
+    ],
+    [
+     6.480876220424913,
+     5.811911568655952
+    ],
+    [
+     6.429663225624758,
+     5.7169286121579
+    ],
+    [
+     6.659194556789055,
+     5.862797669818726
+    ],
+    [
+     6.654788328726678,
+     5.9300748629504385
+    ],
+    [
+     7.557603244196583,
+     6.588464113558795
+    ],
+    [
+     6.920402052545421,
+     6.081525875828762
+    ],
+    [
+     7.389400961578814,
+     6.472558927027233
+    ],
+    [
+     7.68020340840562,
+     6.562369296481248
+    ],
+    [
+     7.037823170015816,
+     6.361931561477588
+    ],
+    [
+     6.995982547914422,
+     7.002988456427297
+    ],
+    [
+     7.699958270317996,
+     7.144704725267257
+    ],
+    [
+     8.841583553626156,
+     6.957260425749502
+    ],
+    [
+     9.297170352719524,
+     7.429500329178962
+    ]
+   ],
+   "p_joint": 0.767,
+   "p_headline": 0.511,
+   "q_joint": 0.9152941176470588,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA2Y",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 72,
+    "baseline": 147
+   },
+   "base_effect": [
+    6.765222797005496,
+    7.864523697489011,
+    5.508496608570247,
+    5.1844256045876005,
+    4.746108327003148,
+    2.8736788060538396,
+    0.2188187861958671,
+    -0.4732413268511758,
+    1.4536280028305553,
+    0.8086135389793279,
+    -2.1518683567738965,
+    -3.8780054889825606,
+    -5.149739955941998,
+    -5.404549989871358,
+    -3.5604560109237386,
+    -3.595464766248551,
+    -2.0582123638937952,
+    -2.8526635043909043,
+    -1.237309770204342,
+    -1.3226014277388962,
+    -3.788455506409158
+   ],
+   "interaction": [
+    [
+     -1.578460556817253
+    ],
+    [
+     -1.929409851736726
+    ],
+    [
+     1.4164250132946032
+    ],
+    [
+     3.7918338738774966
+    ],
+    [
+     5.16211950393323
+    ],
+    [
+     5.855536572408535
+    ],
+    [
+     9.606707770639495
+    ],
+    [
+     10.10300745710047
+    ],
+    [
+     8.166256687699727
+    ],
+    [
+     9.661850488915348
+    ],
+    [
+     13.72786056239476
+    ],
+    [
+     15.379635574013783
+    ],
+    [
+     16.800928756605927
+    ],
+    [
+     16.388454384783643
+    ],
+    [
+     13.953637495495647
+    ],
+    [
+     13.998049202962827
+    ],
+    [
+     13.236652466257496
+    ],
+    [
+     11.579711558932644
+    ],
+    [
+     11.694171816251801
+    ],
+    [
+     12.485200898385905
+    ],
+    [
+     13.849765221465905
+    ]
+   ],
+   "interaction_se": [
+    [
+     1.4912559240873096
+    ],
+    [
+     2.4099853108660043
+    ],
+    [
+     3.1360650343312164
+    ],
+    [
+     3.307079699828338
+    ],
+    [
+     3.996097800936343
+    ],
+    [
+     4.328555331784141
+    ],
+    [
+     5.120374230817897
+    ],
+    [
+     6.062130988011177
+    ],
+    [
+     5.9730492569664415
+    ],
+    [
+     5.986616894413759
+    ],
+    [
+     5.957790807341069
+    ],
+    [
+     5.816192471863655
+    ],
+    [
+     6.148994483158623
+    ],
+    [
+     5.891773846237819
+    ],
+    [
+     6.178401403931313
+    ],
+    [
+     6.147611051833314
+    ],
+    [
+     6.0807331457868905
+    ],
+    [
+     6.645210414157339
+    ],
+    [
+     7.094305509778372
+    ],
+    [
+     7.220301380713372
+    ],
+    [
+     7.91946812380644
+    ]
+   ],
+   "p_joint": 0.033,
+   "p_headline": 0.199,
+   "q_joint": 0.35000000000000003,
+   "q_headline": 0.5896296296296297
+  },
+  {
+   "family": "fomc",
+   "outcome": "TSX.tr",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 161,
+    "baseline": 158
+   },
+   "base_effect": [
+    -0.5774655282768952,
+    -0.7369757912038021,
+    -0.6604071615475424,
+    -0.7478804548121766,
+    -0.7648164583918035,
+    -0.9509934393451257,
+    -1.1911661887266165,
+    -1.1191657581656147,
+    -1.1114929122419888,
+    -1.1948700187870165,
+    -1.2301425379613642,
+    -1.2450719259235103,
+    -1.06953272262399,
+    -0.9308564046349368,
+    -1.0037417009496596,
+    -0.9662189606993885,
+    -0.826479487377859,
+    -0.7940879028123207,
+    -0.8297812558481283,
+    -0.8874154446588788,
+    -0.720670969300106
+   ],
+   "interaction": [
+    [
+     -0.15732752619118906
+    ],
+    [
+     -0.3735729287841644
+    ],
+    [
+     -0.25253564427363673
+    ],
+    [
+     -0.403123899099807
+    ],
+    [
+     -0.010324617585725783
+    ],
+    [
+     0.2071928964688716
+    ],
+    [
+     0.3322282318729425
+    ],
+    [
+     0.3539555170355639
+    ],
+    [
+     0.1518741965676757
+    ],
+    [
+     0.3777420590881639
+    ],
+    [
+     0.2139801224629646
+    ],
+    [
+     0.34595993503107153
+    ],
+    [
+     -0.17330738607228527
+    ],
+    [
+     -0.28791894506931753
+    ],
+    [
+     -0.245291296497237
+    ],
+    [
+     -0.7117343782864465
+    ],
+    [
+     -0.8263026988440213
+    ],
+    [
+     -0.9284201831925345
+    ],
+    [
+     -0.8594805877869531
+    ],
+    [
+     -0.7596900065901729
+    ],
+    [
+     -1.0910184554336682
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.23866859452273673
+    ],
+    [
+     0.3286280414395961
+    ],
+    [
+     0.44950637924270215
+    ],
+    [
+     0.5398618412953384
+    ],
+    [
+     0.6146718156576992
+    ],
+    [
+     0.5613538937539958
+    ],
+    [
+     0.6195956922570527
+    ],
+    [
+     0.7612647444207995
+    ],
+    [
+     0.6905670193905284
+    ],
+    [
+     0.824944385744437
+    ],
+    [
+     0.8185637622825211
+    ],
+    [
+     0.935289523265006
+    ],
+    [
+     0.9491883496894953
+    ],
+    [
+     0.9703914998427807
+    ],
+    [
+     1.0956956313480857
+    ],
+    [
+     1.0038752391885828
+    ],
+    [
+     0.954946106444115
+    ],
+    [
+     0.9913390076217994
+    ],
+    [
+     1.091289661421464
+    ],
+    [
+     0.9974437926714274
+    ],
+    [
+     1.050387200228355
+    ]
+   ],
+   "p_joint": 0.892,
+   "p_headline": 0.692,
+   "q_joint": 0.96,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "fomc",
+   "outcome": "TSX.tr",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 85,
+    "cutting": 120,
+    "baseline": 128
+   },
+   "base_effect": [
+    -0.6993853884232247,
+    -1.072199182877518,
+    -0.8691199049888677,
+    -0.7342289381233706,
+    -0.7728573063147953,
+    -0.8878716377577384,
+    -1.1079328034695113,
+    -0.9532909473680833,
+    -1.13409775297752,
+    -1.1973238338567178,
+    -1.2153081130478043,
+    -1.2121731293481457,
+    -1.6279496855618965,
+    -1.4141998221755947,
+    -1.3411774656503477,
+    -1.5242319460384008,
+    -0.9811074125753546,
+    -1.1739713014395343,
+    -1.490421412748607,
+    -1.6420304519932516,
+    -1.6103457048505971
+   ],
+   "interaction": [
+    [
+     0.031118432960012297,
+     -0.024823376683101896
+    ],
+    [
+     -0.23396801062879374,
+     0.1589393104138499
+    ],
+    [
+     -0.6309398704472595,
+     0.22642324603855285
+    ],
+    [
+     -1.426488286265123,
+     -0.036905579598508494
+    ],
+    [
+     -1.3861947393105623,
+     0.5291091310627429
+    ],
+    [
+     -0.6784943148038205,
+     0.5146866024711245
+    ],
+    [
+     -0.7871247380983553,
+     0.7038760998542983
+    ],
+    [
+     -0.8980720665391408,
+     0.633113743999627
+    ],
+    [
+     -0.6816369831468007,
+     0.6607179874286595
+    ],
+    [
+     -0.3511790231594706,
+     0.7939578759913769
+    ],
+    [
+     -0.5574531536321704,
+     0.5691817410416846
+    ],
+    [
+     -0.4386426680912154,
+     0.7053941579867955
+    ],
+    [
+     0.14180984653889886,
+     0.837549191297515
+    ],
+    [
+     -0.35348056994997795,
+     0.6877011458079432
+    ],
+    [
+     -0.32581484599199106,
+     0.39418455905975974
+    ],
+    [
+     -0.3551384909704952,
+     0.19966287462963267
+    ],
+    [
+     -1.1317110570232252,
+     -0.5661864227788233
+    ],
+    [
+     -0.8434923405994482,
+     -0.40367237250754734
+    ],
+    [
+     -0.31791169416521886,
+     0.12680888513650931
+    ],
+    [
+     -0.050330765218581874,
+     0.37808713226744833
+    ],
+    [
+     -0.06810844162296745,
+     0.15027583361902352
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.3478235944112296,
+     0.3241393058807433
+    ],
+    [
+     0.46763190122170967,
+     0.4297983086183896
+    ],
+    [
+     0.6526687378378266,
+     0.5544304512822756
+    ],
+    [
+     0.7137641583056196,
+     0.6009832542317151
+    ],
+    [
+     0.7759734088443966,
+     0.75824855847183
+    ],
+    [
+     0.750112780811515,
+     0.7616928819895673
+    ],
+    [
+     0.6917640467921417,
+     0.6920812713897568
+    ],
+    [
+     0.7772777504903248,
+     0.8140845032242691
+    ],
+    [
+     0.7533093736564699,
+     0.7234470025066332
+    ],
+    [
+     0.7828173265636699,
+     0.8725167577409266
+    ],
+    [
+     0.7237830815582422,
+     0.8508369604076701
+    ],
+    [
+     0.7227945194875784,
+     0.9550094070559273
+    ],
+    [
+     0.8058538573875332,
+     0.9854213594610981
+    ],
+    [
+     0.8907952468551699,
+     0.9916621541706837
+    ],
+    [
+     0.8788682083869833,
+     1.0799870689816689
+    ],
+    [
+     0.8349613209390584,
+     1.0075326153401272
+    ],
+    [
+     0.932387134769944,
+     0.9998688721836569
+    ],
+    [
+     0.9180050383968371,
+     0.9955514219129299
+    ],
+    [
+     0.9644069840887227,
+     1.0420334256894428
+    ],
+    [
+     1.0129734377302222,
+     0.9842976824549884
+    ],
+    [
+     1.070153338360605,
+     1.0114978301565223
+    ]
+   ],
+   "p_joint": 0.778,
+   "p_headline": 0.218,
+   "q_joint": 0.9152941176470588,
+   "q_headline": 0.6228571428571429
+  },
+  {
+   "family": "fomc",
+   "outcome": "TSX.tr",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 126,
+    "baseline": 206
+   },
+   "base_effect": [
+    -0.7500256310348502,
+    -0.8587029504073278,
+    -0.7405235367973242,
+    -1.1007910653069142,
+    -1.0292059715920918,
+    -1.0384361079304218,
+    -0.9123741652002612,
+    -0.558035043425209,
+    -0.6955413675766852,
+    -0.6284936938249718,
+    -0.8208591377829683,
+    -0.7678077299696808,
+    -0.8630921509244103,
+    -0.7741083775473792,
+    -0.6869436093515146,
+    -1.1339428846129542,
+    -1.2548279674205067,
+    -1.3426695229349987,
+    -1.2119396949717605,
+    -1.1735890369541857,
+    -1.1318642337394043
+   ],
+   "interaction": [
+    [
+     0.09697744802933275
+    ],
+    [
+     -0.28457981372346275
+    ],
+    [
+     -0.17887779568995696
+    ],
+    [
+     0.1297401143485559
+    ],
+    [
+     0.5105687725509901
+    ],
+    [
+     0.4946980357055701
+    ],
+    [
+     0.0009359850787327368
+    ],
+    [
+     -0.4877658148330396
+    ],
+    [
+     -0.48304763980607857
+    ],
+    [
+     -0.4499179385218027
+    ],
+    [
+     -0.38689100961605305
+    ],
+    [
+     -0.3113931158751472
+    ],
+    [
+     -0.5175365041964852
+    ],
+    [
+     -0.5874529961612113
+    ],
+    [
+     -0.8482801271958743
+    ],
+    [
+     -0.5957585379524538
+    ],
+    [
+     -0.28375413445067527
+    ],
+    [
+     -0.2274166787731255
+    ],
+    [
+     -0.41246729905171176
+    ],
+    [
+     -0.4705485528933681
+    ],
+    [
+     -0.6945062326245643
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.24629670107659393
+    ],
+    [
+     0.3001674268277269
+    ],
+    [
+     0.3836758695569692
+    ],
+    [
+     0.4864283176166247
+    ],
+    [
+     0.5871869547450045
+    ],
+    [
+     0.5172129269063277
+    ],
+    [
+     0.5872261777617891
+    ],
+    [
+     0.8290086688774627
+    ],
+    [
+     0.6989929025734839
+    ],
+    [
+     0.8739424324653381
+    ],
+    [
+     0.8493409057020097
+    ],
+    [
+     1.0314663780402131
+    ],
+    [
+     1.0292965831742202
+    ],
+    [
+     1.0706416812939226
+    ],
+    [
+     1.2190786526818667
+    ],
+    [
+     1.0715278193955438
+    ],
+    [
+     1.0104401397685145
+    ],
+    [
+     0.9924662556418806
+    ],
+    [
+     1.0912342423262593
+    ],
+    [
+     0.9987316080817609
+    ],
+    [
+     1.013878291202627
+    ]
+   ],
+   "p_joint": 0.146,
+   "p_headline": 0.341,
+   "q_joint": 0.5113043478260869,
+   "q_headline": 0.6994871794871795
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 143,
+    "baseline": 127
+   },
+   "base_effect": [
+    -0.5110935121537297,
+    -0.6163559996700122,
+    -0.4941645852480015,
+    -0.3060552821967602,
+    -0.6222436851586809,
+    -0.6335621935606573,
+    -0.8049779595376724,
+    -0.5493339463221419,
+    -0.5783492341216555,
+    -0.5134461603588208,
+    -0.3661967816032215,
+    -0.25000949916543014,
+    0.103599250707639,
+    0.37624792862520456,
+    0.24128972995531253,
+    0.11396556496640985,
+    0.4545121946164208,
+    0.7814817043875156,
+    0.905870910365234,
+    0.7699045193366423,
+    0.6135200720689888
+   ],
+   "interaction": [
+    [
+     0.08564907678142582
+    ],
+    [
+     -0.015514963880423966
+    ],
+    [
+     0.12517753059111214
+    ],
+    [
+     -0.32797605300558114
+    ],
+    [
+     0.36630299380669123
+    ],
+    [
+     0.42682986864584993
+    ],
+    [
+     0.40770922939418036
+    ],
+    [
+     0.17848907687014526
+    ],
+    [
+     0.034326735087536885
+    ],
+    [
+     0.0852171851303133
+    ],
+    [
+     -0.08546255396361006
+    ],
+    [
+     -0.10214149377255224
+    ],
+    [
+     -0.9008480602269057
+    ],
+    [
+     -1.1905348235236026
+    ],
+    [
+     -0.9410959268778498
+    ],
+    [
+     -1.3213135886474956
+    ],
+    [
+     -1.8173126445072865
+    ],
+    [
+     -2.1638636912222315
+    ],
+    [
+     -2.1113783784799853
+    ],
+    [
+     -1.895531247901587
+    ],
+    [
+     -1.7602937079545524
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.32950717415683733
+    ],
+    [
+     0.561009058496107
+    ],
+    [
+     0.7720866568668074
+    ],
+    [
+     0.8333452739896112
+    ],
+    [
+     0.8524089659368975
+    ],
+    [
+     0.7730615126694922
+    ],
+    [
+     0.8543217162446498
+    ],
+    [
+     1.0777138988364912
+    ],
+    [
+     0.9098533778595534
+    ],
+    [
+     1.1187863061938406
+    ],
+    [
+     1.1247722844768744
+    ],
+    [
+     1.2269751615463516
+    ],
+    [
+     1.2716092817658207
+    ],
+    [
+     1.254683312674962
+    ],
+    [
+     1.3693041019734777
+    ],
+    [
+     1.1683086132746718
+    ],
+    [
+     1.0387720143020867
+    ],
+    [
+     1.0572504357072243
+    ],
+    [
+     1.1241627884880474
+    ],
+    [
+     1.076301242500321
+    ],
+    [
+     1.097418307173296
+    ]
+   ],
+   "p_joint": 0.095,
+   "p_headline": 0.581,
+   "q_joint": 0.49684210526315786,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 77,
+    "cutting": 75,
+    "baseline": 118
+   },
+   "base_effect": [
+    -0.4386052075783325,
+    -1.0146141297923166,
+    -0.8313578495024876,
+    -0.6564930632640162,
+    -0.5462934829556431,
+    -0.5264806384652907,
+    -0.719173620196878,
+    -0.3272777103339805,
+    -0.5852203289724798,
+    -0.813018441757111,
+    -0.5635774473694307,
+    -0.3590830947209681,
+    -0.7075624554645338,
+    -0.4177736262771551,
+    -0.1364961430120015,
+    -0.41045789081829553,
+    -0.07360325369690007,
+    0.15582971048042513,
+    -0.12470692710595001,
+    -0.18779997824227798,
+    -0.2614695597178782
+   ],
+   "interaction": [
+    [
+     -0.05336990944158272,
+     0.022040511468705132
+    ],
+    [
+     0.2511741967477528,
+     0.7689308084626049
+    ],
+    [
+     0.0066832439941965594,
+     1.0291906907635207
+    ],
+    [
+     -0.6704927199201405,
+     0.6582989464155048
+    ],
+    [
+     -1.149561726030725,
+     1.0674964243404523
+    ],
+    [
+     -0.6583941244246657,
+     0.928732475217335
+    ],
+    [
+     -1.0590629361003068,
+     1.0836599035358756
+    ],
+    [
+     -1.379789602247641,
+     0.5712334583619835
+    ],
+    [
+     -1.2555050009389546,
+     0.8423896918776607
+    ],
+    [
+     -0.5827222432299914,
+     1.2013795025142449
+    ],
+    [
+     -0.6558636507238288,
+     0.6618989370447351
+    ],
+    [
+     -0.9549655287770975,
+     0.5562285175420312
+    ],
+    [
+     -0.4555846198056977,
+     0.45161632741829966
+    ],
+    [
+     -1.1764606418961097,
+     0.1856498971674948
+    ],
+    [
+     -1.1817969056869224,
+     -0.36885296460126166
+    ],
+    [
+     -0.7327181823431733,
+     -0.8570875993015132
+    ],
+    [
+     -0.8254807719692294,
+     -1.7450759387567678
+    ],
+    [
+     -0.6830268822603679,
+     -2.2474934904805575
+    ],
+    [
+     0.0006289780086299331,
+     -1.4527578756993336
+    ],
+    [
+     -0.17041088095211393,
+     -1.0961475130649216
+    ],
+    [
+     -0.2931616488847574,
+     -1.0060754421381277
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.3749862635126803,
+     0.39945238669717525
+    ],
+    [
+     0.5929014235550115,
+     0.5515033163136273
+    ],
+    [
+     0.7504700722023488,
+     0.6495661221908031
+    ],
+    [
+     0.8393791925253091,
+     0.7423952957538839
+    ],
+    [
+     0.8423911077680006,
+     0.8742240470678797
+    ],
+    [
+     0.794879244507414,
+     0.8551500774287678
+    ],
+    [
+     0.7792204292681577,
+     0.9148701401886664
+    ],
+    [
+     0.8689559711036914,
+     1.2109458353830218
+    ],
+    [
+     0.9057520562447009,
+     1.0269873310681554
+    ],
+    [
+     0.9868363424794959,
+     1.1655792680682098
+    ],
+    [
+     1.0058673111967746,
+     1.1808182682506332
+    ],
+    [
+     1.0733705360226087,
+     1.3622443382719136
+    ],
+    [
+     1.2238605680375527,
+     1.4405603416176005
+    ],
+    [
+     1.312839840509422,
+     1.4043279050055077
+    ],
+    [
+     1.3139169508871111,
+     1.5470286965391533
+    ],
+    [
+     1.2248727489574605,
+     1.3079577078605529
+    ],
+    [
+     1.3422443777562107,
+     1.2316778604234697
+    ],
+    [
+     1.347222170376206,
+     1.2911805897799848
+    ],
+    [
+     1.3155451743840714,
+     1.2987713375142873
+    ],
+    [
+     1.3363641138155566,
+     1.2051495476423346
+    ],
+    [
+     1.402312489029748,
+     1.2062209767807184
+    ]
+   ],
+   "p_joint": 0.015,
+   "p_headline": 0.245,
+   "q_joint": 0.32,
+   "q_headline": 0.6533333333333334
+  },
+  {
+   "family": "fomc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 84,
+    "baseline": 185
+   },
+   "base_effect": [
+    -0.4685340757907266,
+    -0.387719338792383,
+    -0.3515138670370006,
+    -0.7184629861201023,
+    -0.5506216746592413,
+    -0.501360696710447,
+    -0.38856925119314906,
+    0.06975454547529872,
+    -0.21919317282636744,
+    0.044794686521206606,
+    -0.15050121945300368,
+    -0.15080466550810862,
+    -0.3084776486891145,
+    -0.0677767167374838,
+    0.309956117958404,
+    -0.21239669293021218,
+    -0.33005385138564225,
+    -0.3159481179709731,
+    0.020715006744764793,
+    -0.0956242002431727,
+    -0.0647461361648959
+   ],
+   "interaction": [
+    [
+     0.012888384932602139
+    ],
+    [
+     -0.4032829646080588
+    ],
+    [
+     -0.037115945463059984
+    ],
+    [
+     0.30585538454142097
+    ],
+    [
+     0.37392153217106705
+    ],
+    [
+     0.33801185656810606
+    ],
+    [
+     -0.19313376618535466
+    ],
+    [
+     -0.867672734635729
+    ],
+    [
+     -0.5765078036888649
+    ],
+    [
+     -0.8666804905233066
+    ],
+    [
+     -0.5184752558126674
+    ],
+    [
+     -0.3417699922893872
+    ],
+    [
+     -0.4991410628369641
+    ],
+    [
+     -0.8494855286026531
+    ],
+    [
+     -1.3976452727274942
+    ],
+    [
+     -1.2090899467589087
+    ],
+    [
+     -1.1111078843361417
+    ],
+    [
+     -1.0477215400471092
+    ],
+    [
+     -1.3338461297544326
+    ],
+    [
+     -1.087843298211278
+    ],
+    [
+     -1.2358767313642998
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.36149775685036767
+    ],
+    [
+     0.5187126068236764
+    ],
+    [
+     0.5903809368414
+    ],
+    [
+     0.6871688231489604
+    ],
+    [
+     0.935261348852321
+    ],
+    [
+     0.8282211199692849
+    ],
+    [
+     0.9740390907547003
+    ],
+    [
+     1.4364857776333622
+    ],
+    [
+     1.0822844799042393
+    ],
+    [
+     1.393230547620312
+    ],
+    [
+     1.363918542167204
+    ],
+    [
+     1.6042297944964115
+    ],
+    [
+     1.6410773011209316
+    ],
+    [
+     1.6347420092600227
+    ],
+    [
+     1.9011861250111022
+    ],
+    [
+     1.5151410737761997
+    ],
+    [
+     1.2840728889554949
+    ],
+    [
+     1.2390698586441715
+    ],
+    [
+     1.3159208769848885
+    ],
+    [
+     1.2099094290332089
+    ],
+    [
+     1.1290135760457625
+    ]
+   ],
+   "p_joint": 0.751,
+   "p_headline": 0.703,
+   "q_joint": 0.9103030303030303,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "USDCAD",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 84,
+    "baseline": 111
+   },
+   "base_effect": [
+    -0.4825788629873071,
+    -0.46991331949533854,
+    -0.4215040338105394,
+    -0.4938393071396919,
+    -0.5144875701087835,
+    -0.46754764271367116,
+    -0.4879196539388316,
+    -0.6124231304754792,
+    -0.4503282368895474,
+    -0.46997472872153473,
+    -0.45216204005280203,
+    -0.34285974093397514,
+    -0.41417069889169517,
+    -0.34210838501121055,
+    -0.2899876610877908,
+    -0.2825273144971665,
+    -0.22835913829182872,
+    -0.19545054109980262,
+    -0.01218544739487559,
+    -0.04130212144445485,
+    -0.08612401062150656
+   ],
+   "interaction": [
+    [
+     0.19544240970480364
+    ],
+    [
+     0.11820181445143364
+    ],
+    [
+     0.06717480637326634
+    ],
+    [
+     0.04974674310495346
+    ],
+    [
+     -0.01720805231296339
+    ],
+    [
+     -0.08987287031132966
+    ],
+    [
+     -0.1349747699924476
+    ],
+    [
+     0.018537525296062094
+    ],
+    [
+     -0.05246603149256516
+    ],
+    [
+     0.1044832060215519
+    ],
+    [
+     0.025830297187350294
+    ],
+    [
+     0.026240295678393113
+    ],
+    [
+     0.08658154017349316
+    ],
+    [
+     0.07234920873960905
+    ],
+    [
+     0.028668359645393098
+    ],
+    [
+     0.02747494777709888
+    ],
+    [
+     -0.02323836845666587
+    ],
+    [
+     -0.040704828696663094
+    ],
+    [
+     -0.2775715405391493
+    ],
+    [
+     -0.2831981739994869
+    ],
+    [
+     -0.42637145755307865
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.16588587625488277
+    ],
+    [
+     0.17144119996411075
+    ],
+    [
+     0.19781125375331973
+    ],
+    [
+     0.22476113009172485
+    ],
+    [
+     0.2384463016643547
+    ],
+    [
+     0.2481661592649401
+    ],
+    [
+     0.29497000396672185
+    ],
+    [
+     0.32916926100991256
+    ],
+    [
+     0.32038342541039366
+    ],
+    [
+     0.3296973720409907
+    ],
+    [
+     0.3554207837184528
+    ],
+    [
+     0.3719500092078732
+    ],
+    [
+     0.40923153972107
+    ],
+    [
+     0.4076246665592847
+    ],
+    [
+     0.38445338097007004
+    ],
+    [
+     0.39628746520586866
+    ],
+    [
+     0.36416774830725895
+    ],
+    [
+     0.3614853121541635
+    ],
+    [
+     0.3790214602197858
+    ],
+    [
+     0.40004277163124824
+    ],
+    [
+     0.4179136227841524
+    ]
+   ],
+   "p_joint": 0.307,
+   "p_headline": 0.711,
+   "q_joint": 0.6994871794871795,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "USDCAD",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 58,
+    "cutting": 47,
+    "baseline": 86
+   },
+   "base_effect": [
+    -0.5750625264742297,
+    -0.6379040781256985,
+    -0.5407319486010701,
+    -0.6264961651647679,
+    -0.601523107066197,
+    -0.6333133308214324,
+    -0.7189213767184219,
+    -0.809513505271839,
+    -0.7473009225475157,
+    -0.6056089448782492,
+    -0.677414092193983,
+    -0.4983858249137847,
+    -0.5532212315034849,
+    -0.48278447886909126,
+    -0.5706180988874952,
+    -0.6089324894907873,
+    -0.5242693145364391,
+    -0.5592385655117436,
+    -0.4555637586897823,
+    -0.47352222014076367,
+    -0.5835569054354843
+   ],
+   "interaction": [
+    [
+     0.2663626845240928,
+     0.4298143542914241
+    ],
+    [
+     0.3419042368421057,
+     0.447542616220133
+    ],
+    [
+     0.14037539164610505,
+     0.4388260867979537
+    ],
+    [
+     0.10918005947218712,
+     0.4576091375257333
+    ],
+    [
+     0.03802516549076549,
+     0.24050035077494306
+    ],
+    [
+     0.05021076147382406,
+     0.32170587694576536
+    ],
+    [
+     0.09998141702580102,
+     0.41544879635138526
+    ],
+    [
+     0.2944649450003471,
+     0.4106376626128097
+    ],
+    [
+     0.42923812260082317,
+     0.4895869399599849
+    ],
+    [
+     0.4022413009761397,
+     0.294557611281506
+    ],
+    [
+     0.4271457735084728,
+     0.393450277919811
+    ],
+    [
+     0.3336914212171049,
+     0.2906198241233431
+    ],
+    [
+     0.41936392203690576,
+     0.20893470026157004
+    ],
+    [
+     0.4566426053443774,
+     0.11703227280675485
+    ],
+    [
+     0.6165933200091792,
+     0.30802175356374517
+    ],
+    [
+     0.7077146910312923,
+     0.37897246240969795
+    ],
+    [
+     0.6702281601913783,
+     0.23414030234841357
+    ],
+    [
+     0.7066729957419586,
+     0.4205872865835382
+    ],
+    [
+     0.6636553373656011,
+     0.284916646133463
+    ],
+    [
+     0.6124798960540944,
+     0.3051762696541472
+    ],
+    [
+     0.6114405784671982,
+     0.22222006327670094
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.18963621129071048,
+     0.16955073103173413
+    ],
+    [
+     0.20421873674147903,
+     0.1791759859852933
+    ],
+    [
+     0.22638494970261522,
+     0.22353533762487524
+    ],
+    [
+     0.23865323497144128,
+     0.26269444218719024
+    ],
+    [
+     0.26805493231096766,
+     0.3083534029896149
+    ],
+    [
+     0.2769629929894157,
+     0.30930324123271624
+    ],
+    [
+     0.3145814468473433,
+     0.36873573866424797
+    ],
+    [
+     0.37229161983995,
+     0.40278726252429936
+    ],
+    [
+     0.34635490656959605,
+     0.36703924735018095
+    ],
+    [
+     0.3663768204242654,
+     0.36860660747232515
+    ],
+    [
+     0.40166813886390046,
+     0.414581170484895
+    ],
+    [
+     0.42656984345396737,
+     0.4137159623834834
+    ],
+    [
+     0.48858401978431976,
+     0.41997552730970705
+    ],
+    [
+     0.4590150953527419,
+     0.42633307235236717
+    ],
+    [
+     0.44736704184380316,
+     0.4185397831040076
+    ],
+    [
+     0.4688754432939132,
+     0.43340702896950856
+    ],
+    [
+     0.42037115892661275,
+     0.3988850131094613
+    ],
+    [
+     0.4188113923930126,
+     0.3983180656262378
+    ],
+    [
+     0.44300543440476814,
+     0.43178800894548747
+    ],
+    [
+     0.4438996113470832,
+     0.45582918580109777
+    ],
+    [
+     0.48104908221586734,
+     0.46980896106957004
+    ]
+   ],
+   "p_joint": 0.885,
+   "p_headline": 0.589,
+   "q_joint": 0.96,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "USDCAD",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 35,
+    "baseline": 160
+   },
+   "base_effect": [
+    -0.4758424246202655,
+    -0.5175519877279772,
+    -0.482992012803081,
+    -0.5648310015982506,
+    -0.6422503528540296,
+    -0.5906791320948986,
+    -0.6755548794373214,
+    -0.750049105453234,
+    -0.6228453031918089,
+    -0.5803396154480102,
+    -0.604121467037123,
+    -0.5051980994205152,
+    -0.5730651357502747,
+    -0.5102411248036198,
+    -0.4639042560589093,
+    -0.4622260106803358,
+    -0.39913809967884745,
+    -0.3492771092687065,
+    -0.29341089776111456,
+    -0.3347778046924972,
+    -0.500563927811477
+   ],
+   "interaction": [
+    [
+     0.34897761924694654
+    ],
+    [
+     0.3760958395139266
+    ],
+    [
+     0.3277721075950216
+    ],
+    [
+     0.3198607844132957
+    ],
+    [
+     0.3759349805628986
+    ],
+    [
+     0.22194521284648816
+    ],
+    [
+     0.3548725703136468
+    ],
+    [
+     0.4727255153603387
+    ],
+    [
+     0.4493969793698407
+    ],
+    [
+     0.5393055806434128
+    ],
+    [
+     0.5419923290707502
+    ],
+    [
+     0.5792152385310125
+    ],
+    [
+     0.6830250617478879
+    ],
+    [
+     0.6912657964668438
+    ],
+    [
+     0.610135832615773
+    ],
+    [
+     0.6229990288731376
+    ],
+    [
+     0.4979496830329726
+    ],
+    [
+     0.40420894920470024
+    ],
+    [
+     0.3729681918782658
+    ],
+    [
+     0.3949574157157187
+    ],
+    [
+     0.5217465965906177
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.1451053478917611
+    ],
+    [
+     0.1540663576625478
+    ],
+    [
+     0.16174865882351472
+    ],
+    [
+     0.19065280314989805
+    ],
+    [
+     0.21071241272688163
+    ],
+    [
+     0.2149173474443478
+    ],
+    [
+     0.2386226620764478
+    ],
+    [
+     0.27791861064887813
+    ],
+    [
+     0.2793130583753347
+    ],
+    [
+     0.3107894608174329
+    ],
+    [
+     0.3072882072338592
+    ],
+    [
+     0.3273133443887259
+    ],
+    [
+     0.38052942142318286
+    ],
+    [
+     0.3608858948540442
+    ],
+    [
+     0.34422940622130205
+    ],
+    [
+     0.36617791167882086
+    ],
+    [
+     0.34678062721170694
+    ],
+    [
+     0.3519563591058926
+    ],
+    [
+     0.3854031340360631
+    ],
+    [
+     0.39444635411466455
+    ],
+    [
+     0.4250761459643021
+    ]
+   ],
+   "p_joint": 0.641,
+   "p_headline": 0.332,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.6994871794871795
+  },
+  {
+   "family": "boc",
+   "outcome": "CA10Y",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 84,
+    "baseline": 111
+   },
+   "base_effect": [
+    4.354823787201693,
+    5.707393612351851,
+    5.646918365698065,
+    5.07871633730944,
+    5.098889655092972,
+    6.333935463231901,
+    5.997435791653049,
+    6.390291747720794,
+    6.715039386254683,
+    5.613980350971746,
+    5.028372139714534,
+    4.761821202274778,
+    3.9830308936888996,
+    3.8784053116064174,
+    3.1054285012168577,
+    2.5281327309454102,
+    3.488579069889853,
+    2.522832681582298,
+    3.194281998382878,
+    3.4268045911069978,
+    2.8520239082059464
+   ],
+   "interaction": [
+    [
+     0.48690432814146095
+    ],
+    [
+     -0.3974313567425237
+    ],
+    [
+     -0.252748958826972
+    ],
+    [
+     1.371023543168295
+    ],
+    [
+     2.241757264797228
+    ],
+    [
+     1.4982152297762035
+    ],
+    [
+     1.940803187471347
+    ],
+    [
+     1.9993753345842717
+    ],
+    [
+     1.6667235542447763
+    ],
+    [
+     3.0135731172374287
+    ],
+    [
+     3.6456467915917656
+    ],
+    [
+     4.542179988379751
+    ],
+    [
+     5.108882115930058
+    ],
+    [
+     5.584457178539349
+    ],
+    [
+     6.338992392543002
+    ],
+    [
+     4.6482132099250215
+    ],
+    [
+     3.448701266286535
+    ],
+    [
+     4.702785405040681
+    ],
+    [
+     4.238183645932199
+    ],
+    [
+     3.1934600621449514
+    ],
+    [
+     4.051236343107977
+    ]
+   ],
+   "interaction_se": [
+    [
+     1.0868521598520875
+    ],
+    [
+     1.2158394411267774
+    ],
+    [
+     1.5015609394240927
+    ],
+    [
+     1.7479699109001408
+    ],
+    [
+     1.8621031817676976
+    ],
+    [
+     2.230025979662273
+    ],
+    [
+     2.487117961661755
+    ],
+    [
+     2.8460005211245565
+    ],
+    [
+     3.284822931259667
+    ],
+    [
+     3.282141850259169
+    ],
+    [
+     3.1975582399013587
+    ],
+    [
+     3.3121978680245876
+    ],
+    [
+     3.3847625828113457
+    ],
+    [
+     3.513019023530927
+    ],
+    [
+     3.547773895981456
+    ],
+    [
+     3.376671490317263
+    ],
+    [
+     3.1567037640783924
+    ],
+    [
+     3.5124580294129215
+    ],
+    [
+     3.9788285467578537
+    ],
+    [
+     3.8794599148017914
+    ],
+    [
+     4.2147256161865485
+    ]
+   ],
+   "p_joint": 0.945,
+   "p_headline": 0.518,
+   "q_joint": 0.96,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "CA10Y",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 58,
+    "cutting": 47,
+    "baseline": 86
+   },
+   "base_effect": [
+    3.972891590962665,
+    3.8728930447473733,
+    2.4627788214976514,
+    4.1901850427128515,
+    5.026844660972577,
+    6.185371997923345,
+    6.91864818335036,
+    7.979918236702818,
+    8.730659393249843,
+    7.809909467009304,
+    7.937056924365184,
+    7.624569761385861,
+    7.161708845915753,
+    7.993957546432771,
+    8.02131153279764,
+    6.570943603834574,
+    7.138844196340137,
+    7.144449370229642,
+    6.336956437977111,
+    5.000574108388228,
+    5.100402443058965
+   ],
+   "interaction": [
+    [
+     1.3876104619320397,
+     0.9234189960271063
+    ],
+    [
+     2.6853835988463293,
+     2.5795132320085905
+    ],
+    [
+     3.886563438019249,
+     6.4104490829169665
+    ],
+    [
+     2.211967357326134,
+     3.757398962876271
+    ],
+    [
+     1.757594573120139,
+     3.329407348270674
+    ],
+    [
+     1.2154697630239164,
+     3.02153925837034
+    ],
+    [
+     -1.6877583706081045,
+     2.949284356077105
+    ],
+    [
+     -3.649829595777548,
+     2.5780181457965954
+    ],
+    [
+     -4.009824367112147,
+     0.6575758151236578
+    ],
+    [
+     -3.1761373399695416,
+     2.060378851487913
+    ],
+    [
+     -3.478173884820511,
+     0.991455467963892
+    ],
+    [
+     -2.649260532751062,
+     2.1123243290357068
+    ],
+    [
+     -3.182240728880578,
+     2.8312229655658667
+    ],
+    [
+     -3.803862505364732,
+     1.5600032879152685
+    ],
+    [
+     -4.28533253487396,
+     0.8413088931826452
+    ],
+    [
+     -4.697675892170591,
+     1.163494699169546
+    ],
+    [
+     -5.077451838020523,
+     0.5933052275911773
+    ],
+    [
+     -5.380070214116095,
+     -0.3830170133576936
+    ],
+    [
+     -3.5607056232890497,
+     1.917584860426274
+    ],
+    [
+     -2.082076952962095,
+     3.922144008638168
+    ],
+    [
+     -1.8480288365416422,
+     2.7734342882295864
+    ]
+   ],
+   "interaction_se": [
+    [
+     1.3831573707841562,
+     0.9749324813830803
+    ],
+    [
+     1.3756948422349802,
+     1.700718970399372
+    ],
+    [
+     1.7057116027625698,
+     2.067569469735123
+    ],
+    [
+     2.2983349172202883,
+     2.1142631192019956
+    ],
+    [
+     2.241326724001145,
+     2.436361784609121
+    ],
+    [
+     2.6025793025692394,
+     3.137778588639147
+    ],
+    [
+     2.8703735950184144,
+     3.825402719585745
+    ],
+    [
+     3.6929442180022876,
+     3.5168009904850406
+    ],
+    [
+     4.413926120541774,
+     3.4757083769009465
+    ],
+    [
+     4.535480807017136,
+     3.8957896045335416
+    ],
+    [
+     4.178049296977628,
+     4.478120449556629
+    ],
+    [
+     4.506537100794498,
+     5.050496096573694
+    ],
+    [
+     4.491243746954819,
+     5.000016291594777
+    ],
+    [
+     4.660867688919012,
+     5.0948765125132445
+    ],
+    [
+     5.196042819083067,
+     4.5374724321810564
+    ],
+    [
+     5.235116200186,
+     3.9300641092824193
+    ],
+    [
+     4.787503096626156,
+     3.9556978351294085
+    ],
+    [
+     5.224079776157969,
+     4.387040942332558
+    ],
+    [
+     5.750764536101419,
+     5.108752335238408
+    ],
+    [
+     5.69086373018409,
+     5.160812095045167
+    ],
+    [
+     5.806774935868025,
+     5.531212889724159
+    ]
+   ],
+   "p_joint": 0.521,
+   "p_headline": 0.651,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "CA10Y",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 35,
+    "baseline": 160
+   },
+   "base_effect": [
+    4.733030763211304,
+    5.632316807576863,
+    6.00949054589467,
+    6.16502734892954,
+    6.364256071550952,
+    7.3187799680783945,
+    7.99458045561572,
+    8.595419777456764,
+    8.818414559925762,
+    8.159119592253447,
+    7.16329793501587,
+    6.997613879834283,
+    6.3535974274028195,
+    5.991137874696553,
+    5.391946536138459,
+    4.005954818964673,
+    4.541553035089902,
+    3.6804437884698005,
+    3.69024467625709,
+    2.995933195817749,
+    2.3245066540415835
+   ],
+   "interaction": [
+    [
+     -0.169572520148553
+    ],
+    [
+     -0.18276187939885838
+    ],
+    [
+     -1.4001736474764295
+    ],
+    [
+     -0.7102310618536721
+    ],
+    [
+     0.2822729384617119
+    ],
+    [
+     -0.13846035527260486
+    ],
+    [
+     -2.5196153847638443
+    ],
+    [
+     -3.099398220114568
+    ],
+    [
+     -3.533582941391508
+    ],
+    [
+     -2.470646486813634
+    ],
+    [
+     0.21612332663256603
+    ],
+    [
+     1.3295775498572742
+    ],
+    [
+     1.7750843052131473
+    ],
+    [
+     3.415189960502373
+    ],
+    [
+     4.150451423092467
+    ],
+    [
+     3.8595844716578225
+    ],
+    [
+     2.800848104814833
+    ],
+    [
+     4.8520007193508725
+    ],
+    [
+     6.156474818541324
+    ],
+    [
+     7.291778402526163
+    ],
+    [
+     9.278623165163868
+    ]
+   ],
+   "interaction_se": [
+    [
+     1.1472289331003553
+    ],
+    [
+     1.2462566893822735
+    ],
+    [
+     1.6087625385714532
+    ],
+    [
+     1.8168918919676125
+    ],
+    [
+     1.9625983896968373
+    ],
+    [
+     2.457344871671335
+    ],
+    [
+     2.7970991312114513
+    ],
+    [
+     3.7082282010163072
+    ],
+    [
+     4.548279591195492
+    ],
+    [
+     4.568596803892907
+    ],
+    [
+     4.230209353003889
+    ],
+    [
+     4.314222723070568
+    ],
+    [
+     4.227696949790478
+    ],
+    [
+     4.547730115504473
+    ],
+    [
+     5.002128504327825
+    ],
+    [
+     5.00440589656509
+    ],
+    [
+     4.623987353331089
+    ],
+    [
+     5.046119767317653
+    ],
+    [
+     5.212125032584912
+    ],
+    [
+     5.003992490140712
+    ],
+    [
+     4.900399157095989
+    ]
+   ],
+   "p_joint": 0.536,
+   "p_headline": 0.949,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.96
+  },
+  {
+   "family": "boc",
+   "outcome": "TSX.tr",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 84,
+    "baseline": 111
+   },
+   "base_effect": [
+    -0.13138536073792786,
+    -0.19303827329116766,
+    -0.29075761894363183,
+    -0.23065411947663134,
+    -0.39262755512438774,
+    -0.5142448259965967,
+    -0.4162985694772404,
+    -0.35126853234518624,
+    -0.39813600062065924,
+    -0.5889098565251009,
+    -0.7675165063653153,
+    -0.9175358878822659,
+    -1.0316778287498651,
+    -1.2544844277158982,
+    -1.1778055379947154,
+    -1.0604005870820394,
+    -1.0121627447413288,
+    -1.225224286943121,
+    -1.4627385488835354,
+    -1.7648734169888676,
+    -1.9955167255819735
+   ],
+   "interaction": [
+    [
+     -0.0934725161504074
+    ],
+    [
+     -0.1410356946902572
+    ],
+    [
+     -0.11406908768331253
+    ],
+    [
+     -0.03031833450992225
+    ],
+    [
+     0.3187114108499066
+    ],
+    [
+     0.5585949493437138
+    ],
+    [
+     0.4899549932997631
+    ],
+    [
+     0.07663822482675917
+    ],
+    [
+     0.01703662475053264
+    ],
+    [
+     0.046343209861005465
+    ],
+    [
+     0.3251236458471306
+    ],
+    [
+     0.30933842107240656
+    ],
+    [
+     0.44622169559798947
+    ],
+    [
+     0.766599676504857
+    ],
+    [
+     0.46839305437318757
+    ],
+    [
+     0.019208283006648844
+    ],
+    [
+     -0.026839674274654248
+    ],
+    [
+     0.320004817083126
+    ],
+    [
+     0.40764900099868334
+    ],
+    [
+     0.6752341811745982
+    ],
+    [
+     1.0018861399099404
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.14657474084445013
+    ],
+    [
+     0.20836538069294985
+    ],
+    [
+     0.2492324518413027
+    ],
+    [
+     0.3095770739136601
+    ],
+    [
+     0.35281121800046855
+    ],
+    [
+     0.35034348655863184
+    ],
+    [
+     0.4628381115177664
+    ],
+    [
+     0.41763771608845823
+    ],
+    [
+     0.5285298676115217
+    ],
+    [
+     0.540643597411821
+    ],
+    [
+     0.6143994643188179
+    ],
+    [
+     0.6688267884195725
+    ],
+    [
+     0.7314103003678343
+    ],
+    [
+     0.7768986821479581
+    ],
+    [
+     0.685947254323311
+    ],
+    [
+     0.6902374108388791
+    ],
+    [
+     0.6813127784993218
+    ],
+    [
+     0.7267711308069527
+    ],
+    [
+     0.7727180093514442
+    ],
+    [
+     0.79742900101936
+    ],
+    [
+     0.8770165433282018
+    ]
+   ],
+   "p_joint": 0.016,
+   "p_headline": 0.112,
+   "q_joint": 0.32,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "boc",
+   "outcome": "TSX.tr",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 58,
+    "cutting": 47,
+    "baseline": 86
+   },
+   "base_effect": [
+    -0.1695546907878459,
+    -0.2417968715696278,
+    -0.28364166478226766,
+    -0.0945807654550907,
+    -0.22024787477359248,
+    0.008549283814026597,
+    0.1408516541855933,
+    -0.018785970957095673,
+    0.05829418639071371,
+    -0.14098405810429815,
+    -0.02538346842777584,
+    -0.14276926812918062,
+    -0.0403181650205367,
+    -0.14260137504972592,
+    -0.2038109879599584,
+    -0.3740504598721494,
+    -0.4974007181276006,
+    -0.3444225947619872,
+    -0.4201692927467405,
+    -0.570475647569848,
+    -0.531060275343203
+   ],
+   "interaction": [
+    [
+     -0.09665436031738378,
+     0.047603314846546056
+    ],
+    [
+     -0.14230137035926543,
+     0.018904814592765853
+    ],
+    [
+     -0.1617763564038166,
+     -0.13936629097283848
+    ],
+    [
+     -0.284475793147308,
+     -0.27451280143571577
+    ],
+    [
+     -0.14656793111988262,
+     0.07403527759828094
+    ],
+    [
+     -0.4229336273015681,
+     -0.2955680593677955
+    ],
+    [
+     -0.49952011813344177,
+     -0.5105165698573321
+    ],
+    [
+     -0.503551489358129,
+     -0.5913603197959484
+    ],
+    [
+     -0.6368339063903689,
+     -1.0037172689204348
+    ],
+    [
+     -0.6847251741405601,
+     -0.827288354177306
+    ],
+    [
+     -0.5206273588917231,
+     -1.5881922981698227
+    ],
+    [
+     -0.7247556224238344,
+     -1.6028243644745772
+    ],
+    [
+     -1.0027751010738915,
+     -1.700651635624656
+    ],
+    [
+     -0.7756788934688819,
+     -1.7285516274372286
+    ],
+    [
+     -0.779756821998091,
+     -1.8042988446202501
+    ],
+    [
+     -0.5062969965989195,
+     -2.0154951026248575
+    ],
+    [
+     -0.4390769856347761,
+     -1.6934457277793442
+    ],
+    [
+     -0.5278483667596088,
+     -2.236961705039208
+    ],
+    [
+     -0.5156330400407085,
+     -2.5463574868483563
+    ],
+    [
+     -0.4382807242536356,
+     -2.603677716470736
+    ],
+    [
+     -0.5710897226890055,
+     -2.7973630461583836
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.1726770125084158,
+     0.22053980089789377
+    ],
+    [
+     0.2251035554854529,
+     0.28755619213550315
+    ],
+    [
+     0.28128785337381096,
+     0.34202380242184915
+    ],
+    [
+     0.3779038178073155,
+     0.4654895417467112
+    ],
+    [
+     0.38356575106338153,
+     0.45560784606238813
+    ],
+    [
+     0.4114588022188041,
+     0.46878142410864354
+    ],
+    [
+     0.5630993630295775,
+     0.68109720705181
+    ],
+    [
+     0.4733802543605292,
+     0.5552348812575927
+    ],
+    [
+     0.6225224854270441,
+     0.7349300701339744
+    ],
+    [
+     0.6085959051183069,
+     0.7637346079002137
+    ],
+    [
+     0.7114682953984776,
+     0.8367935798173785
+    ],
+    [
+     0.7517504572557917,
+     0.8790017317969375
+    ],
+    [
+     0.8316865608284292,
+     0.9052976462405665
+    ],
+    [
+     0.8775744115622004,
+     1.0216667469108713
+    ],
+    [
+     0.747327972882952,
+     0.9030889533436037
+    ],
+    [
+     0.7253710055138015,
+     0.8857461871340352
+    ],
+    [
+     0.7268776015256269,
+     0.8811512645882073
+    ],
+    [
+     0.7500963892517778,
+     0.9039540813422421
+    ],
+    [
+     0.7124531214242521,
+     0.9096133330398116
+    ],
+    [
+     0.7484033337845325,
+     0.9636656803919351
+    ],
+    [
+     0.8312917606677627,
+     0.9921438616589483
+    ]
+   ],
+   "p_joint": 0.622,
+   "p_headline": 0.588,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "TSX.tr",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 35,
+    "baseline": 160
+   },
+   "base_effect": [
+    -0.15685377827061672,
+    -0.27447240136602347,
+    -0.31543114163538244,
+    -0.21163628772992832,
+    -0.07570895832179521,
+    -0.13191387029377247,
+    -0.03544340229561597,
+    -0.21872442842226242,
+    -0.23605520836228802,
+    -0.38517415623585005,
+    -0.49681388419699696,
+    -0.6158339409387045,
+    -0.6593776978085338,
+    -0.7211088288507133,
+    -0.8672172597912281,
+    -1.1507830851196656,
+    -1.158498546688547,
+    -1.1934934533928436,
+    -1.4354400719171172,
+    -1.6221778606742658,
+    -1.595839307766584
+   ],
+   "interaction": [
+    [
+     -0.08687883360219643
+    ],
+    [
+     0.05818568365532615
+    ],
+    [
+     -0.07963574921021649
+    ],
+    [
+     -0.06732381305518348
+    ],
+    [
+     -0.36392999129244663
+    ],
+    [
+     -0.14911780683842543
+    ],
+    [
+     -0.28375751515974035
+    ],
+    [
+     -0.2520484376904399
+    ],
+    [
+     -0.4242173557035459
+    ],
+    [
+     -0.4882941183370282
+    ],
+    [
+     -0.1927687820451041
+    ],
+    [
+     -0.2823778105503042
+    ],
+    [
+     -0.27126254995714627
+    ],
+    [
+     -0.19710848492818825
+    ],
+    [
+     0.0036339815042194103
+    ],
+    [
+     0.51556702250239
+    ],
+    [
+     0.629720428775147
+    ],
+    [
+     0.6883644522103243
+    ],
+    [
+     0.9058900348863642
+    ],
+    [
+     1.0080600738435577
+    ],
+    [
+     0.7744520084418115
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.15612179422159397
+    ],
+    [
+     0.26000374609362836
+    ],
+    [
+     0.3138025315984742
+    ],
+    [
+     0.3532742861763578
+    ],
+    [
+     0.3928458719965306
+    ],
+    [
+     0.38395401893825326
+    ],
+    [
+     0.4636430885712721
+    ],
+    [
+     0.44604579692438356
+    ],
+    [
+     0.5639706210205188
+    ],
+    [
+     0.5953585258820772
+    ],
+    [
+     0.6317109940102571
+    ],
+    [
+     0.761263495959367
+    ],
+    [
+     0.8659905677614366
+    ],
+    [
+     0.8883699343469983
+    ],
+    [
+     0.851475863404791
+    ],
+    [
+     0.8871793964002828
+    ],
+    [
+     0.8971029855260174
+    ],
+    [
+     0.8858634416909944
+    ],
+    [
+     0.8800523491327025
+    ],
+    [
+     0.9272525049592039
+    ],
+    [
+     0.9856414618716394
+    ]
+   ],
+   "p_joint": 0.69,
+   "p_headline": 0.723,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.9037499999999999
+  },
+  {
+   "family": "boc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 84,
+    "baseline": 111
+   },
+   "base_effect": [
+    -0.06044649518688514,
+    -0.08373034189865003,
+    -0.23716401643742027,
+    -0.07226133473183406,
+    -0.09166187777108817,
+    -0.21306077603464996,
+    -0.32185814634990006,
+    -0.23499768645984248,
+    -0.34113419399754025,
+    -0.5163935843052174,
+    -0.761631276655085,
+    -0.6694456673640112,
+    -0.7784945944976348,
+    -0.9563216343557049,
+    -0.8597372350984089,
+    -0.6986545931176142,
+    -0.5071007440421801,
+    -0.8039072258590426,
+    -1.0090290138518967,
+    -1.139369203887033,
+    -1.2857139101684507
+   ],
+   "interaction": [
+    [
+     0.09965561536821035
+    ],
+    [
+     -0.12063637479491755
+    ],
+    [
+     -0.10060805319255534
+    ],
+    [
+     -0.0893099934662228
+    ],
+    [
+     0.23296498504528151
+    ],
+    [
+     0.2064874013798962
+    ],
+    [
+     0.3313384465694179
+    ],
+    [
+     0.03822881958775484
+    ],
+    [
+     0.028277076500071562
+    ],
+    [
+     -0.241606452970759
+    ],
+    [
+     -0.04339240746269921
+    ],
+    [
+     -0.09529290124314611
+    ],
+    [
+     0.01715095552029387
+    ],
+    [
+     0.21602889714721554
+    ],
+    [
+     -0.25391277111242855
+    ],
+    [
+     -0.7869782246039981
+    ],
+    [
+     -0.8942508416412571
+    ],
+    [
+     -0.566053062563954
+    ],
+    [
+     -0.4389983164678107
+    ],
+    [
+     -0.19192551659249926
+    ],
+    [
+     0.10932679750835715
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.15590435398912061
+    ],
+    [
+     0.25543179526150267
+    ],
+    [
+     0.3223413859407509
+    ],
+    [
+     0.39192149844846336
+    ],
+    [
+     0.4060150724736684
+    ],
+    [
+     0.4485580115581465
+    ],
+    [
+     0.5873633308198852
+    ],
+    [
+     0.5161972865796391
+    ],
+    [
+     0.6224417072391032
+    ],
+    [
+     0.6291806370986848
+    ],
+    [
+     0.716982005292589
+    ],
+    [
+     0.7517090880634131
+    ],
+    [
+     0.8397693897852786
+    ],
+    [
+     0.8856225286470535
+    ],
+    [
+     0.7815469812593652
+    ],
+    [
+     0.8055158738725328
+    ],
+    [
+     0.7487279767984685
+    ],
+    [
+     0.789432869871819
+    ],
+    [
+     0.7861843554748713
+    ],
+    [
+     0.7597974378706743
+    ],
+    [
+     0.8491870355281773
+    ]
+   ],
+   "p_joint": 0.924,
+   "p_headline": 0.655,
+   "q_joint": 0.96,
+   "q_headline": 0.9028571428571428
+  },
+  {
+   "family": "boc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "cycle",
+   "regimes": [
+    "hiking",
+    "cutting"
+   ],
+   "n_by_regime": {
+    "hiking": 58,
+    "cutting": 47,
+    "baseline": 86
+   },
+   "base_effect": [
+    -0.0743406358190123,
+    -0.1668036837014687,
+    -0.3274715367192333,
+    -0.1387802849949534,
+    -0.21033055424311695,
+    -0.15782332222091885,
+    -0.11933561965206245,
+    -0.03239614265062758,
+    0.0705720513049565,
+    -0.20738939839223314,
+    -0.21559292138373423,
+    -0.3056923671185727,
+    -0.3188851646718881,
+    -0.4906559275853375,
+    -0.5750904893568206,
+    -0.8258604644408031,
+    -0.8709529928932241,
+    -0.7675307191516607,
+    -0.7544549735814627,
+    -0.8033996346406413,
+    -0.6979967273736291
+   ],
+   "interaction": [
+    [
+     -0.037472646122297726,
+     0.23414968732509084
+    ],
+    [
+     -0.015634524037682628,
+     0.04880169455650616
+    ],
+    [
+     0.19856697588726543,
+     -0.266677873488186
+    ],
+    [
+     0.12722524286831047,
+     -0.23763312608463233
+    ],
+    [
+     0.29461794181014367,
+     0.3425547528596715
+    ],
+    [
+     0.137319599201152,
+     -0.009537943609109782
+    ],
+    [
+     0.2228545420023353,
+     -0.4035548597929264
+    ],
+    [
+     0.021262813603351693,
+     -0.7552292414946785
+    ],
+    [
+     -0.22255457466523623,
+     -1.2946460033600167
+    ],
+    [
+     -0.2777847875711171,
+     -1.3970125128121675
+    ],
+    [
+     -0.13589840028693023,
+     -2.1004079351352805
+    ],
+    [
+     -0.2537071950044211,
+     -1.5328248904392028
+    ],
+    [
+     -0.2346193140539541,
+     -1.7411350960379608
+    ],
+    [
+     0.23136353057041925,
+     -1.803833718758809
+    ],
+    [
+     0.35410190775188893,
+     -2.20705917750601
+    ],
+    [
+     0.6063533857501985,
+     -2.136275457624164
+    ],
+    [
+     0.5728922877457876,
+     -1.5162164747386067
+    ],
+    [
+     0.41403294835460114,
+     -2.2059890809812868
+    ],
+    [
+     0.298644283485953,
+     -2.5729029945906707
+    ],
+    [
+     0.2680801150650989,
+     -2.265696168620634
+    ],
+    [
+     0.24182767610075023,
+     -2.548382381996255
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.16014689498047438,
+     0.25962098244461673
+    ],
+    [
+     0.2931934225469092,
+     0.39669151437946265
+    ],
+    [
+     0.3425284656543924,
+     0.5015196691909551
+    ],
+    [
+     0.4272844890073344,
+     0.5657760174637217
+    ],
+    [
+     0.41413143703933036,
+     0.6023573178550935
+    ],
+    [
+     0.45794645156572544,
+     0.6774202239958298
+    ],
+    [
+     0.6028119399849308,
+     0.8371204622695627
+    ],
+    [
+     0.5802381455940975,
+     0.705566542647551
+    ],
+    [
+     0.6272059576930238,
+     0.8084764102527795
+    ],
+    [
+     0.6385908778172411,
+     0.8440068896632947
+    ],
+    [
+     0.7024407959344675,
+     0.8756229510436799
+    ],
+    [
+     0.8585200761318736,
+     0.9257363438450988
+    ],
+    [
+     0.9511974539381693,
+     0.9936154227709618
+    ],
+    [
+     0.9617946289456905,
+     1.0475349826541762
+    ],
+    [
+     0.846732061347783,
+     0.8966861137302615
+    ],
+    [
+     0.8283727468412148,
+     0.9656936580820653
+    ],
+    [
+     0.8804187206020827,
+     0.9426270081006534
+    ],
+    [
+     0.908618980485898,
+     0.9216070273536
+    ],
+    [
+     0.8817645753955135,
+     0.9082246632429858
+    ],
+    [
+     0.889471405621469,
+     0.8892139123870563
+    ],
+    [
+     0.9672031939872776,
+     0.9444701668334732
+    ]
+   ],
+   "p_joint": 0.326,
+   "p_headline": 0.95,
+   "q_joint": 0.6994871794871795,
+   "q_headline": 0.96
+  },
+  {
+   "family": "boc",
+   "outcome": "CA_BANKS_EW6",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 35,
+    "baseline": 160
+   },
+   "base_effect": [
+    -0.0016769557977958727,
+    -0.12914495702763307,
+    -0.2103629077073241,
+    -0.012456631971676738,
+    0.23912078699442735,
+    0.0431346674504812,
+    0.04809170416753467,
+    -0.02043973178234678,
+    -0.13265764065096805,
+    -0.5287966962712436,
+    -0.7040595474292347,
+    -0.5376262865843945,
+    -0.6422503954629429,
+    -0.7151704508513111,
+    -0.9804120415539541,
+    -1.2184123799093576,
+    -1.1039218150620944,
+    -1.1958155676062596,
+    -1.3481870855021247,
+    -1.3499848928952065,
+    -1.2431867401317225
+   ],
+   "interaction": [
+    [
+     -0.006769532833430469
+    ],
+    [
+     -0.041858348322401255
+    ],
+    [
+     -0.24561769472889222
+    ],
+    [
+     -0.3263925761989722
+    ],
+    [
+     -0.6010619917037707
+    ],
+    [
+     -0.4189143936535764
+    ],
+    [
+     -0.5538461540026458
+    ],
+    [
+     -0.5928690707093182
+    ],
+    [
+     -0.5668075750087758
+    ],
+    [
+     -0.3222238528527174
+    ],
+    [
+     -0.1763349435252241
+    ],
+    [
+     -0.497951623031688
+    ],
+    [
+     -0.3262417553889582
+    ],
+    [
+     -0.2975378229399978
+    ],
+    [
+     0.02991536954679007
+    ],
+    [
+     0.3664619635738853
+    ],
+    [
+     0.4209522811461853
+    ],
+    [
+     0.3454973411893583
+    ],
+    [
+     0.4261917195674605
+    ],
+    [
+     0.453956267420758
+    ],
+    [
+     0.18624716302023034
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.17671555089997895
+    ],
+    [
+     0.29314566357584454
+    ],
+    [
+     0.3528908553642488
+    ],
+    [
+     0.3693859771766829
+    ],
+    [
+     0.40833798563041995
+    ],
+    [
+     0.4288627303013695
+    ],
+    [
+     0.5165832442018624
+    ],
+    [
+     0.5083519388292266
+    ],
+    [
+     0.5707462672190873
+    ],
+    [
+     0.6000918602659927
+    ],
+    [
+     0.6290891968025051
+    ],
+    [
+     0.7319709157556424
+    ],
+    [
+     0.8157507760822607
+    ],
+    [
+     0.7884812137541349
+    ],
+    [
+     0.7469800572509621
+    ],
+    [
+     0.8186617102382354
+    ],
+    [
+     0.8507985629407911
+    ],
+    [
+     0.8356004843723657
+    ],
+    [
+     0.8105759085156545
+    ],
+    [
+     0.816262760493829
+    ],
+    [
+     0.8781691720281859
+    ]
+   ],
+   "p_joint": 0.791,
+   "p_headline": 0.328,
+   "q_joint": 0.9171014492753623,
+   "q_headline": 0.6994871794871795
+  },
+  {
+   "family": "opec",
+   "outcome": "WTI",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 64,
+    "baseline": 80
+   },
+   "base_effect": [
+    0.939241399910546,
+    0.9853825280375383,
+    0.9891541222801237,
+    0.8947218079164243,
+    0.8303081169966604,
+    1.016390785603397,
+    1.0703190476967246,
+    1.2047106276131938,
+    1.2767941419974589,
+    1.4842534959220295,
+    1.4380438357055196,
+    1.4750076350849934,
+    1.4160736832859095,
+    1.4647449463253883,
+    1.398878255988948,
+    1.4585170994093368,
+    1.4166218436358056,
+    1.560282006202054,
+    1.5787684716103894,
+    1.5101735092237984,
+    1.7963975793861664
+   ],
+   "interaction": [
+    [
+     0.3608650493989557
+    ],
+    [
+     0.848512250162692
+    ],
+    [
+     0.9485950396202066
+    ],
+    [
+     1.0586783876326704
+    ],
+    [
+     1.1825458939266602
+    ],
+    [
+     0.7876891546882919
+    ],
+    [
+     0.8330806946619901
+    ],
+    [
+     0.8876703751766563
+    ],
+    [
+     1.1629678344359367
+    ],
+    [
+     0.5951985163648535
+    ],
+    [
+     0.8739294015578218
+    ],
+    [
+     0.6380884676152383
+    ],
+    [
+     0.8733755854094685
+    ],
+    [
+     1.1348664787271714
+    ],
+    [
+     1.477569507296143
+    ],
+    [
+     1.5426889288108407
+    ],
+    [
+     1.6764570100563019
+    ],
+    [
+     1.033480342834897
+    ],
+    [
+     0.9911914750619059
+    ],
+    [
+     0.875527921533392
+    ],
+    [
+     0.34587959294126125
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.17473653232404565
+    ],
+    [
+     0.41585700058293623
+    ],
+    [
+     0.29414440165376843
+    ],
+    [
+     0.35994496567474504
+    ],
+    [
+     0.450024778838954
+    ],
+    [
+     0.49498630995963927
+    ],
+    [
+     0.5969094825962015
+    ],
+    [
+     0.7340780627254971
+    ],
+    [
+     1.1105829882108802
+    ],
+    [
+     0.8800015852672662
+    ],
+    [
+     1.22262839740533
+    ],
+    [
+     0.9623326468971378
+    ],
+    [
+     1.104759060948297
+    ],
+    [
+     1.1211438771273499
+    ],
+    [
+     1.3789832228630727
+    ],
+    [
+     1.4711050869821518
+    ],
+    [
+     1.6090512529702374
+    ],
+    [
+     1.1607567628987903
+    ],
+    [
+     1.1981243810525066
+    ],
+    [
+     0.920683345259892
+    ],
+    [
+     0.8113174029441431
+    ]
+   ],
+   "p_joint": 0.615,
+   "p_headline": 0.174,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.5568
+  },
+  {
+   "family": "opec",
+   "outcome": "WTI",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 70,
+    "baseline": 86
+   },
+   "base_effect": [
+    1.1121432392225772,
+    1.3471179425217155,
+    1.3312414617512593,
+    1.437090281160972,
+    1.3993657229125984,
+    1.5901413515172638,
+    1.6586215753725253,
+    1.847912498852807,
+    2.2213326198335612,
+    2.099677050682303,
+    2.31709008127075,
+    2.3052138798879245,
+    2.4045718626215113,
+    2.4622225120106003,
+    2.611885147023953,
+    2.615945832947886,
+    2.6121599066974346,
+    2.3161704016120277,
+    2.3949679593693256,
+    2.0814039825579265,
+    1.998976754392327
+   ],
+   "interaction": [
+    [
+     -0.17430832680247163
+    ],
+    [
+     -0.17259448274922315
+    ],
+    [
+     0.06822155832690067
+    ],
+    [
+     -0.146609378647202
+    ],
+    [
+     0.032389634299243644
+    ],
+    [
+     -0.46541192615350874
+    ],
+    [
+     -0.5541084707876263
+    ],
+    [
+     -0.6554217285356961
+    ],
+    [
+     -1.1881056498033258
+    ],
+    [
+     -1.0283985112710001
+    ],
+    [
+     -1.3143978525905295
+    ],
+    [
+     -1.4632062980508211
+    ],
+    [
+     -1.6307509384909564
+    ],
+    [
+     -1.5074889770657056
+    ],
+    [
+     -1.6006069391399125
+    ],
+    [
+     -1.3286305514672887
+    ],
+    [
+     -1.143987974659571
+    ],
+    [
+     -0.8336412771946707
+    ],
+    [
+     -0.9655149526439143
+    ],
+    [
+     -0.512120634155867
+    ],
+    [
+     -0.31298331968273085
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.16708562743093236
+    ],
+    [
+     0.40024559280972855
+    ],
+    [
+     0.36133426026270904
+    ],
+    [
+     0.40966468892453567
+    ],
+    [
+     0.47424582458994735
+    ],
+    [
+     0.4469805269105854
+    ],
+    [
+     0.4899671616407036
+    ],
+    [
+     0.575541467853966
+    ],
+    [
+     0.8307865458982562
+    ],
+    [
+     0.6635812157993303
+    ],
+    [
+     0.8859339547450208
+    ],
+    [
+     0.6953949302190007
+    ],
+    [
+     0.7985002102687558
+    ],
+    [
+     0.8266939038521032
+    ],
+    [
+     1.0295017659643053
+    ],
+    [
+     1.1050499310875153
+    ],
+    [
+     1.214046685629205
+    ],
+    [
+     0.8863979057659432
+    ],
+    [
+     0.9002402610889855
+    ],
+    [
+     0.7516341444987314
+    ],
+    [
+     0.6887538614538273
+    ]
+   ],
+   "p_joint": 0.003,
+   "p_headline": 0.336,
+   "q_joint": 0.24,
+   "q_headline": 0.6994871794871795
+  },
+  {
+   "family": "opec",
+   "outcome": "US_BE5Y_PD",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 45,
+    "baseline": 59
+   },
+   "base_effect": [
+    0.37209970090915573,
+    0.6761729475597896,
+    0.7125905598864865,
+    0.7053407672242098,
+    0.6263532944864826,
+    0.3401737230729456,
+    0.7851625580679514,
+    0.6958870726574082,
+    1.2205254052404615,
+    1.5280774104746733,
+    1.491197651077928,
+    1.3605411823383564,
+    1.0353102128107086,
+    1.2740866260573789,
+    1.5058044291564403,
+    1.3655456382009943,
+    1.4939440649063216,
+    1.2434639375621186,
+    1.326434708468083,
+    1.138266241380956,
+    1.27296387967349
+   ],
+   "interaction": [
+    [
+     0.8035082074878988
+    ],
+    [
+     2.160489667955602
+    ],
+    [
+     2.649151825439464
+    ],
+    [
+     2.564341384674055
+    ],
+    [
+     2.690386908812534
+    ],
+    [
+     3.3222604837242593
+    ],
+    [
+     3.3246241305113022
+    ],
+    [
+     3.538826983957207
+    ],
+    [
+     2.496473317202301
+    ],
+    [
+     2.734594329073674
+    ],
+    [
+     2.1164501667167297
+    ],
+    [
+     2.24624107914106
+    ],
+    [
+     2.3875802487341913
+    ],
+    [
+     1.5002421969910245
+    ],
+    [
+     1.0987797519297153
+    ],
+    [
+     1.7742646989466966
+    ],
+    [
+     1.5763689879696943
+    ],
+    [
+     2.3762287068684587
+    ],
+    [
+     2.4515829508121882
+    ],
+    [
+     2.6560701869877468
+    ],
+    [
+     2.5748634620649837
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.5040897514870194
+    ],
+    [
+     0.9614761720489098
+    ],
+    [
+     0.954804104319869
+    ],
+    [
+     1.105380936068301
+    ],
+    [
+     1.261872515157505
+    ],
+    [
+     1.4869150581197155
+    ],
+    [
+     1.856345755631972
+    ],
+    [
+     2.0987548762959864
+    ],
+    [
+     2.1913421323665645
+    ],
+    [
+     2.157558883623966
+    ],
+    [
+     1.8947119872229377
+    ],
+    [
+     1.8269375627968074
+    ],
+    [
+     1.6238963489528195
+    ],
+    [
+     1.5050821785931239
+    ],
+    [
+     1.5261084200819504
+    ],
+    [
+     1.7128332424357222
+    ],
+    [
+     1.7635091271247547
+    ],
+    [
+     1.9106046545620572
+    ],
+    [
+     2.0080458726240535
+    ],
+    [
+     2.0221720406592474
+    ],
+    [
+     2.041998918346141
+    ]
+   ],
+   "p_joint": 0.093,
+   "p_headline": 0.074,
+   "q_joint": 0.49684210526315786,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "opec",
+   "outcome": "US_BE5Y_PD",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 42,
+    "baseline": 61
+   },
+   "base_effect": [
+    0.40755454050401585,
+    1.410640925656226,
+    1.6278516891485095,
+    1.617204010011183,
+    1.655117958175303,
+    1.896415887876769,
+    2.5267711969537054,
+    2.684896435713175,
+    2.957067109812388,
+    3.1232631781093376,
+    2.901307361432628,
+    2.857914745260968,
+    2.3789104403944554,
+    2.052678349452515,
+    2.1339690424294178,
+    2.2090960323304785,
+    2.203788800286974,
+    2.251309444677327,
+    2.2117571858084832,
+    1.8084480177662514,
+    1.7513039077323338
+   ],
+   "interaction": [
+    [
+     0.8379798595469702
+    ],
+    [
+     0.4375922675344447
+    ],
+    [
+     0.35687840120573927
+    ],
+    [
+     0.39563357740001315
+    ],
+    [
+     0.25528783769846963
+    ],
+    [
+     -0.3316035323417825
+    ],
+    [
+     -0.7711939365656614
+    ],
+    [
+     -1.3605897674024336
+    ],
+    [
+     -2.137927467476223
+    ],
+    [
+     -1.4680105584753083
+    ],
+    [
+     -1.732702464304558
+    ],
+    [
+     -1.8495175664646517
+    ],
+    [
+     -1.2258040747721402
+    ],
+    [
+     -0.7473413011928068
+    ],
+    [
+     -0.6909259520810253
+    ],
+    [
+     -0.24158385315970823
+    ],
+    [
+     -0.09878742969775797
+    ],
+    [
+     0.11274166213901521
+    ],
+    [
+     0.48557565802833264
+    ],
+    [
+     1.193003660559109
+    ],
+    [
+     1.5758935242964855
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.4727897072628905
+    ],
+    [
+     1.0675159136056225
+    ],
+    [
+     1.1528374208632293
+    ],
+    [
+     1.2390974032552626
+    ],
+    [
+     1.3972380206061843
+    ],
+    [
+     1.5895407068920888
+    ],
+    [
+     1.821770682715394
+    ],
+    [
+     2.114303252478442
+    ],
+    [
+     2.109094676784754
+    ],
+    [
+     2.1103086465349947
+    ],
+    [
+     1.8262827214543684
+    ],
+    [
+     1.8131193279836402
+    ],
+    [
+     1.7525194680504605
+    ],
+    [
+     1.682578066142565
+    ],
+    [
+     1.7074854006532374
+    ],
+    [
+     1.8275499630174799
+    ],
+    [
+     1.861139247585679
+    ],
+    [
+     2.05633817025768
+    ],
+    [
+     2.1828949509996134
+    ],
+    [
+     2.207909535655286
+    ],
+    [
+     2.206318710091981
+    ]
+   ],
+   "p_joint": 0.75,
+   "p_headline": 0.883,
+   "q_joint": 0.9103030303030303,
+   "q_headline": 0.96
+  },
+  {
+   "family": "opec",
+   "outcome": "TSX.tr",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 66,
+    "baseline": 80
+   },
+   "base_effect": [
+    0.08593476425428312,
+    0.08470560687760884,
+    0.10546143162216774,
+    0.12752401369466168,
+    0.1080053007905065,
+    0.1384876338520647,
+    0.18090863287735331,
+    0.210447697211966,
+    0.20747523636849405,
+    0.28100433768980765,
+    0.27799123081459964,
+    0.2906668892181271,
+    0.25427349491562684,
+    0.24703435029635853,
+    0.24591362132205086,
+    0.23793150258971885,
+    0.22074577365956197,
+    0.20489248369296517,
+    0.2391238929804119,
+    0.2303796882752777,
+    0.2058845132982377
+   ],
+   "interaction": [
+    [
+     0.05480973879117724
+    ],
+    [
+     0.4024491293883333
+    ],
+    [
+     0.30558147595346336
+    ],
+    [
+     0.38283279411224236
+    ],
+    [
+     0.5685487812526534
+    ],
+    [
+     0.4108041104768258
+    ],
+    [
+     0.449882306627487
+    ],
+    [
+     0.3247619446054239
+    ],
+    [
+     0.44167420261458956
+    ],
+    [
+     0.29405612273047577
+    ],
+    [
+     0.2648924569776936
+    ],
+    [
+     0.3383715586915228
+    ],
+    [
+     0.24008784888042356
+    ],
+    [
+     0.21215875402732298
+    ],
+    [
+     0.18523170401512315
+    ],
+    [
+     0.3214961307901655
+    ],
+    [
+     0.27815969914476946
+    ],
+    [
+     0.33486192782222896
+    ],
+    [
+     0.3869755537452642
+    ],
+    [
+     0.5147861626459144
+    ],
+    [
+     0.5401656326853255
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.06370067395246742
+    ],
+    [
+     0.19003660074840886
+    ],
+    [
+     0.18241443429432194
+    ],
+    [
+     0.24287090108253537
+    ],
+    [
+     0.3870900770432223
+    ],
+    [
+     0.28685992293591883
+    ],
+    [
+     0.409438346663206
+    ],
+    [
+     0.3922363568301699
+    ],
+    [
+     0.49441839501727003
+    ],
+    [
+     0.45241263399671156
+    ],
+    [
+     0.4924407747293362
+    ],
+    [
+     0.5622707158331437
+    ],
+    [
+     0.4401867833304686
+    ],
+    [
+     0.3762562927046467
+    ],
+    [
+     0.34196135921121124
+    ],
+    [
+     0.4056532073147481
+    ],
+    [
+     0.3708378852465906
+    ],
+    [
+     0.33178003995241473
+    ],
+    [
+     0.37837578173095965
+    ],
+    [
+     0.3530274105973115
+    ],
+    [
+     0.37339607689535476
+    ]
+   ],
+   "p_joint": 0.597,
+   "p_headline": 0.272,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.68
+  },
+  {
+   "family": "opec",
+   "outcome": "TSX.tr",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 79,
+    "baseline": 89
+   },
+   "base_effect": [
+    0.11360580818308572,
+    0.37375630955139955,
+    0.38392590809907595,
+    0.46230595249421325,
+    0.5812917810273734,
+    0.5314634048579803,
+    0.626505854872325,
+    0.6171607058990118,
+    0.6949472005514729,
+    0.7005165864996746,
+    0.7129541664701443,
+    0.8149174225062663,
+    0.6923012206533921,
+    0.5985269621375788,
+    0.5612237687530099,
+    0.5990513468273515,
+    0.5395854568451969,
+    0.4859034158734683,
+    0.55311019292536,
+    0.5706992529743614,
+    0.5746522667250077
+   ],
+   "interaction": [
+    [
+     -0.03900055565979899
+    ],
+    [
+     -0.29588040680280253
+    ],
+    [
+     -0.3550333003849388
+    ],
+    [
+     -0.38154709175841045
+    ],
+    [
+     -0.5072482598675501
+    ],
+    [
+     -0.47113161369070106
+    ],
+    [
+     -0.5693045585925371
+    ],
+    [
+     -0.6410578606761911
+    ],
+    [
+     -0.7350735684782318
+    ],
+    [
+     -0.7483185582268415
+    ],
+    [
+     -0.8015922745766955
+    ],
+    [
+     -0.9562487824161485
+    ],
+    [
+     -0.8468271394275498
+    ],
+    [
+     -0.6973204806749589
+    ],
+    [
+     -0.6225344226478329
+    ],
+    [
+     -0.5758493971751786
+    ],
+    [
+     -0.49980355522246933
+    ],
+    [
+     -0.31447063143588294
+    ],
+    [
+     -0.38149200363908103
+    ],
+    [
+     -0.3336405046561868
+    ],
+    [
+     -0.33579474114043817
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.055687039667732384
+    ],
+    [
+     0.15165455347623705
+    ],
+    [
+     0.13318581358182008
+    ],
+    [
+     0.1829211617465844
+    ],
+    [
+     0.28527601099484945
+    ],
+    [
+     0.20739678387012106
+    ],
+    [
+     0.28786345507247035
+    ],
+    [
+     0.2649701213339663
+    ],
+    [
+     0.3393965859627259
+    ],
+    [
+     0.3025341717469843
+    ],
+    [
+     0.3330781391167577
+    ],
+    [
+     0.37564956333331634
+    ],
+    [
+     0.29051501438365845
+    ],
+    [
+     0.2605756006268196
+    ],
+    [
+     0.24592845647699837
+    ],
+    [
+     0.2964586504459469
+    ],
+    [
+     0.27744755923567893
+    ],
+    [
+     0.26342522766134013
+    ],
+    [
+     0.296152563828789
+    ],
+    [
+     0.28796690910904
+    ],
+    [
+     0.30111076763447386
+    ]
+   ],
+   "p_joint": 0.025,
+   "p_headline": 0.027,
+   "q_joint": 0.35000000000000003,
+   "q_headline": 0.35000000000000003
+  },
+  {
+   "family": "opec",
+   "outcome": "XEG.tr",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 51,
+    "baseline": 63
+   },
+   "base_effect": [
+    0.6916228683752749,
+    0.7968390815827586,
+    0.8428937234593679,
+    0.9009233931146323,
+    0.881411652203126,
+    0.9576030746824402,
+    0.9684888352842467,
+    1.1737313801719056,
+    1.2822027986958133,
+    1.511719785650902,
+    1.4695189807437814,
+    1.598456698284057,
+    1.5164356883258296,
+    1.3321282824330671,
+    1.3447445032702836,
+    1.2381299527019989,
+    1.1797282692764317,
+    1.1978933130933742,
+    1.2987414225297862,
+    1.388890869852084,
+    1.3756610261839077
+   ],
+   "interaction": [
+    [
+     -0.09367282940507932
+    ],
+    [
+     0.8634833931951887
+    ],
+    [
+     0.8513105985548546
+    ],
+    [
+     1.199075020306869
+    ],
+    [
+     1.382212380503065
+    ],
+    [
+     1.1258391753173829
+    ],
+    [
+     1.3178295233474862
+    ],
+    [
+     1.48913837860284
+    ],
+    [
+     1.5803228942663152
+    ],
+    [
+     1.1669275178428204
+    ],
+    [
+     1.0033715535210248
+    ],
+    [
+     0.7954416442309875
+    ],
+    [
+     0.7661626627340019
+    ],
+    [
+     0.8645711781318806
+    ],
+    [
+     0.7949557499359193
+    ],
+    [
+     1.0037984504130568
+    ],
+    [
+     0.8136688197420483
+    ],
+    [
+     0.6799561025086148
+    ],
+    [
+     0.6053613763247676
+    ],
+    [
+     0.43958241247951285
+    ],
+    [
+     0.4780000365543555
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.1315640337138414
+    ],
+    [
+     0.5427886552719272
+    ],
+    [
+     0.5352629472684952
+    ],
+    [
+     0.649513096358156
+    ],
+    [
+     0.9561487407519127
+    ],
+    [
+     0.8244315041631245
+    ],
+    [
+     1.1781978281532237
+    ],
+    [
+     1.3325285389756547
+    ],
+    [
+     1.5560072720208153
+    ],
+    [
+     1.4940692857511864
+    ],
+    [
+     1.49210916707215
+    ],
+    [
+     1.5868496313481952
+    ],
+    [
+     1.4558672982881475
+    ],
+    [
+     1.2969715857645465
+    ],
+    [
+     1.3081395359639945
+    ],
+    [
+     1.4848940035393896
+    ],
+    [
+     1.273559684536365
+    ],
+    [
+     1.006291377460624
+    ],
+    [
+     1.0393343365834942
+    ],
+    [
+     0.899843027318892
+    ],
+    [
+     0.9419371835450486
+    ]
+   ],
+   "p_joint": 0.035,
+   "p_headline": 0.323,
+   "q_joint": 0.35000000000000003,
+   "q_headline": 0.6994871794871795
+  },
+  {
+   "family": "opec",
+   "outcome": "XEG.tr",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 45,
+    "baseline": 68
+   },
+   "base_effect": [
+    0.7256508904702308,
+    1.583097837917094,
+    1.6058894753394406,
+    1.8666005315948562,
+    2.0197287021162533,
+    2.013256474791189,
+    2.235672046860284,
+    2.665631248922556,
+    2.8888075304154253,
+    2.927358858675279,
+    2.860749254881038,
+    2.9988411592937827,
+    2.8524942873504253,
+    2.571366586012812,
+    2.4647349524294793,
+    2.5048177545002224,
+    2.236250640433434,
+    2.0252126090635105,
+    2.1278343790294967,
+    2.0181023523229573,
+    2.0723477783853355
+   ],
+   "interaction": [
+    [
+     -0.23124935272027813
+    ],
+    [
+     -1.0151918439372496
+    ],
+    [
+     -0.9432234717080336
+    ],
+    [
+     -1.005017102076413
+    ],
+    [
+     -1.2570904736405015
+    ],
+    [
+     -1.4065856294413668
+    ],
+    [
+     -1.715548502707858
+    ],
+    [
+     -2.130597191217641
+    ],
+    [
+     -2.4057089850562927
+    ],
+    [
+     -2.437987334914491
+    ],
+    [
+     -2.6020802944770214
+    ],
+    [
+     -2.956685063629871
+    ],
+    [
+     -2.8788382073892578
+    ],
+    [
+     -2.493920588002357
+    ],
+    [
+     -2.1708567999121136
+    ],
+    [
+     -2.2746544065506744
+    ],
+    [
+     -1.9227167619633907
+    ],
+    [
+     -1.3947627950441532
+    ],
+    [
+     -1.4912927583608377
+    ],
+    [
+     -1.2051788742603804
+    ],
+    [
+     -1.3029246682134583
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.12163661134019917
+    ],
+    [
+     0.5787970078035726
+    ],
+    [
+     0.5501117244425079
+    ],
+    [
+     0.7058348144017214
+    ],
+    [
+     1.0050501047740839
+    ],
+    [
+     0.8090544922278398
+    ],
+    [
+     1.1485356475705175
+    ],
+    [
+     1.2448154643543683
+    ],
+    [
+     1.4810432203570658
+    ],
+    [
+     1.3550331396387516
+    ],
+    [
+     1.328059348672591
+    ],
+    [
+     1.371925627689708
+    ],
+    [
+     1.2188516019583653
+    ],
+    [
+     1.1189535266255857
+    ],
+    [
+     1.183879847932021
+    ],
+    [
+     1.3862166290327091
+    ],
+    [
+     1.2095475994408784
+    ],
+    [
+     0.9597292977444336
+    ],
+    [
+     0.9895486734722798
+    ],
+    [
+     0.8683235829321526
+    ],
+    [
+     0.9027406666672834
+    ]
+   ],
+   "p_joint": 0.163,
+   "p_headline": 0.115,
+   "q_joint": 0.5433333333333333,
+   "q_headline": 0.49684210526315786
+  },
+  {
+   "family": "opec",
+   "outcome": "USDCAD",
+   "regime": "high_vix",
+   "regimes": [
+    "high VIX"
+   ],
+   "n_by_regime": {
+    "high VIX": 66,
+    "baseline": 80
+   },
+   "base_effect": [
+    -0.07611519668369303,
+    -0.0750121369832139,
+    -0.08966361468348963,
+    -0.08275948213523504,
+    -0.10729985816647533,
+    -0.08621628686559275,
+    -0.10082087453631533,
+    -0.08595584356443685,
+    -0.11969011089745596,
+    -0.15320166080318812,
+    -0.13957568583596353,
+    -0.11607120902342664,
+    -0.0787933924477854,
+    -0.05823330984283097,
+    -0.08845571563252434,
+    -0.09660142090531924,
+    -0.09988620250727237,
+    -0.0748346045856673,
+    -0.05983889091950105,
+    -0.08778878342632221,
+    -0.08586940050048893
+   ],
+   "interaction": [
+    [
+     0.07028332858805034
+    ],
+    [
+     0.027622447585955355
+    ],
+    [
+     0.005286215497191862
+    ],
+    [
+     -0.0021787487295954937
+    ],
+    [
+     0.019552537095109592
+    ],
+    [
+     -0.013399710267465044
+    ],
+    [
+     0.04645284215906184
+    ],
+    [
+     0.009150864127900967
+    ],
+    [
+     0.026326264194736153
+    ],
+    [
+     0.06101209450814356
+    ],
+    [
+     0.07185986389699477
+    ],
+    [
+     0.061270723398115824
+    ],
+    [
+     0.03331510127803721
+    ],
+    [
+     0.006164149502177104
+    ],
+    [
+     0.0818885035754949
+    ],
+    [
+     0.08837219722625803
+    ],
+    [
+     0.046467317936551324
+    ],
+    [
+     0.0181371267941705
+    ],
+    [
+     -0.017699530792247405
+    ],
+    [
+     0.01793154717915242
+    ],
+    [
+     0.028453318912159294
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.03917491099858852
+    ],
+    [
+     0.04013620076267625
+    ],
+    [
+     0.05880792440016089
+    ],
+    [
+     0.06418384607228561
+    ],
+    [
+     0.07061537434193176
+    ],
+    [
+     0.08852208333435675
+    ],
+    [
+     0.09902555707616474
+    ],
+    [
+     0.12052174799211499
+    ],
+    [
+     0.14787984010117625
+    ],
+    [
+     0.14228685989845377
+    ],
+    [
+     0.13463809552674708
+    ],
+    [
+     0.15760215568544228
+    ],
+    [
+     0.1560071592377952
+    ],
+    [
+     0.14953608675855254
+    ],
+    [
+     0.12341207740593965
+    ],
+    [
+     0.1285669383476593
+    ],
+    [
+     0.1358138410987411
+    ],
+    [
+     0.1333397259670726
+    ],
+    [
+     0.1419332164756155
+    ],
+    [
+     0.14091264250871308
+    ],
+    [
+     0.13716000706179116
+    ]
+   ],
+   "p_joint": 0.075,
+   "p_headline": 0.909,
+   "q_joint": 0.49684210526315786,
+   "q_headline": 0.96
+  },
+  {
+   "family": "opec",
+   "outcome": "USDCAD",
+   "regime": "high_inflation",
+   "regimes": [
+    "inflation > 3%"
+   ],
+   "n_by_regime": {
+    "inflation > 3%": 79,
+    "baseline": 89
+   },
+   "base_effect": [
+    -0.017187803151150094,
+    -0.039112687090637206,
+    -0.08171554747721392,
+    -0.10198800662919667,
+    -0.1190079559240523,
+    -0.12266356198986175,
+    -0.11595786942566455,
+    -0.13867835730181274,
+    -0.1858406733963424,
+    -0.17274803788762688,
+    -0.15693227167077609,
+    -0.15220363162598805,
+    -0.1280906763612554,
+    -0.12330464178258303,
+    -0.10550633565422869,
+    -0.10814687122566594,
+    -0.11794956046154688,
+    -0.10516320644548617,
+    -0.09717151761279223,
+    -0.08518503295366499,
+    -0.08905428925329517
+   ],
+   "interaction": [
+    [
+     -0.041442890216580396
+    ],
+    [
+     -0.01244409282771914
+    ],
+    [
+     0.026565767866767113
+    ],
+    [
+     0.09057045143614689
+    ],
+    [
+     0.10353036887608116
+    ],
+    [
+     0.1269759533277062
+    ],
+    [
+     0.13704082878534726
+    ],
+    [
+     0.17785443047717922
+    ],
+    [
+     0.24079489727095987
+    ],
+    [
+     0.1890267598798672
+    ],
+    [
+     0.18534457923377765
+    ],
+    [
+     0.2116663990048758
+    ],
+    [
+     0.20479887410255707
+    ],
+    [
+     0.21987471092331368
+    ],
+    [
+     0.18799637176684583
+    ],
+    [
+     0.1826754339462993
+    ],
+    [
+     0.1621859963164749
+    ],
+    [
+     0.14132075013617384
+    ],
+    [
+     0.10410941012305566
+    ],
+    [
+     0.06548511164037057
+    ],
+    [
+     0.07876782027098324
+    ]
+   ],
+   "interaction_se": [
+    [
+     0.03662816306580206
+    ],
+    [
+     0.03930304326164627
+    ],
+    [
+     0.05019805331227423
+    ],
+    [
+     0.052130904172703905
+    ],
+    [
+     0.056689300693326394
+    ],
+    [
+     0.07027477029169302
+    ],
+    [
+     0.07817404381294202
+    ],
+    [
+     0.09401996946852634
+    ],
+    [
+     0.11193353214620409
+    ],
+    [
+     0.10980937594867614
+    ],
+    [
+     0.10496251328303667
+    ],
+    [
+     0.12184335075356371
+    ],
+    [
+     0.11876148474570378
+    ],
+    [
+     0.11359830656661865
+    ],
+    [
+     0.09731211414239331
+    ],
+    [
+     0.10273577986751439
+    ],
+    [
+     0.10842221028647549
+    ],
+    [
+     0.10727143249602553
+    ],
+    [
+     0.11256836101411054
+    ],
+    [
+     0.11439704269084934
+    ],
+    [
+     0.11266194140945904
+    ]
+   ],
+   "p_joint": 0.646,
+   "p_headline": 0.097,
+   "q_joint": 0.9028571428571428,
+   "q_headline": 0.49684210526315786
+  }
+ ]
+}

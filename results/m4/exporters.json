@@ -1,0 +1,630 @@
+{
+ "name": "m4/exporters",
+ "provenance": {
+  "generated_at": "2026-10-12T23:16:36Z",
+  "git_sha": "34893d78e55d86bd1dcdc08f11866f64fa3fac18-dirty",
+  "data_built_at": "2026-10-12T22:21:06Z",
+  "evaluation_config_sha256": "54506ff0c5444323c5a745c0c52ba9a10d3a217c18be65db3028dbf93bad6141",
+  "manifest_sha256": "fe6e5b98888f3f66dd393c4d5c9db1c04324f9d7e8300f668d97da574f1b7e09",
+  "series": {
+   "AUDUSD": {
+    "sha256": "2f1ab2ccb9b1937f9f2a9b808d2323f1c93d32e00447dd83d337e0edf3e5b384",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSAL&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "BMO.tr": {
+    "sha256": "3972f2c582f865d4710b997837d9b28c91887e6ca69f35d3edfa337ab964e9c3",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BMO.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "BNS.tr": {
+    "sha256": "3a1e3c20fbf1e6eb329fec095ad4730ee425fe09b693cdc905b3a21b01cbda1b",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BNS.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "BOC_TARGET": {
+    "sha256": "7f5a68d3ead1dfa06f8231b9c6c451803441262d97f11332df0783d5bef868bc",
+    "url": "https://www.bankofcanada.ca/valet/observations/CBC20210/json?start_date=1900-01-01",
+    "policy": "C"
+   },
+   "CA10Y": {
+    "sha256": "fd43f53858d50f2734370f1c6e9af1fc8d86519ec494c6ec95f97c26801533c9",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.10YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA2Y": {
+    "sha256": "463f863041785717c704ec6f86a8557c7af4739479b47e53900ccfcebac7e7ef",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA3Y": {
+    "sha256": "4d5abaf4ab1e29def2df52452513dddc890de3230291fa68cebfb9a0f25efeac",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.3YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA5Y": {
+    "sha256": "4fbf328091917c3436c84eb10d3562fd9521060254919a85caf656b57f9628c6",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.5YR.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CA_BANKS_EW6": {
+    "sha256": "6cb91772824eb22a5ea7802622b32aec42c42449fd1f3af4d0e7edd13822d541",
+    "url": "derived:RY.tr,TD.tr,BNS.tr,BMO.tr,CM.tr,NA.tr",
+    "policy": "L"
+   },
+   "CA_CPI_NSA": {
+    "sha256": "7ab2eca8bdfb9e6e25a195f2cb5b87b741bc6aeb322fe15a0a365f4c26fb5846",
+    "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690973%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01",
+    "policy": "C"
+   },
+   "CA_LONG": {
+    "sha256": "ec07fb22aa1237ec4e7e3286128f5b7a02915883cbd6a51fda46f823b778fa9b",
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.LONG.DQ.YLD/json?start_date=1900-01-01",
+    "policy": "D"
+   },
+   "CM.tr": {
+    "sha256": "fcf23d1f72d4adb4522278d4a5bef46d0f70b8b43ad8dcb6da8d9d40e880d5c4",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CM.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "ENOR.tr": {
+    "sha256": "9387e4ba6d0110657e142429bce53b37670dacf5ec0ad8f78c6b75bfaa543cc1",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ENOR?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EURUSD": {
+    "sha256": "c5238b2bd122e8ee449dbd7353c1216227cf17f6b36d72df768cdcec95438e90",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSEU&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "EWA.tr": {
+    "sha256": "3d500ac5def8ac6bbe158913b5ded1aee63b4ce45abed493e4ead8ee0c474f4c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWC.tr": {
+    "sha256": "b75c548a30f9a9cddfb4444422c28def3e2ea6bd1d98c4d96154966df29635d8",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWC?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWG.tr": {
+    "sha256": "210437ad6129ba3c2cd17b3f2948476bae10db5b09ff6db101e2aec6215c9b1c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWG?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWI.tr": {
+    "sha256": "b943532bc9a98f4ce8693a6aa940b7d49fbb9a8fed0e1c5a40485b211ee82b8b",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWJ.tr": {
+    "sha256": "145e48cc634dcac926c742b7085665a6a5d700abd800e809efaf7cd222489a83",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWJ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWQ.tr": {
+    "sha256": "98e4d8331656d455d0903a97eb21ab5943cb8ff994ff04c9b23e8fec5edf9690",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWQ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWU.tr": {
+    "sha256": "bad6a514f88a7ffb1b0cfd914b7cbf0ef02c236cf2fe8565c8629c802a860921",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWU?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWW.tr": {
+    "sha256": "f9bb25643314556454848889a0fdcdf21561fd18176cd00be04e6e3e21e842cb",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWW?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWY.tr": {
+    "sha256": "c2a0043a82ea7fd188f08031096caf828c65f7cb74035949969d3405cf9faed7",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "EWZ.tr": {
+    "sha256": "88eb9bee03f9dfa9bfa11e918e565547cad7d31199c8691c83f9da44261405c7",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWZ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "FF_TARGET": {
+    "sha256": "32e9d1c3920396821d73dfea3bf2de4f9b6cb42731d47f101af3cad243faec0a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTAR&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "FF_TARGET_UPPER": {
+    "sha256": "4164b60f98feee7faba376e5456e17a7395435f4ee6de99ba0d38645130dd2ca",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFEDTARU&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "FXI.tr": {
+    "sha256": "84dd3d11fcc63a08e894d5dc1eed8c0d86716d1c999f167150574b48d4e5f4e4",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/FXI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "GBPUSD": {
+    "sha256": "32eb1b88badfb21b5bb172bc0facf5fa61ed8c99a80a5f19aceee5a1cf9f76d9",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSUK&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "INDA.tr": {
+    "sha256": "4db51e83a02f75b57ba4664e89fbdde2d9f65a4d0b5c802ac13ad9f031622392",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/INDA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "NA.tr": {
+    "sha256": "fe0a269f6abe5ea690f7a93f31415cfada4c091f947a398ccadcb816ea70f527",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NA.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "RY.tr": {
+    "sha256": "46cdc21a56d23775421edcbbb8c3926817941b74ce03cbe1caca4e282beab484",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RY.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "SPY.tr": {
+    "sha256": "befb97b1c9dfc2b231e85303b6069896c46127c5c029a97b06f008d3a1b8f4dd",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "TD.tr": {
+    "sha256": "134817a05435944bd52751e2738523b6976aeec4cb1673d6fb871d0b2c3d9047",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/TD.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "TSX.tr": {
+    "sha256": "316f67bbcf7d09f38e47abac2d89c8cfaea5740e83d9429d7c188152c4fbb4f8",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPTSE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "US10Y": {
+    "sha256": "1d81d6fa034cd901c41514115ecf9a400af7db4d6612471ab7d470d61213b118",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US10Y_REAL": {
+    "sha256": "d02039db9fe4b927d7268b563793f040b31402c5b20449f8fb31cef67efc822b",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US1Y": {
+    "sha256": "38bdeb53f33810cd59f1f0295829f304862feb24f2f60538054217d24c541f11",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS1&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US2Y": {
+    "sha256": "3697cb6ed360c20ef1907dc2b394ce969c0f2698e9e04b28627655dc6c22bb39",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US5Y": {
+    "sha256": "165b70f2e41dd36cac156b58c875e659375b7e3013d8bee8dfcc31dc48815c18",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DGS5&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US5Y_REAL": {
+    "sha256": "c9394c55d482638c1711fcd010bc7689378aa95bf09b0388079afcf7a5a5db13",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DFII5&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDBRL": {
+    "sha256": "83c2e743e33bb912588e0ea0e362ff3515455f09af126005a1e31f1339246b5a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXBZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCAD": {
+    "sha256": "f0b38c518d57a7d93398e9551062566307633f8e58f03df58881ed215b16f888",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCAUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCHF": {
+    "sha256": "6fed1c7327886ea039194ea311d8066c76d28349fe46312a5e641d5cd3f4f151",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXSZUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDCNY": {
+    "sha256": "7d428fd53c05e2a38bacfc12992b7e82d716dd12fd86377ef3a3e9faf21dd19a",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCHUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDINR": {
+    "sha256": "f759bfaf7c12675b47fc31b1117e7be1b4cd149a372ce2e70aeb7b21501907cd",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXINUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDJPY": {
+    "sha256": "163caa670faafd65b46d109ae2aa29177f191b9851fb7e4e23b6bc1924914378",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXJPUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDKRW": {
+    "sha256": "a9290bf2110f9bf3b89eecfb488b809a0850aebd41ae543bcaa077ede88b5eef",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXKOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDMXN": {
+    "sha256": "fdbc60fe38cce4d19148482f0ab582d35d805141c2c37b3f8d7b9fe2d74db318",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXMXUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USDNOK": {
+    "sha256": "c406a7154da6a069e6bdc36d34b134c896a8746241fcf04bcec816f3e93a5167",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXNOUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "USD_BROAD": {
+    "sha256": "66372546ee8bbef9f079fa57128b3bc9902b194625b092606156dcb2898d3990",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DTWEXBGS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "US_BE10Y_PD": {
+    "sha256": "cb31c9ae96a2f929e92c36fc5b7cff9fb14c1702ff7c5e05cdf477a307fee30c",
+    "url": "derived:US10Y,US10Y_REAL",
+    "policy": "C"
+   },
+   "US_BE5Y_PD": {
+    "sha256": "b7d83954bfb877da5f3f61865f82e21a661ab38bc93a28eb9b9bf243d76417d2",
+    "url": "derived:US5Y,US5Y_REAL",
+    "policy": "C"
+   },
+   "US_CPI_NSA": {
+    "sha256": "238f09dbad24b4e5ded319f3aa363056f1f847f29f997979656006675ca3890f",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=CPIAUCNS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "VIX": {
+    "sha256": "29b3d6cf20804ff039dd513850eaa7f42db6404de62a566dd9a051f742a685d0",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=VIXCLS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "D"
+   },
+   "WTI": {
+    "sha256": "52c63b324ac4d875baaf98c07ed04aeeb8061c607392c4acc86193d3c3a48b0e",
+    "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DCOILWTICO&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+    "policy": "C"
+   },
+   "XEG.tr": {
+    "sha256": "9bba93098167f9e24408e62ed3812ad2419aa9c6f0d0d28f7854bb9d2a2dc37e",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XEG.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "XLE.tr": {
+    "sha256": "7343d3218dc73bd29c6822ed190a1249b4b4bb87c9828960815b48647d91bc70",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "XLF.tr": {
+    "sha256": "0c9490488c984264948f7ff4cf7cbf8559496671a0ab0c40bc1585cd69ed878c",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   },
+   "ZEB.tr": {
+    "sha256": "4bf71aae96ebbcf42b2d38a1330a1efae6cb370bfa4f79b99e291bcd23e91bdc",
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZEB.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true",
+    "policy": "L"
+   }
+  },
+  "event_tables": {
+   "events_boc": [
+    {
+     "artifact_key": "data/events/boc_fad.csv",
+     "sha256": "1f1954b5d367e40696f8422d32c3def632ada33ef852a53421ad4f28eb2496f8"
+    }
+   ],
+   "events_fomc": [
+    {
+     "artifact_key": "jk_fed/shocks_t",
+     "sha256": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01"
+    },
+    {
+     "artifact_key": "jk_fed/surprises",
+     "sha256": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300"
+    }
+   ],
+   "events_fomc_bs": [
+    {
+     "artifact_key": "bauer_swanson/surprises",
+     "sha256": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668"
+    }
+   ],
+   "events_opec": [
+    {
+     "artifact_key": "kaenzig/oil_supply_news",
+     "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de"
+    }
+   ],
+   "shocks_monthly": [
+    {
+     "artifact_key": "jk_fed/shocks_m",
+     "sha256": "61f98ad4a10b27923abf8da39d6466351189fb922a3bbc4f798a0052615b4c86"
+    },
+    {
+     "artifact_key": "jk_ecb/shocks_m",
+     "sha256": "89c5b2ec39509057b3c71f44218424fc8d15d4041b16f31c96613f8fe0965534"
+    },
+    {
+     "artifact_key": "bauer_swanson/surprises",
+     "sha256": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668"
+    },
+    {
+     "artifact_key": "kaenzig/oil_supply_news",
+     "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de"
+    },
+    {
+     "artifact_key": "baumeister_hamilton/supply",
+     "sha256": "00d392b04200cc2e337c16fdc13b8e25086fd92b7543f053b0e58ba5d1fcfa72"
+    },
+    {
+     "artifact_key": "baumeister_hamilton/demand",
+     "sha256": "ea5d57e935fa0423cc2910d6a8902798cc3f6f0efbbaa53926f26621eea26aa0"
+    }
+   ]
+  }
+ },
+ "results": {
+  "panel": [
+   {
+    "horizon": 0,
+    "importer": [
+     0.14110784477226895,
+     0.03457450055905463
+    ],
+    "exporter": [
+     0.20016381176644582,
+     0.041943353009568335
+    ],
+    "difference": [
+     0.05905596699417688,
+     0.036921023039829304,
+     0.10970479428061708
+    ],
+    "n_rows": 1490,
+    "n_events": 129,
+    "countries": {
+     "AUS": 1.0,
+     "BRA": 0.4067796610169492,
+     "CAN": 1.0,
+     "CHN": 0.0,
+     "DEU": 0.0,
+     "FRA": 0.0,
+     "GBR": 0.2868217054263566,
+     "IND": 0.0,
+     "ITA": 0.0,
+     "JPN": 0.0,
+     "KOR": 0.0,
+     "MEX": 0.5968992248062015,
+     "NOR": 1.0
+    }
+   },
+   {
+    "horizon": 5,
+    "importer": [
+     0.33006688668921935,
+     0.16734360843115462
+    ],
+    "exporter": [
+     0.44806723085209904,
+     0.1983499823359427
+    ],
+    "difference": [
+     0.11800034416287968,
+     0.07763966310708428,
+     0.12854964359893595
+    ],
+    "n_rows": 1490,
+    "n_events": 129,
+    "countries": {
+     "AUS": 1.0,
+     "BRA": 0.4067796610169492,
+     "CAN": 1.0,
+     "CHN": 0.0,
+     "DEU": 0.0,
+     "FRA": 0.0,
+     "GBR": 0.2868217054263566,
+     "IND": 0.0,
+     "ITA": 0.0,
+     "JPN": 0.0,
+     "KOR": 0.0,
+     "MEX": 0.5968992248062015,
+     "NOR": 1.0
+    }
+   }
+  ],
+  "per_country": [
+   {
+    "country": "NOR",
+    "etf": "ENOR",
+    "h0": [
+     0.3906609870451013,
+     0.10882533049271434,
+     64
+    ],
+    "h5": [
+     0.8413607145736623,
+     0.24829969291824724,
+     64
+    ],
+    "exporter_share": 1.0
+   },
+   {
+    "country": "AUS",
+    "etf": "EWA",
+    "h0": [
+     0.1689486413523958,
+     0.06075128369822199,
+     129
+    ],
+    "h5": [
+     0.32347906910915514,
+     0.17943891084003458,
+     129
+    ],
+    "exporter_share": 1.0
+   },
+   {
+    "country": "CAN",
+    "etf": "EWC",
+    "h0": [
+     0.21855798617211383,
+     0.038853059019689426,
+     129
+    ],
+    "h5": [
+     0.44536695229107626,
+     0.22534898335773138,
+     129
+    ],
+    "exporter_share": 1.0
+   },
+   {
+    "country": "DEU",
+    "etf": "EWG",
+    "h0": [
+     0.09504442318524828,
+     0.05189113453877043,
+     129
+    ],
+    "h5": [
+     0.2660907506671161,
+     0.23073942013187324,
+     129
+    ],
+    "exporter_share": 0.0
+   },
+   {
+    "country": "ITA",
+    "etf": "EWI",
+    "h0": [
+     0.17282037274052123,
+     0.04992213769094106,
+     129
+    ],
+    "h5": [
+     0.3750560410683981,
+     0.28956666786310864,
+     129
+    ],
+    "exporter_share": 0.0
+   },
+   {
+    "country": "JPN",
+    "etf": "EWJ",
+    "h0": [
+     0.10754595348319371,
+     0.05348571573302848,
+     129
+    ],
+    "h5": [
+     0.2115783648758397,
+     0.16560480533064173,
+     129
+    ],
+    "exporter_share": 0.0
+   },
+   {
+    "country": "FRA",
+    "etf": "EWQ",
+    "h0": [
+     0.13962994000249915,
+     0.04895101593715444,
+     129
+    ],
+    "h5": [
+     0.3435656348208379,
+     0.21666579567901312,
+     129
+    ],
+    "exporter_share": 0.0
+   },
+   {
+    "country": "GBR",
+    "etf": "EWU",
+    "h0": [
+     0.13953553884023756,
+     0.040972971991388135,
+     129
+    ],
+    "h5": [
+     0.34113143774344246,
+     0.212597996580066,
+     129
+    ],
+    "exporter_share": 0.2876712328767123
+   },
+   {
+    "country": "MEX",
+    "etf": "EWW",
+    "h0": [
+     0.10101985419740786,
+     0.08169681607146499,
+     129
+    ],
+    "h5": [
+     0.40964082953429215,
+     0.22605849181914556,
+     129
+    ],
+    "exporter_share": 0.6438356164383562
+   },
+   {
+    "country": "KOR",
+    "etf": "EWY",
+    "h0": [
+     0.16247781907125208,
+     0.07291027761695569,
+     119
+    ],
+    "h5": [
+     0.2223730736143499,
+     0.21499820822696078,
+     119
+    ],
+    "exporter_share": 0.0
+   },
+   {
+    "country": "BRA",
+    "etf": "EWZ",
+    "h0": [
+     0.21588617074237065,
+     0.08425005644363077,
+     118
+    ],
+    "h5": [
+     0.46799530154416585,
+     0.3355369910008672,
+     118
+    ],
+    "exporter_share": 0.3287671232876712
+   },
+   {
+    "country": "CHN",
+    "etf": "FXI",
+    "h0": [
+     0.1533564343242799,
+     0.05890276583694798,
+     93
+    ],
+    "h5": [
+     0.47268327335228244,
+     0.2034875267121102,
+     93
+    ],
+    "exporter_share": 0.14383561643835616
+   },
+   {
+    "country": "IND",
+    "etf": "INDA",
+    "h0": [
+     0.042198458845342915,
+     0.04400835054358067,
+     64
+    ],
+    "h5": [
+     0.1068815962548597,
+     0.1414957822675979,
+     64
+    ],
+    "exporter_share": 0.0
+   }
+  ]
+ }
+}

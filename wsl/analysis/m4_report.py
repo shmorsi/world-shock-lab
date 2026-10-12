@@ -16,7 +16,41 @@ from wsl.export.results import write
 from wsl.paths import DOCS_DIR, ROOT
 
 OUT = DOCS_DIR / "RESULTS.md"
-NOTES: dict[str, str] = {}
+# Written after reading the first M4 results (2026-10-12); text only, no numbers.
+NOTES: dict[str, str] = {
+    "Brief's state-dependence goal": "Not met. None of the 80 pre-registered regime tests "
+    "survives the false-discovery-rate control, and the raw count of small p-values is only "
+    "modestly above what chance alone would produce. The minimum detectable effects show why: "
+    "with these event counts only large regime differences are visible. The most suggestive "
+    "cells before correction (the Fed's effect on the US 2-year at one week being smaller when "
+    "VIX is high; OPEC news moving the TSX less when inflation is high) are hypotheses for the "
+    "live data to test, not findings. No further specifications were searched.",
+    "Canada lens": "A Fed move and a BoC move of the same size in their own 2-year yields move "
+    "the Canadian 10-year yield by similar amounts, and the Canadian dollar by similar amounts "
+    "in opposite directions. Canadian equities are where they differ: the Fed's effect on the "
+    "TSX, the Big-6 banks and energy is clearly negative and robust, while the BoC's is small "
+    "in the event LP. The Rigobon-Sack estimates narrow that gap, so the size of the Fed's "
+    "advantage depends on the estimator; its direction does not.",
+    "BoC proxy contamination": "The network finds the BoC proxy 'moving' US yields. A BoC "
+    "decision should barely move US Treasuries, so this is evidence that the daily proxy still "
+    "carries common North American rate news despite passing its M3 validation. It is the "
+    "reason Rigobon-Sack estimates are shown next to every BoC result, and why BoC equity "
+    "results are classed as fragile.",
+    "VAR vs LP": "Monthly identification is weak for both instruments, so these are the least "
+    "reliable results in the project. The BVAR's prior dominates (many coefficients per "
+    "equation on a short sample) and pulls most responses toward zero with narrow bands; "
+    "simulation shows those bands are too narrow. The LP-IV with the orthogonalized "
+    "Bauer-Swanson surprise shows the textbook contraction, and for US industrial production "
+    "at one year and US and Canadian prices at two years even the weak-instrument-robust "
+    "Anderson-Rubin sets, though very wide, exclude zero. With the JK surprise the signs are "
+    "puzzling and nothing is significant. Daily event studies, where identification is "
+    "strong, carry the project's main causal claims.",
+    "Oil exporters vs importers": "Every country ETF rises on negative oil supply news, and the "
+    "ordering matches oil exposure (Norway, Canada and Australia most; India least), but the "
+    "exporter-importer difference is not significant. The ETFs are priced in US dollars and "
+    "OPEC news may coincide with global demand news, so the common rise is not by itself "
+    "evidence about exporters.",
+}
 
 
 def _f(v: float, d: int = 2) -> str:
@@ -25,6 +59,14 @@ def _f(v: float, d: int = 2) -> str:
 
 def _band(c: float, se: float) -> str:
     return f"{_f(c)} [{_f(c - m4.Z90 * se)}, {_f(c + m4.Z90 * se)}]"
+
+
+def _ar(kind: str, lo: float, hi: float) -> str:
+    if kind == "interval":
+        return f"[{_f(lo)}, {_f(hi)}]"
+    if kind == "two_rays":
+        return f"(−∞, {_f(lo)}] ∪ [{_f(hi)}, ∞)"
+    return "(−∞, ∞)" if kind == "real_line" else "empty"
 
 
 def _md(df: pd.DataFrame) -> str:
@@ -48,6 +90,7 @@ def var_section(results: list[m4.VarLpResult]) -> tuple[str, dict[str, Any]]:
                     "proxy BVAR [90%]": f"{_f(r.var.irf[h, i])} [{_f(r.var.lo90[h, i])}, "
                                         f"{_f(r.var.hi90[h, i])}]",
                     "LP-IV [90%]": _band(float(lp.coef[h]), float(lp.se[h])),
+                    "LP-IV Anderson-Rubin 90% set": _ar(*r.ar90[n][h]),
                     "BVAR band width": f"{r.var.hi90[h, i] - r.var.lo90[h, i]:.2f}",
                     "LP band width": f"{2 * m4.Z90 * float(lp.se[h]):.2f}",
                 })
@@ -55,9 +98,13 @@ def var_section(results: list[m4.VarLpResult]) -> tuple[str, dict[str, Any]]:
         ratio = float(np.median(
             [(r.var.hi90[h, i] - r.var.lo90[h, i]) / (2 * m4.Z90 * float(r.lp[n].se[h]))
              for i, n in enumerate(r.variables) for h in range(1, 25)]))
+        weak = max(r.var.first_stage_f, r.lp_first_stage_f) < 10
         parts.append(
             f"### Instrument: {r.instrument}\n\n"
-            f"Sample {r.sample[0]} to {r.sample[1]} ({r.T} months), 7 variables, 12 lags. "
+            + ("**Weak instrument (first-stage F below 10): the Wald bands below are not "
+               "reliable; the Anderson-Rubin sets are. Read these monthly estimates as "
+               "suggestive.**\n\n" if weak else "")
+            + f"Sample {r.sample[0]} to {r.sample[1]} ({r.T} months), 7 variables, 12 lags. "
             f"First-stage F of the instrument on the 1-year yield's VAR residual: "
             f"{r.var.first_stage_f:.1f} (bootstrap median {r.var.boot_f_median:.1f}); LP-IV "
             f"effective F at h = 0: {r.lp_first_stage_f:.1f}. Bootstrap: {r.var.draws} draws, "
@@ -118,7 +165,8 @@ def state_section(cells: list[m4.StateCell]) -> tuple[str, list[dict[str, Any]]]
             "bootstrap (999 draws). Regimes are measured before each announcement: high VIX is "
             "VIX above its trailing 252-day median; hiking and cutting are measured relative to "
             "holding, from the 6-month change in the policy rate; high inflation is CPI above 3%. "
-            "MDE is the smallest difference this sample could detect (80% power, 10% test).\n\n"
+            "MDE is the smallest difference this sample could detect (80% power, 10% test). The "
+            "hiking and cutting rows of a cell share one test (both differences jointly).\n\n"
             f"**{raw} of {n_tests} tests have p ≤ 0.10 before correction; {survivors} survive "
             "the false-discovery-rate control.** Without the correction, about "
             f"{0.10 * n_tests:.0f} would be expected by chance alone.\n\n"
@@ -139,7 +187,6 @@ def canada_section(rows: list[m4.CanadaRow]) -> tuple[str, list[dict[str, Any]]]
                 "Fed: US 2y +10 bp [90%]": _band(fc, fs), "N (Fed)": fn,
                 "BoC: CA 2y +10 bp, event LP [90%]": _band(bc, bs),
                 "BoC, Rigobon-Sack [90%]": f"{_f(rb)} [{_f(rlo)}, {_f(rhi)}]", "N (BoC)": bn,
-                "Fed / BoC (event LP)": f"{fc / bc:.2f}" if abs(bc) > 1e-9 else "",
             })
         payload.append({"outcome": r.outcome, "units": r.units, "fed": r.fed, "boc": r.boc,
                         "boc_rigobon_sack": r.boc_rs, "fed_first_stage_f": r.fed_first_stage_f})

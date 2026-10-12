@@ -129,9 +129,10 @@ def run_canada(horizons: Sequence[int] = (0, HEADLINE)) -> list[CanadaRow]:
                           assumed_time=ASSUMED.get(sid))
         boc_d = {h: (float(b_irf.coef[h]), float(b_irf.se[h]), int(b_irf.nobs[h]))
                  for h in horizons}
-        we = window_changes(s, boc["ts"], max(horizons))
-        wc = pd.DataFrame(np.nan, index=boc.index, columns=we.columns)
-        wc.loc[pair] = window_changes(s, ctrl[pair], max(horizons)).to_numpy()
+        dcols = [f"d{h}" for h in range(max(horizons) + 1)]
+        we = window_changes(s, boc["ts"], max(horizons))[dcols]
+        wc = pd.DataFrame(np.nan, index=boc.index, columns=dcols)
+        wc.loc[pair] = window_changes(s, ctrl[pair], max(horizons))[dcols].to_numpy()
         rs = {}
         for h in horizons:
             r = rigobon_sack(boc["proxy_bp"].to_numpy(), we[f"d{h}"].to_numpy().astype(float),
@@ -346,6 +347,7 @@ class VarLpResult:
     var: bvar.ProxyBVARResult
     lp: dict[str, IRF]
     lp_first_stage_f: float
+    ar90: dict[str, list[tuple[str, float, float]]] = field(default_factory=dict)  # per 25 bp
 
 
 def run_var_vs_lp(instrument: str, draws: int | None = None) -> VarLpResult:
@@ -362,6 +364,7 @@ def run_var_vs_lp(instrument: str, draws: int | None = None) -> VarLpResult:
                           draws=draws or int(vspec["bootstrap"]["draws"]),
                           seed=int(vspec["bootstrap"]["seed"]))
     lps, f_min = {}, float("inf")
+    ar: dict[str, list[tuple[str, float, float]]] = {}
     for n in names:
         irf, diag = lp_iv(df[n], df["US1Y"], df["z"], range(25), lags=int(vspec["lags"]),
                           cov_type="NW")
@@ -369,5 +372,6 @@ def run_var_vs_lp(instrument: str, draws: int | None = None) -> VarLpResult:
                      irf.cov_type, "identified_causal", outcome=n, shock=instrument,
                      meta={**irf.meta, "first_stage_f_min": float(diag.effective_f.min())})
         f_min = min(f_min, float(diag.effective_f[0]))
+        ar[n] = [(a.kind, a.lo * impact, a.hi * impact) for a in diag.ar[0.90]]
     return VarLpResult(instrument, names, (str(df.index.min().date()), str(df.index.max().date())),
-                       len(df), res, lps, f_min)
+                       len(df), res, lps, f_min, ar)
