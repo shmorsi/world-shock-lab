@@ -1,9 +1,9 @@
 {
  "name": "m3/boc_proxy",
  "provenance": {
-  "generated_at": "2026-10-12T22:18:12Z",
-  "git_sha": "1b641614150c6be27a8f8a09fecbdd113c1491ca-dirty",
-  "data_built_at": "2026-10-12T22:08:06Z",
+  "generated_at": "2026-10-12T22:21:16Z",
+  "git_sha": "9106abdd43731e96b4ebb81cbc66c317130ac6b2",
+  "data_built_at": "2026-10-12T22:21:06Z",
   "evaluation_config_sha256": "f7cd8669c0be1d851eb9975534aa350ae2a94251a2cb899b34c4ba09cc2f999a",
   "manifest_sha256": "fe6e5b98888f3f66dd393c4d5c9db1c04324f9d7e8300f668d97da574f1b7e09",
   "series": {
