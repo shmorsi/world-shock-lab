@@ -42,13 +42,20 @@ class StructuralVAR:
                             for lag in range(1, min(h, self.p) + 1)), np.zeros((n, n))))
         return np.stack([m @ self.B for m in psi])
 
-    def simulate(self, T: int, rng: np.random.Generator,
-                 burn: int = 500) -> tuple[np.ndarray, np.ndarray]:
-        """-> (Y of shape (T, n), ε of shape (T, n))."""
+    def simulate(self, T: int, rng: np.random.Generator, burn: int = 500,
+                 shock0: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
+        """-> (Y of shape (T, n), ε of shape (T, n)).
+
+        ``shock0`` (length T, unit variance) replaces the first structural shock, e.g. with a
+        sparse, fat-tailed announcement-day series; the other shocks stay Gaussian.
+        """
         if self.companion_radius() >= 1:
             raise ValueError("VAR is not stable")
         n, p = self.n, self.p
         eps = rng.standard_normal((T + burn, n))
+        if shock0 is not None:
+            eps[burn:, 0] = shock0
+            eps[:burn, 0] = 0.0
         Y = np.zeros((T + burn, n))
         for t in range(p, T + burn):
             Y[t] = sum(self.A[lag - 1] @ Y[t - lag] for lag in range(1, p + 1)) + self.B @ eps[t]
@@ -71,3 +78,12 @@ def textbook_var() -> StructuralVAR:
                   [-0.10, 0.80, 0.00],
                   [-0.05, 0.20, 0.40]])
     return StructuralVAR(A=(A1, A2), B=B)
+
+
+def sparse_shock(T: int, rng: np.random.Generator, rate: float = 0.03,
+                 df: float = 4.0) -> np.ndarray:
+    """Announcement-like shock: nonzero on about ``rate`` of days, Student-t sizes, unit
+    variance overall (so IRFs are per one overall standard deviation)."""
+    days = rng.random(T) < rate
+    sizes = rng.standard_t(df, T) / np.sqrt(df / (df - 2.0))
+    return np.where(days, sizes / np.sqrt(rate), 0.0)

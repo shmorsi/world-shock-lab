@@ -269,9 +269,9 @@ def section_cross_source(obs: pd.DataFrame) -> str:
             rows.append({"check": label, "n": len(common), "max |diff|": f"{d.max():.4f} pp",
                          "n > tolerance": int((d > 0.15).sum()), "tolerance": "0.15 pp"})
     if {"VIX", "VIX_YAHOO.close"} <= have:
-        a, b = _ok_series(obs, "VIX"), _ok_series(obs, "VIX_YAHOO.close")
-        common = a.index.intersection(b.index)
-        d = (a[common] - b[common]).abs()
+        fred_vix, yahoo_vix = _ok_series(obs, "VIX"), _ok_series(obs, "VIX_YAHOO.close")
+        common = fred_vix.index.intersection(yahoo_vix.index)
+        d = (fred_vix[common] - yahoo_vix[common]).abs()
         rows.append({"check": "VIX close: FRED (CBOE) vs Yahoo ^VIX", "n": len(common),
                      "max |diff|": f"{d.max():.2f} index pts",
                      "n > tolerance": int((d > 0.05).sum()), "tolerance": "0.05 pts"})

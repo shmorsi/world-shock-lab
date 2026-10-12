@@ -71,7 +71,7 @@ class IVDiagnostics:
 
 def _resid(v: np.ndarray, W: np.ndarray) -> np.ndarray:
     coef, *_ = np.linalg.lstsq(W, v, rcond=None)
-    return v - W @ coef
+    return np.asarray(v - W @ coef, dtype=float)
 
 
 def _meat(scores: np.ndarray, cov_type: IVCov, lags: int, n: int, k: int) -> np.ndarray:
@@ -117,12 +117,12 @@ def lp_iv(
 ) -> tuple[IRF, IVDiagnostics]:
     if not (y.index.equals(x.index) and y.index.equals(z.index)):
         raise ValueError("y, x and z must share the same (time-ordered) index")
-    W = pd.concat(
-        [pd.Series(1.0, index=y.index, name="const"), lag_frame(y, lags, "y"),
-         lag_frame(x, lags, "x"), lag_frame(z, lags, "z")]
-        + ([controls.reindex(y.index)] if controls is not None else []),
-        axis=1,
-    ).to_numpy()
+    parts: list[pd.Series | pd.DataFrame] = [
+        pd.Series(1.0, index=y.index, name="const"), lag_frame(y, lags, "y"),
+        lag_frame(x, lags, "x"), lag_frame(z, lags, "z")]
+    if controls is not None:
+        parts.append(controls.reindex(y.index))
+    W = pd.concat(parts, axis=1).to_numpy()
     hs, coef, se, nobs, pis, fs = [], [], [], [], [], []
     ar: dict[float, list[ARSet]] = {lv: [] for lv in LEVELS}
     for h in horizons:

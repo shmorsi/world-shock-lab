@@ -10,8 +10,10 @@ import typer
 app = typer.Typer(no_args_is_help=True, add_completion=False, pretty_exceptions_enable=False)
 data_app = typer.Typer(no_args_is_help=True, help="Data layer: fetch, build, report.")
 events_app = typer.Typer(no_args_is_help=True, help="Event lists we construct ourselves.")
+validate_app = typer.Typer(no_args_is_help=True, help="Method validation reports.")
 app.add_typer(data_app, name="data")
 app.add_typer(events_app, name="events")
+app.add_typer(validate_app, name="validate")
 
 
 @data_app.command("fetch")
@@ -70,6 +72,14 @@ def events_boc_fad(
 
     for line in build_fad_list(crawl=crawl):
         typer.echo(line)
+
+
+@validate_app.command("simulation")
+def validate_simulation() -> None:
+    """Monte Carlo recovery of known impulse responses -> docs/SIMULATION.md (~1 minute)."""
+    from wsl.estimation.validation_report import write
+
+    typer.echo(f"wrote {write()}")
 
 
 if __name__ == "__main__":

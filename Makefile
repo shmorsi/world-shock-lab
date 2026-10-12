@@ -1,4 +1,4 @@
-.PHONY: setup fetch events build report data test test-data lint typecheck check all
+.PHONY: setup fetch events build report data simulation test test-data lint typecheck check all
 
 setup:            ## create the pinned environment (Python 3.12 via uv)
 	uv sync
@@ -17,6 +17,9 @@ report:           ## docs/DATA_QUALITY.md
 
 data: fetch events build report
 
+simulation:       ## Monte Carlo validation of the estimators -> docs/SIMULATION.md
+	uv run wsl validate simulation
+
 test:             ## unit and property tests (no data needed)
 	uv run pytest
 
@@ -31,4 +34,4 @@ typecheck:
 
 check: lint typecheck test
 
-all: setup data check test-data
+all: setup data check test-data simulation

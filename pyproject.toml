@@ -65,6 +65,11 @@ module = [
     "wsl.data.http",
     "wsl.data.registry",
     "wsl.data.transforms",
+    "wsl.estimation.ols",
+    "wsl.estimation.irf",
+    "wsl.estimation.lp",
+    "wsl.estimation.lpiv",
+    "wsl.estimation.simulate",
 ]
 strict = true
 

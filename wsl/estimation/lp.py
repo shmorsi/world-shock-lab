@@ -54,12 +54,12 @@ def lp(
 ) -> IRF:
     if not y.index.equals(shock.index):
         raise ValueError("y and shock must share the same (time-ordered) index")
-    base = pd.concat(
-        [pd.Series(1.0, index=y.index, name="const"), shock.rename("shock"),
-         lag_frame(y, y_lags, "y"), lag_frame(shock, shock_lags, "shock")]
-        + ([controls.reindex(y.index)] if controls is not None else []),
-        axis=1,
-    )
+    parts: list[pd.Series | pd.DataFrame] = [
+        pd.Series(1.0, index=y.index, name="const"), shock.rename("shock"),
+        lag_frame(y, y_lags, "y"), lag_frame(shock, shock_lags, "shock")]
+    if controls is not None:
+        parts.append(controls.reindex(y.index))
+    base = pd.concat(parts, axis=1)
     names = tuple(base.columns)
     hs, coef, se, nobs = [], [], [], []
     for h in horizons:
