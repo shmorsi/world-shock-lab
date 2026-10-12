@@ -1,12 +1,12 @@
-# World Shock Lab: pre-registered evaluation configuration (protocol v2)
+# World Shock Lab: pre-registered evaluation configuration (protocol v3)
 #
 # Written 2026-10-12, at M0, before any estimation or model fitting.
 # Do NOT edit after test results exist. If a change is unavoidable, bump protocol_version,
 # record the reason in docs/EVALUATION_PROTOCOL.md (Change log), and report both versions.
 # The pipeline stores sha256(this file) in every results JSON.
 
-protocol_version: 2
-frozen_on: "2026-10-12"   # v1 tagged protocol-v1; v2 amends BoC same-day events (see change log)
+protocol_version: 3
+frozen_on: "2026-10-12"   # v1/v2/v3 tagged protocol-v1/-v2/-v3; see the change log
 
 splits:
   # Inclusive bounds, compared against the announcement timestamp in the event's local time zone.
@@ -99,3 +99,36 @@ in_sample_specs:                     # causal estimation; robustness alternative
   spillover_network_horizons: [1, 5]
   placebo_draws: 1000
   placebo_seed: 20261012
+  # ---- v3: M4 details fixed before any M4 estimation (the out-of-sample protocol is unchanged)
+  headline_horizon: {daily: 5, monthly: 12}
+  state_dependence:                  # the complete test family for BH at q = 0.10
+    interaction_estimator: stacked_event_lp_cluster_by_event   # all horizons jointly
+    tests: [joint_all_horizons, headline_horizon]
+    cpi_for_regime: yoy_of_month_minus_2                       # always released before the event
+    cells:
+      fomc_mp:   {shock: mp_bp, controls: [cbi_bp], outcomes: [US2Y, SPY.tr, USDCAD, CA2Y, TSX.tr, CA_BANKS_EW6], regimes: [high_vix, cycle, high_inflation]}
+      boc_proxy: {shock: proxy_bp, outcomes: [USDCAD, CA10Y, TSX.tr, CA_BANKS_EW6], regimes: [high_vix, cycle, high_inflation]}
+      opec:      {shock: pc_pct, outcomes: [WTI, US_BE5Y_PD, TSX.tr, XEG, USDCAD], regimes: [high_vix, high_inflation]}
+  canada_comparison:
+    normalization: own_country_2y_moves_10bp_on_day0   # Fed: US2Y day-0 change instrumented by JK MP; BoC: the proxy
+    outcomes: [CA2Y, CA10Y, USDCAD, TSX.tr, CA_BANKS_EW6, XEG]
+  exporter_panel:
+    shock: pc_pct
+    outcomes: us_listed_country_etfs
+    classification: oil_exporter                       # regimes.oil_exporter above
+    se: cluster_by_event
+  network:
+    shocks: [fomc_mp, boc_proxy, opec]
+    outcomes: all_daily_series_with_event_window_ok
+  robustness:
+    variants: [baseline, no_controls, ten_pre_lags, pre_2008, post_2008, ex_2020, zero_filled_daily_nw, fed_shock_pc1, fed_shock_bs_orth, rigobon_sack_for_boc]
+    rule: "robust = same sign in every applicable variant and 90%-significant in at least two thirds of them; otherwise fragile"
+  var:
+    frequency: monthly
+    variables: [US1Y, US_IP, US_CPI_SA, CA2Y, CA_GDP_M, CA_CPI_SA, USDCAD]   # yields monthly means; others 100*log
+    lags: 12
+    prior: {type: minnesota_dummy_observations, overall_tightness: 0.2, own_lag_mean: 1.0}
+    instrument: {primary: BS_MPS_ORTH, robustness: JK_FED_MP}
+    normalization: US1Y_up_25bp_on_impact
+    bootstrap: {type: moving_block_jentsch_lunsford, block_length: "round(5.03 * T^0.25)", draws: 500, seed: 20261012}
+    lp_comparison: monthly_lp_iv_same_variables_and_instrument

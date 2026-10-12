@@ -1,4 +1,4 @@
-# Evaluation protocol (pre-registered, v2)
+# Evaluation protocol (pre-registered, v3)
 
 - **Frozen:** 2026-10-12, at M0, **before any estimation, model fitting or look at outcome data around events.**
 - **Machine-readable version:** `config/evaluation.yaml`. Its SHA-256 is written into every results file. If this document and the YAML disagree, the YAML wins and the disagreement is a bug.
@@ -103,7 +103,7 @@ FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train
 
 **Test-set access.**
 - Test events are loaded only by `wsl evaluate --final`.
-- That command refuses to run unless the git working tree is clean and `sha256(config/evaluation.yaml)` matches the hash recorded at the latest `protocol-v*` tag (currently `protocol-v2`).
+- That command refuses to run unless the git working tree is clean and `sha256(config/evaluation.yaml)` matches the hash recorded at the latest `protocol-v*` tag (currently `protocol-v3`).
 - It writes `results/final_eval/<timestamp>.json`, and that file is committed.
 - Every further run is logged in the change log with its reason.
 
@@ -137,6 +137,26 @@ These are fixed now so robustness checks are clearly labelled as robustness.
 - **Multiple testing:** Benjamini–Hochberg at q = 0.10 within each family (spillover edges; state-dependence tests). The spillover network uses h ∈ {1, 5}.
 - **Placebo:** 1,000 random non-event trading days (seed 20261012). The 5 days around any event are excluded.
 
+### v3 additions: M4 details fixed before any M4 estimation
+
+§9 promised a test "at the pre-specified headline horizon" but never named it, and the full list of state-dependence tests was not written down. These are fixed here, and in `config/evaluation.yaml`, before any M4 estimate exists.
+
+- **Headline horizons:** 5 trading days (daily) and 12 months (monthly).
+- **State-dependence family:** every shock × outcome × regime cell listed in the YAML. That gives 18 FOMC, 12 BoC and 10 OPEC cells, each tested two ways: jointly across all horizons, and at the headline horizon. All 80 tests form one Benjamini–Hochberg family at q = 0.10.
+  - Interaction coefficients are estimated by a stacked event-sample LP with errors clustered by event, so the joint test across horizons uses their covariance.
+  - Regime CPI is the year-on-year rate of the month two months before the event, which is always published by then.
+- **Canada comparison:** effects of a Fed move and a BoC move on Canadian assets, both normalized as a 10 bp move in the own country's 2-year yield on day 0. For the Fed, the US 2-year change is instrumented by the JK MP shock; for the BoC, it is the proxy itself.
+- **Oil exporters vs importers:** a panel of US-listed country ETFs on the OPEC surprise, with an exporter interaction (classification as in §9) and errors clustered by event.
+- **Robustness:** the variants listed in the YAML. A result is *robust* only if it has the same sign in every applicable variant and is 90%-significant in at least two thirds of them; otherwise it is *fragile*.
+- **Proxy BVAR:**
+  - Data: monthly, 7 variables, 12 lags.
+  - Prior: Minnesota, implemented with dummy observations; overall tightness 0.2.
+  - Instrument: primary BS `MPS_ORTH`, robustness JK MP.
+  - Normalization: the US 1-year yield rises 25 bp on impact.
+  - Bands: Jentsch–Lunsford moving-block bootstrap, 500 draws.
+  - Compared with a monthly LP-IV on the same variables and instrument.
+- **Disclosure:** the primary VAR instrument (BS `MPS_ORTH`) was chosen after M3 showed the raw surprise produces the output puzzle. That is also the paper's own recommendation. JK MP is reported alongside it.
+
 ## Change log
 
 | Date | Version | Change | Reason | Seen test results? |
@@ -144,3 +164,4 @@ These are fixed now so robustness checks are clearly labelled as robustness.
 | 2026-10-12 | v1 | Initial protocol | — | No |
 | 2026-10-12 | v1 (no change) | BoC event counts filled in (112 / 32 / 62); collision imbalance noted | Factual completion promised in §2; `config/evaluation.yaml` unchanged | No |
 | 2026-10-12 | v2 | BoC family excludes FOMC same-day events (primary); they are reported as a secondary subsample | The daily BoC proxy on those days also contains the Fed announcement (contaminated shock measure). Found while building the BoC list in M1. Approved by the project owner. | No: no estimation of any kind had been run |
+| 2026-10-12 | v3 | M4 details: headline horizons, the full state-dependence test family, the Canada normalization, the exporter panel, robustness variants and rule, the proxy-BVAR spec | §9 left the headline horizon and test family unspecified; fixed before any M4 estimate. The out-of-sample (ML) protocol is unchanged. | No: M3 in-sample results existed; no M4 estimate and no test-set evaluation had been run |
