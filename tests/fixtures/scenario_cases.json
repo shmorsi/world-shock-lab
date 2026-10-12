@@ -1,0 +1,206 @@
+{
+ "catalog": {
+  "horizons": [
+   0,
+   1
+  ],
+  "shocks": [
+   {
+    "id": "fed_mp",
+    "name": "FED_MP",
+    "label": "identified_causal",
+    "per": 10,
+    "unit": "bp",
+    "distribution": {
+     "min": -40,
+     "max": 17
+    }
+   },
+   {
+    "id": "fed_cbi",
+    "name": "FED_CBI",
+    "label": "identified_causal",
+    "per": 10,
+    "unit": "bp",
+    "distribution": {
+     "min": -20,
+     "max": 20
+    }
+   },
+   {
+    "id": "opec",
+    "name": "OPEC",
+    "label": "identified_causal",
+    "per": 1,
+    "unit": "%",
+    "distribution": {
+     "min": -5,
+     "max": 5
+    }
+   },
+   {
+    "id": "gpr",
+    "name": "GPR",
+    "label": "reduced_form",
+    "per": 1,
+    "unit": "sd",
+    "distribution": {
+     "min": -6,
+     "max": 9
+    }
+   }
+  ],
+  "outcomes": [
+   {
+    "id": "Y"
+   }
+  ],
+  "irfs": {
+   "fed_mp": {
+    "Y": {
+     "coef": [
+      2.0,
+      3.0
+     ],
+     "se": [
+      0.5,
+      1.0
+     ],
+     "cov_partner": [
+      0.1,
+      0.2
+     ]
+    }
+   },
+   "fed_cbi": {
+    "Y": {
+     "coef": [
+      1.0,
+      1.0
+     ],
+     "se": [
+      0.4,
+      0.4
+     ],
+     "cov_partner": [
+      0.1,
+      0.2
+     ]
+    }
+   },
+   "opec": {
+    "Y": {
+     "coef": [
+      -1.0,
+      0.0
+     ],
+     "se": [
+      0.3,
+      0.3
+     ],
+     "cov_partner": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "gpr": {
+    "Y": {
+     "coef": [
+      0.5,
+      0.5
+     ],
+     "se": [
+      0.1,
+      0.1
+     ],
+     "cov_partner": [
+      0.0,
+      0.0
+     ]
+    }
+   }
+  }
+ },
+ "cases": [
+  {
+   "sizes": {
+    "fed_mp": 15
+   },
+   "horizon": 0,
+   "evidence": "identified_causal",
+   "n_warnings": 1,
+   "outcomes": [
+    {
+     "id": "Y",
+     "mean": 3.0,
+     "se": 0.75,
+     "lo68": 2.254156575,
+     "hi68": 3.745843425,
+     "lo90": 1.7663598,
+     "hi90": 4.2336402
+    }
+   ]
+  },
+  {
+   "sizes": {
+    "fed_mp": 10,
+    "fed_cbi": 10
+   },
+   "horizon": 1,
+   "evidence": "identified_causal",
+   "n_warnings": 1,
+   "outcomes": [
+    {
+     "id": "Y",
+     "mean": 4.0,
+     "se": 1.2489995996796797,
+     "lo68": 2.757922481001705,
+     "hi68": 5.242077518998295,
+     "lo90": 1.94557851206832,
+     "hi90": 6.0544214879316804
+    }
+   ]
+  },
+  {
+   "sizes": {
+    "fed_mp": 25,
+    "gpr": 1
+   },
+   "horizon": 0,
+   "evidence": "reduced_form",
+   "n_warnings": 2,
+   "outcomes": [
+    {
+     "id": "Y",
+     "mean": 5.5,
+     "se": 1.2539936203984452,
+     "lo68": 4.252956137645165,
+     "hi68": 6.747043862354835,
+     "lo90": 3.437364079110584,
+     "hi90": 7.5626359208894165
+    }
+   ]
+  },
+  {
+   "sizes": {
+    "opec": -3,
+    "gpr": 2
+   },
+   "horizon": 1,
+   "evidence": "reduced_form",
+   "n_warnings": 1,
+   "outcomes": [
+    {
+     "id": "Y",
+     "mean": 1.0,
+     "se": 0.9219544457292886,
+     "lo68": 0.08315511800438768,
+     "hi68": 1.9168448819956123,
+     "lo90": -0.516480089093825,
+     "hi90": 2.5164800890938253
+    }
+   ]
+  }
+ ]
+}

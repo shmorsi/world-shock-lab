@@ -123,6 +123,16 @@ def validate_simulation() -> None:
     typer.echo(f"wrote {write()}")
 
 
+@export_app.command("site")
+def export_site(
+    local: Annotated[bool, typer.Option(help="Unfiltered export for your own use only.")] = False,
+) -> None:
+    """Web app data -> web/public/data/ (public licence filter) or data-local/."""
+    from wsl.export.site import export
+
+    typer.echo(f"wrote {export(public=not local)}")
+
+
 @export_app.command("preview")
 def export_preview() -> None:
     """Milestone preview page -> web/preview/index.html (~1 minute: reruns the simulations)."""

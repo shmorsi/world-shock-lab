@@ -17,6 +17,7 @@ __pycache__/
 .hypothesis/
 
 # Web
+web/public/data-local/
 web/node_modules/
 web/.next/
 web/out/
