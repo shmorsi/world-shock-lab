@@ -272,8 +272,8 @@ The day-0 window for a series must contain the announcement. The table records w
 |---|---|---|
 | H.10 FX (DEXCAUS etc.) | 12:00 ET (noon buying rate) | Verified (FRED notes) |
 | FOMC statements | Usually 14:00 ET. JK timestamps show exceptions (e.g. 2013-01-30 14:15, 2020-03-15 17:00 Sunday). | Verified (JK data) |
-| Treasury CMT (DGS*) | Treasury closing indicative quotes, believed to be about 15:30 ET | **Unverified** |
-| GoC benchmark yields (Valet) | "Closing" mid-market, time not documented | **Unverified (O-1)** |
+| Treasury CMT (DGS*) | Quotes "at or near 3:30 PM" ET (Treasury yield-curve methodology page) | Verified (M1) |
+| GoC benchmark yields (Valet) | "Closing" mid-market, time not documented; the data show it is after 14:00 ET | Resolved empirically (M3) |
 | BoC FAD announcements | 09:00 ET 2002–2012, 10:00 ET 2014–2020 and 2022–2024, 09:45 ET 2025–2026, as stated in the yearly schedule releases. 2001 and 2013 are inferred from the next year's "will continue to be made at" wording; 2021 is inferred from the same time being stated for 2020 and 2022. All are before the 12:00 H.10 fix. | Verified (`boc_fad.csv` `time_basis`) |
 | US equities and ETFs (Yahoo) | 16:00 ET close | Standard. To be confirmed against Nasdaq on sample dates. |
 | TSX (Yahoo) | 16:00 ET close | Standard |
@@ -288,7 +288,7 @@ The day-0 window for a series must contain the announcement. The table records w
 
 | ID | Item | Needed by |
 |---|---|---|
-| O-1 | Time of day of the Valet GoC benchmark "closing" yields. Ask the BoC or find the methodology note. | M3 (BoC proxy) |
+| ~~O-1~~ | **Resolved empirically in M3** (docs/REPLICATION.md §5): Canadian yields respond to 14:00 ET FOMC news within the announcement-day window, which is only possible if the Valet close is after 14:00. 16:00 ET stays the working assumption. BoC announcements (09:00–10:00 ET) are unaffected either way. | — |
 | ~~O-2~~ | **Resolved in M1:** Valet `CBC20210` has the daily target from 2001-01-01. | — |
 | O-3 | Whether CanDeal-sourced Valet yields, and statistics derived from them (our BoC proxy), may be published | M6 / M7 |
 | O-4 | Whether showing realized returns on specific dates (Event Replay) is acceptable under Yahoo's terms. The fallback is to show only model error metrics, not levels or returns. | M7 |
@@ -296,4 +296,5 @@ The day-0 window for a series must contain the announcement. The table records w
 | ~~O-6~~ | **Resolved in M1:** tags read from the FRED API, terms URL recorded (§3.1). | — |
 | O-7 | Pre-2017 USD/CAD closing rate (BoC legacy noon and closing archive). Not required, because H.10 with a timing-aware window covers it. | Optional |
 | O-8 | **Found in M1: OECD CPI is incomplete for some countries.** Checked in both `DF_PRICES_ALL` and `DF_KEI` on 2026-10-12: CPI ends 2025-12 for FRA, ITA and NOR, 2024-07 for MEX, and 2021-06 for JPN (and JPN has no CPI in `DF_KEI`). Candidate replacements are IMF data and national agencies; some agencies need an API key, which would need your approval. US and Canada are unaffected (FRED, StatCan). | M4 (cross-country panel) |
+| O-10 | **BoC Market Participants Survey** as an expectations benchmark for the BoC proxy. Checked in M3: it is published as quarterly web pages from late 2022, not as data, which gives at most about 15 usable announcements, all in the test window. Deferred. The proxy was validated by the variance-ratio, US-purged and placebo tests instead. | Optional |
 | O-9 | **VIX (CBOE) and Moody's Baa via FRED:** FRED's terms require the owner's permission for non-personal use. These series are used only for local research computations, and nothing derived from them is published until this is settled. Options: ask CBOE and Moody's, or for regimes use realized volatility of public-domain Treasury yields instead of VIX. | M7 (public site) |

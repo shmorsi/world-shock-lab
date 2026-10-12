@@ -24,8 +24,35 @@ SNAP_DAILY = (0, 1, 5, 10, 20)
 SNAP_MONTHLY = (0, 6, 12, 18, 24)
 TIMING_CLOSES = ("16:00", "13:30")
 
-# Written after reading the results; text only, no numbers (numbers live in the tables).
-NOTES: dict[str, str] = {}
+# Written after reading the first results (2026-10-12); text only, no numbers. Numbers live in
+# the tables above, so they can never drift from the code.
+NOTES: dict[str, str] = {
+    "JK1-JK4, BS1, KZ1": "Marked mechanical: the surprise is measured inside the daily window "
+    "(or, for KZ1, in oil futures that move with spot WTI). They confirm the plumbing "
+    "(timestamps, windows, units) rather than test economics.",
+    "JK4": "The information shock lifts stocks by construction in the 30-minute window, but the "
+    "effect is not significant over the whole day, while its effect on rates (JK3) is strong. "
+    "The equity part of information effects looks short-lived or too noisy to see at daily "
+    "frequency. This is reported, not explained away.",
+    "BS3 vs BS3r": "With the raw surprise, industrial production rises after a tightening: the "
+    "classic puzzle. With the orthogonalized surprise it falls, significantly. Bauer and "
+    "Swanson attribute the puzzle to the Fed responding to news markets had not yet priced; "
+    "removing the predictable part of the surprise fixes it. This reproduces the paper's "
+    "central point.",
+    "KZ5": "Activity falls, as the paper reports, but the monthly LP is imprecise at month 12 and "
+    "only significant at the longest horizon (horizon table). The paper uses a VAR, which is "
+    "more efficient at long horizons than an LP; M4 compares the two directly.",
+    "KZ3": "The paper's dollar result comes from a monthly VAR; our test asks a narrower daily "
+    "question (does the dollar weaken in the week after OPEC news). The sign agrees and the "
+    "effect is small.",
+    "FX1, FX2": "Expected signs taken from the project brief, not verified paper claims; they "
+    "are included as stylized facts.",
+    "BoC proxy": "For the 10-year yield and equities, the event LP and the Rigobon-Sack estimate "
+    "differ. The event LP assumes the proxy contains only BoC news; Rigobon-Sack does not. "
+    "Other same-day news that moves Canadian yields and stocks together would bias the event "
+    "LP for those outcomes, so Rigobon-Sack is the more credible estimate there. M4 reports "
+    "both for every Canadian outcome.",
+}
 
 
 def _f(v: float, d: int = 2) -> str:
@@ -161,6 +188,7 @@ def timing_section() -> tuple[str, dict[str, Any]]:
     fomc = ev.fomc().dropna(subset=["mp_bp", "cbi_bp"])
     rows: list[dict[str, Any]] = []
     payload: dict[str, Any] = {}
+    fits: dict[str, tuple[float, float, float]] = {}
     for outcome in ("CA2Y", "CA10Y"):
         for close in TIMING_CLOSES:
             irf = event_irf(fomc, "mp_bp", outcome, other_shocks=("cbi_bp",), per=10,
@@ -171,14 +199,28 @@ def timing_section() -> tuple[str, dict[str, Any]]:
                          "day 1": f"{_f(irf.coef[1])} [{_f(lo[1])}, {_f(hi[1])}]",
                          "N": irf.nobs[0]})
             payload[f"{outcome}_{close}"] = irf.to_dict()
+            if outcome == "CA2Y":
+                fits[close] = (float(irf.coef[0]), float(lo[0]), float(hi[0]))
+    late, early = fits["16:00"], fits["13:30"]
+    after = late[1] > 0 and late[0] > early[2]
+    verdict = ("**Conclusion: the data indicate the Valet closing yields are taken after "
+               "14:00 ET.** The 2-year response is significant in the 16:00-assumed window "
+               "and its estimate lies above the 13:30-assumed band. 16:00 stays the working "
+               "assumption, and open "
+               "item O-1 is resolved empirically." if after else
+               "**Conclusion: the data do not settle the closing time;** O-1 stays open and FOMC "
+               "responses of Canadian yields are reported under both assumptions.")
+    payload["conclusion_close_after_14h"] = after
     text = ("## 5. Timing check: when do Canadian bond yields close? (open item O-1)\n\n"
             "The BoC does not document the time of its closing yields. BoC announcements are "
             "in the morning, so this only matters for 14:00 ET FOMC announcements. If the "
             "close is after 14:00, the FOMC day is day 0; if before, the next day is. The "
             "response of Canadian yields to a 10 bp Fed policy (MP) shock under both "
             "assumptions:\n\n" + _md(pd.DataFrame(rows)) +
-            "\nIf the close were before 14:00, day 0 under that assumption would hold no Fed "
-            "news and the day-1 (cumulative) estimates should match the 16:00 day-0 ones.\n")
+            "\nTwo hypotheses make opposite predictions. If the close is after 14:00, the "
+            "16:00-assumed day-0 window contains the announcement and should respond strongly, "
+            "while the 13:30-assumed day 0 (the next day) holds only later news. If the close "
+            "is before 14:00, the reverse holds.\n\n" + verdict + "\n")
     return text, payload
 
 

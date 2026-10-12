@@ -68,3 +68,22 @@ def test_pinned_shas_are_documented() -> None:
     text = (ROOT / "data" / "SOURCES.md").read_text()
     for sha in (shock_sources.JK_FED_SHA, shock_sources.JK_ECB_SHA, shock_sources.KAENZIG_SHA):
         assert sha in text
+
+
+def test_boc_event_set_follows_protocol_v2() -> None:
+    from wsl.shocks import events as ev
+
+    b = ev.boc()
+    assert b["scheduled"].all() and not b["same_day_fomc"].any()
+    assert len(b) == 195  # 207 scheduled - 11 on FOMC days - 1 with no announcement time
+    assert b["ts"].dt.tz is not None
+
+
+def test_results_files_carry_provenance() -> None:
+    import json
+
+    for path in sorted((ROOT / "results").rglob("*.json")):
+        doc = json.loads(path.read_text())
+        prov = doc["provenance"]
+        assert prov["git_sha"] and prov["evaluation_config_sha256"] and prov["series"], path
+        assert all(len(v["sha256"]) == 64 for v in prov["series"].values()), path

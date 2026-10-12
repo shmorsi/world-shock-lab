@@ -11,9 +11,11 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, pretty_exceptions_
 data_app = typer.Typer(no_args_is_help=True, help="Data layer: fetch, build, report.")
 events_app = typer.Typer(no_args_is_help=True, help="Event lists we construct ourselves.")
 validate_app = typer.Typer(no_args_is_help=True, help="Method validation reports.")
+export_app = typer.Typer(no_args_is_help=True, help="Pages and files built from results.")
 app.add_typer(data_app, name="data")
 app.add_typer(events_app, name="events")
 app.add_typer(validate_app, name="validate")
+app.add_typer(export_app, name="export")
 
 
 @data_app.command("fetch")
@@ -86,6 +88,14 @@ def replicate() -> None:
 def validate_simulation() -> None:
     """Monte Carlo recovery of known impulse responses -> docs/SIMULATION.md (~1 minute)."""
     from wsl.estimation.validation_report import write
+
+    typer.echo(f"wrote {write()}")
+
+
+@export_app.command("preview")
+def export_preview() -> None:
+    """Milestone preview page -> web/preview/index.html (~1 minute: reruns the simulations)."""
+    from wsl.export.preview import write
 
     typer.echo(f"wrote {write()}")
 

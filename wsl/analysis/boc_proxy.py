@@ -43,6 +43,8 @@ PERIODS = {"2001-2014 (train)": ("2001-01-01", "2014-12-31"),
            "2015-2018 (validation)": ("2015-01-01", "2018-12-31"),
            "2019-2026 (test)": ("2019-01-01", "2026-09-30")}
 OUTCOMES = ["USDCAD", "CA10Y", "TSX.tr", "CA_BANKS_EW6"]
+# Valet GoC yields have an undocumented close (O-1); same assumption as for the proxy.
+ASSUMED = {"CA2Y": ASSUMED_CA_CLOSE, "CA10Y": ASSUMED_CA_CLOSE}
 PER = 10.0  # responses per 10 bp of proxy
 
 
@@ -139,13 +141,14 @@ def validate() -> ProxyValidation:
                           by_decision, (float(coef[1]), se, r2))
     others = [ev.fomc()["ts"], ev.opec()["ts"]]
     for o in OUTCOMES:
-        irf = event_irf(b, "proxy_bp", o, per=PER, label="reduced_form")
+        assumed: str | None = ASSUMED.get(o)
+        irf = event_irf(b, "proxy_bp", o, per=PER, label="reduced_form", assumed_time=assumed)
         out.irfs[o] = irf
-        y_e = _changes(o, b["ts"])
+        y_e = _changes(o, b["ts"], assumed)
         y_c = np.full(len(b), np.nan)
-        y_c[pair.to_numpy()] = _changes(o, ctrl[pair])
+        y_c[pair.to_numpy()] = _changes(o, ctrl[pair], assumed)
         out.rs[o] = rigobon_sack(i_e, y_e, i_c, y_c)
-        s = load_series(o)
+        s = load_series(o, assumed)
         used = b[~np.isnan(y_e)]
         out.placebo[o] = placebo_test(s, used, ["proxy_bp"], {0: irf.coef[0], 5: irf.coef[5]},
                                       per=PER, other_families=others)

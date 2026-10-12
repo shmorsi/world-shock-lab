@@ -1,0 +1,516 @@
+<title>World Shock Lab Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a research instrument panel. Narrow header strip with the milestone sequence,
+   then four stacked sections, each led by a status chip that says what kind of evidence it is. */
+:root {
+  --bg: #f4f6f9; --surface: #ffffff; --ink: #121722; --ink-2: #485164; --muted: #737c8e;
+  --line: #dde2ea; --line-2: #c9d0dc; --accent: #1c5cab;
+  --est: #2a78d6; --band90: rgba(42,120,214,.13); --band68: rgba(42,120,214,.26);
+  --truth: #121722; --fomc: #4a3aa7; --hike: #eb6834; --cut: #2a78d6; --hold: #8b93a3;
+  --split-val: rgba(28,92,171,.06); --split-test: rgba(235,104,52,.07); --split-live: rgba(27,175,122,.09);
+  --chip-sim-bg: #e7effb; --chip-sim-fg: #1c4f91; --chip-real-bg: #e4f4ec; --chip-real-fg: #0f6b45;
+  --chip-plan-bg: #eef0f4; --chip-plan-fg: #4d5566; --good: #0ca30c; --warn-ink: #8a5a00;
+  --skeleton: #e8ecf2; --skeleton-2: #d9dfe8;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1218; --surface: #161a22; --ink: #edf1f7; --ink-2: #b6bfcd; --muted: #8790a0;
+  --line: #262c38; --line-2: #333b49; --accent: #6da7ec;
+  --est: #5598e7; --band90: rgba(85,152,231,.16); --band68: rgba(85,152,231,.30);
+  --truth: #edf1f7; --fomc: #9085e9; --hike: #e8743f; --cut: #5598e7; --hold: #7d8697;
+  --split-val: rgba(109,167,236,.08); --split-test: rgba(232,116,63,.09); --split-live: rgba(27,175,122,.12);
+  --chip-sim-bg: #1b2a40; --chip-sim-fg: #9cc4f2; --chip-real-bg: #15301f; --chip-real-fg: #8fd8b0;
+  --chip-plan-bg: #222833; --chip-plan-fg: #aab2c0; --good: #3ccf3c; --warn-ink: #f0c060;
+  --skeleton: #1d222c; --skeleton-2: #272e3a; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1218; --surface: #161a22; --ink: #edf1f7; --ink-2: #b6bfcd; --muted: #8790a0;
+  --line: #262c38; --line-2: #333b49; --accent: #6da7ec;
+  --est: #5598e7; --band90: rgba(85,152,231,.16); --band68: rgba(85,152,231,.30);
+  --truth: #edf1f7; --fomc: #9085e9; --hike: #e8743f; --cut: #5598e7; --hold: #7d8697;
+  --split-val: rgba(109,167,236,.08); --split-test: rgba(232,116,63,.09); --split-live: rgba(27,175,122,.12);
+  --chip-sim-bg: #1b2a40; --chip-sim-fg: #9cc4f2; --chip-real-bg: #15301f; --chip-real-fg: #8fd8b0;
+  --chip-plan-bg: #222833; --chip-plan-fg: #aab2c0; --good: #3ccf3c; --warn-ink: #f0c060;
+  --skeleton: #1d222c; --skeleton-2: #272e3a; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 750; font-stretch: 85%; line-height: 1.05; }
+h2 { font-size: 22px; font-weight: 700; font-stretch: 90%; }
+h3 { font-size: 16px; font-weight: 650; font-stretch: 95%; }
+p { margin: 0; max-width: 68ch; }
+.muted { color: var(--muted); }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+header.top { display: grid; gap: 14px; }
+.headline { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.build { font: 12px var(--mono); color: var(--muted); }
+.lede { color: var(--ink-2); font-size: 16px; }
+
+.milestones { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
+.ms { border-top: 3px solid var(--line-2); padding-top: 6px; min-width: 0; }
+.ms b { display: block; font: 600 12px var(--mono); }
+.ms span { display: block; font-size: 11.5px; line-height: 1.3; color: var(--muted); overflow-wrap: anywhere; }
+.ms.done { border-color: var(--accent); }
+.ms.done b { color: var(--accent); }
+.ms.next { border-color: var(--hike); }
+.ms.next b { color: var(--hike); }
+@media (max-width: 720px) { .milestones { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 10px; } }
+
+.notice { border: 1px solid var(--line-2); background: var(--surface); border-radius: 6px; padding: 12px 14px; color: var(--ink-2); font-size: 14px; }
+.notice strong { color: var(--ink); }
+
+section.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 11.5px/1 var(--mono); padding: 6px 9px; border-radius: 999px; letter-spacing: .02em; white-space: nowrap; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.sim { background: var(--chip-sim-bg); color: var(--chip-sim-fg); }
+.chip.real { background: var(--chip-real-bg); color: var(--chip-real-fg); }
+.chip.plan { background: var(--chip-plan-bg); color: var(--chip-plan-fg); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: flex-end; }
+.ctl { display: grid; gap: 6px; min-width: 0; }
+.ctl > label, .ctl > .lbl { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.seg { display: flex; flex-wrap: wrap; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden; }
+.seg button { font: 500 13px var(--body); color: var(--ink-2); background: transparent; border: 0; border-right: 1px solid var(--line-2); padding: 7px 11px; cursor: pointer; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.seg button:disabled { opacity: .4; cursor: not-allowed; }
+.seg button:focus-visible, .linkbtn:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.explorer { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); gap: 22px; }
+@media (max-width: 860px) { .explorer { grid-template-columns: minmax(0, 1fr); } }
+.chart { position: relative; min-width: 0; }
+.chart svg { display: block; width: 100%; overflow: visible; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.chart .axis-title { font-family: var(--body); font-size: 12px; fill: var(--ink-2); }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--line-2); border-radius: 6px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 6px 20px rgba(0,0,0,.12); min-width: 170px; max-width: 280px; z-index: 2; }
+.tip .t { font: 600 12px var(--mono); margin-bottom: 4px; }
+.tip .row { display: flex; justify-content: space-between; gap: 14px; }
+.tip .row span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 18px; height: 10px; margin-right: 6px; vertical-align: -1px; border-radius: 2px; }
+.side { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.stat { display: grid; gap: 2px; }
+.stat .big { font: 600 30px/1.1 var(--display); font-stretch: 85%; font-variant-numeric: tabular-nums; }
+.stat .big.ok { color: var(--good); }
+.stat .big.warn { color: var(--warn-ink); }
+.caption { font-size: 13.5px; color: var(--ink-2); }
+
+.cal-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 720px) { .cal-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.fact { border-top: 1px solid var(--line); padding-top: 8px; min-width: 0; }
+.fact .v { font: 600 20px/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+.fact .k { font-size: 12.5px; color: var(--muted); }
+
+.health { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+@media (max-width: 860px) { .health { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.hcell { background: var(--surface); padding: 14px; display: grid; gap: 4px; min-width: 0; }
+.hcell .v { font: 600 24px/1.1 var(--display); font-stretch: 85%; font-variant-numeric: tabular-nums; }
+.hcell .k { font-size: 13px; color: var(--ink-2); }
+.hcell .s { font-size: 12px; color: var(--muted); }
+
+.next-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .next-grid { grid-template-columns: minmax(0, 1fr); } }
+.frame { border: 1px dashed var(--line-2); border-radius: 8px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.frame .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.wire { height: 120px; border-radius: 6px; background: var(--skeleton); position: relative; overflow: hidden; }
+.wire div { position: absolute; background: var(--skeleton-2); border-radius: 4px; }
+
+details { border-top: 1px solid var(--line); padding-top: 10px; }
+summary { cursor: pointer; font-size: 13.5px; color: var(--accent); width: fit-content; }
+.tablewrap { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; font-size: 13px; min-width: 520px; }
+th, td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+th { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+th:first-child, td:first-child { text-align: left; }
+td { font-family: var(--mono); }
+footer { font-size: 12.5px; color: var(--muted); display: grid; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .chart path.est { transition: d .25s ease; } }
+</style>
+<div class="wrap">
+  <header class="top">
+    <div class="headline">
+      <h1>World Shock Lab</h1>
+      <div class="build" id="build"></div>
+    </div>
+    <p class="lede">How the world, and Canada in particular, reacts to identified economic shocks. This is a preview of the research lab at milestone M2: the data layer and the estimation engine exist; real-world estimates start in M3.</p>
+    <div class="milestones" role="list" aria-label="Milestones">
+      <div class="ms done" role="listitem"><b>M0</b><span>Plan &amp; sources</span></div>
+      <div class="ms done" role="listitem"><b>M1</b><span>Data layer</span></div>
+      <div class="ms done" role="listitem"><b>M2</b><span>Estimation core</span></div>
+      <div class="ms next" role="listitem"><b>M3</b><span>Identification &amp; replication</span></div>
+      <div class="ms" role="listitem"><b>M4</b><span>SVAR, regimes, Canada</span></div>
+      <div class="ms" role="listitem"><b>M5</b><span>ML benchmark</span></div>
+      <div class="ms" role="listitem"><b>M6</b><span>Scenario engine</span></div>
+      <div class="ms" role="listitem"><b>M7</b><span>Web app</span></div>
+      <div class="ms" role="listitem"><b>M8</b><span>Live forecasts</span></div>
+    </div>
+    <div class="notice"><strong>What you are looking at.</strong> Every number on this page was produced by the project's code. The explorer runs the real estimators on a <em>simulated</em> economy whose true response is known, which is how we prove the method works before trusting it on real data. The shock calendar is real data. Nothing here is an estimate of how real markets react; that starts in M3.</div>
+  </header>
+
+  <section class="panel" aria-labelledby="exp-h">
+    <div class="panel-head">
+      <div><div class="eyebrow">Preview of view 2 · Impulse Response Explorer</div><h2 id="exp-h">Does the estimator find the true response?</h2></div>
+      <span class="chip sim">Validation · simulated economy</span>
+    </div>
+    <div class="controls">
+      <div class="ctl"><span class="lbl" id="m-lbl">Method</span><div class="seg" role="group" aria-labelledby="m-lbl" id="method"></div></div>
+      <div class="ctl"><span class="lbl" id="o-lbl">Outcome</span><div class="seg" role="group" aria-labelledby="o-lbl" id="outcome"></div></div>
+      <div class="ctl"><span class="lbl" id="d-lbl">Simulated sample</span><div class="seg" role="group" aria-labelledby="d-lbl" id="draw"></div></div>
+    </div>
+    <div class="explorer">
+      <div class="chart" id="irf"><div class="tip" id="irf-tip" hidden></div></div>
+      <div class="side">
+        <div class="stat"><span class="eyebrow">This sample</span><span class="big num" id="s-cover"></span><span class="caption" id="s-cover-c"></span></div>
+        <div class="stat"><span class="eyebrow">Across 200 simulated samples</span><span class="big num" id="s-mc"></span><span class="caption" id="s-mc-c"></span></div>
+        <div class="chart" id="covchart"><div class="tip" id="cov-tip" hidden></div></div>
+        <p class="caption" id="method-note"></p>
+      </div>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span><i style="background:transparent;border-top:2px dashed var(--truth);height:0;width:18px"></i>True response (built into the simulation)</span>
+      <span><i style="background:var(--est);height:2px"></i>Estimate from one sample</span>
+      <span><i style="background:var(--band68)"></i>68% band</span>
+      <span><i style="background:var(--band90)"></i>90% band</span>
+    </div>
+    <details><summary>Show the chart as a table</summary><div class="tablewrap"><table id="irf-table"></table></div></details>
+  </section>
+
+  <section class="panel" aria-labelledby="cal-h">
+    <div class="panel-head">
+      <div><div class="eyebrow">The identification backbone</div><h2 id="cal-h">Shock calendar, 1990 to 2026</h2></div>
+      <span class="chip real">Real data</span>
+    </div>
+    <p class="caption">Top: the Fed policy surprise at each FOMC announcement, measured in a 30-minute window in rate futures (Jarociński–Karadi). Bottom: every Bank of Canada rate announcement, rebuilt by this project from the BoC's own press releases. Shading shows the time splits fixed before any estimation (protocol v2).</p>
+    <div class="legend" aria-hidden="true">
+      <span><i style="background:var(--fomc)"></i>FOMC surprise (bp)</span>
+      <span>▲ <span style="color:var(--hike)">BoC hike</span></span>
+      <span>▼ <span style="color:var(--cut)">BoC cut</span></span>
+      <span>● <span style="color:var(--hold)">BoC hold</span></span>
+      <span>◯ same day as an FOMC announcement</span>
+    </div>
+    <div class="chart" id="cal"><div class="tip" id="cal-tip" hidden></div></div>
+    <div class="cal-facts" id="cal-facts"></div>
+    <details><summary>Show the largest surprises and BoC decisions as tables</summary><div class="tablewrap"><table id="cal-table"></table></div><div class="tablewrap"><table id="boc-table"></table></div></details>
+  </section>
+
+  <section class="panel" aria-labelledby="h-h">
+    <div class="panel-head">
+      <div><div class="eyebrow">Data layer (M1)</div><h2 id="h-h">Pipeline health at this build</h2></div>
+      <span class="chip real">Computed from the build</span>
+    </div>
+    <div class="health" id="health"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="n-h">
+    <div class="panel-head">
+      <div><div class="eyebrow">Planned views</div><h2 id="n-h">What fills in next</h2></div>
+      <span class="chip plan">Not built yet</span>
+    </div>
+    <div class="next-grid">
+      <div class="frame"><div class="meta"><h3>World Reaction Map</h3><span class="chip plan">Needs M3–M4 estimates · built in M7</span></div>
+        <div class="wire" aria-hidden="true"><div style="left:6%;top:18%;width:30%;height:34%"></div><div style="left:40%;top:12%;width:22%;height:28%"></div><div style="left:66%;top:22%;width:26%;height:40%"></div><div style="left:30%;top:58%;width:18%;height:30%"></div><div style="left:74%;top:70%;width:14%;height:18%"></div></div>
+        <p class="caption">Pick a shock and a horizon; countries and assets colour by their estimated response, each labelled causal, associative or forecast.</p></div>
+      <div class="frame"><div class="meta"><h3>Scenario Composer</h3><span class="chip plan">Built in M6</span></div>
+        <div class="wire" aria-hidden="true"><div style="left:5%;top:14%;width:40%;height:10%"></div><div style="left:5%;top:32%;width:40%;height:10%"></div><div style="left:5%;top:50%;width:40%;height:10%"></div><div style="left:52%;top:14%;width:43%;height:72%"></div></div>
+        <p class="caption">Combine shocks sized in standard deviations, see the combined response with bands, a linearity warning, and a Canada dashboard.</p></div>
+      <div class="frame"><div class="meta"><h3>Event Replay</h3><span class="chip plan">Needs the M5 test · built in M7</span></div>
+        <div class="wire" aria-hidden="true"><div style="left:5%;top:16%;width:90%;height:8%"></div><div style="left:5%;top:34%;width:42%;height:52%"></div><div style="left:53%;top:34%;width:42%;height:52%"></div></div>
+        <p class="caption">Pick a held-out announcement from 2019 to 2026 and compare predicted with realized moves, with the error shown.</p></div>
+      <div class="frame"><div class="meta"><h3>Strategist Brief</h3><span class="chip plan">Built in M6–M7</span></div>
+        <div class="wire" aria-hidden="true"><div style="left:6%;top:14%;width:60%;height:9%"></div><div style="left:6%;top:30%;width:86%;height:6%"></div><div style="left:6%;top:42%;width:80%;height:6%"></div><div style="left:6%;top:54%;width:84%;height:6%"></div><div style="left:6%;top:70%;width:50%;height:6%"></div></div>
+        <p class="caption">A one-page brief written from the result files only, with a test that fails if the brief contains any number not in the data.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>FOMC surprises: Jarociński, M. and Karadi, P. (2020), updated series, CC BY 4.0. BoC decisions: constructed by World Shock Lab from Bank of Canada press releases. Simulated results: <span class="mono">wsl/estimation/montecarlo.py</span>, seeded.</span>
+    <span id="foot-build"></span>
+  </footer>
+</div>
+
+<script>
+const D = /*WSL_DATA*/null;
+const $ = (id) => document.getElementById(id);
+const Z90 = 1.6448536, Z68 = 0.9944579;
+const METHODS = [
+  { key: "dense_NW", label: "LP · Newey–West", unit: "Months after the shock", sparse: false,
+    note: "Monthly-style data with a shock every period. One regression per horizon, Newey–West errors with h+1 lags: the conventional choice." },
+  { key: "dense_HC1", label: "LP · lag-augmented", unit: "Months after the shock", sparse: false,
+    note: "The same regression with robust (HC1) errors. With lags of the outcome and the shock as controls this is valid at every horizon (Montiel Olea & Plagborg-Møller, 2021)." },
+  { key: "event_HC3", label: "Event-sample LP", unit: "Days after the announcement", sparse: true,
+    note: "Daily data with about 240 sparse, fat-tailed announcement shocks, like real Fed and BoC surprises. One regression per horizon on announcement days only, HC3 errors. This is the pre-registered main daily method." },
+  { key: "zerofill_NW", label: "Zero-filled daily LP", unit: "Days after the announcement", sparse: true,
+    note: "The same daily data, but a time-series LP with zeros on non-announcement days. The estimate is unbiased, but the bands are too narrow, so they miss the truth more than 10% of the time. Kept as a robustness check only." },
+];
+const state = { m: 0, o: 1, d: 0 };
+const sgn = (v, d = 3) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d);
+const pct = (v, d = 1) => (100 * v).toFixed(d) + "%";
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function niceTicks(lo, hi, n = 5) {
+  const span = hi - lo || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), e = raw / mag;
+  const step = mag * (e >= 7.5 ? 10 : e >= 3.5 ? 5 : e >= 1.5 ? 2 : 1);
+  const out = [];
+  for (let v = Math.ceil(lo / step - 1e-9) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+function segButtons(id, items, active, onPick, disabledFn) {
+  const el = $(id); el.innerHTML = "";
+  items.forEach((label, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = label; b.id = `${id}-${i}`;
+    b.setAttribute("aria-pressed", String(i === active));
+    if (disabledFn && disabledFn(i)) b.disabled = true;
+    b.addEventListener("click", () => onPick(i));
+    el.appendChild(b);
+  });
+}
+function placeTip(tip, chart, px, py) {
+  tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight, W = chart.clientWidth;
+  let left = px + 14; if (left + w > W) left = Math.max(0, px - w - 14);
+  let top = py - h / 2; if (top < 0) top = 0;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+
+/* ------------------------------------------------------------ explorer */
+function current() {
+  const m = METHODS[state.m], o = m.sparse ? 1 : state.o;
+  const dr = D.explorer.draws[m.key][state.d][o];
+  const truth = D.explorer.truth[o], hs = D.explorer.horizons;
+  const rows = hs.map((h, i) => {
+    const c = dr.coef[i], s = dr.se[i];
+    return { h, truth: truth[i], c, s, lo90: c - Z90 * s, hi90: c + Z90 * s, lo68: c - Z68 * s, hi68: c + Z68 * s };
+  });
+  rows.forEach((r) => (r.covered = r.lo90 <= r.truth && r.truth <= r.hi90));
+  return { m, o, rows, cov: D.coverage[m.key][o] };
+}
+
+function drawIRF() {
+  const { m, rows } = current();
+  const el = $("irf"), tip = $("irf-tip");
+  const W = el.clientWidth, H = Math.round(Math.max(260, Math.min(380, W * 0.58)));
+  const M = { l: 58, r: 14, t: 14, b: 46 };
+  let ymin = Math.min(0, ...rows.map((r) => Math.min(r.truth, r.lo90)));
+  let ymax = Math.max(0, ...rows.map((r) => Math.max(r.truth, r.hi90)));
+  const pad = (ymax - ymin) * 0.06; ymin -= pad; ymax += pad;
+  const yt = niceTicks(ymin, ymax, 5); ymin = Math.min(ymin, yt[0]); ymax = Math.max(ymax, yt[yt.length - 1]);
+  const hmax = rows[rows.length - 1].h;
+  const x = (h) => M.l + ((W - M.l - M.r) * h) / hmax;
+  const y = (v) => M.t + ((H - M.t - M.b) * (ymax - v)) / (ymax - ymin);
+  const band = (lo, hi) => "M" + rows.map((r) => `${x(r.h)},${y(r[hi])}`).join("L") + "L" + rows.slice().reverse().map((r) => `${x(r.h)},${y(r[lo])}`).join("L") + "Z";
+  const line = (k) => "M" + rows.map((r) => `${x(r.h)},${y(r[k])}`).join("L");
+  const xt = W < 480 ? rows.filter((r) => r.h % 4 === 0) : rows.filter((r) => r.h % 2 === 0);
+  let s = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Estimated versus true impulse response, ${m.label}">`;
+  yt.forEach((v) => {
+    s += `<line x1="${M.l}" x2="${W - M.r}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)" stroke-width="1"/>`;
+    s += `<text x="${M.l - 8}" y="${y(v) + 4}" text-anchor="end">${sgn(v, Math.abs(v) < 0.1 && v !== 0 ? 2 : v % 1 === 0 ? 0 : 2).replace("+0", "0")}</text>`;
+  });
+  s += `<line x1="${M.l}" x2="${W - M.r}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--line-2)" stroke-width="1.5"/>`;
+  xt.forEach((r) => (s += `<text x="${x(r.h)}" y="${H - M.b + 18}" text-anchor="middle">${r.h}</text>`));
+  s += `<text class="axis-title" x="${M.l + (W - M.l - M.r) / 2}" y="${H - 8}" text-anchor="middle">${m.unit}</text>`;
+  s += `<text class="axis-title" transform="translate(14 ${M.t + (H - M.t - M.b) / 2}) rotate(-90)" text-anchor="middle">Response to a 1 s.d. shock</text>`;
+  s += `<path d="${band("lo90", "hi90")}" style="fill:var(--band90)"/>`;
+  s += `<path d="${band("lo68", "hi68")}" style="fill:var(--band68)"/>`;
+  s += `<path d="${line("truth")}" style="fill:none;stroke:var(--truth)" stroke-width="2" stroke-dasharray="6 4"/>`;
+  s += `<path class="est" d="${line("c")}" style="fill:none;stroke:var(--est)" stroke-width="2"/>`;
+  rows.forEach((r) => {
+    s += `<circle cx="${x(r.h)}" cy="${y(r.c)}" r="4.5" style="fill:${r.covered ? "var(--est)" : "var(--surface)"};stroke:${r.covered ? "var(--surface)" : "var(--est)"}" stroke-width="2"/>`;
+  });
+  s += `<g id="irf-hover"></g><rect x="${M.l}" y="${M.t}" width="${W - M.l - M.r}" height="${H - M.t - M.b}" fill="transparent" id="irf-hit"/></svg>`;
+  el.querySelector("svg")?.remove();
+  el.insertAdjacentHTML("afterbegin", s);
+  const hit = $("irf-hit"), g = $("irf-hover");
+  const show = (evt) => {
+    const rect = el.getBoundingClientRect();
+    const px = evt.clientX - rect.left;
+    const h = Math.max(0, Math.min(hmax, Math.round(((px - M.l) / (W - M.l - M.r)) * hmax)));
+    const r = rows.find((q) => q.h === h);
+    g.innerHTML = `<line x1="${x(h)}" x2="${x(h)}" y1="${M.t}" y2="${H - M.b}" style="stroke:var(--ink-2)" stroke-width="1" stroke-dasharray="2 3"/>`;
+    tip.innerHTML = `<div class="t">h = ${h}</div>
+      <div class="row"><span>True response</span><span>${sgn(r.truth)}</span></div>
+      <div class="row"><span>Estimate</span><span>${sgn(r.c)}</span></div>
+      <div class="row"><span>90% band</span><span>${sgn(r.lo90)} to ${sgn(r.hi90)}</span></div>
+      <div class="row"><span>Band contains truth</span><span>${r.covered ? "yes" : "no"}</span></div>`;
+    placeTip(tip, el, x(h), y(r.c));
+  };
+  hit.addEventListener("mousemove", show);
+  hit.addEventListener("mouseleave", () => { tip.hidden = true; g.innerHTML = ""; });
+}
+
+function drawCoverage() {
+  const { cov } = current();
+  const el = $("covchart"), tip = $("cov-tip");
+  const W = el.clientWidth, H = 150, M = { l: 40, r: 8, t: 10, b: 24 };
+  const lo = 0.6, hi = 1.0, n = cov.cov90.length;
+  const bw = (W - M.l - M.r) / n;
+  const y = (v) => M.t + ((H - M.t - M.b) * (hi - v)) / (hi - lo);
+  let s = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="Coverage of the 90% band by horizon across 200 simulated samples">`;
+  s += `<rect x="${M.l}" y="${y(0.95)}" width="${W - M.l - M.r}" height="${y(0.85) - y(0.95)}" style="fill:var(--split-live)"/>`;
+  [0.6, 0.7, 0.8, 0.9, 1.0].forEach((v) => (s += `<text x="${M.l - 6}" y="${y(v) + 4}" text-anchor="end">${Math.round(v * 100)}%</text>`));
+  cov.cov90.forEach((v, i) => {
+    const x0 = M.l + i * bw + 2, top = y(Math.max(lo, v));
+    s += `<path d="M${x0},${y(lo)}V${top + 3}Q${x0},${top} ${x0 + 3},${top}H${x0 + bw - 7}Q${x0 + bw - 4},${top} ${x0 + bw - 4},${top + 3}V${y(lo)}Z" style="fill:var(--est)" data-i="${i}"/>`;
+  });
+  s += `<line x1="${M.l}" x2="${W - M.r}" y1="${y(0.9)}" y2="${y(0.9)}" style="stroke:var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  [0, Math.floor((n - 1) / 2), n - 1].forEach((i) => (s += `<text x="${M.l + i * bw + bw / 2 - 1}" y="${H - 6}" text-anchor="middle">h=${i}</text>`));
+  s += `<rect x="${M.l}" y="${M.t}" width="${W - M.l - M.r}" height="${H - M.t - M.b}" fill="transparent" id="cov-hit"/></svg>`;
+  el.querySelector("svg")?.remove();
+  el.insertAdjacentHTML("afterbegin", s);
+  $("cov-hit").addEventListener("mousemove", (evt) => {
+    const rect = el.getBoundingClientRect(), px = evt.clientX - rect.left;
+    const i = Math.max(0, Math.min(n - 1, Math.floor((px - M.l) / bw)));
+    tip.innerHTML = `<div class="t">h = ${i}</div><div class="row"><span>90% band contained truth</span><span>${pct(cov.cov90[i])}</span></div><div class="row"><span>68% band</span><span>${pct(cov.cov68[i])}</span></div>`;
+    placeTip(tip, el, M.l + i * bw + bw / 2, y(cov.cov90[i]));
+  });
+  $("cov-hit").addEventListener("mouseleave", () => (tip.hidden = true));
+}
+
+function renderExplorer() {
+  const { m, rows, cov } = current();
+  segButtons("method", METHODS.map((q) => q.label), state.m, (i) => { state.m = i; renderExplorer(); });
+  segButtons("outcome", D.explorer.outcomes, m.sparse ? 1 : state.o, (i) => { state.o = i; renderExplorer(); }, (i) => m.sparse && i !== 1);
+  segButtons("draw", D.explorer.draws[m.key].map((_, i) => String(i + 1)), state.d, (i) => { state.d = i; renderExplorer(); });
+  const k = rows.filter((r) => r.covered).length;
+  $("s-cover").textContent = `${k} of ${rows.length}`;
+  $("s-cover-c").textContent = "horizons where this sample's 90% band contains the true response. Open markers show the misses.";
+  const ok = cov.mean90 >= 0.85 && cov.mean90 <= 0.95;
+  $("s-mc").textContent = pct(cov.mean90);
+  $("s-mc").className = "big num " + (ok ? "ok" : "warn");
+  $("s-mc-c").textContent = `of 90% bands contained the truth, averaged over horizons (${cov.R} samples). Target 85% to 95%: ${ok ? "passes" : "fails"}. Per horizon below; the dashed line marks 90%.`;
+  $("method-note").textContent = m.note + (m.sparse ? " Shown for the activity outcome only." : "");
+  drawIRF(); drawCoverage();
+  $("irf-table").innerHTML = "<thead><tr><th>h</th><th>True</th><th>Estimate</th><th>s.e.</th><th>68% band</th><th>90% band</th><th>Contains truth</th></tr></thead><tbody>" +
+    rows.map((r) => `<tr><td>${r.h}</td><td>${sgn(r.truth)}</td><td>${sgn(r.c)}</td><td>${r.s.toFixed(3)}</td><td>${sgn(r.lo68)} to ${sgn(r.hi68)}</td><td>${sgn(r.lo90)} to ${sgn(r.hi90)}</td><td>${r.covered ? "yes" : "no"}</td></tr>`).join("") + "</tbody>";
+}
+
+/* ------------------------------------------------------------ calendar */
+const SPLITS = [ // config/evaluation.yaml, protocol v2
+  { name: "Train", a: "1990-01-01", b: "2015-01-01", fill: null },
+  { name: "Validation", a: "2015-01-01", b: "2019-01-01", fill: "var(--split-val)" },
+  { name: "Test", a: "2019-01-01", b: "2026-10-01", fill: "var(--split-test)" },
+  { name: "Live", a: "2026-10-01", b: "2027-01-01", fill: "var(--split-live)" },
+];
+function drawCal() {
+  const el = $("cal"), tip = $("cal-tip");
+  const W = el.clientWidth, H1 = Math.round(Math.max(190, Math.min(270, W * 0.28))), SH = 56;
+  const M = { l: 46, r: 10, t: 24, b: 30 }, gap = 16, H = M.t + H1 + gap + SH + M.b;
+  const t0 = Date.UTC(1990, 0, 1), t1 = Date.UTC(2027, 0, 1);
+  const x = (d) => M.l + ((W - M.l - M.r) * (Date.parse(d) - t0)) / (t1 - t0);
+  const bps = D.fomc.map((e) => e.bp);
+  let lo = Math.min(...bps), hi = Math.max(...bps);
+  const yt = niceTicks(lo * 1.05, hi * 1.1, 6); lo = Math.min(lo, yt[0]); hi = Math.max(hi, yt[yt.length - 1]);
+  const y = (v) => M.t + (H1 * (hi - v)) / (hi - lo);
+  const yS = M.t + H1 + gap + SH / 2;
+  let s = `<svg viewBox="0 0 ${W} ${H}" height="${H}" role="img" aria-label="FOMC policy surprises and Bank of Canada decisions, 1990 to 2026">`;
+  SPLITS.forEach((p) => {
+    const xa = Math.max(M.l, x(p.a)), xb = Math.min(W - M.r, x(p.b));
+    if (p.fill) s += `<rect x="${xa}" y="${M.t - 4}" width="${xb - xa}" height="${H1 + gap + SH + 4}" style="fill:${p.fill}"/>`;
+    if (xb - xa > 34) s += `<text x="${xa + 4}" y="${M.t - 9}">${p.name}</text>`;
+  });
+  yt.forEach((v) => {
+    s += `<line x1="${M.l}" x2="${W - M.r}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)"/>`;
+    s += `<text x="${M.l - 6}" y="${y(v) + 4}" text-anchor="end">${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v)}</text>`;
+  });
+  s += `<text class="axis-title" transform="translate(12 ${M.t + H1 / 2}) rotate(-90)" text-anchor="middle">Fed surprise, bp</text>`;
+  const bw = Math.max(1.5, Math.min(3, (W - M.l - M.r) / 500));
+  D.fomc.forEach((e) => {
+    const xx = x(e.d), y0 = y(0), y1 = y(e.bp);
+    s += `<rect x="${xx - bw / 2}" y="${Math.min(y0, y1)}" width="${bw}" height="${Math.max(1, Math.abs(y1 - y0))}" style="fill:var(--fomc)"/>`;
+  });
+  s += `<line x1="${M.l}" x2="${W - M.r}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--line-2)" stroke-width="1.5"/>`;
+  s += `<line x1="${M.l}" x2="${W - M.r}" y1="${yS}" y2="${yS}" style="stroke:var(--line)"/>`;
+  s += `<text x="${M.l - 6}" y="${yS + 4}" text-anchor="end">BoC</text>`;
+  D.boc.forEach((e) => {
+    const xx = x(e.d);
+    if (e.fomc) s += `<circle cx="${xx}" cy="${yS}" r="8" style="fill:none;stroke:var(--ink)" stroke-width="1.5"/>`;
+    if (e.dec === "hike") s += `<path d="M${xx},${yS - 6}L${xx + 5},${yS + 3}L${xx - 5},${yS + 3}Z" style="fill:var(--hike)"/>`;
+    else if (e.dec === "cut") s += `<path d="M${xx},${yS + 6}L${xx + 5},${yS - 3}L${xx - 5},${yS - 3}Z" style="fill:var(--cut)"/>`;
+    else s += `<circle cx="${xx}" cy="${yS}" r="2.4" style="fill:var(--hold)"/>`;
+  });
+  for (let yr = 1990; yr <= 2025; yr += 5) s += `<text x="${x(yr + "-01-01")}" y="${H - 10}" text-anchor="middle">${yr}</text>`;
+  s += `<g id="cal-hover"></g><rect x="${M.l}" y="${M.t}" width="${W - M.l - M.r}" height="${H1 + gap + SH}" fill="transparent" id="cal-hit"/></svg>`;
+  el.querySelector("svg")?.remove();
+  el.insertAdjacentHTML("afterbegin", s);
+  const g = $("cal-hover");
+  $("cal-hit").addEventListener("mousemove", (evt) => {
+    const rect = el.getBoundingClientRect(), px = evt.clientX - rect.left, py = evt.clientY - rect.top;
+    const inStrip = py > M.t + H1 + gap / 2;
+    const list = inStrip ? D.boc : D.fomc;
+    let best = null, bd = 1e9;
+    list.forEach((e) => { const d = Math.abs(x(e.d) - px); if (d < bd) { bd = d; best = e; } });
+    if (!best || bd > 8) { tip.hidden = true; g.innerHTML = ""; return; }
+    const xx = x(best.d);
+    g.innerHTML = `<line x1="${xx}" x2="${xx}" y1="${M.t}" y2="${M.t + H1 + gap + SH}" style="stroke:var(--ink-2)" stroke-dasharray="2 3"/>`;
+    if (inStrip) {
+      tip.innerHTML = `<div class="t">BoC · ${best.d}</div><div class="row"><span>Decision</span><span>${best.dec}${best.bp ? " " + (best.bp > 0 ? "+" : "−") + Math.abs(best.bp) + " bp" : ""}</span></div>` +
+        (best.rate != null ? `<div class="row"><span>Target after</span><span>${best.rate.toFixed(2)}%</span></div>` : "") +
+        `<div class="row"><span>Scheduled</span><span>${best.sched ? "yes" : "no"}</span></div>` + (best.fomc ? `<div class="row"><span>FOMC same day</span><span>yes</span></div>` : "");
+      placeTip(tip, el, xx, yS);
+    } else {
+      tip.innerHTML = `<div class="t">FOMC · ${best.d} ${best.t} ET</div><div class="row"><span>Policy surprise</span><span>${sgn(best.bp, 1)} bp</span></div>` +
+        (best.mp != null ? `<div class="row"><span>Monetary policy part</span><span>${sgn(best.mp, 1)} bp</span></div><div class="row"><span>Information part</span><span>${sgn(best.cbi, 1)} bp</span></div>` : "") +
+        `<div class="muted" style="margin-top:4px;font-size:12px">${esc(best.ev)}</div>`;
+      placeTip(tip, el, xx, y(best.bp));
+    }
+  });
+  $("cal-hit").addEventListener("mouseleave", () => { tip.hidden = true; g.innerHTML = ""; });
+}
+
+function renderCalendarFacts() {
+  const bps = D.fomc.map((e) => e.bp), n = bps.length, mean = bps.reduce((a, b) => a + b, 0) / n;
+  const sd = Math.sqrt(bps.reduce((a, b) => a + (b - mean) ** 2, 0) / (n - 1));
+  const maxE = D.fomc.reduce((a, b) => (b.bp > a.bp ? b : a)), minE = D.fomc.reduce((a, b) => (b.bp < a.bp ? b : a));
+  const cnt = (k) => D.boc.filter((e) => e.dec === k).length;
+  const same = D.boc.filter((e) => e.fomc).length;
+  const facts = [
+    [String(n), `FOMC announcements, ${D.fomc[0].d.slice(0, 4)} to ${D.fomc[n - 1].d.slice(0, 4)}`],
+    [sd.toFixed(1) + " bp", "typical Fed surprise (standard deviation)"],
+    [sgn(maxE.bp, 1) + " bp", `largest hawkish surprise (${maxE.d})`],
+    [sgn(minE.bp, 1) + " bp", `largest dovish surprise (${minE.d})`],
+    [String(D.boc.length), "BoC rate announcements since Dec 2000"],
+    [`${cnt("hike")} / ${cnt("cut")} / ${cnt("hold")}`, "hikes / cuts / holds"],
+    [String(D.boc.filter((e) => !e.sched).length), "unscheduled BoC moves (all emergency cuts)"],
+    [String(same), "BoC announcements on an FOMC day"],
+  ];
+  $("cal-facts").innerHTML = facts.map(([v, k]) => `<div class="fact"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+  const top = D.fomc.slice().sort((a, b) => Math.abs(b.bp) - Math.abs(a.bp)).slice(0, 12);
+  $("cal-table").innerHTML = "<caption class='muted' style='text-align:left;padding-bottom:6px'>Twelve largest Fed surprises</caption><thead><tr><th>Date</th><th>Time ET</th><th>Surprise bp</th><th>Policy part</th><th>Information part</th></tr></thead><tbody>" +
+    top.map((e) => `<tr><td>${e.d}</td><td>${e.t}</td><td>${sgn(e.bp, 1)}</td><td>${e.mp == null ? "" : sgn(e.mp, 1)}</td><td>${e.cbi == null ? "" : sgn(e.cbi, 1)}</td></tr>`).join("") + "</tbody>";
+  const years = {};
+  D.boc.forEach((e) => { const y = e.d.slice(0, 4); years[y] = years[y] || { hike: 0, cut: 0, hold: 0, same: 0 }; if (years[y][e.dec] != null) years[y][e.dec]++; if (e.fomc) years[y].same++; });
+  $("boc-table").innerHTML = "<caption class='muted' style='text-align:left;padding:12px 0 6px'>BoC decisions by year</caption><thead><tr><th>Year</th><th>Hikes</th><th>Cuts</th><th>Holds</th><th>FOMC same day</th></tr></thead><tbody>" +
+    Object.entries(years).map(([y, c]) => `<tr><td>${y}</td><td>${c.hike}</td><td>${c.cut}</td><td>${c.hold}</td><td>${c.same}</td></tr>`).join("") + "</tbody>";
+}
+
+function renderHealth() {
+  const h = D.health, n = (v) => v.toLocaleString("en-US");
+  const cells = [
+    [n(h.series), "series in the registry, all built", `${n(h.derived_series)} stored fields, incl. our total-return indices`],
+    [n(h.observations), "observations", "each traceable to a hashed source file"],
+    [n(h.artifacts), "raw files pinned by SHA-256", `from ${h.sources} source groups; a revised source stops the build`],
+    [n(h.missing_flagged), "missing values flagged", "holidays and gaps, never filled"],
+    [n(h.invalid_flagged), "impossible value rejected", "a zero stock price on an exchange holiday"],
+    [n(h.boc_events), "BoC announcements rebuilt", `${h.boc_problems} problems against the BoC's daily target rate`],
+    [n(h.fomc_events), "FOMC surprises loaded", `through ${D.fomc[D.fomc.length - 1].d}`],
+    [n(h.collisions), "FOMC and BoC same-day dates", "excluded from the BoC proxy (protocol v2)"],
+  ];
+  $("health").innerHTML = cells.map(([v, k, s]) => `<div class="hcell"><span class="v">${v}</span><span class="k">${k}</span><span class="s">${s}</span></div>`).join("");
+  const built = h.built_at.replace("T", " ").replace("Z", " UTC");
+  $("build").textContent = `build ${h.git} · data built ${built}`;
+  $("foot-build").textContent = `Generated by \`uv run wsl export preview\` from commit ${h.git}; data built ${built}.`;
+}
+
+function renderAll() { renderExplorer(); drawCal(); }
+renderCalendarFacts(); renderHealth(); renderAll();
+let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(renderAll, 120); });
+</script>
