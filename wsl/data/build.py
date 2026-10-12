@@ -50,12 +50,20 @@ def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+# Files the pipeline itself writes; changing them does not make the code "dirty".
+GENERATED = ("results", "docs/DATA_QUALITY.md", "docs/SIMULATION.md", "docs/REPLICATION.md",
+             "web/preview/index.html")
+
+
 def git_sha() -> str:
+    """HEAD commit, suffixed "-dirty" if code, config or data definitions have uncommitted
+    changes (generated outputs are ignored)."""
     try:
         out = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True,
                              text=True, check=True)
-        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=ROOT, capture_output=True,
-                               text=True, check=True).stdout.strip()
+        excludes = [f":(exclude){g}" for g in GENERATED]
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", ".", *excludes], cwd=ROOT,
+                               capture_output=True, text=True, check=True).stdout.strip()
         return out.stdout.strip() + ("-dirty" if dirty else "")
     except (OSError, subprocess.CalledProcessError):
         return "unknown"
