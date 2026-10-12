@@ -19,12 +19,14 @@ All bounds are inclusive and use the announcement timestamp in the event's local
 
 | Split | Window | FOMC (JK) | OPEC (Känzig daily) | BoC FAD (proxy) |
 |---|---|---|---|---|
-| Train | earliest → 2014-12-31 | 234 (from 1990-02-08) | 111 (from 1983-07-19) | TBD in M1 (from the first FAD with 2Y data, 2001) |
-| Validation | 2015-01-01 → 2018-12-31 | 32 | 10 | TBD (about 32 expected) |
-| Test | 2019-01-01 → 2026-09-30 | 68 | 48 (data end 2025-12-01) | TBD (about 62 expected) |
+| Train | earliest → 2014-12-31 | 234 (from 1990-02-08) | 111 (from 1983-07-19) | 112 scheduled (from 2001-01-23) |
+| Validation | 2015-01-01 → 2018-12-31 | 32 | 10 | 32 scheduled |
+| Test | 2019-01-01 → 2026-09-30 | 68 | 48 (data end 2025-12-01) | 62 scheduled (10 on FOMC days) |
 | Live | 2026-10-01 → | forward | — | forward |
 
-The FOMC and OPEC counts were computed on 2026-10-12 from the pinned source files (see `data/SOURCES.md`). They count events, not outcomes. The BoC counts will be filled in from `data/events/boc_fad.csv` in M1 and logged in the change log as a factual completion, not a protocol change.
+The FOMC and OPEC counts were computed on 2026-10-12 from the pinned source files (see `data/SOURCES.md`). They count events, not outcomes. The BoC counts come from `data/events/boc_fad.csv`, built and validated in M1, and are logged in the change log as a factual completion, not a protocol change.
+
+FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train, 0 in validation, **10 of 62 BoC test events**. Under v1 these stay in the primary test sample and are reported separately as a secondary subsample (§7). Whether to amend that before M3 is an open decision, recorded here before any result exists.
 
 **Why these cut points**
 - The test window holds about 8 years of events, including the 2020 emergency cuts, the 2022–23 hiking cycle and the 2024–26 easing. The validation window holds 4 years.
@@ -135,3 +137,4 @@ These are fixed now so robustness checks are clearly labelled as robustness.
 | Date | Version | Change | Reason | Seen test results? |
 |---|---|---|---|---|
 | 2026-10-12 | v1 | Initial protocol | — | No |
+| 2026-10-12 | v1 (no change) | BoC event counts filled in (112 / 32 / 62); collision imbalance noted | Factual completion promised in §2; `config/evaluation.yaml` unchanged | No |

@@ -1,0 +1,66 @@
+"""Checks on the built data. Run with `uv run pytest -m data` after `make data`."""
+
+from __future__ import annotations
+
+import pandas as pd
+import pytest
+
+from wsl.data import schemas
+from wsl.data.cache import RawCache
+from wsl.paths import CLEAN_DIR, ROOT
+from wsl.shocks import sources as shock_sources
+from wsl.shocks.boc_fad import load_target_rate, validate
+
+pytestmark = pytest.mark.data
+
+
+def _read(name: str) -> pd.DataFrame:
+    path = CLEAN_DIR / f"{name}.parquet"
+    if not path.exists():
+        pytest.skip(f"{path.name} not built")
+    return pd.read_parquet(path)
+
+
+def test_observations_pass_schema() -> None:
+    schemas.OBS.validate(_read("obs"))
+
+
+def test_every_series_has_provenance() -> None:
+    obs, series = _read("obs"), _read("series")
+    assert set(obs["series_id"]) == set(series["series_id"])
+    cache = RawCache()
+    for _, row in series.iterrows():
+        assert cache.pinned_record(row["artifact_key"]).sha256 == row["sha256"]
+
+
+def test_event_counts_match_m0_verification() -> None:
+    assert len(_read("events_fomc")) == 334  # JK, 1990-02-08 .. 2026-09-16
+    assert len(_read("events_opec")) == 169  # Känzig 2025M12 vintage
+    assert len(_read("events_ecb")) == 312
+    assert len(_read("events_fomc_bs")) == 361
+
+
+def test_boc_fad_list_validates_against_target_rate() -> None:
+    ev = _read("events_boc")
+    assert validate(ev, load_target_rate()) == []
+    assert ev["url"].str.startswith("https://www.bankofcanada.ca/").all()
+
+
+def test_restricted_series_never_marked_redistributable() -> None:
+    series = _read("series")
+    yahoo = series[series["source"] == "yahoo"]
+    assert (yahoo["policy"] == "L").all()
+
+
+def test_monthly_shocks_cover_expected_ranges() -> None:
+    m = _read("shocks_monthly")
+    last = m.dropna(subset=["value"]).groupby("shock_id")["month"].max()
+    assert last["JK_FED_MP"] >= pd.Timestamp("2026-09-01")
+    assert last["KAENZIG_OIL_NEWS"] == pd.Timestamp("2025-12-01")
+    assert last["BH_OIL_SUPPLY"] >= pd.Timestamp("2026-06-01")
+
+
+def test_pinned_shas_are_documented() -> None:
+    text = (ROOT / "data" / "SOURCES.md").read_text()
+    for sha in (shock_sources.JK_FED_SHA, shock_sources.JK_ECB_SHA, shock_sources.KAENZIG_SHA):
+        assert sha in text

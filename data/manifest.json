@@ -1,0 +1,941 @@
+{
+ "artifacts": {
+  "bauer_swanson/surprises": {
+   "pinned": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+     "path": "data/raw/bauer_swanson/surprises/2026-10-12T153640Z_708606624de0.xlsx",
+     "retrieved_at": "2026-10-12T15:36:40Z",
+     "sha256": "708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668",
+     "size": 301655,
+     "url": "https://www.frbsf.org/wp-content/uploads/monetary-policy-surprises-data.xlsx"
+    }
+   ]
+  },
+  "baumeister_hamilton/demand": {
+   "pinned": "ea5d57e935fa0423cc2910d6a8902798cc3f6f0efbbaa53926f26621eea26aa0",
+   "retrievals": [
+    {
+     "content_type": "application/octet-stream",
+     "path": "data/raw/baumeister_hamilton/demand/2026-10-12T153643Z_ea5d57e935fa.xlsx",
+     "retrieved_at": "2026-10-12T15:36:43Z",
+     "sha256": "ea5d57e935fa0423cc2910d6a8902798cc3f6f0efbbaa53926f26621eea26aa0",
+     "size": 48370,
+     "url": "https://drive.usercontent.google.com/download?id=1neFXLrIvGwggebQRwjmtrWK-dfQZ9NH8&export=download"
+    }
+   ]
+  },
+  "baumeister_hamilton/supply": {
+   "pinned": "00d392b04200cc2e337c16fdc13b8e25086fd92b7543f053b0e58ba5d1fcfa72",
+   "retrievals": [
+    {
+     "content_type": "application/octet-stream",
+     "path": "data/raw/baumeister_hamilton/supply/2026-10-12T153641Z_00d392b04200.xlsx",
+     "retrieved_at": "2026-10-12T15:36:41Z",
+     "sha256": "00d392b04200cc2e337c16fdc13b8e25086fd92b7543f053b0e58ba5d1fcfa72",
+     "size": 28149,
+     "url": "https://drive.usercontent.google.com/download?id=1OsA8btgm2rmDucUFngiLkwv4uywTDmya&export=download"
+    }
+   ]
+  },
+  "iacoviello/gpr_daily": {
+   "pinned": "d1226e6f1b81ffc64dbef8f2176dd92f0ef4ffa2e7a4d1bb4deb0e13e5ccc568",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.ms-excel",
+     "path": "data/raw/iacoviello/gpr_daily/2026-10-12T153635Z_d1226e6f1b81.xls",
+     "retrieved_at": "2026-10-12T15:36:35Z",
+     "sha256": "d1226e6f1b81ffc64dbef8f2176dd92f0ef4ffa2e7a4d1bb4deb0e13e5ccc568",
+     "size": 3270144,
+     "url": "https://www.matteoiacoviello.com/gpr_files/data_gpr_daily_recent.xls"
+    }
+   ]
+  },
+  "iacoviello/gpr_monthly": {
+   "pinned": "97af839913606a4bbf4315130b3b1d08d25e37398110c3d2207dc1179f9ff0eb",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.ms-excel",
+     "path": "data/raw/iacoviello/gpr_monthly/2026-10-12T153636Z_97af83991360.xls",
+     "retrieved_at": "2026-10-12T15:36:36Z",
+     "sha256": "97af839913606a4bbf4315130b3b1d08d25e37398110c3d2207dc1179f9ff0eb",
+     "size": 2716160,
+     "url": "https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls"
+    }
+   ]
+  },
+  "iacoviello/tpu": {
+   "pinned": "f4955e58da05ba5b4ab83e97ab413f93b28f7419f4d7eeb41748bc4909812bd2",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+     "path": "data/raw/iacoviello/tpu/2026-10-12T153636Z_f4955e58da05.xlsx",
+     "retrieved_at": "2026-10-12T15:36:36Z",
+     "sha256": "f4955e58da05ba5b4ab83e97ab413f93b28f7419f4d7eeb41748bc4909812bd2",
+     "size": 296049,
+     "url": "https://www.matteoiacoviello.com/tpu_files/tpu_web_latest.xlsx"
+    }
+   ]
+  },
+  "jk_ecb/shocks_d": {
+   "pinned": "2327230c45a97c8733ccefba45de354d6e37965c553983ea5ac98badfce413e8",
+   "retrievals": [
+    {
+     "content_type": "text/plain; charset=utf-8",
+     "path": "data/raw/jk_ecb/shocks_d/2026-10-12T153638Z_2327230c45a9.csv",
+     "retrieved_at": "2026-10-12T15:36:38Z",
+     "sha256": "2327230c45a97c8733ccefba45de354d6e37965c553983ea5ac98badfce413e8",
+     "size": 24416,
+     "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_ecb/f7ffc821b0ade71dd38539e4044e25368dfb4dc1/shocks_ecb_mpd_me_d.csv"
+    }
+   ]
+  },
+  "jk_ecb/shocks_m": {
+   "pinned": "89c5b2ec39509057b3c71f44218424fc8d15d4041b16f31c96613f8fe0965534",
+   "retrievals": [
+    {
+     "content_type": "text/plain; charset=utf-8",
+     "path": "data/raw/jk_ecb/shocks_m/2026-10-12T153639Z_89c5b2ec3950.csv",
+     "retrieved_at": "2026-10-12T15:36:39Z",
+     "sha256": "89c5b2ec39509057b3c71f44218424fc8d15d4041b16f31c96613f8fe0965534",
+     "size": 21768,
+     "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_ecb/f7ffc821b0ade71dd38539e4044e25368dfb4dc1/shocks_ecb_mpd_me_m.csv"
+    }
+   ]
+  },
+  "jk_fed/shocks_m": {
+   "pinned": "61f98ad4a10b27923abf8da39d6466351189fb922a3bbc4f798a0052615b4c86",
+   "retrievals": [
+    {
+     "content_type": "text/plain; charset=utf-8",
+     "path": "data/raw/jk_fed/shocks_m/2026-10-12T153637Z_61f98ad4a10b.csv",
+     "retrieved_at": "2026-10-12T15:36:37Z",
+     "sha256": "61f98ad4a10b27923abf8da39d6466351189fb922a3bbc4f798a0052615b4c86",
+     "size": 22470,
+     "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/shocks_fed_jk_m.csv"
+    }
+   ]
+  },
+  "jk_fed/shocks_t": {
+   "pinned": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01",
+   "retrievals": [
+    {
+     "content_type": "text/plain; charset=utf-8",
+     "path": "data/raw/jk_fed/shocks_t/2026-10-12T153636Z_c5dda24c4f35.csv",
+     "retrieved_at": "2026-10-12T15:36:36Z",
+     "sha256": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01",
+     "size": 24721,
+     "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/shocks_fed_jk_t.csv"
+    }
+   ]
+  },
+  "jk_fed/surprises": {
+   "pinned": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300",
+   "retrievals": [
+    {
+     "content_type": "text/plain; charset=utf-8",
+     "path": "data/raw/jk_fed/surprises/2026-10-12T153638Z_785cb0ac6e50.csv",
+     "retrieved_at": "2026-10-12T15:36:38Z",
+     "sha256": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300",
+     "size": 69885,
+     "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/source_data/fomc_surprises_jk.csv"
+    }
+   ]
+  },
+  "kaenzig/oil_supply_news": {
+   "pinned": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de",
+   "retrievals": [
+    {
+     "content_type": "application/octet-stream",
+     "path": "data/raw/kaenzig/oil_supply_news/2026-10-12T153639Z_8aa80042f840.xlsx",
+     "retrieved_at": "2026-10-12T15:36:39Z",
+     "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de",
+     "size": 110802,
+     "url": "https://raw.githubusercontent.com/dkaenzig/oilsupplynews/3496b6e848ba760d4be25289fc68c1e989998790/oilSupplyNewsShocks_2025M12.xlsx"
+    }
+   ]
+  },
+  "nasdaq/ENOR": {
+   "pinned": "d4ebd31394da2d688dbe30d335eaddb4f1c1b8fed2f28155b889a1bb6873172f",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/ENOR/2026-10-12T153705Z_d4ebd31394da.json",
+     "retrieved_at": "2026-10-12T15:37:05Z",
+     "sha256": "d4ebd31394da2d688dbe30d335eaddb4f1c1b8fed2f28155b889a1bb6873172f",
+     "size": 254205,
+     "url": "https://api.nasdaq.com/api/quote/ENOR/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWA": {
+   "pinned": "db44dd98ca2c8fe19f3673d32c248d8851bc3ce52dc2576c82055d1289a6d500",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWA/2026-10-12T153707Z_db44dd98ca2c.json",
+     "retrieved_at": "2026-10-12T15:37:07Z",
+     "sha256": "db44dd98ca2c8fe19f3673d32c248d8851bc3ce52dc2576c82055d1289a6d500",
+     "size": 260066,
+     "url": "https://api.nasdaq.com/api/quote/EWA/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWC": {
+   "pinned": "d881ecfb0b385753604afe35b6b1dca9839b5b53611d54cc741b18fd5cd1f33b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWC/2026-10-12T153650Z_d881ecfb0b38.json",
+     "retrieved_at": "2026-10-12T15:36:50Z",
+     "sha256": "d881ecfb0b385753604afe35b6b1dca9839b5b53611d54cc741b18fd5cd1f33b",
+     "size": 259769,
+     "url": "https://api.nasdaq.com/api/quote/EWC/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWG": {
+   "pinned": "0444d861b9492c43975cfc656e8042ce2c4ba9d862cdd4c18d6e7aacf315afd9",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWG/2026-10-12T153654Z_0444d861b949.json",
+     "retrieved_at": "2026-10-12T15:36:54Z",
+     "sha256": "0444d861b9492c43975cfc656e8042ce2c4ba9d862cdd4c18d6e7aacf315afd9",
+     "size": 259770,
+     "url": "https://api.nasdaq.com/api/quote/EWG/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWI": {
+   "pinned": "982f3822b0c9a7bad519a52979594d05e891199d7afe99cf5a02c3adc830a095",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWI/2026-10-12T153658Z_982f3822b0c9.json",
+     "retrieved_at": "2026-10-12T15:36:58Z",
+     "sha256": "982f3822b0c9a7bad519a52979594d05e891199d7afe99cf5a02c3adc830a095",
+     "size": 255825,
+     "url": "https://api.nasdaq.com/api/quote/EWI/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWJ": {
+   "pinned": "82737af8af6b8652f01468431f2e0d1c245fb3623fae1b314da9e15bce1220dd",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWJ/2026-10-12T153659Z_82737af8af6b.json",
+     "retrieved_at": "2026-10-12T15:36:59Z",
+     "sha256": "82737af8af6b8652f01468431f2e0d1c245fb3623fae1b314da9e15bce1220dd",
+     "size": 260462,
+     "url": "https://api.nasdaq.com/api/quote/EWJ/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWQ": {
+   "pinned": "0b75a5bee51a0e2359487b30437a43f8aee122782a7dac5950df037286d92178",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWQ/2026-10-12T153656Z_0b75a5bee51a.json",
+     "retrieved_at": "2026-10-12T15:36:56Z",
+     "sha256": "0b75a5bee51a0e2359487b30437a43f8aee122782a7dac5950df037286d92178",
+     "size": 255748,
+     "url": "https://api.nasdaq.com/api/quote/EWQ/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWU": {
+   "pinned": "659789f3e0b597c831832e4bf352b5fe1ceed899923cb0d38da609325d92e4e8",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWU/2026-10-12T153652Z_659789f3e0b5.json",
+     "retrieved_at": "2026-10-12T15:36:52Z",
+     "sha256": "659789f3e0b597c831832e4bf352b5fe1ceed899923cb0d38da609325d92e4e8",
+     "size": 259664,
+     "url": "https://api.nasdaq.com/api/quote/EWU/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWW": {
+   "pinned": "a2300e9cf2938271fcc3febd8ea8c5826df6adf8cdbfb2c158977a49a7618e1b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWW/2026-10-12T153703Z_a2300e9cf293.json",
+     "retrieved_at": "2026-10-12T15:37:03Z",
+     "sha256": "a2300e9cf2938271fcc3febd8ea8c5826df6adf8cdbfb2c158977a49a7618e1b",
+     "size": 259190,
+     "url": "https://api.nasdaq.com/api/quote/EWW/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWY": {
+   "pinned": "f841db0081d18d81f09ee36b78199a9405a40f001031c5d05b55e513331ddd76",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWY/2026-10-12T153701Z_f841db0081d1.json",
+     "retrieved_at": "2026-10-12T15:37:01Z",
+     "sha256": "f841db0081d18d81f09ee36b78199a9405a40f001031c5d05b55e513331ddd76",
+     "size": 260540,
+     "url": "https://api.nasdaq.com/api/quote/EWY/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/EWZ": {
+   "pinned": "25e520cf7ca530d6b2abe61bb1685b947dac3954ed7140b2ff5304649dab45c4",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/EWZ/2026-10-12T153709Z_25e520cf7ca5.json",
+     "retrieved_at": "2026-10-12T15:37:09Z",
+     "sha256": "25e520cf7ca530d6b2abe61bb1685b947dac3954ed7140b2ff5304649dab45c4",
+     "size": 262435,
+     "url": "https://api.nasdaq.com/api/quote/EWZ/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/FXI": {
+   "pinned": "1bdc34cb8034302ade93341e3edd713b7cb2488ca2e3979e2b5166a74aa0810a",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/FXI/2026-10-12T153711Z_1bdc34cb8034.json",
+     "retrieved_at": "2026-10-12T15:37:11Z",
+     "sha256": "1bdc34cb8034302ade93341e3edd713b7cb2488ca2e3979e2b5166a74aa0810a",
+     "size": 262235,
+     "url": "https://api.nasdaq.com/api/quote/FXI/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/INDA": {
+   "pinned": "d72e0406281d39c00059d008998c519e4698eb503c40aa372c607e71fb65e5df",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/INDA/2026-10-12T153713Z_d72e0406281d.json",
+     "retrieved_at": "2026-10-12T15:37:13Z",
+     "sha256": "d72e0406281d39c00059d008998c519e4698eb503c40aa372c607e71fb65e5df",
+     "size": 259948,
+     "url": "https://api.nasdaq.com/api/quote/INDA/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/SPY": {
+   "pinned": "816c2b3011d279426876c065c74ab48c1b2262dc7035c99b99c224b0b4ff1bdf",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/SPY/2026-10-12T153644Z_816c2b3011d2.json",
+     "retrieved_at": "2026-10-12T15:36:44Z",
+     "sha256": "816c2b3011d279426876c065c74ab48c1b2262dc7035c99b99c224b0b4ff1bdf",
+     "size": 272419,
+     "url": "https://api.nasdaq.com/api/quote/SPY/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/XLE": {
+   "pinned": "2cd43a546962d32b2146cb83e69c24ae752147aca061c7147ea871fb0d9a07cf",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/XLE/2026-10-12T153646Z_2cd43a546962.json",
+     "retrieved_at": "2026-10-12T15:36:46Z",
+     "sha256": "2cd43a546962d32b2146cb83e69c24ae752147aca061c7147ea871fb0d9a07cf",
+     "size": 266970,
+     "url": "https://api.nasdaq.com/api/quote/XLE/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "nasdaq/XLF": {
+   "pinned": "6f702ad581cb1f74085d00b326007b9ad977fd53ad6be033ebe99471a378a69d",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/nasdaq/XLF/2026-10-12T153648Z_6f702ad581cb.json",
+     "retrieved_at": "2026-10-12T15:36:48Z",
+     "sha256": "6f702ad581cb1f74085d00b326007b9ad977fd53ad6be033ebe99471a378a69d",
+     "size": 262521,
+     "url": "https://api.nasdaq.com/api/quote/XLF/historical?assetclass=etf&fromdate=2016-01-01&todate=2026-09-30&limit=9999"
+    }
+   ]
+  },
+  "oecd/DSD_KEI@DF_KEI/PRVM.IX.BTE.Y._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR": {
+   "pinned": "844e36a07459a1d48ab50c998e00b3947c84ed42b222f60575e327913aa31e8b",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.sdmx.data+csv; labels=name; version=2; charset=utf-8",
+     "path": "data/raw/oecd/DSD_KEI@DF_KEI/PRVM.IX.BTE.Y._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR/2026-10-12T160748Z_844e36a07459.csv",
+     "retrieved_at": "2026-10-12T16:07:48Z",
+     "sha256": "844e36a07459a1d48ab50c998e00b3947c84ed42b222f60575e327913aa31e8b",
+     "size": 2251700,
+     "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_KEI@DF_KEI,4.0/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR.M.PRVM.IX.BTE.Y._Z?startPeriod=1950-01&format=csvfilewithlabels"
+    }
+   ]
+  },
+  "oecd/DSD_KEI@DF_KEI/UNEMP.PT_LF._T.Y._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS": {
+   "pinned": "0e5083df8be80680a7dcfcf5b1d53907e5f40955eafeeb00e47e7a7f7c9e7b3a",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.sdmx.data+csv; version=2; labels=name; charset=utf-8",
+     "path": "data/raw/oecd/DSD_KEI@DF_KEI/UNEMP.PT_LF._T.Y._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS/2026-10-12T160745Z_0e5083df8be8.csv",
+     "retrieved_at": "2026-10-12T16:07:45Z",
+     "sha256": "0e5083df8be80680a7dcfcf5b1d53907e5f40955eafeeb00e47e7a7f7c9e7b3a",
+     "size": 1833304,
+     "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_KEI@DF_KEI,4.0/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS.M.UNEMP.PT_LF._T.Y._Z?startPeriod=1950-01&format=csvfilewithlabels"
+    }
+   ]
+  },
+  "oecd/DSD_PRICES@DF_PRICES_ALL/N.CPI.IX._T.N._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS": {
+   "pinned": "d8dc5528f1b42149324678fc52ab8ec6002eee011229a9c318b8f19731e7ec59",
+   "retrievals": [
+    {
+     "content_type": "application/vnd.sdmx.data+csv; version=2; labels=name; charset=utf-8",
+     "path": "data/raw/oecd/DSD_PRICES@DF_PRICES_ALL/N.CPI.IX._T.N._Z/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS/2026-10-12T160751Z_d8dc5528f1b4.csv",
+     "retrieved_at": "2026-10-12T16:07:51Z",
+     "sha256": "d8dc5528f1b42149324678fc52ab8ec6002eee011229a9c318b8f19731e7ec59",
+     "size": 2509349,
+     "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA+CAN+GBR+DEU+FRA+ITA+JPN+KOR+MEX+NOR+AUS.M.N.CPI.IX._T.N._Z?startPeriod=1950-01&format=csvfilewithlabels"
+    }
+   ]
+  },
+  "statcan/v2062815": {
+   "pinned": "b0dddbd43adc8a107e6a19ba25d1386230f74becc8f054d9bef67e48118d05aa",
+   "retrievals": [
+    {
+     "content_type": "application/json",
+     "path": "data/raw/statcan/v2062815/2026-10-12T153620Z_b0dddbd43adc.json",
+     "retrieved_at": "2026-10-12T15:36:20Z",
+     "sha256": "b0dddbd43adc8a107e6a19ba25d1386230f74becc8f054d9bef67e48118d05aa",
+     "size": 138488,
+     "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%222062815%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+    }
+   ]
+  },
+  "statcan/v41690914": {
+   "pinned": "baa240ade1190530372f756b956a061388cb74c28a0d1d24380140ed9ac1cc3f",
+   "retrievals": [
+    {
+     "content_type": "application/json",
+     "path": "data/raw/statcan/v41690914/2026-10-12T153619Z_baa240ade119.json",
+     "retrieved_at": "2026-10-12T15:36:19Z",
+     "sha256": "baa240ade1190530372f756b956a061388cb74c28a0d1d24380140ed9ac1cc3f",
+     "size": 95290,
+     "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690914%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+    }
+   ]
+  },
+  "statcan/v41690973": {
+   "pinned": "7ab2eca8bdfb9e6e25a195f2cb5b87b741bc6aeb322fe15a0a365f4c26fb5846",
+   "retrievals": [
+    {
+     "content_type": "application/json",
+     "path": "data/raw/statcan/v41690973/2026-10-12T153618Z_7ab2eca8bdfb.json",
+     "retrieved_at": "2026-10-12T15:36:18Z",
+     "sha256": "7ab2eca8bdfb9e6e25a195f2cb5b87b741bc6aeb322fe15a0a365f4c26fb5846",
+     "size": 308320,
+     "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690973%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+    }
+   ]
+  },
+  "statcan/v65201210": {
+   "pinned": "92c6d11e9f053b74f196b70bd43bb2681888181bf678e3a05c057fb6d3353142",
+   "retrievals": [
+    {
+     "content_type": "application/json",
+     "path": "data/raw/statcan/v65201210/2026-10-12T153621Z_92c6d11e9f05.json",
+     "retrieved_at": "2026-10-12T15:36:21Z",
+     "sha256": "92c6d11e9f053b74f196b70bd43bb2681888181bf678e3a05c057fb6d3353142",
+     "size": 82867,
+     "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2265201210%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+    }
+   ]
+  },
+  "valet/AVG.INTWO": {
+   "pinned": "01727b296f6deb5a9b040d817e1e490ce019b117f6c9e03a6a2dfa7fed8815bc",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/AVG.INTWO/2026-10-12T153530Z_01727b296f6d.json",
+     "retrieved_at": "2026-10-12T15:35:30Z",
+     "sha256": "01727b296f6deb5a9b040d817e1e490ce019b117f6c9e03a6a2dfa7fed8815bc",
+     "size": 896473,
+     "url": "https://www.bankofcanada.ca/valet/observations/AVG.INTWO/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/BD.CDN.10YR.DQ.YLD": {
+   "pinned": "fd43f53858d50f2734370f1c6e9af1fc8d86519ec494c6ec95f97c26801533c9",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/BD.CDN.10YR.DQ.YLD/2026-10-12T153528Z_fd43f53858d5.json",
+     "retrieved_at": "2026-10-12T15:35:28Z",
+     "sha256": "fd43f53858d50f2734370f1c6e9af1fc8d86519ec494c6ec95f97c26801533c9",
+     "size": 838314,
+     "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.10YR.DQ.YLD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/BD.CDN.2YR.DQ.YLD": {
+   "pinned": "463f863041785717c704ec6f86a8557c7af4739479b47e53900ccfcebac7e7ef",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/BD.CDN.2YR.DQ.YLD/2026-10-12T153524Z_463f86304178.json",
+     "retrieved_at": "2026-10-12T15:35:24Z",
+     "sha256": "463f863041785717c704ec6f86a8557c7af4739479b47e53900ccfcebac7e7ef",
+     "size": 831697,
+     "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/BD.CDN.3YR.DQ.YLD": {
+   "pinned": "4d5abaf4ab1e29def2df52452513dddc890de3230291fa68cebfb9a0f25efeac",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/BD.CDN.3YR.DQ.YLD/2026-10-12T153526Z_4d5abaf4ab1e.json",
+     "retrieved_at": "2026-10-12T15:35:26Z",
+     "sha256": "4d5abaf4ab1e29def2df52452513dddc890de3230291fa68cebfb9a0f25efeac",
+     "size": 831739,
+     "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.3YR.DQ.YLD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/BD.CDN.5YR.DQ.YLD": {
+   "pinned": "4fbf328091917c3436c84eb10d3562fd9521060254919a85caf656b57f9628c6",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/BD.CDN.5YR.DQ.YLD/2026-10-12T153527Z_4fbf32809191.json",
+     "retrieved_at": "2026-10-12T15:35:27Z",
+     "sha256": "4fbf328091917c3436c84eb10d3562fd9521060254919a85caf656b57f9628c6",
+     "size": 831681,
+     "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.5YR.DQ.YLD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/BD.CDN.LONG.DQ.YLD": {
+   "pinned": "ec07fb22aa1237ec4e7e3286128f5b7a02915883cbd6a51fda46f823b778fa9b",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/BD.CDN.LONG.DQ.YLD/2026-10-12T153529Z_ec07fb22aa12.json",
+     "retrieved_at": "2026-10-12T15:35:29Z",
+     "sha256": "ec07fb22aa1237ec4e7e3286128f5b7a02915883cbd6a51fda46f823b778fa9b",
+     "size": 838191,
+     "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.LONG.DQ.YLD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/CBC20210": {
+   "pinned": "7f5a68d3ead1dfa06f8231b9c6c451803441262d97f11332df0783d5bef868bc",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/CBC20210/2026-10-12T153532Z_7f5a68d3ead1.json",
+     "retrieved_at": "2026-10-12T15:35:32Z",
+     "sha256": "7f5a68d3ead1dfa06f8231b9c6c451803441262d97f11332df0783d5bef868bc",
+     "size": 805796,
+     "url": "https://www.bankofcanada.ca/valet/observations/CBC20210/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/FXUSDCAD": {
+   "pinned": "3d73bf3f0553dce7fd9475df3f4efd6a3dd5f06d28d9f693fc30423ed4586524",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/FXUSDCAD/2026-10-12T153534Z_3d73bf3f0553.json",
+     "retrieved_at": "2026-10-12T15:35:34Z",
+     "sha256": "3d73bf3f0553dce7fd9475df3f4efd6a3dd5f06d28d9f693fc30423ed4586524",
+     "size": 297829,
+     "url": "https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "valet/TB.CDN.90D.MID": {
+   "pinned": "86a008afe6d1e2327fdf8a97205c9e327f1b55e2945cc001cb6189c57e90d4eb",
+   "retrievals": [
+    {
+     "content_type": "application/json; charset=utf-8",
+     "path": "data/raw/valet/TB.CDN.90D.MID/2026-10-12T153533Z_86a008afe6d1.json",
+     "retrieved_at": "2026-10-12T15:35:33Z",
+     "sha256": "86a008afe6d1e2327fdf8a97205c9e327f1b55e2945cc001cb6189c57e90d4eb",
+     "size": 812377,
+     "url": "https://www.bankofcanada.ca/valet/observations/TB.CDN.90D.MID/json?start_date=1900-01-01"
+    }
+   ]
+  },
+  "worldbank/EG.IMP.CONS.ZS/AUS+BRA+CAN+CHN+DEU+FRA+GBR+IND+ITA+JPN+KOR+MEX+NOR+USA": {
+   "pinned": "be2bd64bd8863e21f27324cff0513376d1e85b86cf03f0d2652044c6c2b8a691",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/worldbank/EG.IMP.CONS.ZS/AUS+BRA+CAN+CHN+DEU+FRA+GBR+IND+ITA+JPN+KOR+MEX+NOR+USA/2026-10-12T160752Z_be2bd64bd886.json",
+     "retrieved_at": "2026-10-12T16:07:52Z",
+     "sha256": "be2bd64bd8863e21f27324cff0513376d1e85b86cf03f0d2652044c6c2b8a691",
+     "size": 205155,
+     "url": "https://api.worldbank.org/v2/country/AUS;BRA;CAN;CHN;DEU;FRA;GBR;IND;ITA;JPN;KOR;MEX;NOR;USA/indicator/EG.IMP.CONS.ZS?format=json&per_page=20000&date=1960%3A2030"
+    }
+   ]
+  },
+  "worldbank/TX.VAL.FUEL.ZS.UN/AUS+BRA+CAN+CHN+DEU+FRA+GBR+IND+ITA+JPN+KOR+MEX+NOR+USA": {
+   "pinned": "fb6995a046229d51b3fee17cd98170e32e1ee99cfcc5d2c63f0d88b04721c94d",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/worldbank/TX.VAL.FUEL.ZS.UN/AUS+BRA+CAN+CHN+DEU+FRA+GBR+IND+ITA+JPN+KOR+MEX+NOR+USA/2026-10-12T160752Z_fb6995a04622.json",
+     "retrieved_at": "2026-10-12T16:07:52Z",
+     "sha256": "fb6995a046229d51b3fee17cd98170e32e1ee99cfcc5d2c63f0d88b04721c94d",
+     "size": 214108,
+     "url": "https://api.worldbank.org/v2/country/AUS;BRA;CAN;CHN;DEU;FRA;GBR;IND;ITA;JPN;KOR;MEX;NOR;USA/indicator/TX.VAL.FUEL.ZS.UN?format=json&per_page=20000&date=1960%3A2030"
+    }
+   ]
+  },
+  "yahoo/BMO.TO": {
+   "pinned": "3972f2c582f865d4710b997837d9b28c91887e6ca69f35d3edfa337ab964e9c3",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/BMO.TO/2026-10-12T153541Z_3972f2c582f8.json",
+     "retrieved_at": "2026-10-12T15:35:41Z",
+     "sha256": "3972f2c582f865d4710b997837d9b28c91887e6ca69f35d3edfa337ab964e9c3",
+     "size": 828474,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/BMO.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/BNS.TO": {
+   "pinned": "3a1e3c20fbf1e6eb329fec095ad4730ee425fe09b693cdc905b3a21b01cbda1b",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/BNS.TO/2026-10-12T153540Z_3a1e3c20fbf1.json",
+     "retrieved_at": "2026-10-12T15:35:40Z",
+     "sha256": "3a1e3c20fbf1e6eb329fec095ad4730ee425fe09b693cdc905b3a21b01cbda1b",
+     "size": 831283,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/BNS.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/CM.TO": {
+   "pinned": "fcf23d1f72d4adb4522278d4a5bef46d0f70b8b43ad8dcb6da8d9d40e880d5c4",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/CM.TO/2026-10-12T153543Z_fcf23d1f72d4.json",
+     "retrieved_at": "2026-10-12T15:35:43Z",
+     "sha256": "fcf23d1f72d4adb4522278d4a5bef46d0f70b8b43ad8dcb6da8d9d40e880d5c4",
+     "size": 834809,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/CM.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/ENOR": {
+   "pinned": "9387e4ba6d0110657e142429bce53b37670dacf5ec0ad8f78c6b75bfaa543cc1",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/ENOR/2026-10-12T153611Z_9387e4ba6d01.json",
+     "retrieved_at": "2026-10-12T15:36:11Z",
+     "sha256": "9387e4ba6d0110657e142429bce53b37670dacf5ec0ad8f78c6b75bfaa543cc1",
+     "size": 398852,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/ENOR?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWA": {
+   "pinned": "3d500ac5def8ac6bbe158913b5ded1aee63b4ce45abed493e4ead8ee0c474f4c",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWA/2026-10-12T153613Z_3d500ac5def8.json",
+     "retrieved_at": "2026-10-12T15:36:13Z",
+     "sha256": "3d500ac5def8ac6bbe158913b5ded1aee63b4ce45abed493e4ead8ee0c474f4c",
+     "size": 780754,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWC": {
+   "pinned": "b75c548a30f9a9cddfb4444422c28def3e2ea6bd1d98c4d96154966df29635d8",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWC/2026-10-12T153557Z_b75c548a30f9.json",
+     "retrieved_at": "2026-10-12T15:35:57Z",
+     "sha256": "b75c548a30f9a9cddfb4444422c28def3e2ea6bd1d98c4d96154966df29635d8",
+     "size": 777949,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWC?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWG": {
+   "pinned": "210437ad6129ba3c2cd17b3f2948476bae10db5b09ff6db101e2aec6215c9b1c",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWG/2026-10-12T153601Z_210437ad6129.json",
+     "retrieved_at": "2026-10-12T15:36:01Z",
+     "sha256": "210437ad6129ba3c2cd17b3f2948476bae10db5b09ff6db101e2aec6215c9b1c",
+     "size": 784015,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWG?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWI": {
+   "pinned": "b943532bc9a98f4ce8693a6aa940b7d49fbb9a8fed0e1c5a40485b211ee82b8b",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWI/2026-10-12T153604Z_b943532bc9a9.json",
+     "retrieved_at": "2026-10-12T15:36:04Z",
+     "sha256": "b943532bc9a98f4ce8693a6aa940b7d49fbb9a8fed0e1c5a40485b211ee82b8b",
+     "size": 769210,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWJ": {
+   "pinned": "145e48cc634dcac926c742b7085665a6a5d700abd800e809efaf7cd222489a83",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWJ/2026-10-12T153606Z_145e48cc634d.json",
+     "retrieved_at": "2026-10-12T15:36:06Z",
+     "sha256": "145e48cc634dcac926c742b7085665a6a5d700abd800e809efaf7cd222489a83",
+     "size": 771145,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWJ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWQ": {
+   "pinned": "98e4d8331656d455d0903a97eb21ab5943cb8ff994ff04c9b23e8fec5edf9690",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWQ/2026-10-12T153602Z_98e4d8331656.json",
+     "retrieved_at": "2026-10-12T15:36:02Z",
+     "sha256": "98e4d8331656d455d0903a97eb21ab5943cb8ff994ff04c9b23e8fec5edf9690",
+     "size": 778140,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWQ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWU": {
+   "pinned": "bad6a514f88a7ffb1b0cfd914b7cbf0ef02c236cf2fe8565c8629c802a860921",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWU/2026-10-12T153559Z_bad6a514f88a.json",
+     "retrieved_at": "2026-10-12T15:35:59Z",
+     "sha256": "bad6a514f88a7ffb1b0cfd914b7cbf0ef02c236cf2fe8565c8629c802a860921",
+     "size": 774954,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWU?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWW": {
+   "pinned": "f9bb25643314556454848889a0fdcdf21561fd18176cd00be04e6e3e21e842cb",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWW/2026-10-12T153609Z_f9bb25643314.json",
+     "retrieved_at": "2026-10-12T15:36:09Z",
+     "sha256": "f9bb25643314556454848889a0fdcdf21561fd18176cd00be04e6e3e21e842cb",
+     "size": 771598,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWW?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWY": {
+   "pinned": "c2a0043a82ea7fd188f08031096caf828c65f7cb74035949969d3405cf9faed7",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWY/2026-10-12T153608Z_c2a0043a82ea.json",
+     "retrieved_at": "2026-10-12T15:36:08Z",
+     "sha256": "c2a0043a82ea7fd188f08031096caf828c65f7cb74035949969d3405cf9faed7",
+     "size": 705052,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/EWZ": {
+   "pinned": "88eb9bee03f9dfa9bfa11e918e565547cad7d31199c8691c83f9da44261405c7",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/EWZ/2026-10-12T153615Z_88eb9bee03f9.json",
+     "retrieved_at": "2026-10-12T15:36:15Z",
+     "sha256": "88eb9bee03f9dfa9bfa11e918e565547cad7d31199c8691c83f9da44261405c7",
+     "size": 711935,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/EWZ?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/FXI": {
+   "pinned": "84dd3d11fcc63a08e894d5dc1eed8c0d86716d1c999f167150574b48d4e5f4e4",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/FXI/2026-10-12T153616Z_84dd3d11fcc6.json",
+     "retrieved_at": "2026-10-12T15:36:16Z",
+     "sha256": "84dd3d11fcc63a08e894d5dc1eed8c0d86716d1c999f167150574b48d4e5f4e4",
+     "size": 610505,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/FXI?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/INDA": {
+   "pinned": "4db51e83a02f75b57ba4664e89fbdde2d9f65a4d0b5c802ac13ad9f031622392",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/INDA/2026-10-12T153618Z_4db51e83a02f.json",
+     "retrieved_at": "2026-10-12T15:36:18Z",
+     "sha256": "4db51e83a02f75b57ba4664e89fbdde2d9f65a4d0b5c802ac13ad9f031622392",
+     "size": 402959,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/INDA?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/NA.TO": {
+   "pinned": "fe0a269f6abe5ea690f7a93f31415cfada4c091f947a398ccadcb816ea70f527",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/NA.TO/2026-10-12T153545Z_fe0a269f6abe.json",
+     "retrieved_at": "2026-10-12T15:35:45Z",
+     "sha256": "fe0a269f6abe5ea690f7a93f31415cfada4c091f947a398ccadcb816ea70f527",
+     "size": 837049,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/NA.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/RY.TO": {
+   "pinned": "46cdc21a56d23775421edcbbb8c3926817941b74ce03cbe1caca4e282beab484",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/RY.TO/2026-10-12T153536Z_46cdc21a56d2.json",
+     "retrieved_at": "2026-10-12T15:35:36Z",
+     "sha256": "46cdc21a56d23775421edcbbb8c3926817941b74ce03cbe1caca4e282beab484",
+     "size": 829843,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/RY.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/SPY": {
+   "pinned": "befb97b1c9dfc2b231e85303b6069896c46127c5c029a97b06f008d3a1b8f4dd",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/SPY/2026-10-12T153550Z_befb97b1c9df.json",
+     "retrieved_at": "2026-10-12T15:35:50Z",
+     "sha256": "befb97b1c9dfc2b231e85303b6069896c46127c5c029a97b06f008d3a1b8f4dd",
+     "size": 857993,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/TD.TO": {
+   "pinned": "134817a05435944bd52751e2738523b6976aeec4cb1673d6fb871d0b2c3d9047",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/TD.TO/2026-10-12T153538Z_134817a05435.json",
+     "retrieved_at": "2026-10-12T15:35:38Z",
+     "sha256": "134817a05435944bd52751e2738523b6976aeec4cb1673d6fb871d0b2c3d9047",
+     "size": 832421,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/TD.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/XEG.TO": {
+   "pinned": "9bba93098167f9e24408e62ed3812ad2419aa9c6f0d0d28f7854bb9d2a2dc37e",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/XEG.TO/2026-10-12T153548Z_9bba93098167.json",
+     "retrieved_at": "2026-10-12T15:35:48Z",
+     "sha256": "9bba93098167f9e24408e62ed3812ad2419aa9c6f0d0d28f7854bb9d2a2dc37e",
+     "size": 695570,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/XEG.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/XLE": {
+   "pinned": "7343d3218dc73bd29c6822ed190a1249b4b4bb87c9828960815b48647d91bc70",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/XLE/2026-10-12T153552Z_7343d3218dc7.json",
+     "retrieved_at": "2026-10-12T15:35:52Z",
+     "sha256": "7343d3218dc73bd29c6822ed190a1249b4b4bb87c9828960815b48647d91bc70",
+     "size": 752646,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/XLF": {
+   "pinned": "0c9490488c984264948f7ff4cf7cbf8559496671a0ab0c40bc1585cd69ed878c",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/XLF/2026-10-12T153554Z_0c9490488c98.json",
+     "retrieved_at": "2026-10-12T15:35:54Z",
+     "sha256": "0c9490488c984264948f7ff4cf7cbf8559496671a0ab0c40bc1585cd69ed878c",
+     "size": 787359,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/XLF?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/ZEB.TO": {
+   "pinned": "4bf71aae96ebbcf42b2d38a1330a1efae6cb370bfa4f79b99e291bcd23e91bdc",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/ZEB.TO/2026-10-12T153547Z_4bf71aae96eb.json",
+     "retrieved_at": "2026-10-12T15:35:47Z",
+     "sha256": "4bf71aae96ebbcf42b2d38a1330a1efae6cb370bfa4f79b99e291bcd23e91bdc",
+     "size": 457069,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/ZEB.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/^GSPTSE": {
+   "pinned": "316f67bbcf7d09f38e47abac2d89c8cfaea5740e83d9429d7c188152c4fbb4f8",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/^GSPTSE/2026-10-12T153535Z_316f67bbcf7d.json",
+     "retrieved_at": "2026-10-12T15:35:35Z",
+     "sha256": "316f67bbcf7d09f38e47abac2d89c8cfaea5740e83d9429d7c188152c4fbb4f8",
+     "size": 1116705,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPTSE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  },
+  "yahoo/^VIX": {
+   "pinned": "8b4a8afeb89dbfeda63823628970adce15e0a4249e480580c344d1748a668d55",
+   "retrievals": [
+    {
+     "content_type": "application/json;charset=utf-8",
+     "path": "data/raw/yahoo/^VIX/2026-10-12T153555Z_8b4a8afeb89d.json",
+     "retrieved_at": "2026-10-12T15:35:55Z",
+     "sha256": "8b4a8afeb89dbfeda63823628970adce15e0a4249e480580c344d1748a668d55",
+     "size": 971640,
+     "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+    }
+   ]
+  }
+ },
+ "version": 1
+}

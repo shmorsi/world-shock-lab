@@ -1,0 +1,128 @@
+# Series registry. Every time series the pipeline ingests is declared here, and only here.
+#
+# Fields
+#   id        stable identifier used everywhere downstream
+#   source    adapter in wsl/data/sources/
+#   key       the source's own identifier
+#   freq      D (daily), M (monthly), A (annual)
+#   units     pct | index | price | fx | count | pct_of_energy_use | pct_of_exports
+#   obs_time  local time the value is observed: "HH:MM", "daily_rate" (not a market close),
+#             "intraday_average", or "close_unknown"
+#   obs_time_verified  true only if the timing is documented by the source (see data/SOURCES.md §5)
+#   tz        IANA time zone of obs_time
+#   policy    C (redistribution allowed) | D (downloader only) | L (local only, restrictive)
+#   event_window_ok  false for series that must never be used to measure announcement effects
+#
+# Sources with many similar series use `expand` (one series per listed code).
+
+defaults:
+  event_window_ok: true
+  obs_time_verified: false
+
+series:
+  # ---------------------------------------------------------------- FRED (needs FRED_API_KEY)
+  # Treasury: quotes "at or near 3:30 PM" (Treasury yield-curve methodology page, 2026-10-12)
+  - {id: US1Y, source: fred, key: DGS1, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 1-year constant maturity"}
+  - {id: US2Y, source: fred, key: DGS2, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 2-year constant maturity"}
+  - {id: US5Y, source: fred, key: DGS5, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 5-year constant maturity"}
+  - {id: US10Y, source: fred, key: DGS10, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", obs_time_verified: true, tz: America/New_York, policy: C, name: "US Treasury 10-year constant maturity"}
+  - {id: US5Y_REAL, source: fred, key: DFII5, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 5-year TIPS constant maturity"}
+  - {id: US10Y_REAL, source: fred, key: DFII10, freq: D, units: pct, country: USA, asset_class: rates, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 10-year TIPS constant maturity"}
+  - {id: US_BE5Y, source: fred, key: T5YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 5-year breakeven inflation"}
+  - {id: US_BE10Y, source: fred, key: T10YIE, freq: D, units: pct, country: USA, asset_class: inflation_expectations, obs_time: "15:30", tz: America/New_York, policy: C, name: "US 10-year breakeven inflation"}
+  - {id: EFFR, source: fred, key: DFF, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Effective federal funds rate"}
+  - {id: FF_TARGET, source: fred, key: DFEDTAR, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Fed funds target (to 2008-12-15)"}
+  - {id: FF_TARGET_UPPER, source: fred, key: DFEDTARU, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Fed funds target range, upper limit (from 2008-12-16)"}
+  - {id: FF_TARGET_LOWER, source: fred, key: DFEDTARL, freq: D, units: pct, country: USA, asset_class: policy_rate, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "Fed funds target range, lower limit (from 2008-12-16)"}
+  # H.10 noon buying rates in New York (verified, FRED series notes)
+  - {id: USDCAD, source: fred, key: DEXCAUS, freq: D, units: fx, country: CAN, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "CAD per USD (H.10 noon)"}
+  - {id: EURUSD, source: fred, key: DEXUSEU, freq: D, units: fx, country: EMU, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "USD per EUR (H.10 noon)"}
+  - {id: USDJPY, source: fred, key: DEXJPUS, freq: D, units: fx, country: JPN, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "JPY per USD (H.10 noon)"}
+  - {id: GBPUSD, source: fred, key: DEXUSUK, freq: D, units: fx, country: GBR, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "USD per GBP (H.10 noon)"}
+  - {id: USDMXN, source: fred, key: DEXMXUS, freq: D, units: fx, country: MEX, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "MXN per USD (H.10 noon)"}
+  - {id: USDBRL, source: fred, key: DEXBZUS, freq: D, units: fx, country: BRA, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "BRL per USD (H.10 noon)"}
+  - {id: USDKRW, source: fred, key: DEXKOUS, freq: D, units: fx, country: KOR, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "KRW per USD (H.10 noon)"}
+  - {id: USDCNY, source: fred, key: DEXCHUS, freq: D, units: fx, country: CHN, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "CNY per USD (H.10 noon)"}
+  - {id: USDCHF, source: fred, key: DEXSZUS, freq: D, units: fx, country: CHE, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "CHF per USD (H.10 noon)"}
+  - {id: AUDUSD, source: fred, key: DEXUSAL, freq: D, units: fx, country: AUS, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "USD per AUD (H.10 noon)"}
+  - {id: USDINR, source: fred, key: DEXINUS, freq: D, units: fx, country: IND, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "INR per USD (H.10 noon)"}
+  - {id: USDNOK, source: fred, key: DEXNOUS, freq: D, units: fx, country: NOR, asset_class: fx, obs_time: "12:00", obs_time_verified: true, tz: America/New_York, policy: C, name: "NOK per USD (H.10 noon)"}
+  - {id: WTI, source: fred, key: DCOILWTICO, freq: D, units: price, country: USA, asset_class: commodity, obs_time: "14:30", tz: America/New_York, policy: C, name: "WTI spot, Cushing (EIA)"}
+  - {id: BRENT, source: fred, key: DCOILBRENTEU, freq: D, units: price, country: WLD, asset_class: commodity, obs_time: close_unknown, tz: Europe/London, policy: C, name: "Brent spot (EIA)"}
+  - {id: HENRYHUB, source: fred, key: DHHNGSP, freq: D, units: price, country: USA, asset_class: commodity, obs_time: close_unknown, tz: America/New_York, policy: C, name: "Henry Hub natural gas spot (EIA)"}
+  - {id: VIX, source: fred, key: VIXCLS, freq: D, units: index, country: USA, asset_class: volatility, obs_time: "16:15", tz: America/New_York, policy: D, name: "CBOE VIX close"}
+  - {id: BAA10Y, source: fred, key: BAA10Y, freq: D, units: pct, country: USA, asset_class: credit, obs_time: close_unknown, tz: America/New_York, policy: L, name: "Moody's Baa minus 10-year Treasury"}
+  # Monthly US macro
+  - {id: US_CPI_NSA, source: fred, key: CPIAUCNS, freq: M, units: index, country: USA, asset_class: macro, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "US CPI-U, NSA"}
+  - {id: US_CPI_SA, source: fred, key: CPIAUCSL, freq: M, units: index, country: USA, asset_class: macro, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "US CPI-U, SA"}
+  - {id: US_IP, source: fred, key: INDPRO, freq: M, units: index, country: USA, asset_class: macro, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "US industrial production"}
+  - {id: US_UNRATE, source: fred, key: UNRATE, freq: M, units: pct, country: USA, asset_class: macro, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "US unemployment rate"}
+  - {id: US_CORE_PCE, source: fred, key: PCEPILFE, freq: M, units: index, country: USA, asset_class: macro, obs_time: daily_rate, tz: America/New_York, policy: C, event_window_ok: false, name: "US core PCE price index"}
+
+  # ---------------------------------------------------------------- Bank of Canada Valet
+  - {id: CA2Y, source: valet, key: BD.CDN.2YR.DQ.YLD, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: close_unknown, tz: America/Toronto, policy: D, name: "GoC 2-year benchmark bond yield"}
+  - {id: CA3Y, source: valet, key: BD.CDN.3YR.DQ.YLD, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: close_unknown, tz: America/Toronto, policy: D, name: "GoC 3-year benchmark bond yield"}
+  - {id: CA5Y, source: valet, key: BD.CDN.5YR.DQ.YLD, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: close_unknown, tz: America/Toronto, policy: D, name: "GoC 5-year benchmark bond yield"}
+  - {id: CA10Y, source: valet, key: BD.CDN.10YR.DQ.YLD, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: close_unknown, tz: America/Toronto, policy: D, name: "GoC 10-year benchmark bond yield"}
+  - {id: CA_LONG, source: valet, key: BD.CDN.LONG.DQ.YLD, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: close_unknown, tz: America/Toronto, policy: D, name: "GoC long-term benchmark bond yield"}
+  - {id: CORRA, source: valet, key: AVG.INTWO, freq: D, units: pct, country: CAN, asset_class: policy_rate, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "CORRA"}
+  - {id: BOC_TARGET, source: valet, key: CBC20210, freq: D, units: pct, country: CAN, asset_class: policy_rate, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "BoC target for the overnight rate (daily, from 2001)"}
+  - {id: CA_TB3M, source: valet, key: TB.CDN.90D.MID, freq: D, units: pct, country: CAN, asset_class: rates, obs_time: intraday_average, obs_time_verified: true, tz: America/Toronto, policy: D, event_window_ok: false, name: "GoC 3-month T-bill (intraday average)"}
+  - {id: BOC_USDCAD_AVG, source: valet, key: FXUSDCAD, freq: D, units: fx, country: CAN, asset_class: fx, obs_time: intraday_average, obs_time_verified: true, tz: America/Toronto, policy: D, event_window_ok: false, name: "BoC USD/CAD daily average (from 2017)"}
+
+  # ---------------------------------------------------------------- Yahoo Finance (unofficial)
+  # Each ticker yields <id>.close (split-adjusted), <id>.dividend, <id>.adjclose (Yahoo) and
+  # <id>.tr (total-return index computed by us from close + dividends).
+  - {id: TSX, source: yahoo, key: "^GSPTSE", freq: D, units: index, country: CAN, asset_class: equity, obs_time: "16:00", tz: America/Toronto, policy: L, name: "S&P/TSX Composite (price index)"}
+  - {id: RY, source: yahoo, key: RY.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "Royal Bank of Canada"}
+  - {id: TD, source: yahoo, key: TD.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "Toronto-Dominion Bank"}
+  - {id: BNS, source: yahoo, key: BNS.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "Bank of Nova Scotia"}
+  - {id: BMO, source: yahoo, key: BMO.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "Bank of Montreal"}
+  - {id: CM, source: yahoo, key: CM.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "CIBC"}
+  - {id: NA, source: yahoo, key: NA.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "National Bank of Canada"}
+  - {id: ZEB, source: yahoo, key: ZEB.TO, freq: D, units: price, country: CAN, asset_class: equity_bank, obs_time: "16:00", tz: America/Toronto, policy: L, name: "BMO Equal Weight Banks ETF"}
+  - {id: XEG, source: yahoo, key: XEG.TO, freq: D, units: price, country: CAN, asset_class: equity_energy, obs_time: "16:00", tz: America/Toronto, policy: L, name: "iShares S&P/TSX Capped Energy ETF"}
+  - {id: SPY, source: yahoo, key: SPY, freq: D, units: price, country: USA, asset_class: equity, obs_time: "16:00", tz: America/New_York, policy: L, name: "SPDR S&P 500 ETF"}
+  - {id: XLE, source: yahoo, key: XLE, freq: D, units: price, country: USA, asset_class: equity_energy, obs_time: "16:00", tz: America/New_York, policy: L, name: "Energy Select Sector SPDR"}
+  - {id: XLF, source: yahoo, key: XLF, freq: D, units: price, country: USA, asset_class: equity_bank, obs_time: "16:00", tz: America/New_York, policy: L, name: "Financial Select Sector SPDR"}
+  - {id: VIX_YAHOO, source: yahoo, key: "^VIX", freq: D, units: index, country: USA, asset_class: volatility, obs_time: "16:15", tz: America/New_York, policy: L, event_window_ok: false, name: "VIX (cross-check for VIXCLS only)"}
+  # US-listed iShares MSCI country ETFs: USD-denominated, close with the NY market
+  - {id: EWC, source: yahoo, key: EWC, freq: D, units: price, country: CAN, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Canada"}
+  - {id: EWU, source: yahoo, key: EWU, freq: D, units: price, country: GBR, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI United Kingdom"}
+  - {id: EWG, source: yahoo, key: EWG, freq: D, units: price, country: DEU, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Germany"}
+  - {id: EWQ, source: yahoo, key: EWQ, freq: D, units: price, country: FRA, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI France"}
+  - {id: EWI, source: yahoo, key: EWI, freq: D, units: price, country: ITA, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Italy"}
+  - {id: EWJ, source: yahoo, key: EWJ, freq: D, units: price, country: JPN, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Japan"}
+  - {id: EWY, source: yahoo, key: EWY, freq: D, units: price, country: KOR, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI South Korea"}
+  - {id: EWW, source: yahoo, key: EWW, freq: D, units: price, country: MEX, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Mexico"}
+  - {id: ENOR, source: yahoo, key: ENOR, freq: D, units: price, country: NOR, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Norway"}
+  - {id: EWA, source: yahoo, key: EWA, freq: D, units: price, country: AUS, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Australia"}
+  - {id: EWZ, source: yahoo, key: EWZ, freq: D, units: price, country: BRA, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI Brazil"}
+  - {id: FXI, source: yahoo, key: FXI, freq: D, units: price, country: CHN, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares China Large-Cap"}
+  - {id: INDA, source: yahoo, key: INDA, freq: D, units: price, country: IND, asset_class: equity_country, obs_time: "16:00", tz: America/New_York, policy: L, name: "iShares MSCI India"}
+
+  # ---------------------------------------------------------------- Statistics Canada (WDS)
+  - {id: CA_CPI_NSA, source: statcan, key: "41690973", freq: M, units: index, country: CAN, asset_class: macro, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "Canada CPI all-items, NSA (18-10-0004-01)"}
+  - {id: CA_CPI_SA, source: statcan, key: "41690914", freq: M, units: index, country: CAN, asset_class: macro, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "Canada CPI all-items, SA (18-10-0006-01)"}
+  - {id: CA_UNRATE, source: statcan, key: "2062815", freq: M, units: pct, country: CAN, asset_class: macro, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "Canada unemployment rate, 15+, SA (14-10-0287-01)"}
+  - {id: CA_GDP_M, source: statcan, key: "65201210", freq: M, units: index, country: CAN, asset_class: macro, obs_time: daily_rate, tz: America/Toronto, policy: C, event_window_ok: false, name: "Canada real GDP, all industries, SAAR chained 2017$ (36-10-0434-01)"}
+
+  # ---------------------------------------------------------------- OECD SDMX (monthly)
+  - {id: "{country}_CPI", source: oecd, key: "OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/{countries}.M.N.CPI.IX._T.N._Z", expand: [USA, CAN, GBR, DEU, FRA, ITA, JPN, KOR, MEX, NOR, AUS], freq: M, units: index, asset_class: macro, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "CPI index, all items (OECD)"}
+  # Australia is omitted: it publishes production quarterly, and the OECD KEI query returned
+  # no monthly series for AUS (found in M1).
+  - {id: "{country}_IP", source: oecd, key: "OECD.SDD.STES,DSD_KEI@DF_KEI,4.0/{countries}.M.PRVM.IX.BTE.Y._Z", expand: [USA, CAN, GBR, DEU, FRA, ITA, JPN, KOR, MEX, NOR], freq: M, units: index, asset_class: macro, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Industrial production volume, SA (OECD KEI)"}
+  - {id: "{country}_UNEMP", source: oecd, key: "OECD.SDD.STES,DSD_KEI@DF_KEI,4.0/{countries}.M.UNEMP.PT_LF._T.Y._Z", expand: [USA, CAN, GBR, DEU, FRA, ITA, JPN, KOR, MEX, NOR, AUS], freq: M, units: pct, asset_class: macro, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Unemployment rate, SA (OECD KEI)"}
+
+  # ---------------------------------------------------------------- World Bank WDI (annual)
+  - {id: "{country}_NET_ENERGY_IMPORTS", source: worldbank, key: EG.IMP.CONS.ZS, expand: [USA, CAN, GBR, DEU, FRA, ITA, JPN, KOR, MEX, NOR, AUS, BRA, CHN, IND], freq: A, units: pct_of_energy_use, asset_class: classification, obs_time: daily_rate, tz: UTC, policy: C, event_window_ok: false, name: "Energy imports, net (% of energy use)"}
+  - {id: "{country}_FUEL_EXPORTS", source: worldbank, key: TX.VAL.FUEL.ZS.UN, expand: [USA, CAN, GBR, DEU, FRA, ITA, JPN, KOR, MEX, NOR, AUS, BRA, CHN, IND], freq: A, units: pct_of_exports, asset_class: classification, obs_time: daily_rate, tz: UTC, policy: C, event_window_ok: false, name: "Fuel exports (% of merchandise exports)"}
+
+  # ---------------------------------------------------------------- Iacoviello indices (reduced-form)
+  - {id: GPRD, source: iacoviello, key: "gpr_daily:GPRD", freq: D, units: index, country: WLD, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Geopolitical Risk index, daily"}
+  - {id: GPRD_ACT, source: iacoviello, key: "gpr_daily:GPRD_ACT", freq: D, units: index, country: WLD, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "GPR acts, daily"}
+  - {id: GPRD_THREAT, source: iacoviello, key: "gpr_daily:GPRD_THREAT", freq: D, units: index, country: WLD, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "GPR threats, daily"}
+  - {id: GPR, source: iacoviello, key: "gpr_monthly:GPR", freq: M, units: index, country: WLD, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Geopolitical Risk index, monthly"}
+  - {id: GPRC_CAN, source: iacoviello, key: "gpr_monthly:GPRC_CAN", freq: M, units: index, country: CAN, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Country GPR, Canada, monthly"}
+  - {id: TPU, source: iacoviello, key: "tpu:TPU_MONTHLY:TPU", freq: M, units: index, country: USA, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Trade Policy Uncertainty, monthly"}
+  - {id: TPUD, source: iacoviello, key: "tpu:TPU_DAILY:TPUD_index", freq: D, units: index, country: USA, asset_class: risk_index, obs_time: daily_rate, tz: UTC, policy: D, event_window_ok: false, name: "Trade Policy Uncertainty, daily (from 2015; few articles per day)"}

@@ -142,16 +142,29 @@ Known issues:
 
 - **Upcoming:** https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/ (verified 2026-10-12). Remaining 2026 dates are **Oct 28** and **Dec 9**. The 2027 dates are Jan 27, Mar 3, Apr 28, Jun 2, Jul 21, Sep 8, Oct 27, Dec 8.
 - **History:** there is **no single official list**. Valet has no FAD group. The policy-rate series `V39079` only starts 2009-04-21 on Valet and only reveals changes, not holds. The fixed-date system was introduced after the BoC's September 2000 consultation (https://www.bankofcanada.ca/2000/09/informationconsultation-paper/).
-- **Plan (M1):** build `data/events/boc_fad.csv` by hand from BoC press releases, with one source URL per row and the announcement time taken from each release, because the time has changed over the years. Validate it automatically: every change in the policy rate must fall on a listed date or a documented unscheduled date.
+- **Built in M1:** `data/events/boc_fad.csv`, produced by `uv run wsl events boc-fad` (code in `wsl/shocks/boc_fad.py`).
+  - **Inputs:** the BoC press-release listing (826 entries), monthly archives for months the listing misses, and the yearly schedule releases. Every page is hashed in `data/manifest_boc_web.json`.
+  - **Result:** 211 events, 2000-12-05 → 2026-09-02. 207 are scheduled. 4 are unscheduled: 2001-09-17, 2008-10-08, 2020-03-13 and 2020-03-27. Each row has its release URL.
+  - **Decisions:** the change in bp comes from the daily target-rate series (Valet `CBC20210`), not from the release text.
+  - **Validation (all pass, 0 problems):**
+    - (a) every target-rate change since 2001 matches a listed event;
+    - (b) each title's verb agrees with the sign of the change;
+    - (c) each release's "next scheduled date" is the next listed event;
+    - (d) 8 scheduled events in every year 2001–2025.
+  - **Effective-date change:** from 2021 the BoC applies a new target "on the business day following each rate announcement" (2021 schedule release, 2020-07-30). Before that, decisions applied immediately. The series shows this from the first change after the switch (2022-03-02 → 2022-03-03), so changes are matched to the announcement by window, not by date.
+  - **Announcement times** come from the yearly schedule releases (§5).
 - **Licence:** BoC terms (https://www.bankofcanada.ca/terms/) allow use, copying and distribution with attribution, for BoC-owned content.
 
 ### 2.3 OPEC
 
 Dates are taken from the Känzig daily sheet (§1.4).
 
-### 2.4 Same-day collisions (verified for upcoming dates)
+### 2.4 Same-day FOMC/BoC announcements
 
-**FOMC and the BoC both announce on 2026-10-28 and on 2026-12-09.** On such days a daily-window BoC proxy also contains the 14:00 ET Fed news. Historical collisions will be counted in M1 once `boc_fad.csv` exists.
+On these days a daily-window BoC proxy also contains the 14:00 ET Fed news.
+- **Ahead:** 2026-10-28 and 2026-12-09.
+- **History (counted in M1):** 12 dates: 2008-01-22, 2008-10-08, 2019-10-30, 2022-01-26, 2025-01-29, 2025-07-30, 2025-09-17, 2025-10-29, 2025-12-10, 2026-01-28, 2026-03-18 and 2026-04-29.
+- **By split (scheduled FADs only):** 10 of the 62 BoC events in the pre-registered test window fall on such days, against 1 in train and 0 in validation (`docs/EVALUATION_PROTOCOL.md` §2).
 
 ---
 
@@ -183,7 +196,8 @@ Dates are taken from the Känzig daily sheet (§1.4).
 |---|---|---|---|---|
 | BD.CDN.2YR.DQ.YLD (also 3YR, 5YR, 7YR, 10YR, LONG) | GoC benchmark yields | 2YR: 6,443 obs, 2001-01-02 → 2026-10-08 | "Mid-market closing yields". Benchmark bond switches can create artificial jumps (BoC notes); these must be flagged. Time of the close is **not documented** (open item O-1). | [D] |
 | AVG.INTWO | CORRA | 7,285 obs, 1997-08-12 → 2026-10-08 | | [C]? (O-3) |
-| V39079 | Target overnight rate, business daily | 2009-04-21 → 2026-10-09 | Earlier history to be found (O-2) | [C] |
+| CBC20210 | Target overnight rate, daily | 2001-01-01 → 2026-10-09 (6,712 obs) | Resolves O-2. Records changes on the announcement day until 2020 and on the next business day from 2021 (§2.2). | [C] |
+| V39079 | Target overnight rate, business daily | 2009-04-21 → 2026-10-09 | Superseded by CBC20210 | [C] |
 | TB.CDN.90D.MID, TB.CDN.1Y.MID | T-bill yields | 2001-01-02 → 2026-10-09 | **"Average of sample secondary market yields taken throughout the business day"**. Not a close, so not used for event windows. | [D] |
 | FXUSDCAD | USD/CAD | 2017-01-03 → 2026-10-09 only | **"Daily average exchange rate"**. Not a close, so not used for event windows. | [D] |
 
@@ -208,11 +222,15 @@ Dates are taken from the Känzig daily sheet (§1.4).
   1. Adjusted closes are recomputed backward after every dividend or split, so the adjusted history changes between downloads. We store **raw close and the dividend/split events** and compute total returns ourselves.
   2. History can be revised silently. A SHA-256 per download makes any revision visible.
   3. Delisted tickers are absent, which is a survivorship issue (minor here, because the Big-6 banks all survive).
+  4. **Found in M1: impossible values on exchange holidays.** For example, CM.TO has a close of 0 on 2001-12-26 (Boxing Day). These are flagged `invalid_at_source` and never used.
+  5. **Found in M1: our total-return index vs Yahoo's adjclose.** They agree to a median of about 0.002 bp a day, with a few larger daily gaps, mostly on year-end distribution dates (e.g. 2000-12-20 for several iShares funds). See `docs/DATA_QUALITY.md` §6.
 
 ### 3.4 Nasdaq quote API: **validation-only second source**
 
 - **Endpoint:** `https://api.nasdaq.com/api/quote/{SYM}/historical?assetclass=etf&...`. It is unofficial. Verified 2026-10-12: about 10 years of unadjusted daily OHLCV for EWC (2,514 rows, 2016-10-10 → 2026-10-09).
-- **Use:** spot-check Yahoo *unadjusted* closes on a random sample of dates for US-listed ETFs only. The result is stored in the validation report, never as data. Policy [L].
+- **Use:** spot-check Yahoo closes for US-listed ETFs only. The result is stored in the validation report, never as data. Policy [L].
+- **What the data are:** split-adjusted, not dividend-adjusted, the same as Yahoo's "close". This was established in M1 from the 2016-11-07 EWU, EWI and EWJ splits and the 2025-12-05 XLE split.
+- **Result (M1):** across all 16 US-listed ETFs, 0 of 2,507 overlapping days differ by more than 0.5%. The largest difference in the sampled dates is 0.2%.
 - **Gap:** **no free second source was found for TSX-listed prices.** Planned mitigations:
   - Check internal consistency: ZEB.TO against the equal-weight portfolio of the six bank stocks.
   - Compare ^GSPTSE in USD terms with EWC.
@@ -253,7 +271,7 @@ The day-0 window for a series must contain the announcement. The table records w
 | FOMC statements | Usually 14:00 ET. JK timestamps show exceptions (e.g. 2013-01-30 14:15, 2020-03-15 17:00 Sunday). | Verified (JK data) |
 | Treasury CMT (DGS*) | Treasury closing indicative quotes, believed to be about 15:30 ET | **Unverified** |
 | GoC benchmark yields (Valet) | "Closing" mid-market, time not documented | **Unverified (O-1)** |
-| BoC FAD announcements | Time changed over the years. Taken per event from each press release. | To be built in M1 |
+| BoC FAD announcements | 09:00 ET 2002–2012, 10:00 ET 2014–2020 and 2022–2024, 09:45 ET 2025–2026, as stated in the yearly schedule releases. 2001 and 2013 are inferred from the next year's "will continue to be made at" wording; 2021 is inferred from the same time being stated for 2020 and 2022. All are before the 12:00 H.10 fix. | Verified (`boc_fad.csv` `time_basis`) |
 | US equities and ETFs (Yahoo) | 16:00 ET close | Standard. To be confirmed against Nasdaq on sample dates. |
 | TSX (Yahoo) | 16:00 ET close | Standard |
 | WTI spot (EIA) | NYMEX settlement, believed to be 14:30 ET | **Unverified** |
@@ -268,9 +286,10 @@ The day-0 window for a series must contain the announcement. The table records w
 | ID | Item | Needed by |
 |---|---|---|
 | O-1 | Time of day of the Valet GoC benchmark "closing" yields. Ask the BoC or find the methodology note. | M3 (BoC proxy) |
-| O-2 | Policy-rate history before 2009-04-21 (another Valet series or an archive), for the FAD validation test. | M1 |
+| ~~O-2~~ | **Resolved in M1:** Valet `CBC20210` has the daily target from 2001-01-01. | — |
 | O-3 | Whether CanDeal-sourced Valet yields, and statistics derived from them (our BoC proxy), may be published | M6 / M7 |
 | O-4 | Whether showing realized returns on specific dates (Event Replay) is acceptable under Yahoo's terms. The fallback is to show only model error metrics, not levels or returns. | M7 |
 | O-5 | Whether the OECD's CC BY 4.0 covers SDMX data | M1 |
 | O-6 | FRED copyright tags for the *pending* rows in §3.1 (check via `fred/series` API metadata once a key is set), plus the URL of the FRED API terms of use | M1 |
 | O-7 | Pre-2017 USD/CAD closing rate (BoC legacy noon and closing archive). Not required, because H.10 with a timing-aware window covers it. | Optional |
+| O-8 | **Found in M1: OECD CPI is incomplete for some countries.** Checked in both `DF_PRICES_ALL` and `DF_KEI` on 2026-10-12: CPI ends 2025-12 for FRA, ITA and NOR, 2024-07 for MEX, and 2021-06 for JPN (and JPN has no CPI in `DF_KEI`). Candidate replacements are IMF data and national agencies; some agencies need an API key, which would need your approval. US and Canada are unaffected (FRED, StatCan). | M4 (cross-country panel) |
