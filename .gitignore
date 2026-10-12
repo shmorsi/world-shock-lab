@@ -1,0 +1,25 @@
+# Secrets
+.env
+
+# Raw and derived data: never committed by default (see data/SOURCES.md for the policy)
+data/raw/
+data/clean/
+data/*.duckdb
+data/*.duckdb.wal
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Web
+web/node_modules/
+web/.next/
+web/out/
+
+# OS
+.DS_Store

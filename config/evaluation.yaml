@@ -1,0 +1,99 @@
+# World Shock Lab: pre-registered evaluation configuration (protocol v1)
+#
+# Written 2026-10-12, at M0, before any estimation or model fitting.
+# Do NOT edit after test results exist. If a change is unavoidable, bump protocol_version,
+# record the reason in docs/EVALUATION_PROTOCOL.md (Change log), and report both versions.
+# The pipeline stores sha256(this file) in every results JSON.
+
+protocol_version: 1
+frozen_on: "2026-10-12"
+
+splits:
+  # Inclusive bounds, compared against the announcement timestamp in the event's local time zone.
+  train:      {start: null,         end: "2014-12-31"}   # start = earliest usable event per family
+  validation: {start: "2015-01-01", end: "2018-12-31"}
+  test:       {start: "2019-01-01", end: "2026-09-30"}   # end = last JK Fed update (2026-09-16 event)
+  live:       {start: "2026-10-01", end: null}           # pre-registered forward test (M8)
+
+event_families:
+  fomc:
+    shock_source: jk_fed            # timestamps + raw surprises
+    realtime_features: [MP1, FF4, ED2, ED3, ED4, TFUT02, TFUT10]   # raw 30-min surprises (SOFR futures from 2022 per JK)
+    in_sample_shock: pc1            # full-sample PC; causal estimates only, never as a forecasting feature
+  boc:
+    shock_source: boc_fad_proxy     # daily change in BD.CDN.2YR.DQ.YLD on FADs
+    realtime_features: [d_ca2y]
+  opec:
+    shock_source: kaenzig_daily
+    realtime_features: [Front, 3M, 6M, 12M]   # raw futures surprises (%), not the full-sample PC
+  # ECB (JK) is used in-sample only; it is not part of the ML benchmark.
+
+refit:
+  primary: expanding_annual          # each test year uses data up to Dec 31 of the previous year
+  secondary: static_through_validation
+  hyperparameters: chosen_on_validation_then_frozen
+
+targets:
+  horizons_trading_days: [1, 5]      # cumulative: last obs before announcement -> h-th obs after it
+  units: {yields_spreads: bp, prices_fx: log_pct}
+  primary_assets: [US2Y, CA2Y, USDCAD, SPY, TSX, CA_BANKS_EW6, XEG, WTI]
+
+state_features_realtime:             # all measured at t-1 or the latest release before t
+  - vix_close_tminus1
+  - us_slope_10y_2y_tminus1
+  - ca_slope_10y_2y_tminus1
+  - asset_realized_vol_20d_tminus1
+  - policy_rate_change_6m            # own central bank; FOMC -> fed funds target, BoC -> V39079
+  - cpi_yoy_latest_release           # first release only; NSA CPI (rarely revised)
+  - wti_return_20d_tminus1
+
+models:
+  benchmarks: [zero, lp_unconditional, lp_state_dependent, ridge, hist_gradient_boosting]
+  ml: [mlp_small]
+  mlp_seed_ensemble: 5
+  sequence_models_min_train_events_per_family: 2000   # TFT etc. only if met; not met for any family
+
+intervals:
+  levels: [0.68, 0.90]
+  econometric: hac_residual
+  ml: split_conformal_on_validation
+
+metrics:
+  primary: pooled_scaled_mae          # MAE / train-sample MAE of zero forecast; equal weight over primary_assets x horizons
+  secondary: [rmse, oos_r2_vs_zero, directional_accuracy, coverage_68, coverage_90, interval_score]
+  directional_accuracy_min_abs_move: train_p25_abs_move   # per asset/horizon; also report all-events version
+
+decision_rule:
+  # "ML adds value" iff the validation-selected ML model beats the validation-selected econometric model
+  # on the primary metric, with a 90% event-block bootstrap CI of the difference excluding zero.
+  candidate_selection: validation
+  bootstrap: {unit: event, resamples: 10000, ci: 0.90, seed: 20261012}
+
+subsamples_secondary:
+  - exclude_unscheduled_2020_03
+  - by_event_family
+  - exclude_fomc_boc_collision_days
+
+in_sample_specs:                     # causal estimation; robustness alternatives listed separately
+  daily_lp:
+    primary: event_sample            # Δ_h y on surprise, pre-event controls, HC3
+    robustness: [daily_zero_filled_newey_west]
+    horizon_range: [0, 20]          # every h from 0 to 20 trading days
+    control_lags: 5
+    bands: [0.68, 0.90]
+  monthly_lp:
+    horizon_range: [0, 24]          # every h from 0 to 24 months
+    control_lags: 12
+    se: newey_west                   # lags >= h+1
+  regimes:                           # all defined from information at t-1
+    high_vix: {rule: vix_tminus1_above_trailing_252d_median, robustness: [fixed_20, fixed_25]}
+    cycle: {rule: sign_policy_rate_change_6m, categories: [hiking, cutting, hold]}
+    high_inflation: {rule: cpi_yoy_latest_release_above, threshold_pct: 3.0}
+    oil_exporter: {rule: wdi_EG.IMP.CONS.ZS_below_zero, vintage: latest_available_before_event_year}
+  multiple_testing:
+    method: benjamini_hochberg
+    q: 0.10
+    families: [spillover_edges, state_dependence_tests]
+  spillover_network_horizons: [1, 5]
+  placebo_draws: 1000
+  placebo_seed: 20261012
