@@ -1,6 +1,25 @@
 # World Shock Lab: M0 plan (scope, design decisions, risks)
 
-**Status:** M0, written 2026-10-12. No estimation has been run. All counts below describe the input data (number of events, date coverage) and were computed while verifying the sources. None of them is a result.
+**Status (final):** all milestones M0–M8 are built and committed; see "Where the project ended up" below. What follows it is the original M0 plan, written 2026-10-12 before any estimation and kept unchanged as the record of what was planned. Counts in it describe the input data, not results.
+
+## Where the project ended up
+
+Results live in the generated reports (README findings, docs/RESEARCH_NOTE.md, docs/RESULTS.md, docs/ML_BENCHMARK.md); this table records only what was delivered against §6 and where it fell short.
+
+| Milestone | Delivered | Short of the plan, or changed |
+|---|---|---|
+| M1 Data | Hashed raw cache, schemas, data-quality report, BoC announcement list validated against the target rate | O-8 (OECD CPI gaps for some countries) is still open; it affects only cross-country monthly macro, which the final scope does not use for headline results |
+| M2 Estimation | LP, LP-IV, HAC/HC errors, Monte Carlo recovery tests in CI | The zero-filled daily LP under-covers in simulation, so it is a robustness check only (as planned in P12) |
+| M3 Identification | Timestamp-aware shocks, replication table, placebo, BoC proxy validation, O-1 resolved by testing | The BoC proxy passed validation but still carries common North American news (found in M4); Rigobon–Sack is shown alongside every BoC result |
+| M4 VAR, regimes, Canada | Proxy BVAR vs LP-IV, state-dependence family with FDR, Canada lens, exporter panel, spillover network, robustness matrix | **One acceptance criterion not met:** the proxy-BVAR bootstrap bands cover below the [0.85, 0.95] window in simulation. Documented rather than tuned; LP bands are the reference wherever the two disagree. No regime effect survives FDR control |
+| M5 ML benchmark | Run exactly per the protocol; test set scored once; verdict written as computed | — |
+| M6 Scenario engine | Catalog of single-shock event LPs (Fed policy and information responses from one joint regression, with their covariance); shocks from different event families are added; label propagation; out-of-range and linearity warnings; JSON with provenance; Python and TypeScript engines tied by fixtures | A fully joint LP across families is not estimable because their events rarely coincide; the additivity assumption is stated in every scenario |
+| M7 Web app | Six views plus overview and track record; static JSON; keyboard access and a table alternative for every chart; brief "no number not in JSON" test | Load time is measured with a scripted Playwright profile equal to Lighthouse's slow-4G and 4x-CPU settings rather than with Lighthouse itself; accessibility with axe-core |
+| M8 Live mode and write-up | `config/live.yaml` (protocol v4), daily workflow, first forecasts for 2026-10-28, research note and PDF, README, limitations, resume bullets | Publishing steps (repository, secrets, Pages, licensing decisions O-3/O-4/O-9) are for the owner: docs/SHIP_CHECKLIST.md |
+
+---
+
+**Original M0 status line:** M0, written 2026-10-12. No estimation has been run. All counts below describe the input data (number of events, date coverage) and were computed while verifying the sources. None of them is a result.
 
 Companion documents: `data/SOURCES.md` (every source, verified) and `docs/EVALUATION_PROTOCOL.md` + `config/evaluation.yaml` (the pre-registered splits).
 

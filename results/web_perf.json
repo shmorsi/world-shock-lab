@@ -1,0 +1,60 @@
+{
+ "measured_at": "2026-10-13T00:51:28Z",
+ "profile_slow": "1.6 Mbps down, 750 kbps up, 150 ms RTT, CPU 4x slower",
+ "viewport": "390x844 mobile",
+ "runs_per_cell": 3,
+ "target_s": 3,
+ "slowest_slow_s": 2.703,
+ "rows": [
+  {
+   "view": "#/",
+   "profile": "unthrottled",
+   "median_s": 0.119
+  },
+  {
+   "view": "#/",
+   "profile": "slow_4g_4x_cpu",
+   "median_s": 0.875
+  },
+  {
+   "view": "#/map",
+   "profile": "unthrottled",
+   "median_s": 0.19
+  },
+  {
+   "view": "#/map",
+   "profile": "slow_4g_4x_cpu",
+   "median_s": 2.703
+  },
+  {
+   "view": "#/explorer",
+   "profile": "unthrottled",
+   "median_s": 0.325
+  },
+  {
+   "view": "#/explorer",
+   "profile": "slow_4g_4x_cpu",
+   "median_s": 2.046
+  },
+  {
+   "view": "#/scenario",
+   "profile": "unthrottled",
+   "median_s": 0.422
+  },
+  {
+   "view": "#/scenario",
+   "profile": "slow_4g_4x_cpu",
+   "median_s": 2.602
+  },
+  {
+   "view": "#/replay",
+   "profile": "unthrottled",
+   "median_s": 0.111
+  },
+  {
+   "view": "#/replay",
+   "profile": "slow_4g_4x_cpu",
+   "median_s": 2.038
+  }
+ ]
+}

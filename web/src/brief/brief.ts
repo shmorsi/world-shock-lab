@@ -40,8 +40,10 @@ export function render(parts: Part[]): string {
   return parts.map((p) => p.text).join("");
 }
 
+const unit = (u: string) => (u === "%" ? "%" : ` ${u}`);
+
 function line(o: Outcome, r: ScenarioResult["outcomes"][number]): Part[] {
-  return [nm(o.name), t(": "), n(r.mean), nm(` ${o.units}`), t(" ("), n(BAND_LEVEL, 0, false), t("% range "), n(r.lo90), t(" to "), n(r.hi90), t(")")];
+  return [nm(o.name), t(": "), n(r.mean), nm(unit(o.units)), t(" ("), n(BAND_LEVEL, 0, false), t("% range "), n(r.lo90), t(" to "), n(r.hi90), t(")")];
 }
 
 export function buildBrief(
@@ -61,7 +63,11 @@ export function buildBrief(
   used.forEach(([k, v], i) => {
     const s = shocks.get(k)!;
     if (i > 0) scenario.push(t(i === used.length - 1 ? " and " : ", "));
-    scenario.push(n(v, Number.isInteger(v) ? 0 : 1), nm(` ${s.unit} `), nm(shockNoun(s.name)), t(" ("), n(inSd(catalog, k, v), 1, true), t(" standard deviations)"));
+    const size = n(v, Number.isInteger(v) ? 0 : 1);
+    // Oil supply news is sized by the move in oil futures; the others by their own units.
+    if (s.family === "opec") scenario.push(nm(shockNoun(s.name)), t(" that moves oil futures by "), size, nm(unit(s.unit)));
+    else scenario.push(size, nm(`${unit(s.unit)} `), nm(shockNoun(s.name)));
+    scenario.push(t(" ("), n(inSd(catalog, k, v), 1, true), t(" standard deviations)"));
   });
   scenario.push(t(", read "), n(result.horizon, 0, false), t(" trading days after the announcement."));
   const evidence: Part[] = [t("Evidence: the responses combined here are "), t(LABEL_TEXT[result.evidence]), t(". Combining them makes the whole a hypothetical scenario, not a forecast.")];

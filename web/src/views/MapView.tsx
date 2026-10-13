@@ -28,7 +28,12 @@ export default function MapView() {
   if (!d || typeof d === "string") return <Loading error={typeof d === "string" ? d : null} />;
   const { catalog, meta } = d;
   const s = catalog.shocks.find((x) => x.id === shock)!;
-  const sizeText = s.unit === "sd" ? `a one standard deviation ${shockNoun(s.name)}` : `a +${s.per} ${s.unit} ${shockNoun(s.name)}`;
+  const sizeText =
+    s.unit === "sd"
+      ? `a one standard deviation ${shockNoun(s.name)}`
+      : s.family === "opec"
+        ? `${shockNoun(s.name)} that moves oil futures by +${s.per}%`
+        : `a +${s.per} ${s.unit} ${shockNoun(s.name)}`;
 
   // Response of each country's asset; FX is expressed as the local currency's move vs USD (+ = appreciates).
   const value = (iso3: string) => {

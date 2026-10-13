@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
+from wsl.data.build import git_sha
 from wsl.estimation import montecarlo as mc
 from wsl.estimation.simulate import textbook_var
 from wsl.paths import DOCS_DIR, ROOT
 
 OUT = DOCS_DIR / "SIMULATION.md"
+SUMMARY = ROOT / "results" / "simulation.json"  # the headline numbers, for docs generation
 
 
 def _md(df: pd.DataFrame, floatfmt: str = "{:.3f}") -> str:
@@ -124,4 +128,18 @@ def write(path: Path = OUT) -> Path:
         "the two disagree the LP is the more trustworthy guide to uncertainty.\n"
     )
     path.write_text("\n".join(parts))
+    summary = {
+        "generated_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"), "git_sha": git_sha(),
+        "dense_coverage90_mean": [float(c) for c in d_cov],
+        "event_hc3_coverage90_mean": float(ev.coverage90.mean()),
+        "event_hc3_max_abs_bias_over_peak": float(ev.summary()["max |bias| / peak"]),
+        "zerofill_nw_coverage90_mean": float(zf_nw.coverage90.mean()),
+        "lpiv_strong_coverage90_mean": float(strong.coverage90.mean()),
+        "lpiv_weak_ar_coverage90_mean": float(weak.extra["Anderson-Rubin coverage 90 (mean)"]),
+        "placebo_zero_in_band": float(placebo_runs[0].coverage90.mean()),
+        "bvar_coverage90_other": float(bv_rows[0]["coverage90_other_variables"]),
+        "bvar_noprior_coverage90_other": float(bv_rows[1]["coverage90_other_variables"]),
+    }
+    SUMMARY.parent.mkdir(parents=True, exist_ok=True)
+    SUMMARY.write_text(json.dumps(summary, indent=1) + "\n")
     return path.relative_to(ROOT)

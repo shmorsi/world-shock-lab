@@ -1,0 +1,18 @@
+{
+ "generated_at": "2026-10-13T00:45:28Z",
+ "git_sha": "5429aa5b40ff5b09734552a8d7f5fc117b35a19a-dirty",
+ "dense_coverage90_mean": [
+  0.8861538461538463,
+  0.8961538461538462,
+  0.8661538461538462,
+  0.8876923076923078
+ ],
+ "event_hc3_coverage90_mean": 0.9015384615384616,
+ "event_hc3_max_abs_bias_over_peak": 0.009162537148560709,
+ "zerofill_nw_coverage90_mean": 0.8623076923076923,
+ "lpiv_strong_coverage90_mean": 0.8861538461538461,
+ "lpiv_weak_ar_coverage90_mean": 0.8926923076923077,
+ "placebo_zero_in_band": 0.8961538461538462,
+ "bvar_coverage90_other": 0.8376923076923077,
+ "bvar_noprior_coverage90_other": 0.8723076923076923
+}

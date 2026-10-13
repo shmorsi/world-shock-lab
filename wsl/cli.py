@@ -12,6 +12,7 @@ data_app = typer.Typer(no_args_is_help=True, help="Data layer: fetch, build, rep
 events_app = typer.Typer(no_args_is_help=True, help="Event lists we construct ourselves.")
 validate_app = typer.Typer(no_args_is_help=True, help="Method validation reports.")
 export_app = typer.Typer(no_args_is_help=True, help="Pages and files built from results.")
+report_app = typer.Typer(no_args_is_help=True, help="Documents generated from the results.")
 live_app = typer.Typer(no_args_is_help=True,
                        help="Live pre-registered forecasts (config/live.yaml, protocol §8).")
 app.add_typer(data_app, name="data")
@@ -19,6 +20,7 @@ app.add_typer(events_app, name="events")
 app.add_typer(validate_app, name="validate")
 app.add_typer(export_app, name="export")
 app.add_typer(live_app, name="live")
+app.add_typer(report_app, name="report")
 
 
 @data_app.command("fetch")
@@ -163,6 +165,15 @@ def _live_data(download: bool):  # type: ignore[no-untyped-def]
             if o.status in ("failed", "skipped"):
                 typer.echo(f"  {o.status:8} {o.key}: {o.detail}", err=True)
     return cfg, load(cfg, cache, now), now
+
+
+@report_app.command("docs")
+def report_docs() -> None:
+    """README findings, docs/RESEARCH_NOTE.md (+ figures) and docs/RESUME_BULLETS.md."""
+    from wsl.report.docs import write_all
+
+    for p in write_all():
+        typer.echo(f"wrote {p}")
 
 
 @live_app.command("run")
