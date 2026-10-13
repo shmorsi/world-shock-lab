@@ -290,8 +290,8 @@ The day-0 window for a series must contain the announcement. The table records w
 |---|---|---|
 | ~~O-1~~ | **Resolved empirically in M3** (docs/REPLICATION.md §5): Canadian yields respond to 14:00 ET FOMC news within the announcement-day window, which is only possible if the Valet close is after 14:00. 16:00 ET stays the working assumption. BoC announcements (09:00–10:00 ET) are unaffected either way. | — |
 | ~~O-2~~ | **Resolved in M1:** Valet `CBC20210` has the daily target from 2001-01-01. | — |
-| O-3 | Whether CanDeal-sourced Valet yields, and statistics derived from them (our BoC proxy), may be published | M6 / M7 |
-| O-4 | Whether showing realized returns on specific dates (Event Replay) is acceptable under Yahoo's terms. The fallback is to show only model error metrics, not levels or returns. | M7 |
+| O-3 | Whether CanDeal-sourced Valet yields, and statistics derived from them (our BoC proxy), may be published. **2026-10-13:** derived responses are published; the final-evaluation record in the repository includes per-event CA 2-year moves (see O-4); the web app and live scores still withhold per-event CA yield values. | M6 / M7 |
+| O-4 | Whether showing realized returns on specific dates (Event Replay) is acceptable under Yahoo's terms. The fallback is to show only model error metrics, not levels or returns. **Decision 2026-10-13 (owner):** the repository is published with the final-evaluation record (`results/final_eval/`) complete and unaltered, including per-event 1- and 5-day moves for all eight assets, because it is the pre-registered evidence. The web app keeps the conservative display: per-event values only for public-domain series. | M7 |
 | O-5 | Whether the OECD's CC BY 4.0 covers SDMX data | M1 |
 | ~~O-6~~ | **Resolved in M1:** tags read from the FRED API, terms URL recorded (§3.1). | — |
 | O-7 | Pre-2017 USD/CAD closing rate (BoC legacy noon and closing archive). Not required, because H.10 with a timing-aware window covers it. | Optional |

@@ -43,7 +43,7 @@ What the results in this repository cannot tell you, and why. Numbers are not re
 ## Licensing and what is withheld
 
 - **CA yields** (CanDeal, via the BoC's Valet; open item O-3): derived responses are published, but per-event realized values are not, and the live scores report only whether outcomes fell inside the forecast ranges.
-- **Yahoo prices** (open item O-4): only derived statistics are published. Event Replay shows realized per-event values only for public-domain series.
+- **Yahoo prices** (open item O-4): only derived statistics are published. Event Replay shows realized per-event values only for public-domain series. The pre-registered final-evaluation record in `results/final_eval/` is kept complete and unaltered, so it does contain per-event moves for every asset.
 - **VIX and Moody's spreads** (open item O-9): used for local research only. Nothing derived from them is published, so the public site has no VIX-regime responses.
 
 ## Scope
