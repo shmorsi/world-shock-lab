@@ -1,0 +1,315 @@
+{
+ "schema": 1,
+ "kind": "forecast",
+ "label": "model_forecast",
+ "event_id": "2026-10-28_boc",
+ "bank": "boc",
+ "decision_date": "2026-10-28",
+ "announcement_ts": "2026-10-28T09:45:00-04:00",
+ "published_at": "2026-10-13T00:36:18Z",
+ "hours_before": 373.1,
+ "collision": true,
+ "collision_note": "The FOMC (14:00 ET) also announces on this day; daily data cannot separate the two, so this forecast is scored but reported separately.",
+ "proxy": "CA2Y",
+ "proxy_text": "announcement-day change in the Government of Canada 2-year yield (bp)",
+ "horizon_convention": "h = 1 is the first observation after the announcement, h = 5 the fifth; changes from the last observation before it",
+ "units": {
+  "CA2Y": "bp",
+  "USDCAD": "% (100 \u00d7 log change, CAD per USD)",
+  "CA_BANKS_EW6": "% (100 \u00d7 log change)"
+ },
+ "grid": [
+  {
+   "surprise_bp": -10.0,
+   "outcome": "CA2Y",
+   "h": 1,
+   "mean": -10.0,
+   "lo68": -10.0,
+   "hi68": -10.0,
+   "lo90": -10.0,
+   "hi90": -10.0,
+   "mechanical": true
+  },
+  {
+   "surprise_bp": -10.0,
+   "outcome": "CA2Y",
+   "h": 5,
+   "mean": -11.3228,
+   "lo68": -19.1294,
+   "hi68": -3.5162,
+   "lo90": -27.6472,
+   "hi90": 5.0015,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": -10.0,
+   "outcome": "USDCAD",
+   "h": 1,
+   "mean": 0.4037,
+   "lo68": -0.1487,
+   "hi68": 0.9561,
+   "lo90": -0.5862,
+   "hi90": 1.3936,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": -10.0,
+   "outcome": "USDCAD",
+   "h": 5,
+   "mean": 0.5372,
+   "lo68": -0.7077,
+   "hi68": 1.7821,
+   "lo90": -1.3473,
+   "hi90": 2.4217,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": -10.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 1,
+   "mean": 0.0148,
+   "lo68": -0.8393,
+   "hi68": 0.8689,
+   "lo90": -1.5098,
+   "hi90": 1.5395,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": -10.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 5,
+   "mean": -0.1368,
+   "lo68": -2.1371,
+   "hi68": 1.8635,
+   "lo90": -3.9869,
+   "hi90": 3.7133,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "CA2Y",
+   "h": 1,
+   "mean": 0.0,
+   "lo68": -0.0,
+   "hi68": 0.0,
+   "lo90": -0.0,
+   "hi90": 0.0,
+   "mechanical": true
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "CA2Y",
+   "h": 5,
+   "mean": 0.038,
+   "lo68": -7.7686,
+   "hi68": 7.8446,
+   "lo90": -16.2864,
+   "hi90": 16.3623,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "USDCAD",
+   "h": 1,
+   "mean": 0.0348,
+   "lo68": -0.5176,
+   "hi68": 0.5872,
+   "lo90": -0.9551,
+   "hi90": 1.0247,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "USDCAD",
+   "h": 5,
+   "mean": 0.0254,
+   "lo68": -1.2194,
+   "hi68": 1.2703,
+   "lo90": -1.859,
+   "hi90": 1.9099,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 1,
+   "mean": -0.0249,
+   "lo68": -0.879,
+   "hi68": 0.8292,
+   "lo90": -1.5495,
+   "hi90": 1.4997,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 0.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 5,
+   "mean": -0.0766,
+   "lo68": -2.0769,
+   "hi68": 1.9237,
+   "lo90": -3.9267,
+   "hi90": 3.7735,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "CA2Y",
+   "h": 1,
+   "mean": 10.0,
+   "lo68": 10.0,
+   "hi68": 10.0,
+   "lo90": 10.0,
+   "hi90": 10.0,
+   "mechanical": true
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "CA2Y",
+   "h": 5,
+   "mean": 11.3988,
+   "lo68": 3.5922,
+   "hi68": 19.2054,
+   "lo90": -4.9256,
+   "hi90": 27.7231,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "USDCAD",
+   "h": 1,
+   "mean": -0.3342,
+   "lo68": -0.8866,
+   "hi68": 0.2183,
+   "lo90": -1.3241,
+   "hi90": 0.6558,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "USDCAD",
+   "h": 5,
+   "mean": -0.4863,
+   "lo68": -1.7312,
+   "hi68": 0.7586,
+   "lo90": -2.3708,
+   "hi90": 1.3982,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 1,
+   "mean": -0.0646,
+   "lo68": -0.9187,
+   "hi68": 0.7895,
+   "lo90": -1.5893,
+   "hi90": 1.46,
+   "mechanical": false
+  },
+  {
+   "surprise_bp": 10.0,
+   "outcome": "CA_BANKS_EW6",
+   "h": 5,
+   "mean": -0.0163,
+   "lo68": -2.0166,
+   "hi68": 1.984,
+   "lo90": -3.8664,
+   "hi90": 3.8338,
+   "mechanical": false
+  }
+ ],
+ "model": {
+  "CA2Y|h1": {
+   "a": 3.080501747891445e-17,
+   "b": 1.0000000000000009,
+   "n": 195,
+   "half": {
+    "68": 5.373587639646687e-15,
+    "90": 1.0857576849881374e-14
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  },
+  "CA2Y|h5": {
+   "a": 0.037959007389187324,
+   "b": 1.1360802576356488,
+   "n": 195,
+   "half": {
+    "68": 7.806602196329123,
+    "90": 16.3243200690288
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  },
+  "USDCAD|h1": {
+   "a": 0.03477805527324222,
+   "b": -0.03689339937550175,
+   "n": 195,
+   "half": {
+    "68": 0.5524157429946587,
+    "90": 0.989907967638438
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  },
+  "USDCAD|h5": {
+   "a": 0.025449826156597462,
+   "b": -0.05117529994866858,
+   "n": 195,
+   "half": {
+    "68": 1.244899199422289,
+    "90": 1.8844816596789475
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  },
+  "CA_BANKS_EW6|h1": {
+   "a": -0.024899799867861235,
+   "b": -0.003973344722120061,
+   "n": 195,
+   "half": {
+    "68": 0.8541113224544696,
+    "90": 1.524639171832221
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  },
+  "CA_BANKS_EW6|h5": {
+   "a": -0.07656613944841177,
+   "b": 0.006026102351807655,
+   "n": 195,
+   "half": {
+    "68": 2.000290019356261,
+    "90": 3.850107954603762
+   },
+   "first": "2001-01-23",
+   "last": "2026-09-02"
+  }
+ },
+ "data": {
+  "CA2Y": {
+   "artifact": "valet/BD.CDN.2YR.DQ.YLD",
+   "sha256": "463f863041785717c704ec6f86a8557c7af4739479b47e53900ccfcebac7e7ef",
+   "retrieved_at": "2026-10-13T00:30:48Z",
+   "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01",
+   "last_obs": "2026-10-08"
+  },
+  "USDCAD": {
+   "artifact": "fred/observations/DEXCAUS",
+   "sha256": "f0b38c518d57a7d93398e9551062566307633f8e58f03df58881ed215b16f888",
+   "retrieved_at": "2026-10-13T00:30:43Z",
+   "url": "https://api.stlouisfed.org/fred/series/observations?series_id=DEXCAUS&file_type=json&observation_start=1900-01-01&api_key=REDACTED",
+   "last_obs": "2026-10-02"
+  },
+  "CA_BANKS_EW6": {
+   "artifact": "derived:RY.tr,TD.tr,BNS.tr,BMO.tr,CM.tr,NA.tr",
+   "sha256": "2b842b838469,c2516e1c46fc,9e816ee83fac,0a55a830c71e,3cc6b3eefb27,f9756fbf3082",
+   "retrieved_at": "2026-10-13T00:35:56Z",
+   "url": "",
+   "last_obs": "2026-10-09"
+  }
+ },
+ "live_config_sha256": "a29907112f481e8fcc70525e9e7ce79e2233a54ac39b8d51a632098b4835d1ba",
+ "code_git_sha": "d974f4d665f81099c0f3348214972f5472496834",
+ "protocol": "v4"
+}
