@@ -51,8 +51,9 @@ def file_sha256(path: Path) -> str:
 
 
 # Files the pipeline itself writes; changing them does not make the code "dirty".
-GENERATED = ("results", "docs/DATA_QUALITY.md", "docs/SIMULATION.md", "docs/REPLICATION.md",
-             "web/preview/index.html")
+GENERATED = ("results", "live", "web/public/data", "web/preview/index.html",
+             "docs/DATA_QUALITY.md", "docs/SIMULATION.md", "docs/REPLICATION.md",
+             "docs/RESULTS.md", "docs/ML_BENCHMARK.md")
 
 
 def git_sha() -> str:
