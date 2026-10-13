@@ -1,6 +1,6 @@
 # Ship checklist
 
-Everything is built, tested and committed locally. The steps below publish it. They are left to you because they create public, hard-to-reverse artefacts or need account access.
+**Status (2026-10-13):** the repository is public at https://github.com/shmorsi/world-shock-lab with all protocol tags, GitHub Pages is on, and workflows may commit. Still open: the `FRED_API_KEY` secret (step 3.1) and the licensing questions in step 1, which were settled for the published record (see data/SOURCES.md O-3/O-4) but remain open for the site's display. Until the secret exists, the daily `live` workflow skips with a warning; run `uv run wsl live run` locally and push instead.
 
 ## 1. Decide three licensing questions (data/SOURCES.md §6)
 
@@ -14,7 +14,7 @@ The repository currently follows the conservative option for each, so it is safe
 
 If you would rather remove even the derived statistics for O-3, say so and the BoC responses can be dropped from the public export.
 
-## 2. Create the GitHub repository and push
+## 2. Create the GitHub repository and push (done 2026-10-13)
 
 ```bash
 git remote add origin git@github.com:<you>/world-shock-lab.git
@@ -25,7 +25,7 @@ Pushing the tags (`protocol-v1` … `protocol-v4`) publishes the pre-registratio
 
 **Timing matters for the first live forecasts.** The forecasts for the 2026-10-28 FOMC and BoC decisions were committed on 2026-10-13, but they only count as pre-registered if the repository is public before **2026-10-27 09:45 ET** (24 hours before the BoC announcement). If you push later, leave the files in place and add a note to the protocol change log that they were not publicly timestamped in time. The 2026-12-09 forecasts are then the first that count.
 
-## 3. Configure the repository (Settings)
+## 3. Configure the repository (Settings): 2–4 done 2026-10-13; 1 open
 
 1. **Secrets and variables → Actions → New repository secret:** `FRED_API_KEY` = your FRED key. The key is never committed; `.env` is git-ignored.
 2. **Pages → Build and deployment → Source:** "GitHub Actions". The `pages` workflow then deploys the site on every push that touches `web/`.

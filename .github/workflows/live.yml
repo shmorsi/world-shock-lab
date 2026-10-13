@@ -20,17 +20,28 @@ concurrency:
 jobs:
   live:
     runs-on: ubuntu-latest
+    env:
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
     steps:
+      # Without the key there is no US 2-year or USD/CAD data, so nothing can be scored or
+      # forecast. Skip with a visible warning instead of failing every weekday. Until the secret
+      # is added, run `uv run wsl live run` locally and push (docs/SHIP_CHECKLIST.md).
+      - name: Check for the FRED API key
+        if: env.FRED_API_KEY == ''
+        run: echo "::warning::FRED_API_KEY secret is not set; live forecasts and scores were skipped. Add it under Settings > Secrets and variables > Actions, or run 'uv run wsl live run' locally and push."
       - uses: actions/checkout@v4
+        if: env.FRED_API_KEY != ''
       - uses: astral-sh/setup-uv@v6
+        if: env.FRED_API_KEY != ''
         with:
           enable-cache: true
-      - run: uv sync --locked --no-dev
+      - if: env.FRED_API_KEY != ''
+        run: uv sync --locked --no-dev
       - name: Score finished decisions and publish due forecasts
-        env:
-          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        if: env.FRED_API_KEY != ''
         run: uv run --no-dev wsl live run
       - name: Commit new forecasts and scores
+        if: env.FRED_API_KEY != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
