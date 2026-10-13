@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { useAll } from "../data";
+import { useAll, useData } from "../data";
 import { signed } from "../format";
 import type { Catalog, M4Data, MlData, RegimeIrfs } from "../types";
 import { Chip, Loading, Panel, Seg, Select } from "../components/ui";
 import { FanChart, type Series } from "../components/FanChart";
 import { Z68, Z90 } from "../engine/engine";
 
-type D = { catalog: Catalog; regimes: { regimes: RegimeIrfs; note: string }; ml: MlData; m4: M4Data };
+type D = { catalog: Catalog; ml: MlData };
+const NO_REGIMES: RegimeIrfs = {};
 const ML_ASSET: Record<string, string> = {
   US2Y: "US2Y", CA2Y: "CA2Y", USDCAD: "USDCAD", "SPY.tr": "SPY", "TSX.tr": "TSX", CA_BANKS_EW6: "CA_BANKS_EW6", "XEG.tr": "XEG", WTI: "WTI",
 };
@@ -27,7 +28,10 @@ function fan(name: string, color: string, coef: number[], se: number[], bands = 
 }
 
 function Daily({ d, shock, setShock }: { d: D; shock: string; setShock: (s: string) => void }) {
-  const { catalog, regimes, ml, m4 } = d;
+  const { catalog, ml } = d;
+  // Secondary files, fetched once the main chart is on screen.
+  const regimes = { regimes: useData<{ regimes: RegimeIrfs }>("regimes").data?.regimes ?? NO_REGIMES };
+  const robustness = useData<M4Data>("m4").data?.robustness ?? [];
   const [outcome, setOutcome] = useState("CA2Y");
   const [regime, setRegime] = useState("none");
   const s = catalog.shocks.find((x) => x.id === shock)!;
@@ -54,7 +58,7 @@ function Daily({ d, shock, setShock }: { d: D; shock: string; setShock: (s: stri
   }
   const regimeOptions = Object.keys(regimes.regimes[shock] ?? {});
   const groups = Array.from(new Set(catalog.outcomes.map((x) => x.asset_class)));
-  const rob = m4.robustness.filter((r) => r.family === FAMILY_OF[shock] && r.outcome === outcome && shock !== "fed_pc1" && shock !== "fed_cbi");
+  const rob = robustness.filter((r) => r.family === FAMILY_OF[shock] && r.outcome === outcome && shock !== "fed_pc1" && shock !== "fed_cbi");
   return (
     <>
       <div className="controls">
@@ -110,7 +114,13 @@ function Daily({ d, shock, setShock }: { d: D; shock: string; setShock: (s: stri
   );
 }
 
-function Monthly({ m4 }: { m4: M4Data }) {
+function Monthly() {
+  const m4 = useData<M4Data>("m4");
+  if (!m4.data) return <Loading error={m4.error} />;
+  return <MonthlyChart m4={m4.data} />;
+}
+
+function MonthlyChart({ m4 }: { m4: M4Data }) {
   const instruments = Object.keys(m4.var_vs_lp);
   const [inst, setInst] = useState(instruments[0]);
   const v = m4.var_vs_lp[inst];
@@ -160,7 +170,7 @@ function Monthly({ m4 }: { m4: M4Data }) {
 }
 
 export default function ExplorerView() {
-  const d = useAll<D>(["catalog", "regimes", "ml", "m4"]);
+  const d = useAll<D>(["catalog", "ml"]);
   const [tab, setTab] = useState<"daily" | "monthly">("daily");
   const [shock, setShock] = useState("fed_mp");
   if (!d || typeof d === "string") return <Loading error={typeof d === "string" ? d : null} />;
@@ -168,7 +178,7 @@ export default function ExplorerView() {
   return (
     <Panel eyebrow="View 2 · Impulse Response Explorer" title="How a shock propagates, by method and regime" chip={<Chip label={label} />} id="ex-h">
       <Seg label="Data" value={tab} onChange={setTab} options={[{ value: "daily", text: "Daily markets" }, { value: "monthly", text: "Monthly macro (VAR vs LP)" }]} />
-      {tab === "daily" ? <Daily d={d} shock={shock} setShock={setShock} /> : <Monthly m4={d.m4} />}
+      {tab === "daily" ? <Daily d={d} shock={shock} setShock={setShock} /> : <Monthly />}
     </Panel>
   );
 }

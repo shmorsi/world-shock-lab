@@ -20,9 +20,11 @@ export function load<T>(name: string): Promise<T> {
 
 export type Loaded<T> = { data: T; error: null } | { data: null; error: string | null };
 
-export function useData<T>(name: string): Loaded<T> {
+/** One data file; pass null to hold off (e.g. until it is needed). */
+export function useData<T>(name: string | null): Loaded<T> {
   const [state, setState] = useState<Loaded<T>>({ data: null, error: null });
   useEffect(() => {
+    if (!name) return;
     let live = true;
     load<T>(name).then(
       (data) => live && setState({ data, error: null }),

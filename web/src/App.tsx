@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { useData } from "./data";
+import { load, useData } from "./data";
 import { ScenarioProvider } from "./scenario";
 import type { Meta } from "./types";
 import Overview from "./views/Overview";
@@ -23,11 +23,28 @@ const ROUTES = [
   { path: "track", text: "Track record" },
 ] as const;
 
+// The data each view needs, requested as soon as the route is known so the downloads run in
+// parallel with the view's code chunk instead of after it.
+const ROUTE_DATA: Record<string, string[]> = {
+  "": ["summary"],
+  map: ["catalog", "meta"],
+  explorer: ["catalog", "ml"], // regimes and m4 load after the first chart is drawn
+  scenario: ["catalog"],
+  replay: ["replay"],
+  brief: ["catalog", "m4"],
+  method: ["m3", "m4"],
+  track: ["live"],
+};
+const prefetch = (route: string) => ROUTE_DATA[route]?.forEach((n) => void load(n).catch(() => undefined));
+const currentRoute = () => window.location.hash.replace(/^#\/?/, "").split("?")[0];
+prefetch(currentRoute());
+
 function useRoute(): string {
-  const get = () => window.location.hash.replace(/^#\/?/, "").split("?")[0];
+  const get = currentRoute;
   const [route, setRoute] = useState(get);
   useEffect(() => {
     const on = () => {
+      prefetch(get());
       setRoute(get());
       window.scrollTo(0, 0);
     };

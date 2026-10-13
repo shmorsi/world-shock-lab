@@ -93,7 +93,6 @@ export interface CellMetrics {
 export interface ReplayCell {
   actual: number;
   pred: Record<string, number>;
-  half90: Record<string, number>;
 }
 
 export interface ReplayEvent {

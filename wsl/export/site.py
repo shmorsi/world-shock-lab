@@ -89,6 +89,29 @@ def _final_eval(public: bool) -> dict[str, Any]:
     return out
 
 
+def _compact_replay(replay: dict[str, Any], final: dict[str, Any]) -> dict[str, Any]:
+    """The replay view's file: model keys shortened to their family ("gbm:{...}" -> "gbm",
+    full specifications kept once under "models"), predictions to 3 decimals, and the
+    interval half-widths (not shown per event) dropped. Cuts the file from ~600 KB to ~100 KB."""
+    models = {k.split(":")[0]: k for k in final["pooled_scaled_mae"]}
+    if len(models) != len(final["pooled_scaled_mae"]):
+        raise ValueError("two final models share a family name")
+    events = [{**{k: r[k] for k in ("event", "family", "ts", "same_day_fomc")},
+               "cells": {c: {"actual": v["actual"],
+                             "pred": {s: round(float(v["pred"][full]), 3)
+                                      for s, full in models.items()}}
+                         for c, v in r["cells"].items()}}
+              for r in replay["replay"]]
+    return {"replay": events, "replay_assets": replay["replay_assets"], "models": models,
+            "final": {"generated_at": final["generated_at"], "protocol_tag": final["protocol_tag"],
+                      "test_years": final["test_years"],
+                      "pooled_scaled_mae": {s: final["pooled_scaled_mae"][f]
+                                            for s, f in models.items()},
+                      "per_cell": {s: final["per_cell"][f] for s, f in models.items()},
+                      "difference_ml_minus_econ": final["difference_ml_minus_econ"],
+                      "verdict": final["verdict"]}}
+
+
 def export(public: bool = True) -> Path:
     folder = WEB_DATA if public else LOCAL_DATA
     catalog = build_catalog()
@@ -105,9 +128,7 @@ def export(public: bool = True) -> Path:
     final = _final_eval(public)
     replay = {"replay": final.pop("replay"), "replay_assets": final.pop("replay_assets")}
     _write(folder, "ml", {"final": final, "implied": implied_responses()}, set(ASSETS.values()))
-    _write(folder, "replay", {**replay, "final": {k: final[k] for k in (
-        "generated_at", "protocol_tag", "test_years", "pooled_scaled_mae", "per_cell",
-        "difference_ml_minus_econ", "verdict")}}, set(ASSETS.values()))
+    _write(folder, "replay", _compact_replay(replay, final), set(ASSETS.values()))
     m3 = json.loads((ROOT / "results" / "m3" / "replication.json").read_text())
     claims = [{k: c[k] for k in ("id", "source", "claim", "test", "expected_sign", "mechanical",
                                  "verdict", "estimate", "band90", "n")} for c in m3["claims"]]

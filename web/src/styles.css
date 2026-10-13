@@ -1,14 +1,14 @@
 /* Layout: a research instrument. A sticky top bar with the views, then one working panel
    per view; every result carries a chip saying what kind of evidence it is. */
 :root {
-  --bg: #f4f6f9; --surface: #ffffff; --surface-2: #f8f9fb; --ink: #121722; --ink-2: #485164; --muted: #6b7486;
+  --bg: #f4f6f9; --surface: #ffffff; --surface-2: #f8f9fb; --ink: #121722; --ink-2: #485164; --muted: #5d6677;
   --line: #dde2ea; --line-2: #c9d0dc; --accent: #1c5cab; --accent-ink: #ffffff;
   --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --band90: rgba(42,120,214,.14); --band68: rgba(42,120,214,.28);
   --pos: #2a78d6; --neg: #d84a3a; --zero: #eef0f3; --nodata: #e3e7ee;
   --causal-bg: #e4f4ec; --causal-fg: #0f6b45; --reduced-bg: #fdf0e1; --reduced-fg: #8a4b00;
   --forecast-bg: #e7effb; --forecast-fg: #1c4f91; --scenario-bg: #efeaf8; --scenario-fg: #4a3aa7;
   --warn-bg: #fff6e0; --warn-line: #e9c46a; --warn-ink: #6b4b00;
-  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --display: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
   color-scheme: light;
