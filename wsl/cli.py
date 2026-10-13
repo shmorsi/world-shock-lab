@@ -12,10 +12,13 @@ data_app = typer.Typer(no_args_is_help=True, help="Data layer: fetch, build, rep
 events_app = typer.Typer(no_args_is_help=True, help="Event lists we construct ourselves.")
 validate_app = typer.Typer(no_args_is_help=True, help="Method validation reports.")
 export_app = typer.Typer(no_args_is_help=True, help="Pages and files built from results.")
+live_app = typer.Typer(no_args_is_help=True,
+                       help="Live pre-registered forecasts (config/live.yaml, protocol §8).")
 app.add_typer(data_app, name="data")
 app.add_typer(events_app, name="events")
 app.add_typer(validate_app, name="validate")
 app.add_typer(export_app, name="export")
+app.add_typer(live_app, name="live")
 
 
 @data_app.command("fetch")
@@ -139,6 +142,54 @@ def export_preview() -> None:
     from wsl.export.preview import write
 
     typer.echo(f"wrote {write()}")
+
+
+@export_app.command("live")
+def export_live() -> None:
+    """Only web/public/data/live.json (no research data needed; used by the live workflow)."""
+    from wsl.live.export import export_live_json
+
+    typer.echo(f"wrote {export_live_json()}")
+
+
+def _live_data(download: bool):  # type: ignore[no-untyped-def]
+    from wsl.live.data import config, live_cache, load
+    from wsl.live.data import download as fetch_live
+    from wsl.live.run import _now
+
+    cfg, cache, now = config(), live_cache(), _now()
+    if download:
+        for o in fetch_live(cfg, cache):
+            if o.status in ("failed", "skipped"):
+                typer.echo(f"  {o.status:8} {o.key}: {o.detail}", err=True)
+    return cfg, load(cfg, cache, now), now
+
+
+@live_app.command("run")
+def live_run(
+    download: Annotated[bool, typer.Option(help="Fetch fresh data first.")] = True,
+    days: Annotated[int | None, typer.Option(help="Publish forecasts this many days ahead "
+                                             "(default: config).")] = None,
+) -> None:
+    """Fetch fresh data, score finished decisions, publish due forecasts, update live.json."""
+    from wsl.live.export import export_live_json
+    from wsl.live.run import forecast_due, score_due, status
+
+    cfg, data, now = _live_data(download)
+    for p in score_due(cfg, data, now) + forecast_due(cfg, data, now, days):
+        typer.echo(f"wrote {p}")
+    export_live_json()
+    for line in status(cfg, now):
+        typer.echo(line)
+
+
+@live_app.command("status")
+def live_status() -> None:
+    """Which decisions have forecasts and scores."""
+    from wsl.live.run import status
+
+    for line in status():
+        typer.echo(line)
 
 
 if __name__ == "__main__":

@@ -29,3 +29,6 @@ web/.claude/
 
 # OS
 .DS_Store
+
+# Live-mode download cache (fresh data, never pinned for research)
+data/live_cache/

@@ -167,15 +167,49 @@ export interface Claim {
   n: number;
 }
 
+export interface LiveGridCell {
+  surprise_bp: number;
+  outcome: string;
+  h: number;
+  mean: number;
+  lo68: number;
+  hi68: number;
+  lo90: number;
+  hi90: number;
+  mechanical: boolean;
+}
+export interface LiveScoreCell {
+  outcome: string;
+  h: number;
+  mechanical: boolean;
+  inside68: boolean;
+  inside90: boolean;
+  beats_no_change: boolean;
+  forecast?: number; // omitted when the realized surprise may not be published
+  lo90?: number;
+  hi90?: number;
+  realized?: number; // public-domain outcomes only
+  abs_error?: number;
+}
 export interface LiveEntry {
   kind: "forecast" | "score";
   event_id: string;
   bank: string;
   decision_date: string;
-  published_at: string;
   collision: boolean;
   proxy: string;
-  grid?: { surprise_bp: number; outcome: string; h: number; mean: number; lo68: number; hi68: number; lo90: number; hi90: number }[];
-  realized_proxy_bp?: number;
-  scores?: { outcome: string; h: number; forecast: number; realized: number; abs_error: number; inside68: boolean; inside90: boolean }[];
+  // forecast
+  published_at?: string;
+  hours_before?: number;
+  collision_note?: string;
+  proxy_text?: string;
+  units?: Record<string, string>;
+  grid?: LiveGridCell[];
+  // score
+  score?: number;
+  scored_at?: string;
+  surprise_source?: string;
+  realized_proxy_bp?: number | null;
+  restricted_note?: string;
+  scores?: LiveScoreCell[];
 }

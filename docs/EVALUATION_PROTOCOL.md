@@ -119,6 +119,20 @@ FOMC/BoC same-day announcements fall very unevenly across the splits: 1 in train
   - Score 2 runs when JK publishes the intraday surprise, with the grid interpolated linearly. Both scores are kept.
 - **Collision days:** FOMC + BoC on the same day (2026-10-28 and 2026-12-09) are flagged as `collision` in the forecast file before the decision, and reported separately.
 
+### v4 addendum: live details fixed before the first live forecast
+
+§8 did not fix the forecasting model, the horizon convention, or what the committed files may contain. These are fixed in `config/live.yaml` (version 1) before any live forecast was generated:
+
+- **Calendar:** FOMC and BoC dates for 2026-10-28 through 2027-12-08, verified on 2026-10-12 against the Federal Reserve and Bank of Canada schedule pages. Collisions (both banks on one day): 2026-10-28, 2026-12-09, 2027-01-27, 2027-04-28, 2027-10-27 and 2027-12-08.
+- **Model:** for each bank, outcome and horizon, OLS of the outcome change on the proxy over the bank's past announcements since 2000 with complete data, refit at each forecast on data published before it. BoC history follows v2 (scheduled, no FOMC same-day decisions); FOMC history is every JK announcement.
+- **Intervals:** 68% and 90% prediction intervals from the absolute leave-one-out residuals (jackknife), so they describe the realized outcome rather than the mean response.
+- **Horizons:** h = 1 is the first observation after the announcement and h = 5 the fifth, both measured from the last observation before it (the M5 convention). On BoC days, CA 2Y at h = 1 *is* the proxy; it is shown but not scored.
+- **Score 1 timing:** §8 said "the day after the decision". Score 1 needs every h = 5 value, and USD/CAD comes from the weekly H.10 release, so Score 1 runs once all of them are published (typically 6–10 days after). The forecast at the realized proxy is the linear model, which equals linear interpolation of the grid inside it and extends it linearly outside.
+- **Score 2 (FOMC only):** JK's 30-minute change in the 2-year Treasury futures yield (`TFUT02`, in bp) is the intraday counterpart of the proxy.
+- **Benchmark:** every score is also computed for a forecast of zero (no change).
+- **Collision days:** both banks' forecasts are published and scored, flagged `collision`, and summarized separately from clean days.
+- **Licensing:** committed files contain realized values only for public-domain series ([C]). For CA yields (O-3) and Yahoo prices (O-4), a score records only whether the outcome fell inside each band and whether the model beat the benchmark. The realized BoC proxy (a CA 2Y change) is not published for the same reason.
+
 ## 9. Primary in-sample specifications (M2–M4)
 
 These are fixed now so robustness checks are clearly labelled as robustness.
@@ -166,3 +180,4 @@ These are fixed now so robustness checks are clearly labelled as robustness.
 | 2026-10-12 | v2 | BoC family excludes FOMC same-day events (primary); they are reported as a secondary subsample | The daily BoC proxy on those days also contains the Fed announcement (contaminated shock measure). Found while building the BoC list in M1. Approved by the project owner. | No: no estimation of any kind had been run |
 | 2026-10-12 | v3 | M4 details: headline horizons, the full state-dependence test family, the Canada normalization, the exporter panel, robustness variants and rule, the proxy-BVAR spec | §9 left the headline horizon and test family unspecified; fixed before any M4 estimate. The out-of-sample (ML) protocol is unchanged. | No: M3 in-sample results existed; no M4 estimate and no test-set evaluation had been run |
 | 2026-10-12 | v3 (no change) | **Final test evaluation, run 1** (20261012T233454Z, commit ad8c4e5). Verdict as computed: "No evidence ML adds value". Results: `results/final_eval/20261012T233454Z.json`, report: docs/ML_BENCHMARK.md | The single test-set run the protocol allows | Yes: this is that run; no model, feature or setting was changed afterwards |
+| 2026-10-12 | v4 | Live-mode details (`config/live.yaml` v1): calendar, forecasting model, jackknife intervals, horizon convention, Score 1 timing, Score 2 surprise measure, benchmark, licensing of committed scores | §8 left the live model and these details unspecified; fixed before the first live forecast. `config/evaluation.yaml` is unchanged. | Yes: the single test-set run (v3) had been made. The live model is a simple proxy regression, not one of the M5 candidates, and was not tuned on test results. |

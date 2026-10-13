@@ -1,0 +1,70 @@
+# Live pre-registered mode (docs/EVALUATION_PROTOCOL.md §8 and its v4 addendum).
+#
+# Fixed before the first live forecast. Changing anything here after a forecast has been
+# published is a protocol change: bump `version`, add a row to the protocol change log, and
+# tag it. Forecast files record this file's SHA-256, so a forecast always names the rules it
+# was made under.
+version: 1
+
+# Decision calendars, verified 2026-10-12 against the official pages:
+#   FOMC: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm (statement on the
+#         second day of each meeting, 14:00 America/New_York)
+#   BoC:  https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/
+#         (interest rate announcements, 09:45 America/Toronto)
+calendar:
+  fomc:
+    time: "14:00"
+    tz: America/New_York
+    dates: [2026-10-28, 2026-12-09,
+            2027-01-27, 2027-03-17, 2027-04-28, 2027-06-09,
+            2027-07-28, 2027-09-15, 2027-10-27, 2027-12-08]
+  boc:
+    time: "09:45"
+    tz: America/Toronto
+    dates: [2026-10-28, 2026-12-09,
+            2027-01-27, 2027-03-03, 2027-04-28, 2027-06-02,
+            2027-07-21, 2027-09-08, 2027-10-27, 2027-12-08]
+
+# Proxy units (P11): the surprise is the announcement-day change in the bank's own 2-year
+# yield, in bp: the first observation after the announcement minus the last one before it.
+proxy:
+  fomc: US2Y
+  boc: CA2Y
+
+grid_bp: [-10, 0, 10]
+outcomes: [CA2Y, USDCAD, CA_BANKS_EW6]
+# h = 1 is the first observation after the announcement, h = 5 the fifth (as in the M5
+# targets): the change is measured from the last observation before the announcement.
+horizons: [1, 5]
+# On BoC days, CA 2Y at h = 1 is the proxy itself; it is shown but not scored.
+mechanical: [[boc, CA2Y, 1]]
+
+model:
+  # For each bank, outcome and horizon: OLS of the outcome change on the proxy over that
+  # bank's past announcements since `sample_start` with complete data, refit at each forecast
+  # on everything published before it. BoC history follows protocol v2 (scheduled only,
+  # FOMC same-day decisions excluded); FOMC history is every announcement in the JK list.
+  sample_start: "2000-01-01"
+  min_events: 40
+  # Prediction intervals: the forecast plus or minus the 68th / 90th percentile of the
+  # absolute leave-one-out residuals (jackknife), so they describe the realized outcome,
+  # not just the mean response.
+  interval_levels: [0.68, 0.90]
+
+schedule:
+  publish_days_before: 10  # forecasts are generated this many days ahead...
+  min_hours_before: 24     # ...and never later than 24 hours before the announcement
+
+scoring:
+  # Score 1: the realized daily proxy, once every outcome's h = 5 value is published (FX
+  # comes from the weekly H.10 release, so this is typically 6-10 days after the decision).
+  # Score 2 (FOMC only): JK's 30-minute 2-year Treasury futures surprise (TFUT02, in bp),
+  # once JK publishes the meeting. The forecast at any surprise is the linear model, which
+  # equals linear interpolation of the grid inside it.
+  jk_surprises_url: https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/main/source_data/fomc_surprises_jk.csv
+  benchmark: no_change   # every score is also reported for a forecast of zero
+
+# What the committed files may contain (data/SOURCES.md): realized values only for
+# public-domain series [C]. For CA yields (O-3) and Yahoo prices (O-4) a score records only
+# whether the outcome fell inside the bands and whether the model beat the benchmark.
+publish_realized_policies: [C]

@@ -60,6 +60,32 @@ def _looks_like_html(content: bytes) -> bool:
     return head.startswith(b"<!doctype html") or head.startswith(b"<html")
 
 
+def fetch_artifact(art: Artifact, cache: RawCache, http: Http, repin: bool = False
+                   ) -> FetchOutcome:
+    """Download one artifact into ``cache`` and report what happened to its pin."""
+    if art.requires_env and not os.environ.get(art.requires_env):
+        return FetchOutcome(art.key, "skipped", f"{art.requires_env} not set")
+    params = dict(art.params)
+    params.update({p: os.environ[env] for p, env in art.secret_params.items()})
+    try:
+        got = http.request(art.method, art.url, params=params or None, json_body=art.payload)
+    except FetchError as exc:
+        return FetchOutcome(art.key, "failed", str(exc))
+    if art.ext in _EXPECT_TEXT and _looks_like_html(got.content):
+        return FetchOutcome(art.key, "failed", "got an HTML page instead of data (bot check?)")
+    res = cache.store(art.key, got.content, url=got.url, ext=art.ext,
+                      content_type=got.content_type, repin=repin)
+    new, old = res.record.sha256, res.previous_pin
+    if old is None:
+        return FetchOutcome(art.key, "pinned_new")
+    if new == old:
+        return FetchOutcome(art.key, "unchanged")
+    if res.pinned:
+        return FetchOutcome(art.key, "repinned", f"{old[:12]} -> {new[:12]}")
+    return FetchOutcome(art.key, "changed_not_pinned",
+                        f"source now serves {new[:12]}, pinned {old[:12]}; --repin adopts it")
+
+
 def fetch(
     only: set[str] | None = None,
     repin: bool = False,
@@ -74,35 +100,7 @@ def fetch(
     for group, arts in artifacts_by_group(specs).items():
         if only and group not in only:
             continue
-        for art in arts:
-            if art.requires_env and not os.environ.get(art.requires_env):
-                outcomes.append(FetchOutcome(art.key, "skipped", f"{art.requires_env} not set"))
-                continue
-            params = dict(art.params)
-            params.update({p: os.environ[env] for p, env in art.secret_params.items()})
-            try:
-                got = http.request(art.method, art.url, params=params or None,
-                                   json_body=art.payload)
-            except FetchError as exc:
-                outcomes.append(FetchOutcome(art.key, "failed", str(exc)))
-                continue
-            if art.ext in _EXPECT_TEXT and _looks_like_html(got.content):
-                outcomes.append(FetchOutcome(art.key, "failed",
-                                             "got an HTML page instead of data (bot check?)"))
-                continue
-            res = cache.store(art.key, got.content, url=got.url, ext=art.ext,
-                              content_type=got.content_type, repin=repin)
-            new, old = res.record.sha256, res.previous_pin
-            if old is None:
-                outcomes.append(FetchOutcome(art.key, "pinned_new"))
-            elif new == old:
-                outcomes.append(FetchOutcome(art.key, "unchanged"))
-            elif res.pinned:
-                outcomes.append(FetchOutcome(art.key, "repinned", f"{old[:12]} -> {new[:12]}"))
-            else:
-                outcomes.append(FetchOutcome(
-                    art.key, "changed_not_pinned",
-                    f"source now serves {new[:12]}, pinned {old[:12]}; --repin adopts it"))
+        outcomes += [fetch_artifact(art, cache, http, repin) for art in arts]
     return outcomes
 
 

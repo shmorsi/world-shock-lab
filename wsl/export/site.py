@@ -21,6 +21,7 @@ import pandas as pd
 
 from wsl.data.build import file_sha256, git_sha
 from wsl.export.results import provenance
+from wsl.live.export import export_live_json
 from wsl.ml.dataset import ASSETS
 from wsl.ml.implied import implied_responses
 from wsl.paths import CLEAN_DIR, EVALUATION_CONFIG, ROOT
@@ -142,10 +143,7 @@ def export(public: bool = True) -> Path:
                    for c in claims],
         "ml": {k: final[k] for k in ("verdict", "test_events_primary", "test_years",
                                      "difference_ml_minus_econ")}}, series)
-    live_dir = ROOT / "live"
-    live = [json.loads(p.read_text()) for p in sorted(live_dir.rglob("*.json"))] \
-        if live_dir.exists() else []
-    _write(folder, "live", {"entries": live}, set())
+    export_live_json(folder)
     _write(folder, "meta", {
         "built_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"), "git_sha": git_sha(),
         "evaluation_config_sha256": file_sha256(EVALUATION_CONFIG), "public": public,
