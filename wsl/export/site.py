@@ -102,13 +102,25 @@ def export(public: bool = True) -> Path:
     if public:
         m4["state_dependence"] = [c for c in m4["state_dependence"] if c["regime"] != "high_vix"]
     _write(folder, "m4", m4, series)
-    _write(folder, "ml", {"final": _final_eval(public), "implied": implied_responses()},
-           set(ASSETS.values()))
+    final = _final_eval(public)
+    replay = {"replay": final.pop("replay"), "replay_assets": final.pop("replay_assets")}
+    _write(folder, "ml", {"final": final, "implied": implied_responses()}, set(ASSETS.values()))
+    _write(folder, "replay", {**replay, "final": {k: final[k] for k in (
+        "generated_at", "protocol_tag", "test_years", "pooled_scaled_mae", "per_cell",
+        "difference_ml_minus_econ", "verdict")}}, set(ASSETS.values()))
     m3 = json.loads((ROOT / "results" / "m3" / "replication.json").read_text())
-    _write(folder, "m3", {"claims": [{k: c[k] for k in ("id", "source", "claim", "test",
-                                                         "expected_sign", "mechanical",
-                                                         "verdict", "estimate", "band90", "n")}
-                                     for c in m3["claims"]]}, series)
+    claims = [{k: c[k] for k in ("id", "source", "claim", "test", "expected_sign", "mechanical",
+                                 "verdict", "estimate", "band90", "n")} for c in m3["claims"]]
+    _write(folder, "m3", {"claims": claims}, series)
+    # Everything the landing page needs, in one small file.
+    _write(folder, "summary", {
+        "canada": m4["canada"], "state_dependence": m4["state_dependence"],
+        "robust": sum(r["verdict"] == "robust" for r in m4["robustness"]),
+        "robust_total": len(m4["robustness"]),
+        "claims": [{k: c[k] for k in ("id", "verdict", "source", "mechanical")}
+                   for c in claims],
+        "ml": {k: final[k] for k in ("verdict", "test_events_primary", "test_years",
+                                     "difference_ml_minus_econ")}}, series)
     live_dir = ROOT / "live"
     live = [json.loads(p.read_text()) for p in sorted(live_dir.rglob("*.json"))] \
         if live_dir.exists() else []

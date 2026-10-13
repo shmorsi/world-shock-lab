@@ -21,6 +21,11 @@ web/public/data-local/
 web/node_modules/
 web/.next/
 web/out/
+web/dist/
+
+# Local editor/agent settings
+.claude/
+web/.claude/
 
 # OS
 .DS_Store
