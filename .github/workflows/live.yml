@@ -1,0 +1,47 @@
+name: live
+
+# Pre-registered live mode (docs/EVALUATION_PROTOCOL.md §8, config/live.yaml).
+# Every weekday after the North American closes: download fresh data, score decisions whose
+# outcomes are now published, publish forecasts for decisions in the next ten days, commit the
+# new files (never editing old ones) and redeploy the site.
+on:
+  schedule:
+    - cron: "30 22 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write # to start the pages workflow
+
+concurrency:
+  group: live
+  cancel-in-progress: false
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked --no-dev
+      - name: Score finished decisions and publish due forecasts
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: uv run wsl live run
+      - name: Commit new forecasts and scores
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add live
+          if git diff --cached --quiet; then
+            echo "No new forecasts or scores today."
+            exit 0
+          fi
+          git add web/public/data/live.json
+          git config user.name "world-shock-lab live"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"
+          git push
+          gh workflow run pages.yml --ref "${GITHUB_REF_NAME}"

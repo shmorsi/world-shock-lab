@@ -134,7 +134,8 @@ export default function TrackView() {
                         </td>
                         {GRID.map((bp) => (
                           <td key={bp} className="num">
-                            {signed(at(bp).mean)} <span className="muted">[{signed(at(bp).lo90)}, {signed(at(bp).hi90)}]</span>
+                            {signed(at(bp).mean)}{" "}
+                            <span className="muted">{at(bp).mechanical ? "(by definition)" : `[${signed(at(bp).lo90)}, ${signed(at(bp).hi90)}]`}</span>
                           </td>
                         ))}
                         <td className="txt">

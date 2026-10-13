@@ -5,8 +5,11 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  check:
+  python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +19,31 @@ jobs:
       - run: uv sync --locked
       - run: uv run ruff check .
       - run: uv run mypy wsl
+      # Unit, property and simulation tests. Checks on the built data (pytest -m data) need
+      # the raw downloads, which are not committed; run `make data test-data` locally.
       - run: uv run pytest
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test # engine parity with Python, and the brief's no-invented-numbers test
+      - run: npm run build
+      - name: Accessibility (axe-core, WCAG 2.1 A/AA) and load time
+        run: |
+          npx playwright install --with-deps chromium
+          npm run preview > /dev/null 2>&1 &
+          sleep 3
+          npm run a11y
+          # Shared runners vary in speed, so a slow load is a warning here, not a failure.
+          npm run measure || echo "::warning::a view took 3 s or more on the slow-phone profile"

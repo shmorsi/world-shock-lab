@@ -38,6 +38,16 @@ dev = [
     "types-PyYAML>=6.0",
 ]
 
+# On Linux (CI, the live workflow) take torch from PyTorch's CPU-only index: the default
+# PyPI wheel pulls about 3 GB of CUDA libraries the project never uses. macOS is unchanged.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
