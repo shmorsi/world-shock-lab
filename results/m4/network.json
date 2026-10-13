@@ -1,9 +1,9 @@
 {
  "name": "m4/network",
  "provenance": {
-  "generated_at": "2026-10-12T23:19:32Z",
-  "git_sha": "ecc870be89de1b1a4d2457258ac0a1530bf0902a",
-  "data_built_at": "2026-10-12T22:21:06Z",
+  "generated_at": "2026-10-13T01:24:08Z",
+  "git_sha": "775e7114bb18bf4b70e6d0fba800f3dc387703b1-dirty",
+  "data_built_at": "2026-10-13T01:17:08Z",
   "evaluation_config_sha256": "54506ff0c5444323c5a745c0c52ba9a10d3a217c18be65db3028dbf93bad6141",
   "manifest_sha256": "fe6e5b98888f3f66dd393c4d5c9db1c04324f9d7e8300f668d97da574f1b7e09",
   "series": {

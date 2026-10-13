@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { load, useData } from "./data";
 import { ScenarioProvider } from "./scenario";
 import type { Meta } from "./types";
@@ -63,10 +63,18 @@ function useTheme(): [Theme, () => void] {
       return "system";
     }
   });
+  // "System" leaves the page to prefers-color-scheme, and only clears a theme this toggle set,
+  // so a theme chosen by an embedding host is respected.
+  const setByUs = useRef(false);
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "system") root.removeAttribute("data-theme");
-    else root.setAttribute("data-theme", theme);
+    if (theme !== "system") {
+      root.setAttribute("data-theme", theme);
+      setByUs.current = true;
+    } else if (setByUs.current) {
+      root.removeAttribute("data-theme");
+      setByUs.current = false;
+    }
     try {
       localStorage.setItem("wsl-theme", theme);
     } catch {

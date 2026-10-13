@@ -29,7 +29,7 @@ jobs:
       - name: Score finished decisions and publish due forecasts
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-        run: uv run wsl live run
+        run: uv run --no-dev wsl live run
       - name: Commit new forecasts and scores
         env:
           GH_TOKEN: ${{ github.token }}
