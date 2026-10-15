@@ -88,7 +88,7 @@ cd web && npm ci && npm run dev   # the web app at http://localhost:5173
 | [docs/REPRODUCING.md](docs/REPRODUCING.md) | One-command reproduction, and what changes when sources revise their data |
 | [docs/RESUME_BULLETS.md](docs/RESUME_BULLETS.md) | Generated summary bullets and interview questions with honest answers |
 | [docs/SHIP_CHECKLIST.md](docs/SHIP_CHECKLIST.md) | The decisions and steps left for the owner before going public |
-| [docs/COMMIT_MAP.md](docs/COMMIT_MAP.md) | Old to published commit hashes (history re-authored before publication; contents unchanged) |
+| [docs/COMMIT_MAP.md](docs/COMMIT_MAP.md) | Old to current commit hashes (history rewritten twice, for attribution only; contents unchanged) |
 | `results/` | Result files with provenance (input hashes, code version, protocol hash, evidence label) |
 | `live/` | Pre-registered live forecasts and their scores |
 | `config/` | Series registry, evaluation protocol, live-mode rules |
