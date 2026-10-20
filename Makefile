@@ -29,6 +29,15 @@ analyze:          ## M4 results -> docs/RESULTS.md, results/m4/
 evaluate-report:  ## docs/ML_BENCHMARK.md from the committed validation and final-evaluation files
 	uv run wsl evaluate --report
 
+reproduce:        ## checks, then the two committed evaluations and the generated docs (does not refit)
+	uv sync
+	uv run ruff check .
+	uv run mypy wsl
+	uv run pytest
+	uv run wsl evaluate --report
+	uv run wsl mlstudy --report
+	uv run wsl report docs
+
 site:             ## web app data -> web/public/data/ (public licence filter)
 	uv run wsl export site
 
