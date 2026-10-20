@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" width="720" height="340" role="img" aria-label="Held-out scaled error of the selected models and their baselines" font-family="IBM Plex Sans, Helvetica Neue, Arial, sans-serif">
+<title>Held-out scaled error of the selected models and their baselines</title>
+<rect width="720" height="340" fill="#ffffff"/>
+<text x="16.0" y="22.0" font-size="14" fill="#121722" text-anchor="start" font-weight="600">Held-out test set: selected model against the pre-specified baselines</text>
+<text x="16.0" y="40.0" font-size="11.5" fill="#5d6677" text-anchor="start" font-weight="400">Lower is better. Scales are the training-split loss of a naive forecast.</text>
+<text x="16.0" y="64.0" font-size="13" fill="#121722" text-anchor="start" font-weight="600">Mean response, pooled scaled MAE</text>
+<text x="16.0" y="90.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Predict zero</text>
+<line x1="210.0" y1="86.0" x2="493.8" y2="86.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="493.8" cy="86.0" r="5.5" fill="#5d6677"/>
+<text x="503.8" y="90.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.195</text>
+<text x="16.0" y="116.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Linear projection</text>
+<line x1="210.0" y1="112.0" x2="288.1" y2="112.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="288.1" cy="112.0" r="5.5" fill="#2a78d6"/>
+<text x="298.1" y="116.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.142</text>
+<text x="16.0" y="142.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Temporal CNN</text>
+<line x1="210.0" y1="138.0" x2="346.9" y2="138.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="346.9" cy="138.0" r="5.5" fill="#eb6834"/>
+<text x="356.9" y="142.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.157</text>
+<text x="16.0" y="172.0" font-size="13" fill="#121722" text-anchor="start" font-weight="600">5% tail, pooled scaled pinball</text>
+<text x="16.0" y="198.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Historical quantile</text>
+<line x1="210.0" y1="194.0" x2="565.9" y2="194.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="565.9" cy="194.0" r="5.5" fill="#5d6677"/>
+<text x="575.9" y="198.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.595</text>
+<text x="16.0" y="224.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Gaussian linear projection</text>
+<line x1="210.0" y1="220.0" x2="488.7" y2="220.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="488.7" cy="220.0" r="5.5" fill="#2a78d6"/>
+<text x="498.7" y="224.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.558</text>
+<text x="16.0" y="250.0" font-size="12" fill="#485164" text-anchor="start" font-weight="400">Quantile boosting</text>
+<line x1="210.0" y1="246.0" x2="252.1" y2="246.0" stroke="#e3e7ee" stroke-width="1"/>
+<circle cx="252.1" cy="246.0" r="5.5" fill="#eb6834"/>
+<text x="262.1" y="250.0" font-size="11" fill="#485164" text-anchor="start" font-weight="400">1.446</text>
+</svg>

@@ -98,6 +98,37 @@ def analyze() -> None:
     typer.echo(f"wrote {write_report()}")
 
 
+@app.command("mlstudy")
+def mlstudy(
+    prepare_data: Annotated[
+        bool, typer.Option("--prepare-data", help="Download the public series this study needs.")
+    ] = False,
+    validation: Annotated[bool, typer.Option(help="Model selection on 2015-2018.")] = False,
+    final: Annotated[bool, typer.Option(help="The single run on the 2019-2026 test set.")] = False,
+    report: Annotated[bool, typer.Option(help="Write docs/ML_STUDY.md, the figure and site data.")]
+    = False,
+    rerun_reason: Annotated[str | None, typer.Option(help="Required for any second final run.")]
+    = None,
+) -> None:
+    """ml-study-v1: multi-task and quantile models under a protocol separate from M5."""
+    from wsl.mlstudy import evaluate as ev
+    from wsl.mlstudy import report as rep
+
+    if prepare_data:
+        from wsl.mlstudy.prepare import prepare
+
+        summary = prepare()
+        typer.echo(summary)
+    if validation:
+        out = ev.run_validation()
+        typer.echo(f"validation done; chosen: {out['chosen']}")
+    if final:
+        out = ev.run_final(rerun_reason)
+        typer.echo(f"final run done: mean {out['mean']['verdict']}; tail {out['tail']['verdict']}")
+    if report:
+        typer.echo(f"wrote {rep.write()}")
+
+
 @app.command("evaluate")
 def evaluate(
     validation: Annotated[bool, typer.Option(help="Model selection on 2015-2018.")] = False,

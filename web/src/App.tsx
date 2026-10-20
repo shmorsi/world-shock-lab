@@ -11,6 +11,7 @@ const ReplayView = lazy(() => import("./views/ReplayView"));
 const BriefView = lazy(() => import("./views/BriefView"));
 const MethodView = lazy(() => import("./views/MethodView"));
 const TrackView = lazy(() => import("./views/TrackView"));
+const ModelsView = lazy(() => import("./views/ModelsView"));
 
 const ROUTES = [
   { path: "", text: "Overview" },
@@ -20,6 +21,7 @@ const ROUTES = [
   { path: "replay", text: "Event replay" },
   { path: "brief", text: "Brief" },
   { path: "method", text: "Methodology" },
+  { path: "models", text: "Models" },
   { path: "track", text: "Track record" },
 ] as const;
 
@@ -33,6 +35,7 @@ const ROUTE_DATA: Record<string, string[]> = {
   replay: ["replay"],
   brief: ["catalog", "m4"],
   method: ["m3", "m4"],
+  models: ["mlstudy"],
   track: ["live"],
 };
 const prefetch = (route: string) => ROUTE_DATA[route]?.forEach((n) => void load(n).catch(() => undefined));
@@ -103,6 +106,8 @@ export default function App() {
         return <BriefView />;
       case "method":
         return <MethodView />;
+      case "models":
+        return <ModelsView />;
       case "track":
         return <TrackView />;
       default:

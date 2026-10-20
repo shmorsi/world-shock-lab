@@ -1,0 +1,272 @@
+{
+ "phase": "validation",
+ "generated_at": "2026-10-20T18:34:21+00:00",
+ "git_sha": "93a618699546d562ac890cb9a6b262dc55ff2d39",
+ "config_sha256": "ff092f530809698de3e788d0411e7bc8e29ae8da70b11cb0cf05f1d1d886b2dd",
+ "evaluation_config_sha256": "54506ff0c5444323c5a745c0c52ba9a10d3a217c18be65db3028dbf93bad6141",
+ "counts": {
+  "train_events": 456,
+  "validation_events": 74
+ },
+ "pooled_scaled_mae": {
+  "zero": 0.8799532372208476,
+  "lp": 0.8363694489785418,
+  "mt_mlp:{\"weight_decay\": 0.001, \"width\": 32}": 0.8866970549680295,
+  "mt_mlp:{\"weight_decay\": 0.01, \"width\": 32}": 0.8866426476237237,
+  "mt_mlp:{\"weight_decay\": 0.001, \"width\": 64}": 0.887002043845951,
+  "mt_mlp:{\"weight_decay\": 0.01, \"width\": 64}": 0.8864480571950011,
+  "tcn:{\"channels\": 8, \"weight_decay\": 0.001}": 0.8867436458635637,
+  "tcn:{\"channels\": 8, \"weight_decay\": 0.01}": 0.8876319013634122,
+  "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 0.8845786052318781,
+  "tcn:{\"channels\": 16, \"weight_decay\": 0.01}": 0.8847384614603635
+ },
+ "pooled_scaled_pinball": {
+  "hist": 0.8607094604282614,
+  "gauss_lp": 0.7568759557193083,
+  "qgbm:{\"max_depth\": 2}": 0.7374256727763495,
+  "qgbm:{\"max_depth\": 3}": 0.7433399102662819,
+  "qnet:{\"weight_decay\": 0.001, \"width\": 32}": 0.8307439711786968,
+  "qnet:{\"weight_decay\": 0.01, \"width\": 32}": 0.8686728734452527,
+  "qnet:{\"weight_decay\": 0.001, \"width\": 64}": 0.8304620138936826,
+  "qnet:{\"weight_decay\": 0.01, \"width\": 64}": 0.8731613023591382
+ },
+ "scale_mae": {
+  "US2Y|h1": 4.912280701754385,
+  "US2Y|h5": 10.293859649122806,
+  "CA2Y|h1": 4.690721649484538,
+  "CA2Y|h5": 9.735395189003436,
+  "USDCAD|h1": 0.37737432107163277,
+  "USDCAD|h5": 0.7806809259556271,
+  "SPY|h1": 0.8938476324701917,
+  "SPY|h5": 1.8087170391475356,
+  "TSX|h1": 0.7110924120960309,
+  "TSX|h5": 1.6665141749243986,
+  "CA_BANKS_EW6|h1": 0.8611669851037943,
+  "CA_BANKS_EW6|h5": 1.9870317257047252,
+  "XEG|h1": 1.2231231107029397,
+  "XEG|h5": 2.804341753011689,
+  "WTI|h1": 2.155714592542349,
+  "WTI|h5": 4.356082401809585
+ },
+ "scale_pinball": {
+  "US2Y|h1": 0.9156798245614036,
+  "US2Y|h5": 1.6220394736842108,
+  "CA2Y|h1": 0.6817869415807559,
+  "CA2Y|h5": 1.3927835051546391,
+  "USDCAD|h1": 0.06306971181063954,
+  "USDCAD|h5": 0.12638376984210134,
+  "SPY|h1": 0.1443961825724278,
+  "SPY|h5": 0.2964044682371403,
+  "TSX|h1": 0.11138412723255318,
+  "TSX|h5": 0.28074870023306514,
+  "CA_BANKS_EW6|h1": 0.14345697038619,
+  "CA_BANKS_EW6|h5": 0.3514729915210257,
+  "XEG|h1": 0.2130989095400157,
+  "XEG|h5": 0.5037485390792291,
+  "WTI|h1": 0.3907945342791942,
+  "WTI|h5": 0.7978060005196366
+ },
+ "p25_abs": {
+  "US2Y|h1": 2.0,
+  "US2Y|h5": 3.0,
+  "CA2Y|h1": 1.0,
+  "CA2Y|h5": 3.0,
+  "USDCAD|h1": 0.09123688849788172,
+  "USDCAD|h5": 0.25073970972421344,
+  "SPY|h1": 0.26420803834804474,
+  "SPY|h5": 0.622647155020104,
+  "TSX|h1": 0.22426953147680706,
+  "TSX|h5": 0.529444434105443,
+  "CA_BANKS_EW6|h1": 0.2553942653486274,
+  "CA_BANKS_EW6|h5": 0.6891636613819969,
+  "XEG|h1": 0.3776115850473616,
+  "XEG|h5": 0.9416831084351145,
+  "WTI|h1": 0.901573758089171,
+  "WTI|h5": 1.6226836283038324
+ },
+ "chosen": {
+  "mean": "tcn:{\"channels\": 16, \"weight_decay\": 0.001}",
+  "tail": "qgbm:{\"max_depth\": 2}"
+ },
+ "inputs": {
+  "matched_pin": 3,
+  "revised": 22,
+  "inputs": [
+   {
+    "key": "fred/observations/DGS2",
+    "sha256": "421cfa3fd0c695317b3ceb4cfcd921e4125e0a4fc6382f2e1b4c6cbc3d48c5d2",
+    "status": "revised",
+    "bytes": 538413,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2"
+   },
+   {
+    "key": "fred/observations/DGS10",
+    "sha256": "55e3a6f797428387f840698250ece823a3dac72ee6a0b13209f263a696dbebc9",
+    "status": "revised",
+    "bytes": 692407,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+   },
+   {
+    "key": "fred/observations/DFEDTAR",
+    "sha256": "afbca9787e4f8ea9ed031c4929e48e5023c819830bbdb8d3162875f4358b3f4c",
+    "status": "revised",
+    "bytes": 412063,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTAR"
+   },
+   {
+    "key": "fred/observations/DFEDTARU",
+    "sha256": "4336ed8e3ca867d59fdefa562652dea8c9476f0fd898d613ac8f593142dd7e08",
+    "status": "revised",
+    "bytes": 267256,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU"
+   },
+   {
+    "key": "fred/observations/DFEDTARL",
+    "sha256": "010483dec2f12108a8bdb56886e45ec54fa61c5ca51237f7f4bf193a0566a887",
+    "status": "revised",
+    "bytes": 267256,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL"
+   },
+   {
+    "key": "fred/observations/DEXCAUS",
+    "sha256": "86f0f9b9d5e5a97c7b22accc8f87e1f5f7283a0756856d0e3d312dc3493dc6e1",
+    "status": "revised",
+    "bytes": 623088,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DEXCAUS"
+   },
+   {
+    "key": "fred/observations/DCOILWTICO",
+    "sha256": "6c8492deebb4eed47ef3f22d676ac879dda5992f38d3b84d17053ab6ac1a8f24",
+    "status": "revised",
+    "bytes": 442993,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO"
+   },
+   {
+    "key": "fred/observations/VIXCLS",
+    "sha256": "ed68c38f8ba5e73725e12f4f08acbde88dcf3253092b2ccc3f3e33e06535bcf6",
+    "status": "revised",
+    "bytes": 401942,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS"
+   },
+   {
+    "key": "fred/observations/CPIAUCNS",
+    "sha256": "65e551436418b4e3308e69303b77f15d400f2b07ff2bc92eb816a0a4919d87a7",
+    "status": "revised",
+    "bytes": 59211,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCNS"
+   },
+   {
+    "key": "valet/BD.CDN.2YR.DQ.YLD",
+    "sha256": "f3dfec1c6172f3ee5e6786bd4dd25994f26a4cdf14b7b69c713cd53653686ff0",
+    "status": "revised",
+    "bytes": 832628,
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01"
+   },
+   {
+    "key": "valet/BD.CDN.10YR.DQ.YLD",
+    "sha256": "bdda6e73e7de82610cd0f44b0d5cff418df0f6669a9e263e4f6a41e510cc4ada",
+    "status": "revised",
+    "bytes": 839251,
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.10YR.DQ.YLD/json?start_date=1900-01-01"
+   },
+   {
+    "key": "valet/CBC20210",
+    "sha256": "2054dfe84df465850180c7cf61678512e7d4c76b53949dfd2d2e24f5cfed93d4",
+    "status": "revised",
+    "bytes": 806579,
+    "url": "https://www.bankofcanada.ca/valet/observations/CBC20210/json?start_date=1900-01-01"
+   },
+   {
+    "key": "yahoo/^GSPTSE",
+    "sha256": "1a06267586855cb5f9af996c9caefbcd3f7275c31408be49da9e8ca7515e99e0",
+    "status": "revised",
+    "bytes": 1117190,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPTSE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/RY.TO",
+    "sha256": "b44fd47c04d308b2ace11dbc99d487c50d563c97c8864d4f696ea29a9a51692a",
+    "status": "revised",
+    "bytes": 830414,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RY.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/TD.TO",
+    "sha256": "b9db5a4151fe2d6b3e68c723d6ba1e7d16e96116531a45e91643a849f6a9ece8",
+    "status": "revised",
+    "bytes": 833005,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/TD.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/BNS.TO",
+    "sha256": "58fd02b3aa999410bf0421c0579e378f661f86a27d3a13ff13840dcf64a1afe7",
+    "status": "revised",
+    "bytes": 831922,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BNS.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/BMO.TO",
+    "sha256": "3a1c2b6ed75eb4e242beb4f29af86ea1801419b4612b5ed66a05aab406b2f4fc",
+    "status": "revised",
+    "bytes": 829002,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BMO.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/CM.TO",
+    "sha256": "f9da553842a2930547e0b29b9ab9e8062eb2cfa1b48ccd136e2f11c658c78c13",
+    "status": "revised",
+    "bytes": 835509,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CM.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/NA.TO",
+    "sha256": "031be77afe9f292109132a77111478344cf177874c12143b0ea1a33655f2099a",
+    "status": "revised",
+    "bytes": 837658,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NA.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/XEG.TO",
+    "sha256": "88ee97f438b27f85714dea523e6c83a81f4c435b3244c26dba18c15299f6f291",
+    "status": "revised",
+    "bytes": 696294,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XEG.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/SPY",
+    "sha256": "8f500908f5f369de309c432caf1789611c18c45107ac13219ed585dd2ddd5cbb",
+    "status": "revised",
+    "bytes": 858631,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "statcan/v41690973",
+    "sha256": "dd3e814c0c074771985921c902b5a23165f63e44757f9b7b9ce64fd1c148b440",
+    "status": "revised",
+    "bytes": 308549,
+    "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690973%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+   },
+   {
+    "key": "jk_fed/shocks_t",
+    "sha256": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01",
+    "status": "matched_pin",
+    "bytes": 24721,
+    "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/shocks_fed_jk_t.csv"
+   },
+   {
+    "key": "jk_fed/surprises",
+    "sha256": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300",
+    "status": "matched_pin",
+    "bytes": 69885,
+    "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/source_data/fomc_surprises_jk.csv"
+   },
+   {
+    "key": "kaenzig/oil_supply_news",
+    "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de",
+    "status": "matched_pin",
+    "bytes": 110802,
+    "url": "https://raw.githubusercontent.com/dkaenzig/oilsupplynews/3496b6e848ba760d4be25289fc68c1e989998790/oilSupplyNewsShocks_2025M12.xlsx"
+   }
+  ]
+ }
+}
