@@ -85,6 +85,14 @@ Six models predict the 1-day and 5-day move of eight assets after each FOMC, BoC
 
 On 168 held-out announcements (2019–2026), scored once under a protocol tagged in git before any model was fitted, the neural network's pooled scaled error minus the linear local projection's is −0.003 (90% CI −0.019 to +0.014). The interval includes zero, so the verdict, computed by the pre-registered rule, is: **No evidence ML adds value**. The ML models rely almost entirely on the surprise itself: shuffling the surprise components raises their error by up to 0.120, while shuffling any state variable changes it by much less. Refitting once rather than every year gives the same verdict (difference +0.003, CI −0.011 to +0.017).
 
+### 4.8 A second study: pooled networks and the left tail
+
+![Held-out scores for the second study](figures/fig_ml_study.svg)
+
+*The second study. Pooled scaled error on the same held-out announcements. Lower is better. This comparison does not replace the one above.*
+
+The first test fit a separate model on each asset. This one, tagged `ml-study-v1` before any of its models were fit, pools the eight assets and asks two questions. For the average move, validation chose a temporal CNN with 16 channels. Its test difference versus the linear projection is +0.015 (90% CI −0.006 to +0.037): **No evidence ML adds value**. Validation had already put that network at 0.885 against 0.836 for the linear model. For the 5% tail, validation chose quantile gradient boosting of depth 2. Its scaled pinball loss minus the Gaussian linear projection's is −0.112 (90% CI −0.228 to −0.010): **ML adds value on the 5% tail**. Outcomes fall below that quantile 9.0% of the time. Grouped Shapley values assign 45% of mean absolute contribution to the surprise and 9% to the pre-event return path. The asset embedding's adjusted Rand index against the pre-specified groups is 0.22 (permutation p 0.18).
+
 ## 5. Live, pre-registered forecasts
 
 Before each Fed and BoC decision, a conditional forecast is committed to the repository: if the announcement moves the bank's own 2-year yield by −10, 0, +10 bp, here is the expected move in the Canadian 2-year yield, the Canadian dollar and Canadian banks on the first and fifth trading days after it. Each comes with 68% and 90% ranges for the outcome. The forecasts are never edited. A scheduled job scores them once the outcomes are published, against the realized daily move and later against the 30-minute surprise. The model is a deliberately simple proxy regression with jackknife prediction intervals (Barber et al., 2021). It is a forecast, not a causal estimate: the daily 2-year move mixes policy and information news, which is why its bank-stock slopes are near zero. The first forecasts, for the decisions of 2026-10-28, were published on 2026-10-13; both banks announce that day, so they are flagged as a collision and summarized separately.

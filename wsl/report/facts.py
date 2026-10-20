@@ -83,6 +83,71 @@ def _short(k: str) -> str:
     return k.split(":")[0]
 
 
+def _study() -> dict[str, Any]:
+    """ml-study-v1. Separate from the M5 block above it in the documents."""
+    doc = _load(RESULTS / "mlstudy" / "final.json")
+    val = _load(RESULTS / "mlstudy" / "validation.json")
+    mk, tk = doc["chosen"]["mean"], doc["chosen"]["tail"]
+    mean_params = json.loads(mk.split(":", 1)[1])
+    tail_params = json.loads(tk.split(":", 1)[1])
+    mean, tail = doc["mean"], doc["tail"]
+    book = doc["portfolio"]["difference_ml_minus_gauss"]
+    return {
+        "n_test": doc["n_test"], "years": doc["test_years"],
+        "train_events": doc["counts"]["train_events"],
+        "val_events": doc["counts"]["validation_events"],
+        "channels": int(mean_params["channels"]),
+        "weight_decay": float(mean_params["weight_decay"]),
+        "depth": int(tail_params["max_depth"]),
+        "mean_ml": mean["pooled_scaled_mae"][mk],
+        "mean_lp": mean["pooled_scaled_mae"]["lp"],
+        "mean_zero": mean["pooled_scaled_mae"]["zero"],
+        "mean_diff": mean["difference_ml_minus_lp"]["point"],
+        "mean_ci": mean["difference_ml_minus_lp"]["ci90"],
+        "mean_verdict": mean["verdict"],
+        "static_diff": mean["static_refit"]["difference_ml_minus_lp"]["point"],
+        "static_ci": mean["static_refit"]["difference_ml_minus_lp"]["ci90"],
+        "static_verdict": mean["static_refit"]["verdict"],
+        "static_ml": mean["static_refit"]["pooled_scaled_mae"][mk],
+        "static_lp": mean["static_refit"]["pooled_scaled_mae"]["lp"],
+        "tail_ml": tail["pooled_scaled_pinball"][tk],
+        "tail_gauss": tail["pooled_scaled_pinball"]["gauss_lp"],
+        "tail_hist": tail["pooled_scaled_pinball"]["hist"],
+        "tail_diff": tail["difference_ml_minus_gauss"]["point"],
+        "tail_ci": tail["difference_ml_minus_gauss"]["ci90"],
+        "tail_verdict": tail["verdict"],
+        "hit_ml": tail["hit_rate_05"][tk],
+        "hit_gauss": tail["hit_rate_05"]["gauss_lp"],
+        "hit_hist": tail["hit_rate_05"]["hist"],
+        "cov_tail": tail["coverage_90"][tk],
+        "cov_gauss": tail["coverage_90"]["gauss_lp"],
+        "cov_mean": mean["coverage90"][mk],
+        "cov_lp": mean["coverage90"]["lp"],
+        "fz_ml": tail["fissler_ziegel"][tk],
+        "fz_gauss": tail["fissler_ziegel"]["gauss_lp"],
+        "fz_hist": tail["fissler_ziegel"]["hist"],
+        "shap_surprise": doc["shap"]["share"]["surprise"],
+        "shap_state": doc["shap"]["share"]["macro_state"],
+        "shap_family": doc["shap"]["share"]["family"],
+        "shap_path": doc["shap"]["share"]["return_path"],
+        "shap_vol": doc["shap"]["share"]["asset_vol"],
+        "ari": doc["embeddings"]["ari"],
+        "ari_p": doc["embeddings"]["ari_permutation_p"],
+        "port_diff": book["point"], "port_ci": book["ci90"],
+        "port_ml": doc["portfolio"]["pooled_scaled_pinball"][tk],
+        "port_gauss": doc["portfolio"]["pooled_scaled_pinball"]["gauss_lp"],
+        "matched": doc["inputs"]["matched_pin"], "revised": doc["inputs"]["revised"],
+        "val_lp": val["pooled_scaled_mae"]["lp"],
+        "val_mean": val["pooled_scaled_mae"][mk],
+        "val_gauss": val["pooled_scaled_pinball"]["gauss_lp"],
+        "val_tail": val["pooled_scaled_pinball"][tk],
+        "stress_sd": doc["stress"]["size_sd"],
+        "spy_q50_zero": doc["stress"]["assets"]["SPY"]["q50_zero"],
+        "spy_q50_shock": doc["stress"]["assets"]["SPY"]["q50_shock"],
+        "spy_q05_shock": doc["stress"]["assets"]["SPY"]["q05_shock"],
+    }
+
+
 def facts() -> dict[str, Any]:
     """Plain numbers (not yet formatted), grouped by topic."""
     canada = {r["outcome"]: r for r in _load(RESULTS / "m4" / "canada.json")["results"]}
@@ -140,6 +205,7 @@ def facts() -> dict[str, Any]:
                     "rs0": rs("USDCAD", "0")},
             "fed_f_min": min(r["fed_first_stage_f"] for r in canada.values()),
         },
+        "study": _study(),
         "ml": {
             "file": fin["_file"], "runs": fin["_runs"], "protocol": fin["protocol_tag"],
             "n_test": fin["test_events_primary"], "years": fin["test_years"],

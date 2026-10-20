@@ -82,6 +82,10 @@ export default function Overview() {
             <span className="num">{band(fin.difference_ml_minus_econ.ci90[0], fin.difference_ml_minus_econ.ci90[1], 3)}</span>).
           </p>
           <Chip label="model_forecast" />
+          <p>
+            <a href="#/models">A second study</a> asks the question again with pooled networks and a left-tail model. It does not replace this
+            result.
+          </p>
         </div>
         <div className="card">
           <div className="eyebrow">Finding 3 · credibility</div>

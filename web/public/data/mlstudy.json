@@ -1,0 +1,166 @@
+{
+ "protocol_tag": "ml-study-v1",
+ "generated_at": "20261020T183639Z",
+ "n_test": 168,
+ "test_years": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "chosen": {
+  "mean": "Temporal CNN",
+  "tail": "Quantile boosting",
+  "mean_key": "tcn:{\"channels\": 16, \"weight_decay\": 0.001}",
+  "tail_key": "qgbm:{\"max_depth\": 2}"
+ },
+ "mean": {
+  "scores": {
+   "zero": 1.1947292414338926,
+   "lp": 1.1420847324581223,
+   "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 1.1571277532978215
+  },
+  "difference": {
+   "point": 0.015043020839699217,
+   "ci90": [
+    -0.006025486483002209,
+    0.03684541655024226
+   ]
+  },
+  "verdict": "No evidence ML adds value",
+  "coverage90": {
+   "lp": 0.8865327380952381,
+   "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 0.8712797619047619
+  },
+  "static": {
+   "point": 0.025682712915083172,
+   "ci90": [
+    0.006015922034682562,
+    0.045632339529279246
+   ]
+  }
+ },
+ "tail": {
+  "scores": {
+   "hist": 1.5947000745303217,
+   "gauss_lp": 1.5580062579531035,
+   "qgbm:{\"max_depth\": 2}": 1.4455223913308346
+  },
+  "difference": {
+   "point": -0.11248386662226895,
+   "ci90": [
+    -0.2280172224402263,
+    -0.010335754412836245
+   ]
+  },
+  "verdict": "ML adds value on the 5% tail",
+  "hit_rate_05": {
+   "hist": 0.06845238095238096,
+   "gauss_lp": 0.06324404761904762,
+   "qgbm:{\"max_depth\": 2}": 0.0896577380952381
+  },
+  "fissler_ziegel": {
+   "hist": 0.7760876466051121,
+   "gauss_lp": -1505.9913741516407,
+   "qgbm:{\"max_depth\": 2}": 0.6881680765372351
+  }
+ },
+ "shap_share": {
+  "surprise": 0.4533816788701991,
+  "family": 0.1736410110957089,
+  "macro_state": 0.23087952772024517,
+  "asset_vol": 0.05275424149505491,
+  "return_path": 0.08934354081879209
+ },
+ "embeddings": {
+  "ari": 0.2222222222222222,
+  "p": 0.18440779610194902,
+  "assets": [
+   "US2Y",
+   "CA2Y",
+   "USDCAD",
+   "SPY",
+   "TSX",
+   "CA_BANKS_EW6",
+   "XEG",
+   "WTI"
+  ],
+  "clusters": [
+   1,
+   1,
+   2,
+   3,
+   2,
+   0,
+   0,
+   3
+  ]
+ },
+ "portfolio": {
+  "name": "CA_EQUITY_BOOK",
+  "weights": {
+   "SPY": 0.4,
+   "TSX": 0.3,
+   "CA_BANKS_EW6": 0.2,
+   "XEG": 0.1
+  },
+  "horizon": 1,
+  "vol_feature": "SPY",
+  "secondary": 1,
+  "pooled_scaled_pinball": {
+   "hist": 1.9003127056355797,
+   "gauss_lp": 1.8958437887285848,
+   "qgbm:{\"max_depth\": 2}": 1.6800141165915108
+  },
+  "difference_ml_minus_gauss": {
+   "point": -0.21582967213707405,
+   "ci90": [
+    -0.5517885186579389,
+    0.09236649640107217
+   ]
+  },
+  "note": "Secondary. Does not change either verdict."
+ },
+ "stress": {
+  "label": "hypothetical_scenario",
+  "family": "fomc",
+  "main_surprise": "fomc_TFUT02",
+  "size_sd": 5.027401999382034,
+  "fit": "through_2018",
+  "assets": {
+   "SPY": {
+    "q50_zero": 0.01533132000004209,
+    "q50_shock": -0.14168511876598194,
+    "q05_zero": -1.2726775335143659,
+    "q05_shock": -1.6701214935995115
+   },
+   "TSX": {
+    "q50_zero": -0.05417645022316838,
+    "q50_shock": -0.09138540824984644,
+    "q05_zero": -0.816574330055264,
+    "q05_shock": -1.1737557999290489
+   },
+   "XEG": {
+    "q50_zero": -0.16957060261392867,
+    "q50_shock": 0.05227375401681296,
+    "q05_zero": -1.9360092119616434,
+    "q05_shock": -2.18859978888878
+   },
+   "WTI": {
+    "q50_zero": -0.08545589194661811,
+    "q50_shock": 0.07579526839226661,
+    "q05_zero": -3.2508701648149407,
+    "q05_shock": -4.646059439839898
+   }
+  },
+  "note": "Not a test-set score. The state is the training median and the other futures surprises move with their training co-movement."
+ },
+ "inputs": {
+  "matched_pin": 3,
+  "revised": 22
+ }
+}
