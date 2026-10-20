@@ -7,6 +7,9 @@
 - Built an open-source research platform measuring how Fed, Bank of Canada and OPEC surprises move 53 global assets. It uses high-frequency identification and event-study local projections, validated by simulation (90% bands contain the true response 90% of the time). It replicates 11 of 13 published findings.
 - Found that a Fed surprise lifting the US 2-year yield 10 bp moves the S&P/TSX −1.10% on the day, versus −0.19% for an equal Bank of Canada surprise. Validated the daily BoC surprise proxy first, and reported the Rigobon–Sack estimate (−0.75%) alongside it.
 - Pre-registered a test of whether ML beats econometrics, fixing the splits, metric and decision rule in git before fitting, and scored the test set once on 168 held-out announcements. The neural net's error minus the linear model's was −0.003 (90% CI −0.019 to +0.014), reported as pre-registered: "no evidence ML adds value".
+- Added a second pre-registered study, tagged before fitting, that pools assets in a temporal CNN and models the 5% tail with quantile gradient boosting. On the same 168 announcements the CNN's scaled error minus the linear projection's was +0.015 (90% CI −0.006 to +0.037): no evidence it forecasts the average move better. A frozen fit was worse (+0.026, 90% CI +0.006 to +0.046).
+- Showed that quantile gradient boosting's scaled 5% pinball loss minus a Gaussian linear projection's is −0.112 (90% CI −0.228 to −0.010) on 168 held-out announcements, the pre-registered rule for a gain, and reported the miss: that quantile is crossed 9.0% of the time and the central interval covers 83.5%.
+- Attributed the CNN with exact grouped Shapley values on the test announcements: the surprise is 45% of mean absolute contribution and the pre-event path is 9%. Asset embeddings do not recover yields, FX, equity and oil (adjusted Rand index 0.22, permutation p 0.18).
 - Shipped a static React/TypeScript scenario tool that renders in under 3 s on a throttled phone profile. A test fails if its strategist brief prints any number not in the results. It also runs live, pre-registered forecasts for each Fed and BoC decision, published before the decision and scored automatically by a scheduled GitHub Action.
 
 ## Ten questions an interviewer might ask, with honest answers
@@ -40,3 +43,6 @@
 
 10. **What did you get wrong along the way?**
     Two examples. Building the BoC announcement list from press releases needed several fixes: title conventions changed over the years, and in some years the new rate took effect on a different day from the announcement. Checking the list against the target-rate series caught them. And the closing time of the Canadian yield data is not documented, so I tested when they react rather than assuming it.
+
+11. **The second study says the tail model adds value. What would you not claim in an interview?**
+    I would not claim a better trading signal or a calibrated 5% VaR. The pre-registered score improved by −0.112 (90% CI −0.228 to −0.010), and that is the claim. The same quantile is crossed 9.0% of the time, the equity-book interval includes zero (−0.216, 90% CI −0.552 to +0.092), and the average-move network does not beat the linear model. The Fissler–Ziegel average is not comparable across basis points and percent, so I do not use it.

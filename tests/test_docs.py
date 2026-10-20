@@ -5,7 +5,17 @@ from __future__ import annotations
 
 import pytest
 
-from wsl.report.docs import END, README, START, render_all, unregistered_numbers
+from wsl.report.docs import (
+    END,
+    LEARNED_END,
+    LEARNED_START,
+    README,
+    START,
+    TLDR_END,
+    TLDR_START,
+    render_all,
+    unregistered_numbers,
+)
 
 
 @pytest.fixture(scope="module")
@@ -14,8 +24,8 @@ def rendered() -> dict:  # type: ignore[type-arg]
     return {"docs": out, "fmts": render_all.fmts}  # type: ignore[attr-defined]
 
 
-def _block(text: str) -> str:
-    return text.split(START, 1)[1].split(END, 1)[0]
+def _block(text: str, start: str = START, end: str = END) -> str:
+    return text.split(start, 1)[1].split(end, 1)[0]
 
 
 def test_committed_documents_match_the_results(rendered: dict) -> None:  # type: ignore[type-arg]
@@ -29,6 +39,8 @@ def test_no_number_is_typed_by_hand(rendered: dict) -> None:  # type: ignore[typ
     for path, text in rendered["docs"].items():
         if path == README:
             bad = unregistered_numbers(_block(text), fmts["readme"])
+            bad += unregistered_numbers(_block(text, TLDR_START, TLDR_END), fmts["tldr"])
+            bad += unregistered_numbers(_block(text, LEARNED_START, LEARNED_END), fmts["learned"])
         elif path.name == "RESEARCH_NOTE.md":
             bad = unregistered_numbers(text, fmts["note"])
         else:

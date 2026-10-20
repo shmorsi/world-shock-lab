@@ -1,8 +1,8 @@
 {
- "checked_at": "2026-10-13T00:50:28Z",
+ "checked_at": "2026-10-20T18:44:06Z",
  "tool": "axe-core 4.10.2",
  "rules": "wcag2a, wcag2aa, wcag21a, wcag21aa",
- "views": 8,
+ "views": 9,
  "themes": 2,
  "violations": 0
 }

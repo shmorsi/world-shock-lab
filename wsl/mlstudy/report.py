@@ -143,12 +143,27 @@ def _md(doc: dict[str, Any]) -> str:
         "",
         "## Why the comparison looks like this",
         "",
-        "The published M5 result already said that a separate model on each asset learns little "
-        "beyond the linear surprise. This study pooled the eight assets and added the pre-event "
-        "path, and it asked a different question about the left tail. The interval above is the "
-        "answer. A narrow interval around zero means the flexible model did not beat the linear "
-        "one by a margin the sample can see. An interval entirely below zero is a gain. "
-        "An interval entirely above zero is a loss.",
+        f"The mean-model point estimate is higher error than the linear projection "
+        f"({_n(md['point'])}), and the 90% interval includes zero, so the pre-registered rule "
+        f"is \"{mean['verdict']}\". Validation had already ranked every network behind the linear "
+        "model; the test did not reverse that. The static refit, which cannot change the verdict, "
+        f"is \"{mean['static_refit']['verdict']}\" "
+        f"(difference {_n(mean['static_refit']['difference_ml_minus_lp']['point'])}, "
+        f"90% CI {_ci(mean['static_refit']['difference_ml_minus_lp']['ci90'])}). "
+        "Pooling the assets and showing the network the pre-event path did not beat a linear "
+        "function of the surprise.",
+        "",
+        f"The tail question is separate. The selected model's pinball difference is "
+        f"{_n(td['point'])}, and the whole interval is below zero: \"{tail['verdict']}\". "
+        f"The same 5% quantile is crossed "
+        f"{_n(tail['hit_rate_05'][tk], 2)} of the time, against "
+        f"{_n(tail['hit_rate_05']['gauss_lp'], 2)} for the Gaussian model, and the central "
+        f"interval covers {_n(tail['coverage_90'][tk], 2)} rather than 0.90. "
+        "The gain is the scoring rule that was named in advance, not a claim of calibration.",
+        "",
+        "The Fissler–Ziegel average is reported below and is not a decision. Yields are in "
+        "basis points and equities in percent, and the exponential score lets one cell dominate, "
+        "so a very negative Gaussian score is not evidence the Gaussian model is better.",
         "",
         "## Embeddings, attribution, portfolio, stress",
         "",

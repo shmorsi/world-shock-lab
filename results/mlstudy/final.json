@@ -1,0 +1,587 @@
+{
+ "phase": "final",
+ "generated_at": "20261020T183639Z",
+ "protocol_tag": "ml-study-v1",
+ "config_sha256": "ff092f530809698de3e788d0411e7bc8e29ae8da70b11cb0cf05f1d1d886b2dd",
+ "git_sha": "d0dc395c530d37d225381b3bd7391ee54f83c223",
+ "rerun_reason": null,
+ "parent_final_eval": "results/final_eval/20261012T233454Z.json",
+ "n_test": 168,
+ "test_years": [
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "counts": {
+  "train_events": 456,
+  "validation_events": 74
+ },
+ "chosen": {
+  "mean": "tcn:{\"channels\": 16, \"weight_decay\": 0.001}",
+  "tail": "qgbm:{\"max_depth\": 2}"
+ },
+ "mean": {
+  "baseline": "lp",
+  "pooled_scaled_mae": {
+   "zero": 1.1947292414338926,
+   "lp": 1.1420847324581223,
+   "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 1.1571277532978215
+  },
+  "difference_ml_minus_lp": {
+   "point": 0.015043020839699217,
+   "ci90": [
+    -0.006025486483002209,
+    0.03684541655024226
+   ]
+  },
+  "verdict": "No evidence ML adds value",
+  "per_cell_scaled_mae": {
+   "zero": {
+    "US2Y|h1": 1.105102040816327,
+    "US2Y|h5": 0.9691399354799443,
+    "CA2Y|h1": 1.010099424385138,
+    "CA2Y|h5": 0.97092935303313,
+    "USDCAD|h1": 1.0677710041885542,
+    "USDCAD|h5": 0.9763962746330883,
+    "SPY|h1": 1.1308038655230475,
+    "SPY|h5": 1.1527683543425842,
+    "TSX|h1": 1.1874074281000873,
+    "TSX|h5": 1.172808690298309,
+    "CA_BANKS_EW6|h1": 1.0255453168946014,
+    "CA_BANKS_EW6|h5": 1.1939904876442862,
+    "XEG|h1": 1.5744082756430233,
+    "XEG|h5": 1.84647777329553,
+    "WTI|h1": 1.2242063745507117,
+    "WTI|h5": 1.5078132641139208
+   },
+   "lp": {
+    "US2Y|h1": 0.9631338248776807,
+    "US2Y|h5": 0.9354529320403697,
+    "CA2Y|h1": 0.6762391728932869,
+    "CA2Y|h5": 0.9481485053807253,
+    "USDCAD|h1": 1.126273147737186,
+    "USDCAD|h5": 0.9953778619921249,
+    "SPY|h1": 1.1805048336239756,
+    "SPY|h5": 1.1554635218577713,
+    "TSX|h1": 1.1898715744804444,
+    "TSX|h5": 1.179666831475196,
+    "CA_BANKS_EW6|h1": 1.0590596776369747,
+    "CA_BANKS_EW6|h5": 1.174131245746502,
+    "XEG|h1": 1.4814846472543386,
+    "XEG|h5": 1.8561806044523297,
+    "WTI|h1": 0.9189835370856977,
+    "WTI|h5": 1.4333838007953519
+   },
+   "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": {
+    "US2Y|h1": 1.005244668747867,
+    "US2Y|h5": 0.910934353219285,
+    "CA2Y|h1": 0.8518119374263589,
+    "CA2Y|h5": 0.9203343536161744,
+    "USDCAD|h1": 1.0835763345325935,
+    "USDCAD|h5": 1.0070813389016686,
+    "SPY|h1": 1.1337777487559006,
+    "SPY|h5": 1.1605320001562316,
+    "TSX|h1": 1.1792742502411058,
+    "TSX|h5": 1.1717655566991372,
+    "CA_BANKS_EW6|h1": 1.0149942341826843,
+    "CA_BANKS_EW6|h5": 1.1590123533220793,
+    "XEG|h1": 1.5126233710880346,
+    "XEG|h5": 1.798527972043266,
+    "WTI|h1": 1.1336230935380005,
+    "WTI|h5": 1.4709304862947568
+   }
+  },
+  "coverage90": {
+   "lp": 0.8865327380952381,
+   "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 0.8712797619047619
+  },
+  "static_refit": {
+   "pooled_scaled_mae": {
+    "lp": 1.1447171623017254,
+    "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 1.1703998752168085
+   },
+   "difference_ml_minus_lp": {
+    "point": 0.025682712915083172,
+    "ci90": [
+     0.006015922034682562,
+     0.045632339529279246
+    ]
+   },
+   "verdict": "ML is worse"
+  },
+  "subsamples": {
+   "fomc": {
+    "events": 68,
+    "zero": 1.3514752906646936,
+    "lp": 1.3540717082688207,
+    "ml": 1.356785513771883
+   },
+   "boc": {
+    "events": 52,
+    "zero": 1.0380522457155288,
+    "lp": 0.9578159075633692,
+    "ml": 0.9644900986239191
+   },
+   "opec": {
+    "events": 48,
+    "zero": 1.1424057503851526,
+    "lp": 1.041394410362282,
+    "ml": 1.0829700518562955
+   }
+  }
+ },
+ "tail": {
+  "baseline": "gauss_lp",
+  "tau": 0.05,
+  "pooled_scaled_pinball": {
+   "hist": 1.5947000745303217,
+   "gauss_lp": 1.5580062579531035,
+   "qgbm:{\"max_depth\": 2}": 1.4455223913308346
+  },
+  "difference_ml_minus_gauss": {
+   "point": -0.11248386662226895,
+   "ci90": [
+    -0.2280172224402263,
+    -0.010335754412836245
+   ]
+  },
+  "verdict": "ML adds value on the 5% tail",
+  "hit_rate_05": {
+   "hist": 0.06845238095238096,
+   "gauss_lp": 0.06324404761904762,
+   "qgbm:{\"max_depth\": 2}": 0.0896577380952381
+  },
+  "coverage_90": {
+   "gauss_lp": 0.8865327380952381,
+   "qgbm:{\"max_depth\": 2}": 0.8351934523809523
+  },
+  "interval_score90_scaled": {
+   "gauss_lp": 9.148908425605274,
+   "qgbm:{\"max_depth\": 2}": 8.440111398379399
+  },
+  "fissler_ziegel": {
+   "hist": 0.7760876466051121,
+   "gauss_lp": -1505.9913741516407,
+   "qgbm:{\"max_depth\": 2}": 0.6881680765372351
+  }
+ },
+ "validation_pooled_scaled_mae": {
+  "zero": 0.8799532372208476,
+  "lp": 0.8363694489785418,
+  "mt_mlp:{\"weight_decay\": 0.001, \"width\": 32}": 0.8866970549680295,
+  "mt_mlp:{\"weight_decay\": 0.01, \"width\": 32}": 0.8866426476237237,
+  "mt_mlp:{\"weight_decay\": 0.001, \"width\": 64}": 0.887002043845951,
+  "mt_mlp:{\"weight_decay\": 0.01, \"width\": 64}": 0.8864480571950011,
+  "tcn:{\"channels\": 8, \"weight_decay\": 0.001}": 0.8867436458635637,
+  "tcn:{\"channels\": 8, \"weight_decay\": 0.01}": 0.8876319013634122,
+  "tcn:{\"channels\": 16, \"weight_decay\": 0.001}": 0.8845786052318781,
+  "tcn:{\"channels\": 16, \"weight_decay\": 0.01}": 0.8847384614603635
+ },
+ "validation_pooled_scaled_pinball": {
+  "hist": 0.8607094604282614,
+  "gauss_lp": 0.7568759557193083,
+  "qgbm:{\"max_depth\": 2}": 0.7374256727763495,
+  "qgbm:{\"max_depth\": 3}": 0.7433399102662819,
+  "qnet:{\"weight_decay\": 0.001, \"width\": 32}": 0.8307439711786968,
+  "qnet:{\"weight_decay\": 0.01, \"width\": 32}": 0.8686728734452527,
+  "qnet:{\"weight_decay\": 0.001, \"width\": 64}": 0.8304620138936826,
+  "qnet:{\"weight_decay\": 0.01, \"width\": 64}": 0.8731613023591382
+ },
+ "inputs": {
+  "matched_pin": 3,
+  "revised": 22,
+  "inputs": [
+   {
+    "key": "fred/observations/DGS2",
+    "sha256": "421cfa3fd0c695317b3ceb4cfcd921e4125e0a4fc6382f2e1b4c6cbc3d48c5d2",
+    "status": "revised",
+    "bytes": 538413,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2"
+   },
+   {
+    "key": "fred/observations/DGS10",
+    "sha256": "55e3a6f797428387f840698250ece823a3dac72ee6a0b13209f263a696dbebc9",
+    "status": "revised",
+    "bytes": 692407,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10"
+   },
+   {
+    "key": "fred/observations/DFEDTAR",
+    "sha256": "afbca9787e4f8ea9ed031c4929e48e5023c819830bbdb8d3162875f4358b3f4c",
+    "status": "revised",
+    "bytes": 412063,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTAR"
+   },
+   {
+    "key": "fred/observations/DFEDTARU",
+    "sha256": "4336ed8e3ca867d59fdefa562652dea8c9476f0fd898d613ac8f593142dd7e08",
+    "status": "revised",
+    "bytes": 267256,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARU"
+   },
+   {
+    "key": "fred/observations/DFEDTARL",
+    "sha256": "010483dec2f12108a8bdb56886e45ec54fa61c5ca51237f7f4bf193a0566a887",
+    "status": "revised",
+    "bytes": 267256,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFEDTARL"
+   },
+   {
+    "key": "fred/observations/DEXCAUS",
+    "sha256": "86f0f9b9d5e5a97c7b22accc8f87e1f5f7283a0756856d0e3d312dc3493dc6e1",
+    "status": "revised",
+    "bytes": 623088,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DEXCAUS"
+   },
+   {
+    "key": "fred/observations/DCOILWTICO",
+    "sha256": "6c8492deebb4eed47ef3f22d676ac879dda5992f38d3b84d17053ab6ac1a8f24",
+    "status": "revised",
+    "bytes": 442993,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO"
+   },
+   {
+    "key": "fred/observations/VIXCLS",
+    "sha256": "ed68c38f8ba5e73725e12f4f08acbde88dcf3253092b2ccc3f3e33e06535bcf6",
+    "status": "revised",
+    "bytes": 401942,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS"
+   },
+   {
+    "key": "fred/observations/CPIAUCNS",
+    "sha256": "65e551436418b4e3308e69303b77f15d400f2b07ff2bc92eb816a0a4919d87a7",
+    "status": "revised",
+    "bytes": 59211,
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCNS"
+   },
+   {
+    "key": "valet/BD.CDN.2YR.DQ.YLD",
+    "sha256": "f3dfec1c6172f3ee5e6786bd4dd25994f26a4cdf14b7b69c713cd53653686ff0",
+    "status": "revised",
+    "bytes": 832628,
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01"
+   },
+   {
+    "key": "valet/BD.CDN.10YR.DQ.YLD",
+    "sha256": "bdda6e73e7de82610cd0f44b0d5cff418df0f6669a9e263e4f6a41e510cc4ada",
+    "status": "revised",
+    "bytes": 839251,
+    "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.10YR.DQ.YLD/json?start_date=1900-01-01"
+   },
+   {
+    "key": "valet/CBC20210",
+    "sha256": "2054dfe84df465850180c7cf61678512e7d4c76b53949dfd2d2e24f5cfed93d4",
+    "status": "revised",
+    "bytes": 806579,
+    "url": "https://www.bankofcanada.ca/valet/observations/CBC20210/json?start_date=1900-01-01"
+   },
+   {
+    "key": "yahoo/^GSPTSE",
+    "sha256": "1a06267586855cb5f9af996c9caefbcd3f7275c31408be49da9e8ca7515e99e0",
+    "status": "revised",
+    "bytes": 1117190,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPTSE?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/RY.TO",
+    "sha256": "b44fd47c04d308b2ace11dbc99d487c50d563c97c8864d4f696ea29a9a51692a",
+    "status": "revised",
+    "bytes": 830414,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/RY.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/TD.TO",
+    "sha256": "b9db5a4151fe2d6b3e68c723d6ba1e7d16e96116531a45e91643a849f6a9ece8",
+    "status": "revised",
+    "bytes": 833005,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/TD.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/BNS.TO",
+    "sha256": "58fd02b3aa999410bf0421c0579e378f661f86a27d3a13ff13840dcf64a1afe7",
+    "status": "revised",
+    "bytes": 831922,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BNS.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/BMO.TO",
+    "sha256": "3a1c2b6ed75eb4e242beb4f29af86ea1801419b4612b5ed66a05aab406b2f4fc",
+    "status": "revised",
+    "bytes": 829002,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/BMO.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/CM.TO",
+    "sha256": "f9da553842a2930547e0b29b9ab9e8062eb2cfa1b48ccd136e2f11c658c78c13",
+    "status": "revised",
+    "bytes": 835509,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/CM.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/NA.TO",
+    "sha256": "031be77afe9f292109132a77111478344cf177874c12143b0ea1a33655f2099a",
+    "status": "revised",
+    "bytes": 837658,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/NA.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/XEG.TO",
+    "sha256": "88ee97f438b27f85714dea523e6c83a81f4c435b3244c26dba18c15299f6f291",
+    "status": "revised",
+    "bytes": 696294,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/XEG.TO?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "yahoo/SPY",
+    "sha256": "8f500908f5f369de309c432caf1789611c18c45107ac13219ed585dd2ddd5cbb",
+    "status": "revised",
+    "bytes": 858631,
+    "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=0&period2=4102444800&interval=1d&events=div%2Csplit&includeAdjustedClose=true"
+   },
+   {
+    "key": "statcan/v41690973",
+    "sha256": "dd3e814c0c074771985921c902b5a23165f63e44757f9b7b9ce64fd1c148b440",
+    "status": "revised",
+    "bytes": 308549,
+    "url": "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorByReferencePeriodRange?vectorIds=%2241690973%22&startRefPeriod=1900-01-01&endReferencePeriod=2100-01-01"
+   },
+   {
+    "key": "jk_fed/shocks_t",
+    "sha256": "c5dda24c4f359722bc56cce99df9fa80f00f4b420941d2d5502073a3c4eeef01",
+    "status": "matched_pin",
+    "bytes": 24721,
+    "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/shocks_fed_jk_t.csv"
+   },
+   {
+    "key": "jk_fed/surprises",
+    "sha256": "785cb0ac6e50df1779820dffdaf399c312510e44d2b547fabb3925ed9a443300",
+    "status": "matched_pin",
+    "bytes": 69885,
+    "url": "https://raw.githubusercontent.com/marekjarocinski/jkshocks_update_fed/f788aef7d573f87f28b70ffc3763e73c4886a53f/source_data/fomc_surprises_jk.csv"
+   },
+   {
+    "key": "kaenzig/oil_supply_news",
+    "sha256": "8aa80042f84071ea310b3c2f604b177aed57ee7575e6a18aed5b8ad52ec353de",
+    "status": "matched_pin",
+    "bytes": 110802,
+    "url": "https://raw.githubusercontent.com/dkaenzig/oilsupplynews/3496b6e848ba760d4be25289fc68c1e989998790/oilSupplyNewsShocks_2025M12.xlsx"
+   }
+  ]
+ },
+ "embeddings": {
+  "assets": [
+   "US2Y",
+   "CA2Y",
+   "USDCAD",
+   "SPY",
+   "TSX",
+   "CA_BANKS_EW6",
+   "XEG",
+   "WTI"
+  ],
+  "groups": [
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   2,
+   3
+  ],
+  "clusters": [
+   1,
+   1,
+   2,
+   3,
+   2,
+   0,
+   0,
+   3
+  ],
+  "ari": 0.2222222222222222,
+  "ari_permutation_p": 0.18440779610194902,
+  "cosine": [
+   [
+    1.0,
+    0.7436,
+    0.8741,
+    -0.5203,
+    0.3836,
+    -0.7203,
+    -0.3632,
+    -0.7525
+   ],
+   [
+    0.7436,
+    1.0,
+    0.4387,
+    -0.0258,
+    -0.3267,
+    -0.8684,
+    -0.2037,
+    -0.2541
+   ],
+   [
+    0.8741,
+    0.4387,
+    1.0,
+    -0.736,
+    0.6382,
+    -0.317,
+    -0.0729,
+    -0.7501
+   ],
+   [
+    -0.5203,
+    -0.0258,
+    -0.736,
+    1.0,
+    -0.7744,
+    -0.1597,
+    -0.3039,
+    0.8631
+   ],
+   [
+    0.3836,
+    -0.3267,
+    0.6382,
+    -0.7744,
+    1.0,
+    0.2226,
+    -0.1381,
+    -0.7548
+   ],
+   [
+    -0.7203,
+    -0.8684,
+    -0.317,
+    -0.1597,
+    0.2226,
+    1.0,
+    0.6566,
+    0.267
+   ],
+   [
+    -0.3632,
+    -0.2037,
+    -0.0729,
+    -0.3039,
+    -0.1381,
+    0.6566,
+    1.0,
+    0.1766
+   ],
+   [
+    -0.7525,
+    -0.2541,
+    -0.7501,
+    0.8631,
+    -0.7548,
+    0.267,
+    0.1766,
+    1.0
+   ]
+  ],
+  "order_note": [
+   "US2Y",
+   "CA2Y",
+   "USDCAD",
+   "SPY",
+   "TSX",
+   "CA_BANKS_EW6",
+   "XEG",
+   "WTI"
+  ],
+  "model": "tcn:{\"channels\": 16, \"weight_decay\": 0.001}",
+  "ari_by_seed": [
+   -0.05263157894736842,
+   0.047619047619047616,
+   -0.14285714285714285
+  ]
+ },
+ "shap": {
+  "model": "tcn:{\"channels\": 16, \"weight_decay\": 0.001}",
+  "horizon": 1,
+  "n_rows": 1344,
+  "mean_abs": {
+   "surprise": 0.2936156160206431,
+   "family": 0.11245207915406365,
+   "macro_state": 0.1495204546576811,
+   "asset_vol": 0.034164303138298796,
+   "return_path": 0.05785998860903551
+  },
+  "share": {
+   "surprise": 0.4533816788701991,
+   "family": 0.1736410110957089,
+   "macro_state": 0.23087952772024517,
+   "asset_vol": 0.05275424149505491,
+   "return_path": 0.08934354081879209
+  },
+  "efficiency_gap": 1.3322676295501878e-15
+ },
+ "portfolio": {
+  "name": "CA_EQUITY_BOOK",
+  "weights": {
+   "SPY": 0.4,
+   "TSX": 0.3,
+   "CA_BANKS_EW6": 0.2,
+   "XEG": 0.1
+  },
+  "horizon": 1,
+  "vol_feature": "SPY",
+  "secondary": 1,
+  "pooled_scaled_pinball": {
+   "hist": 1.9003127056355797,
+   "gauss_lp": 1.8958437887285848,
+   "qgbm:{\"max_depth\": 2}": 1.6800141165915108
+  },
+  "difference_ml_minus_gauss": {
+   "point": -0.21582967213707405,
+   "ci90": [
+    -0.5517885186579389,
+    0.09236649640107217
+   ]
+  },
+  "note": "Secondary. Does not change either verdict."
+ },
+ "stress": {
+  "label": "hypothetical_scenario",
+  "family": "fomc",
+  "main_surprise": "fomc_TFUT02",
+  "size_sd": 5.027401999382034,
+  "fit": "through_2018",
+  "assets": {
+   "SPY": {
+    "q50_zero": 0.01533132000004209,
+    "q50_shock": -0.14168511876598194,
+    "q05_zero": -1.2726775335143659,
+    "q05_shock": -1.6701214935995115
+   },
+   "TSX": {
+    "q50_zero": -0.05417645022316838,
+    "q50_shock": -0.09138540824984644,
+    "q05_zero": -0.816574330055264,
+    "q05_shock": -1.1737557999290489
+   },
+   "XEG": {
+    "q50_zero": -0.16957060261392867,
+    "q50_shock": 0.05227375401681296,
+    "q05_zero": -1.9360092119616434,
+    "q05_shock": -2.18859978888878
+   },
+   "WTI": {
+    "q50_zero": -0.08545589194661811,
+    "q50_shock": 0.07579526839226661,
+    "q05_zero": -3.2508701648149407,
+    "q05_shock": -4.646059439839898
+   }
+  },
+  "note": "Not a test-set score. The state is the training median and the other futures surprises move with their training co-movement."
+ }
+}

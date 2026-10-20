@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -169,6 +171,14 @@ def test_embedding_ari_of_separated_groups_is_one() -> None:
     out = embedding_agreement(vectors, groups, permutations=300, seed=1)
     assert out["ari"] == 1.0
     assert float(out["ari_permutation_p"]) < 0.05  # type: ignore[arg-type]
+
+
+def test_study_note_matches_the_committed_results() -> None:
+    from wsl.mlstudy.report import DOC, WEB, _load, _md, _web
+
+    doc = _load()
+    assert DOC.read_text() == _md(doc)
+    assert json.loads(WEB.read_text()) == _web(doc)
 
 
 def test_final_run_guard(monkeypatch: pytest.MonkeyPatch, tmp_path: pytest.TempPathFactory) -> None:
