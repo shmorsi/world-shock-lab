@@ -1,0 +1,133 @@
+# World Shock Lab: machine-learning study (ml-study-v1)
+#
+# Written 2026-10-20, after protocol-v3 had already been scored once and before any
+# model listed here was fit. This file does not modify config/evaluation.yaml.
+# The M5 verdict stays the one in results/final_eval/. This study asks two new
+# questions on the same events and the same calendar splits.
+#
+# sha256(this file) is stored in every results file. The test command refuses to
+# run unless that hash matches the git tag ml-study-v1.
+
+protocol: ml-study-v1
+frozen_on: "2026-10-20"
+parent_protocol: protocol-v3   # splits, assets, horizons, leakage rules. Not amended.
+
+splits_from: config/evaluation.yaml   # train through 2014, validation 2015-2018, test 2019-01-01 to 2026-09-30
+
+questions:
+  # Q1. Mean response. Same primary metric as M5, so the numbers are comparable.
+  # Hypothesis, stated before fitting: a network that pools the eight assets
+  # (shared trunk, learned asset embedding) and, separately, a temporal CNN on the
+  # 20 pre-event daily moves, might use cross-asset structure and the path of
+  # prices that a per-asset linear projection ignores. Expectation, also stated
+  # before fitting and informed by the already published M5 result: most of what
+  # is predictable is the linear surprise, so any gain will be small. The test
+  # reports the interval either way.
+  mean:
+    metric: pooled_scaled_mae
+    scale: train_split_mae_of_zero          # frozen on events through 2014, as in M5
+    baseline: lp                            # pre-specified; M5's validation winner. Not re-selected.
+    always_reported: [zero, lp]
+    candidates: [mt_mlp, tcn]               # the selected one is the best candidate on validation
+    refit: expanding_annual                 # primary test scores
+    secondary_refit: static_through_2018    # cannot change the verdict
+  # Q2. Shock-conditional left tail (5% VaR). A different question from M5.
+  # The econometric baseline is the linear projection plus a Gaussian residual.
+  tail:
+    metric: pooled_scaled_pinball
+    tau: 0.05
+    scale: train_split_pinball_of_historical_quantile
+    baseline: gauss_lp
+    always_reported: [hist, gauss_lp]
+    candidates: [qgbm, qnet]
+    quantiles_reported: [0.01, 0.02, 0.03, 0.04, 0.05, 0.50, 0.95]
+    cvar: mean_of_quantiles_0.01_to_0.05    # Riemann approximation of the lower-tail expectation
+    refit: expanding_annual
+
+decision_rule:
+  # "adds value" only if the 90% event-block bootstrap CI of (selected minus baseline)
+  # lies entirely below zero. Negative means the selected model has lower loss.
+  bootstrap: {unit: event, resamples: 10000, ci: 0.90, seed: 20261020}
+  secondary_cannot_change_verdict:
+    - static_refit
+    - by_event_family
+    - coverage_and_hit_rate
+    - fissler_ziegel_score
+    - portfolio
+    - embeddings
+    - grouped_shapley
+
+training:                          # fixed, not searched
+  lr: 0.001
+  max_epochs: 200
+  patience: 20
+  grad_clip: 1.0
+  dropout: 0.1
+  emb_dim: 4
+  seeds: [0, 1, 2]                 # predictions are the average across seeds
+  early_stop_frac: 0.2             # last 20% of the training events, in time order
+  loss_mean: huber
+  loss_quantile: pinball           # non-crossing quantile heads (softplus increments)
+  cell_weights: equal              # each asset x horizon contributes the same total weight
+
+grids:                             # the only hyperparameters chosen on validation
+  mt_mlp:
+    - {width: 32, weight_decay: 0.001}
+    - {width: 32, weight_decay: 0.01}
+    - {width: 64, weight_decay: 0.001}
+    - {width: 64, weight_decay: 0.01}
+  tcn:
+    - {channels: 8, weight_decay: 0.001}
+    - {channels: 8, weight_decay: 0.01}
+    - {channels: 16, weight_decay: 0.001}
+    - {channels: 16, weight_decay: 0.01}
+  qgbm:
+    - {max_depth: 2}
+    - {max_depth: 3}
+  qnet:
+    - {width: 32, weight_decay: 0.001}
+    - {width: 32, weight_decay: 0.01}
+    - {width: 64, weight_decay: 0.001}
+    - {width: 64, weight_decay: 0.01}
+
+qgbm_fixed: {learning_rate: 0.05, max_iter: 100, min_samples_leaf: 30, random_state: 0}
+tcn_kernel: 3
+sequence:
+  length: 20
+  # Daily changes of that asset ending at the last observation strictly before the
+  # announcement. The announcement print is not in the path.
+  rule: pre_event_changes
+
+portfolio:                         # secondary risk book, not part of either verdict
+  name: CA_EQUITY_BOOK
+  assets: [SPY, TSX, CA_BANKS_EW6, XEG]
+  weights: [0.40, 0.30, 0.20, 0.10]
+  horizon: 1
+  vol_feature: SPY                   # event-level features are shared; volatility is SPY's
+
+stress:                            # hypothetical scenario from the model fit through 2018
+  label: hypothetical_scenario
+  family: fomc
+  main_surprise: fomc_TFUT02
+  size: one_training_sd
+  other_components: training_univariate_projection   # co-movement with the main surprise
+  state: training_median
+  reported: [median, q05]
+
+embeddings:
+  fit: through_2018
+  k: 4
+  groups:                          # pre-specified asset classes, not chosen to fit the embedding
+    yields: [US2Y, CA2Y]
+    fx: [USDCAD]
+    equity: [SPY, TSX, CA_BANKS_EW6, XEG]
+    oil: [WTI]
+  permutations: 2000
+  seed: 20261020
+
+shap:
+  method: exact_grouped_shapley
+  fit: through_2018                # the selected mean model, one static fit
+  horizon: 1
+  baseline: training_mean_within_asset
+  groups: [surprise, family, macro_state, asset_vol, return_path]
