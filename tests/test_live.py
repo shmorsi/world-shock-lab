@@ -40,10 +40,10 @@ def test_calendar_flags_collisions() -> None:
 
 
 # ---------------------------------------------------------------------- synthetic world
-def _world(seed: int = 1) -> tuple[LiveData, pd.DatetimeIndex]:
+def _world(seed: int = 1, end: str = "2026-10-30") -> tuple[LiveData, pd.DatetimeIndex]:
     """Business days 2015-2026; announcements every 30 days; outcomes respond to the proxy."""
     rng = np.random.default_rng(seed)
-    days = pd.bdate_range("2015-01-01", "2026-10-30")
+    days = pd.bdate_range("2015-01-01", end)
     ann = days[40::30]
     us2 = 2.0 + np.cumsum(rng.normal(0, 0.03, len(days)))
     ca2 = 1.5 + np.cumsum(rng.normal(0, 0.03, len(days)))
@@ -165,3 +165,94 @@ def test_no_score_before_outcomes_are_published(live_dirs: Path) -> None:
                                     cut.kind, cut.obs_time, cut.assumed_time)
     wrote = run.score_due(cfg, data, datetime(2026, 10, 15, 23, tzinfo=UTC))
     assert not any("2026-10-14" in p.name for p in wrote)
+
+
+def test_committed_forecasts_can_be_scored(live_dirs: Path) -> None:
+    """The real 2026-10-28 forecast files (copied, never touched) score once the outcomes
+    exist: score 1 for both banks, and score 2 for the FOMC once JK lists the meeting."""
+    import shutil
+
+    from wsl.data.cache import sha256_bytes
+    from wsl.paths import ROOT
+
+    committed = sorted((ROOT / "live" / "forecasts").glob("2026-10-28_*.json"))
+    assert [p.name for p in committed] == ["2026-10-28_boc.json", "2026-10-28_fomc.json"]
+    before = {p.name: sha256_bytes(p.read_bytes()) for p in committed}
+    (live_dirs / "forecasts").mkdir()
+    for p in committed:
+        shutil.copy(p, live_dirs / "forecasts" / p.name)
+
+    data, _ = _world(end="2026-11-20")
+    jk_day = pd.Timestamp("2026-10-28 14:00", tz="America/New_York")
+    data.jk_surprises = pd.DataFrame({"ts": [jk_day], "TFUT02_bp": [-3.0]})
+    cfg = config()
+    # Decision passed, but no 5-day outcome yet: nothing to score.
+    assert run.score_due(cfg, _cut(data, "2026-10-30"), datetime(2026, 10, 30, 23,
+                                                                  tzinfo=UTC)) == []
+    wrote = run.score_due(cfg, data, datetime(2026, 11, 20, 23, tzinfo=UTC))
+    assert sorted(p.name for p in wrote) == ["2026-10-28_boc_score1.json",
+                                             "2026-10-28_fomc_score1.json",
+                                             "2026-10-28_fomc_score2.json"]
+    for p in wrote:
+        s = json.loads(p.read_text())
+        f = live_dirs / s["forecast_file"]
+        assert s["forecast_sha256"] == before[f.name] == sha256_bytes(f.read_bytes())
+        assert len(s["scores"]) == 6 and s["collision"]
+    s2 = json.loads((live_dirs / "scores" / "2026-10-28_fomc_score2.json").read_text())
+    assert s2["realized_proxy_bp"] == -3.0
+    assert {p.name: sha256_bytes(p.read_bytes()) for p in committed} == before
+    assert run.score_due(cfg, data, datetime(2026, 11, 21, tzinfo=UTC)) == []  # once only
+
+
+def _cut(data: LiveData, last: str) -> LiveData:
+    from dataclasses import replace
+
+    series = {}
+    for k, s in data.series.items():
+        keep = s.dates <= pd.Timestamp(last)
+        series[k] = type(s)(s.id, s.dates[keep], s.x[keep], s.obs_ts[keep], s.kind,
+                            s.obs_time, s.assumed_time)
+    return replace(data, series=series)
+
+
+# ------------------------------------------------------------- the workflow's skip report
+def test_pending_lists_what_a_skipped_run_owes(tmp_path: Path) -> None:
+    from wsl.live import pending
+
+    cfg = _cfg()
+    fc, sc = tmp_path / "forecasts", tmp_path / "scores"
+    fc.mkdir()
+    sc.mkdir()
+    (fc / "2026-10-07_fomc.json").write_text("{}")
+    (fc / "2026-10-07_boc.json").write_text("{}")
+    (sc / "2026-10-07_boc_score1.json").write_text("{}")
+
+    o = pending.owed(cfg, datetime(2026, 10, 9, tzinfo=UTC), fc, sc)
+    assert [x.split(":")[0] for x in o.due] == ["2026-10-14_boc"]
+    assert o.missed == []
+    assert [x.split(":")[0] for x in o.scores] == ["2026-10-07_fomc"]  # BoC needs no score 2
+    assert "score1, score2" in o.scores[0]
+
+    notes, md = pending.report(o, no_key=True)
+    assert notes[0][0] == "warning" and "FRED_API_KEY" in notes[0][1]
+    assert ("error", o.due[0] + ". Without the key it will be missed.") in notes
+    assert "Skipped" in md and "2026-10-14_boc" in md
+
+    late = pending.owed(cfg, datetime(2026, 10, 14, tzinfo=UTC), fc, sc)
+    assert late.due == [] and [x.split(":")[0] for x in late.missed] == ["2026-10-14_boc"]
+
+
+def test_pending_exit_code_fails_only_when_a_forecast_is_due(monkeypatch: pytest.MonkeyPatch,
+                                                             tmp_path: Path) -> None:
+    from wsl.live import pending
+
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    # The committed config: nothing is due on 2026-10-23 (the 10-28 forecasts exist), but the
+    # 12-09 forecasts are due on 2026-11-30.
+    assert pending.main(["--no-key", "--now", "2026-10-23T19:00:00Z"]) == 0
+    summary = tmp_path / "summary.md"
+    monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
+    monkeypatch.setattr(pending, "SCORES", tmp_path)  # no scores yet
+    assert pending.main(["--no-key", "--now", "2026-11-30T22:30:00Z"]) == 1
+    text = summary.read_text()
+    assert "2026-12-09_fomc: forecast due" in text and "2026-10-28_boc" in text
