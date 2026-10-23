@@ -55,6 +55,7 @@ export default function MapView() {
   const sel = rows.find((r) => r.iso3 === picked)!;
   const irf = catalog.irfs[shock][measure === "equity" ? sel.c.equity : sel.c.fx];
   const sign = measure === "fx" ? sel.c.fx_sign : 1;
+  const mapLabel = `World map of ${measure} responses to ${s.name}; ${rows.filter((r) => r.v).length} countries with data. The table below lists every value.`;
   const series = irf
     ? [
         {
@@ -91,7 +92,8 @@ export default function MapView() {
         </div>
       </div>
       <div className="chart" ref={ref} style={{ background: "var(--surface-2)", borderRadius: 6 }}>
-        <svg viewBox={`0 0 ${width} ${H}`} height={H} role="img" aria-label={`World map of ${measure} responses to ${s.name}; ${rows.filter((r) => r.v).length} countries with data. The table below lists every value.`}>
+        <svg viewBox={`0 0 ${width} ${H}`} height={H} role="img" aria-label={mapLabel}>
+          <title>{mapLabel}</title>
           <defs>
             <pattern id="nodata" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
               <rect width="4" height="4" style={{ fill: "var(--nodata)" }} />

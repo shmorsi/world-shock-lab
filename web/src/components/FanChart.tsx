@@ -93,6 +93,7 @@ export function FanChart({
   return (
     <figure className="chart" ref={ref} style={{ margin: 0 }}>
       <svg viewBox={`0 0 ${W} ${H}`} height={H} role="img" aria-label={summary}>
+        <title>{summary}</title>
         {yt.map((v) => (
           <g key={v}>
             <line x1={M.l} x2={W - M.r} y1={y(v)} y2={y(v)} style={{ stroke: "var(--line)" }} />

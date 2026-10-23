@@ -3,9 +3,14 @@
 from __future__ import annotations
 
 from collections import Counter
-from typing import Annotated
+from typing import TYPE_CHECKING, Annotated, Any
 
 import typer
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from wsl.live.data import LiveData
 
 app = typer.Typer(no_args_is_help=True, add_completion=False, pretty_exceptions_enable=False)
 data_app = typer.Typer(no_args_is_help=True, help="Data layer: fetch, build, report.")
@@ -185,7 +190,8 @@ def export_live() -> None:
     typer.echo(f"wrote {export_live_json()}")
 
 
-def _live_data(download: bool):  # type: ignore[no-untyped-def]
+def _live_data(download: bool) -> tuple[dict[str, Any], LiveData, datetime]:
+    """Fresh live inputs, or a clean stop when a download failed or the FRED key is missing."""
     from wsl.live.data import config, failed_downloads, live_cache, load
     from wsl.live.data import download as fetch_live
     from wsl.live.run import _now

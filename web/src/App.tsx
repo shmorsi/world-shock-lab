@@ -122,6 +122,10 @@ export default function App() {
       <header className="topbar">
         <div className="topbar-in">
           <a className="brand" href="#/">
+            <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect width="32" height="32" rx="6" fill="var(--accent)" />
+              <path d="M4 20 C9 20 10 8 16 8 S23 24 28 18" stroke="var(--accent-ink)" strokeWidth="3" fill="none" />
+            </svg>
             World Shock Lab
           </a>
           <nav className="views" aria-label="Views">

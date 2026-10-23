@@ -121,40 +121,48 @@ def update_readme(block: str, path: Path = README) -> str:
 
 
 def readme_top(f: dict[str, Any], n: Fmt) -> str:
-    """The first screen of the README: what it is, the headline, the ML verdicts, live status."""
-    tsx, s = f["canada"]["tsx"], f["study"]
+    """Key-results table for the README. Every number goes through ``Fmt``."""
+    tsx, s, rep = f["canada"]["tsx"], f["study"], f["replication"]
     fc, sc = f["live"]["forecasts"], f["live"]["scores"]
     first = min((x["decision_date"] for x in fc), default=None)
     scored = sorted({x["event_id"] for x in sc if x.get("score") == 1})
     if not first:
-        live = "**Live:** no forecast has been published yet."
+        live = "No forecast has been published yet, so there is no track record."
     else:
         published = min(x["published_at"] for x in fc if x["decision_date"] == first)
-        live = (f"**Live:** forecasts for the {n.date(first)} Fed and BoC decisions were "
-                f"committed on {n.date(published)}, before the decisions. "
-                + ("No decision has been scored yet, so there is no track record."
-                   if not scored else
-                   f"{n.count(len(scored))} scored so far; a track record takes years."))
+        live = (
+            f"Forecasts for the {n.date(first)} Fed and BoC decisions were committed on "
+            f"{n.date(published)}, before the decisions. "
+            + ("No decision has been scored yet, so there is no track record."
+               if not scored else
+               f"{n.count(len(scored))} scored so far; a track record takes years.")
+        )
     return "\n".join([
-        f"**World Shock Lab measures how {n.count(f['assets'])} global assets respond when the "
-        "Fed, the Bank of Canada or OPEC surprises markets.**",
+        f"Across {n.count(f['assets'])} assets. Each central-bank surprise below is scaled to "
+        "a 10 bp rise in that country's 2-year yield.",
         "",
-        "**Headline:** Canadian stocks react more to the Fed than to the Bank of Canada. "
-        "Scaled to a 10 bp rise in each country's 2-year yield, the S&P/TSX moves "
-        f"{n.num(tsx['fed0'][0], 2, True)}% on the day of a Fed surprise and "
-        f"{n.num(tsx['boc0'][0], 2, True)}% after a BoC one "
-        f"({n.num(tsx['rs0'][0], 2, True)}% with the Rigobon–Sack estimator). "
-        "*Identified causal; the size of the Fed's lead depends on the estimator, its "
-        "direction does not.*",
-        "",
-        f"- **Average move: no evidence ML helps.** On {n.count(s['n_test'])} held-out "
-        "announcements, the temporal CNN's scaled error minus the linear projection's is "
-        f"{n.num(s['mean_diff'], 3, True)} (90% CI {n.band(s['mean_ci'][0], s['mean_ci'][1], 3)}).",
-        f"- **{n.pct(0.05)} tail: quantile boosting wins** on the pre-registered pinball loss, "
-        f"{n.num(s['tail_diff'], 3, True)} against a Gaussian linear model (90% CI "
-        f"{n.band(s['tail_ci'][0], s['tail_ci'][1], 3)}). It is not better calibrated: "
-        f"{n.pct(s['hit_ml'], 1)} of outcomes fall below its {n.pct(0.05)} quantile.",
-        f"- {live}",
+        "| Result | Estimate | Label |",
+        "|---|---|---|",
+        "| S&P/TSX, Fed surprise | "
+        f"{n.num(tsx['fed0'][0], 2, True)}% "
+        f"(90% band {n.band(tsx['fed0'][1], tsx['fed0'][2])}) | Identified causal |",
+        "| S&P/TSX, Bank of Canada surprise | "
+        f"{n.num(tsx['boc0'][0], 2, True)}% "
+        f"(90% band {n.band(tsx['boc0'][1], tsx['boc0'][2])}); "
+        f"Rigobon–Sack {n.num(tsx['rs0'][0], 2, True)}% "
+        f"({n.band(tsx['rs0'][1], tsx['rs0'][2])}) | Identified causal |",
+        "| Mean forecast, temporal CNN minus a linear projection | "
+        f"{n.num(s['mean_diff'], 3, True)} "
+        f"(90% CI {n.band(s['mean_ci'][0], s['mean_ci'][1], 3)}) on "
+        f"{n.count(s['n_test'])} held-out announcements | Model forecast. {s['mean_verdict']} |",
+        f"| {n.pct(0.05)} pinball, quantile boosting minus a Gaussian | "
+        f"{n.num(s['tail_diff'], 3, True)} "
+        f"(90% CI {n.band(s['tail_ci'][0], s['tail_ci'][1], 3)}). "
+        f"The quantile is crossed {n.pct(s['hit_ml'], 1)} of the time | "
+        f"Model forecast. {s['tail_verdict']} |",
+        f"| Published findings that replicate | {n.count(rep['replicated'])} of "
+        f"{n.count(rep['published'])}, sign and 90% band | Credibility check |",
+        f"| Live forecasts | {live} | Model forecast |",
     ])
 
 

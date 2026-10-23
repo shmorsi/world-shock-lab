@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+type: software
+title: World Shock Lab
+abstract: >-
+  Identified Fed, Bank of Canada and OPEC surprises, a pre-registered test of
+  whether a neural net beats a linear projection, and a scenario tool that
+  prints only numbers the estimates contain.
+authors:
+  - given-names: Sherif
+    family-names: Morsi
+repository-code: https://github.com/shmorsi/world-shock-lab
+url: https://shmorsi.github.io/world-shock-lab/
+license: MIT
+version: 0.1.0
+date-released: 2026-10-13
+keywords:
+  - econometrics
+  - local projections
+  - monetary policy
+  - causal inference
+  - machine learning
+  - reproducibility
+  - quantitative finance
