@@ -25,13 +25,15 @@
 
 ## Quick start
 
+Prerequisites: [uv](https://docs.astral.sh/uv/getting-started/installation/) (it installs the pinned Python 3.12) and, for the site, Node 22 (`web/.nvmrc`). No API key is required for the commands below.
+
 ```bash
 make setup                 # Python 3.12 environment via uv (pinned in uv.lock)
 make reproduce             # checks, the committed evaluations and the generated docs (does not refit or refetch)
 cd web && npm ci && npm run dev   # the web app at http://localhost:5173
 ```
 
-A full rebuild from the sources needs a free FRED API key: see [Reproducing](#reproducing).
+A full rebuild from the sources needs a free FRED API key: see [Reproducing](#reproducing). The key is read from `.env` locally and from the `FRED_API_KEY` Actions secret in [`.github/workflows/live.yml`](.github/workflows/live.yml). The scheduled job fails with an error if that secret is missing.
 
 ## Results
 
@@ -129,7 +131,7 @@ flowchart LR
 - **Estimation** (`wsl/estimation/`, `wsl/analysis/`): event-sample local projections with HC3 errors, LP-IV with effective F and Anderson–Rubin sets, a Minnesota proxy BVAR, and stacked state-dependent LPs with wild cluster bootstrap and Benjamini–Hochberg control. Each estimator was checked by Monte Carlo first ([docs/SIMULATION.md](docs/SIMULATION.md)).
 - **Machine learning** (`wsl/ml/`, `wsl/mlstudy/`): the original per-asset benchmark, and a separate pre-registered study of multi-task networks, a temporal CNN and quantile tail models ([docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md), [docs/ML_STUDY_PROTOCOL.md](docs/ML_STUDY_PROTOCOL.md)). The M5 verdict is unchanged.
 - **Scenarios** (`wsl/scenarios/`, `web/src/engine/`): the same engine in Python and TypeScript, kept in step by shared test fixtures. The strategist brief is built from templates, and a test fails if it ever prints a number that is not in the data.
-- **Live mode** (`wsl/live/`, `.github/workflows/live.yml`): a forecast before each decision, scored afterwards, and never edited.
+- **Live mode** (`wsl/live/`, `.github/workflows/live.yml`): a forecast before each decision, scored afterwards, and never edited. The Action runs at 22:30 UTC on weekdays. It reads `FRED_API_KEY` from the repository secret and stops with an error if the secret is missing. Score 1 for a decision is written on the first later weekday run that has every 5-day outcome (USD/CAD waits on the weekly H.10 release).
 
 ## Reproducing
 

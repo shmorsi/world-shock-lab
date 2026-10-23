@@ -186,15 +186,14 @@ def export_live() -> None:
 
 
 def _live_data(download: bool):  # type: ignore[no-untyped-def]
-    from wsl.live.data import config, live_cache, load
+    from wsl.live.data import config, failed_downloads, live_cache, load
     from wsl.live.data import download as fetch_live
     from wsl.live.run import _now
 
     cfg, cache, now = config(), live_cache(), _now()
-    if download:
-        for o in fetch_live(cfg, cache):
-            if o.status in ("failed", "skipped"):
-                typer.echo(f"  {o.status:8} {o.key}: {o.detail}", err=True)
+    if download and (message := failed_downloads(fetch_live(cfg, cache))):
+        typer.echo(message, err=True)
+        raise typer.Exit(code=1)
     return cfg, load(cfg, cache, now), now
 
 

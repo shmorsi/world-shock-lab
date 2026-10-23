@@ -110,8 +110,9 @@ export default function Overview() {
             <ul>
               <li>Causal estimates where identification supports them (high-frequency Fed surprises, OPEC announcements, a validated BoC proxy).</li>
               <li>Reduced-form associations for geopolitical and trade-policy risk, labelled as such.</li>
-              <li>A pre-registered, once-only test of whether machine learning adds anything (it does not, here).</li>
+              <li>Two pre-registered, once-only tests of machine learning against a linear projection: no gain on the average move, and a gain on the 5% tail pinball loss only (see Models).</li>
               <li>Scenarios that add estimated responses, with uncertainty, explicit linearity and out-of-range warnings.</li>
+              <li>Live forecasts for each Fed and Bank of Canada decision, published before the decision and scored afterwards (see Track record).</li>
             </ul>
           </div>
           <div>

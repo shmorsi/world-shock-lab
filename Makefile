@@ -1,6 +1,7 @@
 .PHONY: setup fetch events build report data simulation replicate analyze evaluate-report site docs preview test test-data lint typecheck check web-setup web-check pdf gif live all
 
 setup:            ## create the pinned environment (Python 3.12 via uv)
+	@command -v uv >/dev/null 2>&1 || { echo "uv is not installed. Install it from https://docs.astral.sh/uv/getting-started/installation/ and rerun 'make setup'."; exit 1; }
 	uv sync
 
 fetch:            ## download every source into data/raw (hashes -> data/manifest.json)

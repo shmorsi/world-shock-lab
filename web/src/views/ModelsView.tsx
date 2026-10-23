@@ -1,5 +1,5 @@
 import { useAll } from "../data";
-import { band, plain, signed } from "../format";
+import { band, pct, plain, signed } from "../format";
 import { Chip, Loading, Panel } from "../components/ui";
 
 type Scores = Record<string, number>;
@@ -15,6 +15,7 @@ type Study = {
     difference: Diff;
     verdict: string;
     hit_rate_05: Scores;
+    coverage_90: Scores;
     fissler_ziegel: Scores;
   };
   shap_share: Record<string, number>;
@@ -99,11 +100,13 @@ export default function ModelsView() {
         <p>
           A single fit of the mean model through the validation window, which cannot change the verdict, differs from the linear projection
           by <span className="num">{signed(s.mean.static.point, 3)}</span> (90% CI{" "}
-          <span className="num">{band(s.mean.static.ci90[0], s.mean.static.ci90[1], 3)}</span>). 90% interval coverage is{" "}
-          <span className="num">{plain(s.mean.coverage90.lp, 2)}</span> for the linear projection and{" "}
-          <span className="num">{plain(s.mean.coverage90[meanKey], 2)}</span> for the network. The 5% quantile is crossed{" "}
-          <span className="num">{plain(s.tail.hit_rate_05[tailKey], 2)}</span> of the time (
-          <span className="num">{plain(s.tail.hit_rate_05.gauss_lp, 2)}</span> for the Gaussian model).
+          <span className="num">{band(s.mean.static.ci90[0], s.mean.static.ci90[1], 3)}</span>). 90% interval coverage of the mean model is{" "}
+          <span className="num">{pct(s.mean.coverage90.lp, 1)}</span> for the linear projection and{" "}
+          <span className="num">{pct(s.mean.coverage90[meanKey], 1)}</span> for the network. The 5% quantile is crossed{" "}
+          <span className="num">{pct(s.tail.hit_rate_05[tailKey], 1)}</span> of the time (
+          <span className="num">{pct(s.tail.hit_rate_05.gauss_lp, 1)}</span> for the Gaussian), and the tail model's central interval covers{" "}
+          <span className="num">{pct(s.tail.coverage_90[tailKey], 1)}</span> of outcomes (
+          <span className="num">{pct(s.tail.coverage_90.gauss_lp, 1)}</span> for the Gaussian).
         </p>
       </Panel>
 
@@ -121,7 +124,7 @@ export default function ModelsView() {
               {Object.entries(s.shap_share).map(([k, v]) => (
                 <tr key={k}>
                   <td>{k.replace(/_/g, " ")}</td>
-                  <td className="num">{plain(v, 2)}</td>
+                  <td className="num">{pct(v, 0)}</td>
                 </tr>
               ))}
             </tbody>

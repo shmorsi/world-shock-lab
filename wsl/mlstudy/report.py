@@ -230,6 +230,7 @@ def _web(doc: dict[str, Any]) -> dict[str, Any]:
             "difference": doc["tail"]["difference_ml_minus_gauss"],
             "verdict": doc["tail"]["verdict"],
             "hit_rate_05": doc["tail"]["hit_rate_05"],
+            "coverage_90": doc["tail"]["coverage_90"],
             "fissler_ziegel": doc["tail"]["fissler_ziegel"],
         },
         "shap_share": doc["shap"]["share"],

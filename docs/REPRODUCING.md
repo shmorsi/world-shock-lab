@@ -2,6 +2,8 @@
 
 ## One command
 
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) first. `make setup` fails with the install link if `uv` is not on `PATH`. uv reads `.python-version` and creates the Python 3.12 environment from `uv.lock` (`uv sync --locked` in CI). The site needs Node 22, the version in `web/.nvmrc` and in the GitHub Actions workflows.
+
 ```bash
 make setup                 # Python 3.12 + pinned packages via uv (uv.lock)
 cp .env.example .env       # add a free FRED API key

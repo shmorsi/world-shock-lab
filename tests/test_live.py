@@ -216,6 +216,19 @@ def _cut(data: LiveData, last: str) -> LiveData:
 
 
 # ------------------------------------------------------------- the workflow's skip report
+def test_live_run_stops_before_writing_when_a_download_fails() -> None:
+    from wsl.data.fetch import FetchOutcome
+    from wsl.live.data import failed_downloads
+
+    assert failed_downloads([FetchOutcome("fred/observations/DGS2", "unchanged")]) is None
+    missing = failed_downloads([
+        FetchOutcome("fred/observations/DGS2", "skipped", "FRED_API_KEY not set")])
+    assert missing is not None and "FRED_API_KEY" in missing and "Nothing was published" in missing
+    blocked = failed_downloads([FetchOutcome("yahoo/RY", "failed", "HTTP 429")])
+    assert blocked is not None and "HTTP 429" in blocked
+    assert "FRED_API_KEY is not set" not in blocked
+
+
 def test_pending_lists_what_a_skipped_run_owes(tmp_path: Path) -> None:
     from wsl.live import pending
 
