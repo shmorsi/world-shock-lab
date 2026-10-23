@@ -13,6 +13,8 @@ from wsl.report.docs import (
     START,
     TLDR_END,
     TLDR_START,
+    TOP_END,
+    TOP_START,
     render_all,
     unregistered_numbers,
 )
@@ -41,6 +43,7 @@ def test_no_number_is_typed_by_hand(rendered: dict) -> None:  # type: ignore[typ
             bad = unregistered_numbers(_block(text), fmts["readme"])
             bad += unregistered_numbers(_block(text, TLDR_START, TLDR_END), fmts["tldr"])
             bad += unregistered_numbers(_block(text, LEARNED_START, LEARNED_END), fmts["learned"])
+            bad += unregistered_numbers(_block(text, TOP_START, TOP_END), fmts["top"])
         elif path.name == "RESEARCH_NOTE.md":
             bad = unregistered_numbers(text, fmts["note"])
         else:
@@ -53,3 +56,11 @@ def test_the_check_catches_an_invented_number(rendered: dict) -> None:  # type: 
     tampered = note.replace("## 1. The question",
                             "Stocks fell 3.7% that day.\n\n## 1. The question")
     assert "3.7" in unregistered_numbers(tampered, rendered["fmts"]["note"])
+
+
+def test_readme_top_states_the_live_status(rendered: dict) -> None:  # type: ignore[type-arg]
+    from wsl.report.facts import facts
+
+    top = _block(rendered["docs"][README], TOP_START, TOP_END)
+    if not facts()["live"]["scores"]:
+        assert "no track record" in top

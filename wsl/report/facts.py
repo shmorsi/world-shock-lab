@@ -255,4 +255,5 @@ def facts() -> dict[str, Any]:
                             ev_cfg["splits"]["test"]["end"][:4]),
                    "grid": live_cfg["grid_bp"], "horizons": live_cfg["horizons"]},
         "live": {"forecasts": [_load(p) for p in forecasts], "scores": [_load(p) for p in scores]},
+        "assets": len(_load(CATALOG)["outcomes"]),  # outcomes with responses on the site
     }

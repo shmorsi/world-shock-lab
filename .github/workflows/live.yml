@@ -23,18 +23,20 @@ jobs:
     env:
       FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
     steps:
-      # Without the key there is no US 2-year or USD/CAD data, so nothing can be scored or
-      # forecast. Skip with a visible warning instead of failing every weekday. Until the secret
-      # is added, run `uv run wsl live run` locally and push (docs/SHIP_CHECKLIST.md).
-      - name: Check for the FRED API key
-        if: env.FRED_API_KEY == ''
-        run: echo "::warning::FRED_API_KEY secret is not set; live forecasts and scores were skipped. Add it under Settings > Secrets and variables > Actions, or run 'uv run wsl live run' locally and push."
       - uses: actions/checkout@v4
-        if: env.FRED_API_KEY != ''
       - uses: astral-sh/setup-uv@v6
-        if: env.FRED_API_KEY != ''
         with:
           enable-cache: true
+
+      # Without the key there is no US 2-year or USD/CAD data, so nothing can be scored or
+      # forecast. The run then says so in the log and the job summary, lists the forecasts and
+      # scores it skipped, and fails only when a forecast is due: a forecast that misses its
+      # 24-hour deadline can never count, while scores can be computed later. Until the secret
+      # is added, run `uv run wsl live run` locally and push (docs/SHIP_CHECKLIST.md).
+      - name: Report the skip (FRED_API_KEY secret is not set)
+        if: env.FRED_API_KEY == ''
+        run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending --no-key
+
       - if: env.FRED_API_KEY != ''
         run: uv sync --locked --no-dev
       - name: Score finished decisions and publish due forecasts
@@ -56,3 +58,8 @@ jobs:
           git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"
           git push
           gh workflow run pages.yml --ref "${GITHUB_REF_NAME}"
+      # Runs even if a step above failed: what is published, what is still owed, and an error
+      # if a forecast that is due was not written.
+      - name: Report what is still owed
+        if: always() && env.FRED_API_KEY != ''
+        run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending
