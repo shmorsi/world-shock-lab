@@ -1,6 +1,6 @@
 # Ship checklist
 
-**Status (2026-10-13):** the repository is public at https://github.com/shmorsi/world-shock-lab with all protocol tags, GitHub Pages is on, and workflows may commit. Still open: the `FRED_API_KEY` secret (step 3.1) and the licensing questions in step 1, which were settled for the published record (see data/SOURCES.md O-3/O-4) but remain open for the site's display. Until the secret exists, the daily `live` workflow skips with a warning; run `uv run wsl live run` locally and push instead.
+**Status (2026-10-13):** the repository is public at https://github.com/shmorsi/world-shock-lab with all protocol tags, GitHub Pages is on, and workflows may commit. Still open: the `FRED_API_KEY` secret (step 3.1) and the licensing questions in step 1, which were settled for the published record (see data/SOURCES.md O-3/O-4) but remain open for the site's display. Until the secret exists, the daily `live` workflow downloads nothing; its log and job summary say so and list every forecast and score it skipped, and the run fails if a forecast is due (a forecast that misses its 24-hour deadline can never count). Run `uv run wsl live run` locally and push instead.
 
 ## 1. Decide three licensing questions (data/SOURCES.md §6)
 
@@ -35,6 +35,7 @@ Pushing the tags (`protocol-v1` … `protocol-v4`) publishes the pre-registratio
 ## 4. Check the live workflow
 
 - Run it once by hand (**Actions → live → Run workflow**). On a normal day it prints "No new forecasts or scores today."
+- Every run ends with a "Live mode" job summary: forecasts due, forecasts missed, decisions waiting for scores, and the next forecast window. `python -m wsl.live.pending` prints the same locally.
 - From 2026-11-29 it should publish the 2026-12-09 forecasts on its own, ten days ahead.
 - After 2026-10-28, it should add `live/scores/2026-10-28_*_score1.json` once all 5-day outcomes are published. That is typically within 6–10 days, because H.10 exchange rates are released weekly.
 - **If Yahoo blocks the GitHub runner** (the job fails while downloading `yahoo/*`), run `uv run wsl live run` locally and push. Forecasts must be committed at least 24 hours before each decision.
