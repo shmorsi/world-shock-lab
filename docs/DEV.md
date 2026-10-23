@@ -37,3 +37,7 @@ Two README images are rasters of generated SVGs, so GitHub can display them: `do
 - provenance fields already recorded in `web/public/data/` (see [COMMIT_MAP.md](COMMIT_MAP.md))
 
 `wsl evaluate --final` and `wsl mlstudy --final` refuse a second run unless a reason is logged. Do not hand-edit their outputs.
+
+## Compute
+
+`make reproduce` reads the committed scores and does not train. The lockfile installs CPU torch, not a CUDA wheel. The files in `results/final_eval/` and `results/mlstudy/` do not store a wall-clock for those fits, so this guide does not state one. Leave both protocols as tagged. A later model needs its own protocol tag and must not reopen these scores.

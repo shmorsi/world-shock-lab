@@ -83,10 +83,11 @@ cd web && npm ci && npm run dev
 - **One look at each test set.** `wsl evaluate --final` and `wsl mlstudy --final` refuse a second run unless a reason is logged. The committed files in `results/final_eval/` and `results/mlstudy/` are the record.
 - **Locked outputs.** Published forecasts in `live/forecasts/` and scores in `live/scores/` are write-once. Result files carry the input hashes, the code version and the protocol hash. Do not edit them by hand. [docs/DEV.md](docs/DEV.md) lists the files a change should leave alone.
 - **CI.** Every pull request runs ruff, mypy, pytest, the web typecheck, the web tests, the production build, and axe-core. The Pages workflow builds the same site from the committed data and deploys it from `main`.
+- **Compute.** The lockfile installs CPU torch. The committed scores are the record, and the result files do not store a wall-clock for those fits, so none is stated. `make reproduce` does not train.
 
 ## What I'd do next
 
-Future work, not a result. A language agent could draft the strategist brief from the catalogue, still forbidden by the existing test from printing a digit the engine did not compute. A new protocol tag could ask whether conformal or regime-conditional quantiles calibrate the tail, without reopening the frozen tests. Live mode could add another central bank once a public surprise and a licence that allows the score file both exist. None of that is in the estimates above.
+Future work, not a result. A language agent could draft the strategist brief from the catalogue, still forbidden by the existing test from printing a digit the engine did not compute. A new protocol tag could ask whether conformal or regime-conditional quantiles calibrate the tail, without reopening the frozen tests. A larger model would be that kind of new protocol, with its own tag, and would not replace the scores above. Live mode could add another central bank once a public surprise and a licence that allows the score file both exist. None of that is in the estimates above.
 
 ## Results
 
