@@ -58,6 +58,19 @@ def test_the_check_catches_an_invented_number(rendered: dict) -> None:  # type: 
     assert "3.7" in unregistered_numbers(tampered, rendered["fmts"]["note"])
 
 
+def test_readme_images_are_files() -> None:
+    """Every local image the README points at is in the tree, including the rasters."""
+    import re
+
+    from wsl.paths import ROOT
+
+    text = README.read_text()
+    paths = re.findall(r'(?:src="|\]\()((?:docs/)[^)"\s]+\.(?:png|gif|svg))', text)
+    assert paths
+    missing = [p for p in paths if not (ROOT / p).is_file()]
+    assert missing == []
+
+
 def test_readme_top_states_the_live_status(rendered: dict) -> None:  # type: ignore[type-arg]
     from wsl.report.facts import facts
 

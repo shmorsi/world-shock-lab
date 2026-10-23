@@ -183,7 +183,7 @@ def readme_tldr(f: dict[str, Any], n: Fmt) -> str:
         f"projection's is {n.num(s['tail_diff'], 3, True)} "
         f"(90% CI {n.band(s['tail_ci'][0], s['tail_ci'][1], 3)}): {s['tail_verdict']}.",
         "",
-        "![Held-out scaled error of the selected models and the linear baselines](docs/figures/fig_ml_study.svg)",
+        "![Held-out scaled error of the selected models and the linear baselines](docs/figures/fig_ml_study.png)",
         "",
         "| Question | Selected model | Score | Baseline | Difference (90% CI) | Verdict |",
         "|---|---|---:|---:|---|---|",

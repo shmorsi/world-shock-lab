@@ -48,9 +48,6 @@ class EventData:
     targets: pd.DataFrame  # index = events index; columns "<asset>|h<h>"
     asset_vol: pd.DataFrame  # realized vol per asset, columns = asset names
 
-    def target_cols(self) -> list[str]:
-        return [f"{a}|h{h}" for a in ASSET_NAMES for h in HORIZONS]
-
 
 def _value_before(s: WindowSeries, ts: pd.Series, lag: int = 0) -> np.ndarray:
     """x (transformed level) at the last observation strictly before each event, ``lag``

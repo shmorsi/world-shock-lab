@@ -48,9 +48,3 @@ def parse(specs: list[SeriesSpec], cache: RawCache) -> Parsed:
         frames.append(obs_frame(s.id, [r["date"] for r in rows], values))
         artifact_of[s.id] = key
     return Parsed(obs=concat_obs(frames), artifact_of=artifact_of)
-
-
-def copyright_tags(cache: RawCache, fred_key: str) -> list[str]:
-    content, _ = cache.read(f"fred/tags/{fred_key}")
-    tags = json.loads(content).get("tags", [])
-    return sorted(t["name"] for t in tags if t.get("group_id") == "cc")

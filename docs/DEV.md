@@ -26,7 +26,7 @@ With the site preview running, `cd web && npm run a11y` checks WCAG. Do not pass
 
 `uv run wsl report docs` is how a number enters the marked regions of `README.md`, `docs/RESEARCH_NOTE.md` and `docs/RESUME_BULLETS.md`. Change the wording in `wsl/report/docs.py`, then run the generator. `tests/test_docs.py` fails if a marked region contains a number the formatter did not emit, or if a generated file differs from a fresh render.
 
-The README hero is a raster of `docs/figures/fig1_canada_lens.svg` (`docs/figures/fig1_canada_lens.png`). Re-export the PNG when that SVG is regenerated. The SVG is the figure the generator writes.
+Two README images are rasters of generated SVGs, so GitHub can display them: `docs/figures/fig1_canada_lens.png` and `docs/figures/fig_ml_study.png`. Re-export a PNG when its SVG is regenerated. The SVG remains the figure the generator writes. The research note and the ML study note keep the SVG paths.
 
 ## Files a change should leave alone
 

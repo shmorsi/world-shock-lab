@@ -28,11 +28,13 @@ Dependent = Literal["change", "level"]
 
 
 def lag_frame(s: pd.Series, lags: int, prefix: str) -> pd.DataFrame:
+    """Columns ``{prefix}_l1`` through ``{prefix}_l{lags}``, each a lag of ``s``."""
     return pd.DataFrame({f"{prefix}_l{lag}": s.shift(lag) for lag in range(1, lags + 1)},
                         index=s.index)
 
 
 def lead_dependent(y: pd.Series, h: int, dependent: Dependent) -> pd.Series:
+    """Horizon-h left-hand side: the lead, or that lead minus the lag-1 level."""
     lead = y.shift(-h)
     return lead - y.shift(1) if dependent == "change" else lead
 
@@ -52,6 +54,7 @@ def lp(
     outcome: str = "",
     shock_name: str = "",
 ) -> IRF:
+    """Impulse response of ``y`` to ``shock`` at each horizon, with lags and robust errors."""
     if not y.index.equals(shock.index):
         raise ValueError("y and shock must share the same (time-ordered) index")
     parts: list[pd.Series | pd.DataFrame] = [

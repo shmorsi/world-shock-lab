@@ -102,7 +102,5 @@ class Http:
         raise FetchError(f"{method} {redact_url(full)} failed: {last_error}")
 
     def get(self, url: str, **kw: Any) -> Fetched:
+        """GET ``url``. Keyword arguments are forwarded to :meth:`request`."""
         return self.request("GET", url, **kw)
-
-    def post_json(self, url: str, payload: Any) -> Fetched:
-        return self.request("POST", url, json_body=payload)

@@ -22,4 +22,5 @@ def bh_qvalues(p: NDArray[np.float64]) -> NDArray[np.float64]:
 
 
 def bh_reject(p: NDArray[np.float64], q: float = 0.10) -> NDArray[np.bool_]:
+    """True where the Benjamini-Hochberg q-value is at or below ``q``."""
     return bh_qvalues(p) <= q

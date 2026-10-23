@@ -28,6 +28,8 @@ LINEARITY = ("Combined by adding each shock's estimated response. This assumes e
 
 @dataclass
 class OutcomeResult:
+    """One outcome's combined response at the scenario horizon."""
+
     id: str
     mean: float
     se: float
@@ -39,6 +41,8 @@ class OutcomeResult:
 
 @dataclass
 class ScenarioResult:
+    """Combined responses, the weakest evidence label in use, and the warnings."""
+
     horizon: int
     evidence: str
     warnings: list[str] = field(default_factory=list)
@@ -46,6 +50,10 @@ class ScenarioResult:
 
 
 def compose(catalog: dict[str, Any], sizes: dict[str, float], horizon: int) -> ScenarioResult:
+    """Add each shock's scaled response at ``horizon``. A size of zero is ignored.
+
+    With no active shock the result has no outcomes and the hypothetical-scenario label.
+    """
     shocks = {s["id"]: s for s in catalog["shocks"]}
     used = {k: v for k, v in sizes.items() if v != 0}
     if not used:

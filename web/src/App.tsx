@@ -149,6 +149,13 @@ export default function App() {
           {meta.data && ` Built ${meta.data.built_at.replace("T", " ").replace("Z", " UTC")} from commit ${meta.data.git_sha.slice(0, 7)}.`}
         </span>
         <span>
+          <a href="https://github.com/shmorsi/world-shock-lab">Source</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/RESEARCH_NOTE.md">Research note</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/LIMITATIONS.md">Limitations</a>
+        </span>
+        <span>
           Data: Jarociński &amp; Karadi (CC BY 4.0), Bauer &amp; Swanson, Känzig (CC BY 4.0), Baumeister &amp; Hamilton, Caldara &amp; Iacoviello, Bank of Canada, Statistics Canada, OECD, World Bank, FRED. This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Not investment advice.
         </span>
       </footer>

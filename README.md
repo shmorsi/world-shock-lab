@@ -111,7 +111,7 @@ On 168 held-out announcements (2019–2026), the temporal CNN's pooled scaled er
 
 Quantile gradient boosting's 5% pinball loss minus the Gaussian linear projection's is −0.112 (90% CI −0.228 to −0.010): ML adds value on the 5% tail.
 
-![Held-out scaled error of the selected models and the linear baselines](docs/figures/fig_ml_study.svg)
+![Held-out scaled error of the selected models and the linear baselines](docs/figures/fig_ml_study.png)
 
 | Question | Selected model | Score | Baseline | Difference (90% CI) | Verdict |
 |---|---|---:|---:|---|---|

@@ -24,7 +24,7 @@ from wsl.data.registry import load_derived, load_registry
 from wsl.data.schemas import BOC_FAD, FOMC, OBS, OPEC, SERIES
 from wsl.data.sources.base import Artifact
 from wsl.data.transforms import datetimes_to_ns
-from wsl.paths import CLEAN_DIR, EVENTS_DIR, MANIFEST, ROOT
+from wsl.paths import CLEAN_DIR, EVENTS_DIR, MANIFEST
 from wsl.shocks import sources as shock_sources
 
 NEEDED = (
@@ -167,8 +167,3 @@ def _by_source(specs: list[Any]) -> dict[str, list[Any]]:
     return out
 
 
-def manifest_unchanged() -> bool:
-    """True when prepare restored the committed manifest."""
-    import subprocess
-    diff = subprocess.run(["git", "diff", "--quiet", "--", "data/manifest.json"], cwd=ROOT)
-    return diff.returncode == 0
