@@ -34,10 +34,6 @@ class SeriesSpec:
     country: str | None = None
     group_key: str | None = None  # shared artifact key for expanded (multi-country) entries
 
-    @property
-    def has_market_close(self) -> bool:
-        return bool(_HHMM.match(self.obs_time))
-
 
 def _expand(entry: dict[str, Any]) -> list[dict[str, Any]]:
     codes = entry.pop("expand", None)

@@ -61,7 +61,7 @@ type Theme = "system" | "light" | "dark";
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(() => {
     try {
-      return (localStorage.getItem("wsl-theme") as Theme) || "system";
+      return (localStorage.getItem("wsl-theme") as Theme) || "dark";
     } catch {
       return "system";
     }
@@ -122,6 +122,10 @@ export default function App() {
       <header className="topbar">
         <div className="topbar-in">
           <a className="brand" href="#/">
+            <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect width="31" height="31" x="0.5" y="0.5" fill="none" stroke="currentColor" />
+              <path d="M4 20 C9 20 10 8 16 8 S23 24 28 18" stroke="currentColor" strokeWidth="2" fill="none" />
+            </svg>
             World Shock Lab
           </a>
           <nav className="views" aria-label="Views">
@@ -143,6 +147,19 @@ export default function App() {
         <span>
           Every number on this site is produced by the project's code from pinned public data; nothing is typed in by hand.
           {meta.data && ` Built ${meta.data.built_at.replace("T", " ").replace("Z", " UTC")} from commit ${meta.data.git_sha.slice(0, 7)}.`}
+        </span>
+        <span>
+          <a href="https://github.com/shmorsi/world-shock-lab">Source</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/RESEARCH_NOTE.md">Research note</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/METHOD.md">Methodology</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/MODEL_CARD.md">Model card</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/PROVENANCE.md">Provenance</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/LIMITATIONS.md">Limitations</a>
         </span>
         <span>
           Data: Jarociński &amp; Karadi (CC BY 4.0), Bauer &amp; Swanson, Känzig (CC BY 4.0), Baumeister &amp; Hamilton, Caldara &amp; Iacoviello, Bank of Canada, Statistics Canada, OECD, World Bank, FRED. This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Not investment advice.

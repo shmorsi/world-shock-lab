@@ -123,10 +123,6 @@ class ClaimResult:
             return "replicated" if sig else "same sign"
         return "opposite" if sig else "opposite (ns)"
 
-    @property
-    def t_stat(self) -> float:
-        return float(self.est / self.irf.se[self.claim.horizon])
-
 
 def _events(family: Family) -> pd.DataFrame:
     if family == "fomc":

@@ -14,7 +14,7 @@ const W = 1100;
 const H = 680;
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1, colorScheme: "light" });
+const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1, colorScheme: "dark" });
 const gif = GIFEncoder();
 let frames = 0;
 

@@ -373,6 +373,3 @@ class QuantileGBM:
             m = self.models[(str(c), float(tau))]
             out[rows] = m.predict(self._fill(X[rows], self.medians[str(c)]))
         return out
-
-    def predict_quantiles(self, panel: Panel, mask: np.ndarray) -> dict[float, np.ndarray]:
-        return {tau: self.predict(panel, mask, tau) for tau in self.quantiles}

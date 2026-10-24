@@ -93,6 +93,24 @@ def download(cfg: dict[str, Any], cache: RawCache, http: Http | None = None
     return [fetch_artifact(a, cache, http, repin=True) for a in arts]
 
 
+def failed_downloads(outcomes: list[FetchOutcome]) -> str | None:
+    """Why a live run must stop, or None when every download succeeded.
+
+    A skipped FRED series means ``FRED_API_KEY`` is unset. A score file can never be edited
+    once it is published, so the run stops before writing anything when a download failed.
+    """
+    bad = [o for o in outcomes if o.status in ("failed", "skipped")]
+    if not bad:
+        return None
+    lines = [f"  {o.status:<8} {o.key}: {o.detail}" for o in bad]
+    if any("FRED_API_KEY" in o.detail for o in bad):
+        hint = ("FRED_API_KEY is not set. Add it to .env, or as the GitHub Actions secret, "
+                "and rerun. Nothing was published or scored.")
+    else:
+        hint = "Nothing was published or scored. Fix the downloads and rerun."
+    return "Live run stopped; these downloads did not succeed:\n" + "\n".join(lines) + "\n" + hint
+
+
 def _series_from(spec_id: str, values: pd.Series, obs_time: str, tz: str, units: str
                  ) -> WindowSeries:
     return make_series(spec_id, values, obs_time, tz, kind_for(units), ASSUMED.get(spec_id))

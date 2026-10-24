@@ -40,7 +40,7 @@ export default function Overview() {
 
   return (
     <>
-      <section className="panel" aria-labelledby="hero">
+      <section className="panel hero" aria-labelledby="hero">
         <div className="eyebrow">Research lab · identified shocks, with a Canada lens</div>
         <h1 id="hero">How the world, and Canada, reacts to economic shocks</h1>
         <p className="lede">
@@ -48,6 +48,29 @@ export default function Overview() {
           identification and local projections, then turned into scenarios a strategist can use. Every estimate is labelled for the kind
           of evidence it is, and the results that disappoint are reported alongside the ones that do not.
         </p>
+        <dl className="stats">
+          <div>
+            <dt>S&amp;P/TSX, Fed surprise</dt>
+            <dd className="big num">{signed(tsxFed.m)}%</dd>
+            <dd className="hint">90% band {band(tsxFed.lo, tsxFed.hi)}. Scaled to a 10 bp rise in the US 2-year yield.</dd>
+          </div>
+          <div>
+            <dt>S&amp;P/TSX, Bank of Canada</dt>
+            <dd className="big num">{signed(tsxBoc.m)}%</dd>
+            <dd className="hint">
+              90% band {band(tsxBoc.lo, tsxBoc.hi)}. Rigobon–Sack {signed(tsxRs[0])}%.
+            </dd>
+          </div>
+          <div>
+            <dt>Published findings that replicate</dt>
+            <dd className="big num">
+              {replicated} of {claims.length}
+            </dd>
+            <dd className="hint">
+              Sign and 90% band. {substantiveOk} of {substantive.length} are not true almost by construction.
+            </dd>
+          </div>
+        </dl>
         <div>
           <a className="btn" href="#/scenario">
             Build a scenario
@@ -110,8 +133,9 @@ export default function Overview() {
             <ul>
               <li>Causal estimates where identification supports them (high-frequency Fed surprises, OPEC announcements, a validated BoC proxy).</li>
               <li>Reduced-form associations for geopolitical and trade-policy risk, labelled as such.</li>
-              <li>A pre-registered, once-only test of whether machine learning adds anything (it does not, here).</li>
+              <li>Two pre-registered, once-only tests of machine learning against a linear projection: no gain on the average move, and a gain on the 5% tail pinball loss only (see Models).</li>
               <li>Scenarios that add estimated responses, with uncertainty, explicit linearity and out-of-range warnings.</li>
+              <li>Live forecasts for each Fed and Bank of Canada decision, published before the decision and scored afterwards (see Track record).</li>
             </ul>
           </div>
           <div>

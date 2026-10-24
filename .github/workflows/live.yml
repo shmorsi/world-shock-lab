@@ -1,9 +1,20 @@
 name: live
 
 # Pre-registered live mode (docs/EVALUATION_PROTOCOL.md §8, config/live.yaml).
-# Every weekday after the North American closes: download fresh data, score decisions whose
-# outcomes are now published, publish forecasts for decisions in the next ten days, commit the
-# new files (never editing old ones) and redeploy the site.
+#
+# Schedule: 22:30 UTC, Monday–Friday (`30 22 * * 1-5`). That is 18:30 in America/New_York
+# while daylight time is in effect (through 2026-11-01) and 17:30 after the clocks change.
+# GitHub often starts the run late; recent runs of this workflow began about 1–2 hours
+# after 22:30 UTC. There is no Saturday or Sunday run.
+#
+# The 2026-10-28 Bank of Canada announcement is 09:45 America/Toronto (13:45 UTC) and the
+# FOMC statement is 14:00 America/New_York (18:00 UTC), so both are over before that day's
+# scheduled run. Score 1 is still not written that day. It is written on the first later
+# weekday run whose download contains every h = 5 outcome (USD/CAD is the weekly H.10
+# rate, so the protocol expects this about 6–10 days after the decision). Score 2, FOMC
+# only, is written on the first run after Jarociński–Karadi's file lists that meeting.
+# Each file is written once and never edited. The job then commits it and starts the
+# Pages workflow.
 on:
   schedule:
     - cron: "30 22 * * 1-5"
@@ -19,6 +30,9 @@ concurrency:
 
 jobs:
   live:
+    # Schedule events run on the default branch. A manual run has to be on main as well,
+    # so a score cannot be committed from another branch.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
@@ -28,25 +42,30 @@ jobs:
         with:
           enable-cache: true
 
-      # Without the key there is no US 2-year or USD/CAD data, so nothing can be scored or
-      # forecast. The run then says so in the log and the job summary, lists the forecasts and
-      # scores it skipped, and fails only when a forecast is due: a forecast that misses its
-      # 24-hour deadline can never count, while scores can be computed later. Until the secret
-      # is added, run `uv run wsl live run` locally and push (docs/SHIP_CHECKLIST.md).
-      - name: Report the skip (FRED_API_KEY secret is not set)
-        if: env.FRED_API_KEY == ''
-        run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending --no-key
+      # The secret is the only place the key is read. An empty value fails the job after
+      # the log and the job summary list every forecast and score this run could not touch.
+      - name: Fail if the FRED_API_KEY secret is missing
+        if: success() && env.FRED_API_KEY == ''
+        run: |
+          uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending --no-key || true
+          echo "::error::FRED_API_KEY secret is not set. Add it under Settings > Secrets and variables > Actions. This job downloads nothing, publishes no forecast, and scores nothing until that secret exists."
+          exit 1
 
-      - if: env.FRED_API_KEY != ''
+      - name: Install
+        if: success() && env.FRED_API_KEY != ''
         run: uv sync --locked --no-dev
+
       - name: Score finished decisions and publish due forecasts
-        if: env.FRED_API_KEY != ''
+        if: success() && env.FRED_API_KEY != ''
         run: uv run --no-dev wsl live run
+
       - name: Commit new forecasts and scores
-        if: env.FRED_API_KEY != ''
+        if: success() && env.FRED_API_KEY != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # actions/checkout leaves a detached HEAD. A bare `git push` then has no branch
+          # to update, so the 2026-10-28 scores would never reach main. Name the branch.
           git add live
           if git diff --cached --quiet; then
             echo "No new forecasts or scores today."
@@ -56,10 +75,11 @@ jobs:
           git config user.name "world-shock-lab live"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"
-          git push
+          git push origin "HEAD:${GITHUB_REF_NAME}"
           gh workflow run pages.yml --ref "${GITHUB_REF_NAME}"
-      # Runs even if a step above failed: what is published, what is still owed, and an error
-      # if a forecast that is due was not written.
+
+      # Runs even if a step above failed, once the key is present: what is published, what
+      # is still owed, and an error if a forecast that is due was not written.
       - name: Report what is still owed
         if: always() && env.FRED_API_KEY != ''
         run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending

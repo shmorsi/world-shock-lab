@@ -6,9 +6,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from wsl.mlstudy.evaluate import FINAL_PATH, VAL_PATH
 from wsl.paths import ROOT
-from wsl.report.figures import BLUE, GRID, INK, INK2, MUTED, ORANGE, Svg
+from wsl.report.figures import GRID, INK, INK2, Svg, palette
 
 DOC = ROOT / "docs" / "ML_STUDY.md"
 FIG = ROOT / "docs" / "figures" / "fig_ml_study.svg"
@@ -40,8 +42,9 @@ def _short(key: str) -> str:
             "hist": "Historical quantile", "gauss_lp": "Gaussian linear projection"}.get(name, name)
 
 
-def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg) -> int:
-    svg.text(16, y, title, 13, INK, weight=600)
+def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg, *,
+          ink: str = INK, ink2: str = INK2, grid: str = GRID) -> int:
+    svg.text(16, y, title, 13, ink, weight=600)
     y += 22
     vals = [v for _nme, v, _c in rows]
     lo, hi = min(vals) - 0.02, max(vals) + 0.04
@@ -51,34 +54,37 @@ def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg) -> i
         return left + (v - lo) / (hi - lo) * (svg.w - left - right)
 
     for name, val, col in rows:
-        svg.text(16, y + 4, name, 12, INK2)
-        svg.line(left, y, x(val), y, GRID, 1)
+        svg.text(16, y + 4, name, 12, ink2)
+        svg.line(left, y, x(val), y, grid, 1)
         svg.raw(f'<circle cx="{x(val):.1f}" cy="{y:.1f}" r="5.5" fill="{col}"/>')
-        svg.text(x(val) + 10, y + 4, _n(val), 11, INK2)
+        svg.text(x(val) + 10, y + 4, _n(val), 11, ink2)
         y += 26
     return y + 8
 
 
-def _figure(doc: dict[str, Any], path: Path) -> Path:
+def _figure(doc: dict[str, Any], path: Path, *, dark: bool = False) -> Path:
+    """Selected-model chart. ``dark=True`` is the README raster; the print SVG stays light."""
+    p = palette(dark)
     mean = doc["mean"]["pooled_scaled_mae"]
     tail = doc["tail"]["pooled_scaled_pinball"]
     mean_key = doc["chosen"]["mean"]
     tail_key = doc["chosen"]["tail"]
-    svg = Svg(720, 340, "Held-out scaled error of the selected models and their baselines")
+    svg = Svg(720, 340, "Held-out scaled error of the selected models and their baselines",
+              font=p["font"], bg=p["bg"])
     svg.text(16, 22, "Held-out test set: selected model against the pre-specified baselines", 14,
-             INK, weight=600)
+             p["ink"], weight=600)
     svg.text(16, 40, "Lower is better. Scales are the training-split loss of a naive forecast.",
-             11.5, MUTED)
+             11.5, p["muted"])
     y = _bars("Mean response, pooled scaled MAE", [
-        ("Predict zero", mean["zero"], MUTED),
-        ("Linear projection", mean["lp"], BLUE),
-        (_short(mean_key), mean[mean_key], ORANGE),
-    ], 64, svg)
+        ("Predict zero", mean["zero"], p["muted"]),
+        ("Linear projection", mean["lp"], p["blue"]),
+        (_short(mean_key), mean[mean_key], p["orange"]),
+    ], 64, svg, ink=p["ink"], ink2=p["ink2"], grid=p["grid"])
     _bars("5% tail, pooled scaled pinball", [
-        ("Historical quantile", tail["hist"], MUTED),
-        ("Gaussian linear projection", tail["gauss_lp"], BLUE),
-        (_short(tail_key), tail[tail_key], ORANGE),
-    ],     y, svg)
+        ("Historical quantile", tail["hist"], p["muted"]),
+        ("Gaussian linear projection", tail["gauss_lp"], p["blue"]),
+        (_short(tail_key), tail[tail_key], p["orange"]),
+    ], y, svg, ink=p["ink"], ink2=p["ink2"], grid=p["grid"])
     return svg.save(path)
 
 
@@ -230,6 +236,7 @@ def _web(doc: dict[str, Any]) -> dict[str, Any]:
             "difference": doc["tail"]["difference_ml_minus_gauss"],
             "verdict": doc["tail"]["verdict"],
             "hit_rate_05": doc["tail"]["hit_rate_05"],
+            "coverage_90": doc["tail"]["coverage_90"],
             "fissler_ziegel": doc["tail"]["fissler_ziegel"],
         },
         "shap_share": doc["shap"]["share"],
@@ -244,6 +251,111 @@ def _web(doc: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+CARD = ROOT / "docs" / "MODEL_CARD.md"
+
+
+def model_card(doc: dict[str, Any]) -> str:
+    """Reviewer-facing card. Every score is read from the committed study file."""
+    mean, tail = doc["mean"], doc["tail"]
+    mk, tk = doc["chosen"]["mean"], doc["chosen"]["tail"]
+    md, td = mean["difference_ml_minus_lp"], tail["difference_ml_minus_gauss"]
+    ev = yaml.safe_load((ROOT / "config" / "evaluation.yaml").read_text())
+    cfg = yaml.safe_load((ROOT / "config" / "ml_study.yaml").read_text())
+    splits, rule = ev["splits"], cfg["decision_rule"]["bootstrap"]
+    counts = doc["counts"]
+    q_mean, q_tail = cfg["questions"]["mean"], cfg["questions"]["tail"]
+    return "\n".join([
+        "# Model card",
+        "",
+        "Generated from `results/mlstudy/final.json` by `wsl.mlstudy.report.model_card`. "
+        "Do not edit by hand. This is the second study. It does not replace the per-asset "
+        "benchmark in [ML_BENCHMARK.md](ML_BENCHMARK.md).",
+        "",
+        "## What was compared",
+        "",
+        f"Protocol `{doc['protocol_tag']}`, frozen {cfg['frozen_on']}. The calendar split is "
+        f"the parent protocol's: train through {splits['train']['end']}, validation "
+        f"{splits['validation']['start']} to {splits['validation']['end']}, test "
+        f"{splits['test']['start']} to {splits['test']['end']}. This file counts "
+        f"{counts['train_events']} training announcements, {counts['validation_events']} "
+        f"validation, and {doc['n_test']} test ({doc['test_years'][0]}–{doc['test_years'][-1]}).",
+        "",
+        "Validation chooses the model. The test set is scored once. A model adds value only "
+        f"when the {rule['ci']:.0%} event-block bootstrap interval of selected minus baseline "
+        f"lies entirely below zero ({rule['resamples']} resamples, seed {rule['seed']}). "
+        "Negative means lower loss.",
+        "",
+        f"- **Mean move.** Metric `{q_mean['metric']}`. Baseline `{q_mean['baseline']}`, the "
+        f"linear projection, not re-selected. Candidates: {', '.join(f'`{c}`' for c in q_mean['candidates'])}. "
+        f"Selected `{mk}` ({_short(mk)}). Refit `{q_mean['refit']}`.",
+        f"- **Left tail.** Metric `{q_tail['metric']}` at tau {tail['tau']}. Baseline "
+        f"`{q_tail['baseline']}`, a Gaussian residual around the linear projection. Candidates: "
+        f"{', '.join(f'`{c}`' for c in q_tail['candidates'])}. Selected `{tk}` ({_short(tk)}).",
+        "",
+        "Training settings are fixed in `config/ml_study.yaml` (learning rate, early stopping, "
+        f"{len(cfg['training']['seeds'])} seeds averaged, Huber loss for the mean, pinball loss "
+        "for the quantiles). The only choice made on validation is the small grid in that file.",
+        "",
+        "## Scores on the test set",
+        "",
+        "| Question | Selected model | Score | Baseline | Difference (90% CI) | Verdict |",
+        "|---|---|---:|---:|---|---|",
+        f"| Mean, pooled scaled MAE | {_short(mk)} | {_n(mean['pooled_scaled_mae'][mk])} "
+        f"| linear {_n(mean['pooled_scaled_mae']['lp'])} | {_n(md['point'])} ({_ci(md['ci90'])}) "
+        f"| {mean['verdict']} |",
+        f"| Mean, predict zero | — | {_n(mean['pooled_scaled_mae']['zero'])} | — | — | reported |",
+        f"| 5% pinball | {_short(tk)} | {_n(tail['pooled_scaled_pinball'][tk])} "
+        f"| Gaussian {_n(tail['pooled_scaled_pinball']['gauss_lp'])} | {_n(td['point'])} "
+        f"({_ci(td['ci90'])}) | {tail['verdict']} |",
+        f"| 5% pinball, historical | — | {_n(tail['pooled_scaled_pinball']['hist'])} | — | — | reported |",
+        "",
+        f"Static refit of the mean model, which cannot change the verdict: "
+        f"{_n(mean['static_refit']['difference_ml_minus_lp']['point'])} "
+        f"(90% CI {_ci(mean['static_refit']['difference_ml_minus_lp']['ci90'])}), "
+        f"{mean['static_refit']['verdict']}.",
+        "",
+        "## Calibration is reported and is not the decision",
+        "",
+        f"Mean-model 90% interval coverage: linear {_n(mean['coverage90']['lp'], 3)}, "
+        f"selected {_n(mean['coverage90'][mk], 3)}. "
+        f"Tail 5% hit rate: historical {_n(tail['hit_rate_05']['hist'], 3)}, "
+        f"Gaussian {_n(tail['hit_rate_05']['gauss_lp'], 3)}, "
+        f"selected {_n(tail['hit_rate_05'][tk], 3)}. "
+        f"Tail central-interval coverage: Gaussian {_n(tail['coverage_90']['gauss_lp'], 3)}, "
+        f"selected {_n(tail['coverage_90'][tk], 3)}. "
+        "The tail win is the pinball loss named in advance. A hit rate above the nominal "
+        "5% level is a calibration miss, and it is published beside the win.",
+        "",
+        "## Intended use",
+        "",
+        "A research comparison of flexible models with a linear local projection on "
+        "announcement-window returns, using public data and a split that was tagged before "
+        "fitting. The scenario tool and the live forecasts are separate code paths.",
+        "",
+        "## Out of scope",
+        "",
+        "Not a forecast of what markets will do, and not investment advice. Statement text, "
+        "options, positioning and intraday paths were not features. Nothing here should be "
+        "re-scored on the test set without a logged reason: `wsl mlstudy --final` refuses a "
+        "second run. Limitations that apply to the whole project are in "
+        "[LIMITATIONS.md](LIMITATIONS.md).",
+        "",
+        "## Provenance",
+        "",
+        f"- Result file: `results/mlstudy/final.json`, generated {doc['generated_at']}.",
+        f"- Git commit recorded in that file: `{doc['git_sha']}`.",
+        f"- Config sha256: `{doc['config_sha256']}`.",
+        f"- Parent evaluation: `{doc['parent_final_eval']}`.",
+        "- Inputs are pinned. The study note records how many artifacts still matched those "
+        "pins. Sources and licences: [data/SOURCES.md](../data/SOURCES.md). "
+        "How a hash gets into a result file: [PROVENANCE.md](PROVENANCE.md).",
+        "",
+        "The longer write-up, including validation scores, attribution and the secondary "
+        "checks, is [ML_STUDY.md](ML_STUDY.md).",
+        "",
+    ])
+
+
 def write() -> list[Path]:
     doc = _load()
     FIG.parent.mkdir(parents=True, exist_ok=True)
@@ -251,4 +363,5 @@ def write() -> list[Path]:
     DOC.write_text(_md(doc))
     _figure(doc, FIG)
     WEB.write_text(json.dumps(_web(doc), indent=1) + "\n")
-    return [DOC, FIG, WEB]
+    CARD.write_text(model_card(doc))
+    return [DOC, FIG, WEB, CARD]
