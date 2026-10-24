@@ -1,14 +1,20 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="How the world, and Canada in particular, reacts to identified economic shocks: Fed and Bank of Canada surprises, oil supply news, geopolitical and trade-policy risk." />
+    <meta name="description" content="Identified Fed, Bank of Canada and OPEC surprises. A pre-registered test of a neural net against a linear projection. Scenarios that print only a number the estimates contain." />
     <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" />
     <title>World Shock Lab · identified shocks</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='31' height='31' x='.5' y='.5' fill='%23000000' stroke='%23f5f5f7'/%3E%3Cpath d='M4 20 C9 20 10 8 16 8 S23 24 28 18' stroke='%238ec5ff' stroke-width='2' fill='none'/%3E%3C/svg%3E" />
     <link rel="preload" href="./data/summary.json" as="fetch" crossorigin />
+    <script>
+      try {
+        var t = localStorage.getItem("wsl-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

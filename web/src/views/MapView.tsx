@@ -86,7 +86,7 @@ export default function MapView() {
           ))}
         </Select>
         <Seg label="Measure" value={measure} onChange={setMeasure} options={[{ value: "equity", text: "Equity" }, { value: "fx", text: "Currency" }]} />
-        <div className="ctl" style={{ minWidth: 220 }}>
+        <div className="ctl map-horizon">
           <label htmlFor="map-h">Horizon: day {h}</label>
           <input id="map-h" type="range" min={0} max={20} value={h} onChange={(e) => setH(Number(e.target.value))} />
         </div>
