@@ -61,7 +61,7 @@ type Theme = "system" | "light" | "dark";
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(() => {
     try {
-      return (localStorage.getItem("wsl-theme") as Theme) || "system";
+      return (localStorage.getItem("wsl-theme") as Theme) || "dark";
     } catch {
       return "system";
     }
@@ -122,9 +122,9 @@ export default function App() {
       <header className="topbar">
         <div className="topbar-in">
           <a className="brand" href="#/">
-            <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-              <rect width="32" height="32" rx="6" fill="var(--accent)" />
-              <path d="M4 20 C9 20 10 8 16 8 S23 24 28 18" stroke="var(--accent-ink)" strokeWidth="3" fill="none" />
+            <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect width="31" height="31" x="0.5" y="0.5" fill="none" stroke="currentColor" />
+              <path d="M4 20 C9 20 10 8 16 8 S23 24 28 18" stroke="currentColor" strokeWidth="2" fill="none" />
             </svg>
             World Shock Lab
           </a>

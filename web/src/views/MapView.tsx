@@ -91,7 +91,7 @@ export default function MapView() {
           <input id="map-h" type="range" min={0} max={20} value={h} onChange={(e) => setH(Number(e.target.value))} />
         </div>
       </div>
-      <div className="chart" ref={ref} style={{ background: "var(--surface-2)", borderRadius: 6 }}>
+      <div className="chart" ref={ref} style={{ background: "var(--surface-2)" }}>
         <svg viewBox={`0 0 ${width} ${H}`} height={H} role="img" aria-label={mapLabel}>
           <title>{mapLabel}</title>
           <defs>

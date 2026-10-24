@@ -13,9 +13,10 @@
     "a11y": "node scripts/a11y.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/archivo": "^5.1.0",
     "@fontsource/ibm-plex-mono": "^5.1.0",
-    "@fontsource/ibm-plex-sans": "^5.1.0",
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.8",
     "d3-geo": "^3.1.1",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",

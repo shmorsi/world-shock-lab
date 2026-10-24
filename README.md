@@ -1,9 +1,9 @@
 # World Shock Lab
 
 [![ci](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml)
-[![license](https://img.shields.io/badge/license-MIT-1c5cab?style=flat-square)](LICENSE)
-[![python](https://img.shields.io/badge/python-3.12-1c5cab?style=flat-square)](https://www.python.org/downloads/)
-[![site](https://img.shields.io/badge/site-GitHub%20Pages-1c5cab?style=flat-square)](https://shmorsi.github.io/world-shock-lab/)
+[![license](https://img.shields.io/badge/license-MIT-1e3f73?style=flat-square)](LICENSE)
+[![python](https://img.shields.io/badge/python-3.12-1e3f73?style=flat-square)](https://www.python.org/downloads/)
+[![site](https://img.shields.io/badge/site-GitHub%20Pages-1e3f73?style=flat-square)](https://shmorsi.github.io/world-shock-lab/)
 
 Identified Fed, Bank of Canada and OPEC surprises, a pre-registered test of whether a neural net beats a linear projection, and a scenario tool that can only print a number the estimates contain.
 
@@ -182,6 +182,6 @@ Shocks: Jarociński and Karadi (2020, *AEJ: Macroeconomics*), Bauer and Swanson 
 
 ## Licence
 
-Code: MIT ([LICENSE](LICENSE)). Cite the software with [CITATION.cff](CITATION.cff). Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Yahoo prices are published only as derived statistics. Nothing derived from VIX or Moody's spreads is published (open item O-9). Fonts: Archivo and IBM Plex (SIL Open Font License), bundled with the site. World map: Natural Earth via world-atlas (public domain).
+Code: MIT ([LICENSE](LICENSE)). Cite the software with [CITATION.cff](CITATION.cff). Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Yahoo prices are published only as derived statistics. Nothing derived from VIX or Moody's spreads is published (open item O-9). Fonts: Space Grotesk, Inter, and IBM Plex Mono (SIL Open Font License), bundled with the site. World map: Natural Earth via world-atlas (public domain).
 
 This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Nothing here is investment advice.

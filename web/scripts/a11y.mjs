@@ -14,7 +14,11 @@ const routes = ["", "map", "explorer", "scenario", "replay", "brief", "method", 
 const browser = await chromium.launch();
 let failures = 0;
 for (const scheme of ["light", "dark"]) {
-  const page = await (await browser.newContext({ colorScheme: scheme })).newPage();
+  const context = await browser.newContext({ colorScheme: scheme });
+  await context.addInitScript((chosen) => {
+    localStorage.setItem("wsl-theme", chosen);
+  }, scheme);
+  const page = await context.newPage();
   for (const r of routes) {
     await page.goto(`${base}#/${r}`);
     await page.waitForLoadState("networkidle");
