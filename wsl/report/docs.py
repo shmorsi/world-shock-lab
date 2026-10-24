@@ -127,42 +127,46 @@ def readme_top(f: dict[str, Any], n: Fmt) -> str:
     first = min((x["decision_date"] for x in fc), default=None)
     scored = sorted({x["event_id"] for x in sc if x.get("score") == 1})
     if not first:
-        live = "No forecast has been published yet, so there is no track record."
+        live_est = "None published"
+        live_detail = "No forecast has been published yet, so there is no track record."
     else:
         published = min(x["published_at"] for x in fc if x["decision_date"] == first)
-        live = (
+        when = (
             f"Forecasts for the {n.date(first)} Fed and BoC decisions were committed on "
             f"{n.date(published)}, before the decisions. "
-            + ("No decision has been scored yet, so there is no track record."
-               if not scored else
-               f"{n.count(len(scored))} scored so far; a track record takes years.")
         )
+        if not scored:
+            live_est = "Pending"
+            live_detail = when + "No decision has been scored yet, so there is no track record."
+        else:
+            live_est = n.count(len(scored))
+            live_detail = when + f"{n.count(len(scored))} scored so far; a track record takes years."
     return "\n".join([
-        f"Across {n.count(f['assets'])} assets. Each central-bank surprise below is scaled to "
+        f"Across {n.count(f['assets'])} assets. Each central-bank surprise is scaled to "
         "a 10 bp rise in that country's 2-year yield.",
         "",
-        "| Result | Estimate | Label |",
-        "|---|---|---|",
+        "| Result | Estimate | Detail |",
+        "|---|---:|---|",
         "| S&P/TSX, Fed surprise | "
-        f"{n.num(tsx['fed0'][0], 2, True)}% "
-        f"(90% band {n.band(tsx['fed0'][1], tsx['fed0'][2])}) | Identified causal |",
+        f"**{n.num(tsx['fed0'][0], 2, True)}%** | "
+        f"90% band {n.band(tsx['fed0'][1], tsx['fed0'][2])}. Identified causal. |",
         "| S&P/TSX, Bank of Canada surprise | "
-        f"{n.num(tsx['boc0'][0], 2, True)}% "
-        f"(90% band {n.band(tsx['boc0'][1], tsx['boc0'][2])}); "
+        f"**{n.num(tsx['boc0'][0], 2, True)}%** | "
+        f"90% band {n.band(tsx['boc0'][1], tsx['boc0'][2])}. "
         f"Rigobon–Sack {n.num(tsx['rs0'][0], 2, True)}% "
-        f"({n.band(tsx['rs0'][1], tsx['rs0'][2])}) | Identified causal |",
-        "| Mean forecast, temporal CNN minus a linear projection | "
-        f"{n.num(s['mean_diff'], 3, True)} "
-        f"(90% CI {n.band(s['mean_ci'][0], s['mean_ci'][1], 3)}) on "
-        f"{n.count(s['n_test'])} held-out announcements | Model forecast. {s['mean_verdict']} |",
-        f"| {n.pct(0.05)} pinball, quantile boosting minus a Gaussian | "
-        f"{n.num(s['tail_diff'], 3, True)} "
-        f"(90% CI {n.band(s['tail_ci'][0], s['tail_ci'][1], 3)}). "
-        f"The quantile is crossed {n.pct(s['hit_ml'], 1)} of the time | "
-        f"Model forecast. {s['tail_verdict']} |",
-        f"| Published findings that replicate | {n.count(rep['replicated'])} of "
-        f"{n.count(rep['published'])}, sign and 90% band | Credibility check |",
-        f"| Live forecasts | {live} | Model forecast |",
+        f"({n.band(tsx['rs0'][1], tsx['rs0'][2])}). Identified causal. |",
+        "| Mean forecast, temporal CNN minus linear | "
+        f"**{n.num(s['mean_diff'], 3, True)}** | "
+        f"90% CI {n.band(s['mean_ci'][0], s['mean_ci'][1], 3)} on "
+        f"{n.count(s['n_test'])} held-out announcements. {s['mean_verdict']}. |",
+        f"| {n.pct(0.05)} pinball, quantile boosting minus Gaussian | "
+        f"**{n.num(s['tail_diff'], 3, True)}** | "
+        f"90% CI {n.band(s['tail_ci'][0], s['tail_ci'][1], 3)}. "
+        f"The quantile is crossed {n.pct(s['hit_ml'], 1)} of the time. {s['tail_verdict']}. |",
+        "| Published findings that replicate | "
+        f"**{n.count(rep['replicated'])} of {n.count(rep['published'])}** | "
+        "Sign and 90% band. |",
+        f"| Live forecasts | **{live_est}** | {live_detail} |",
     ])
 
 

@@ -152,7 +152,14 @@ export function FanChart({
         />
       </svg>
       {hover !== null && (
-        <div className="tip" style={{ left: Math.min(x(hover) + 12, W - 200), top: M.t }}>
+        <div
+          className="tip"
+          style={{
+            left: Math.max(0, Math.min(x(hover) + 12, Math.max(0, W - Math.min(280, W)))),
+            top: M.t,
+            maxWidth: Math.min(280, W),
+          }}
+        >
           <div className="t">h = {hover}</div>
           {series.map((s) => {
             const i = horizons.indexOf(hover);

@@ -14,21 +14,21 @@ const TrackView = lazy(() => import("./views/TrackView"));
 const ModelsView = lazy(() => import("./views/ModelsView"));
 
 const ROUTES = [
-  { path: "", text: "Overview" },
-  { path: "map", text: "World map" },
-  { path: "explorer", text: "Explorer" },
-  { path: "scenario", text: "Scenario" },
-  { path: "replay", text: "Event replay" },
-  { path: "brief", text: "Brief" },
-  { path: "method", text: "Methodology" },
-  { path: "models", text: "Models" },
-  { path: "track", text: "Track record" },
+  { path: "", text: "Overview", short: "Overview" },
+  { path: "map", text: "World map", short: "Map" },
+  { path: "explorer", text: "Explorer", short: "Explorer" },
+  { path: "scenario", text: "Scenario", short: "Scenario" },
+  { path: "replay", text: "Event replay", short: "Replay" },
+  { path: "brief", text: "Brief", short: "Brief" },
+  { path: "method", text: "Methodology", short: "Method" },
+  { path: "models", text: "Models", short: "Models" },
+  { path: "track", text: "Track record", short: "Track" },
 ] as const;
 
 // The data each view needs, requested as soon as the route is known so the downloads run in
 // parallel with the view's code chunk instead of after it.
 const ROUTE_DATA: Record<string, string[]> = {
-  "": ["summary"],
+  "": ["summary", "mlstudy", "live"],
   map: ["catalog", "meta"],
   explorer: ["catalog", "ml"], // regimes and m4 load after the first chart is drawn
   scenario: ["catalog"],
@@ -61,7 +61,8 @@ type Theme = "system" | "light" | "dark";
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(() => {
     try {
-      return (localStorage.getItem("wsl-theme") as Theme) || "dark";
+      const stored = localStorage.getItem("wsl-theme");
+      return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
     } catch {
       return "system";
     }
@@ -91,7 +92,34 @@ function useTheme(): [Theme, () => void] {
 export default function App() {
   const route = useRoute();
   const [theme, nextTheme] = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
   const meta = useData<Meta>("meta");
+  const overview = route === "" || !ROUTES.some((r) => r.path === route);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [route]);
+  useEffect(() => {
+    document.body.classList.toggle("nav-open", menuOpen);
+    const main = document.getElementById("main");
+    const footer = document.querySelector("footer.site");
+    for (const el of [main, footer]) {
+      if (!el) continue;
+      if (menuOpen) el.setAttribute("inert", "");
+      else el.removeAttribute("inert");
+    }
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.classList.remove("nav-open");
+      document.getElementById("main")?.removeAttribute("inert");
+      document.querySelector("footer.site")?.removeAttribute("inert");
+    };
+  }, [menuOpen]);
+  const themeName = theme === "system" ? "Auto" : theme === "dark" ? "Dark" : "Light";
   const view = (() => {
     switch (route) {
       case "map":
@@ -128,20 +156,32 @@ export default function App() {
             </svg>
             World Shock Lab
           </a>
-          <nav className="views" aria-label="Views">
+          <button
+            type="button"
+            className="menu"
+            aria-expanded={menuOpen}
+            aria-controls="view-nav"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? "Close" : "Menu"}
+          </button>
+          <nav id="view-nav" className={menuOpen ? "views open" : "views"} aria-label="Views">
             {ROUTES.map((r) => (
               <a key={r.path} href={`#/${r.path}`} aria-current={route === r.path ? "page" : undefined}>
-                {r.text}
+                <span className="nav-short">{r.short}</span>
+                <span className="nav-long">{r.text}</span>
               </a>
             ))}
           </nav>
           <button type="button" className="theme" onClick={nextTheme} aria-label={`Colour theme: ${theme}. Change theme.`}>
-            theme: {theme}
+            {themeName}
           </button>
         </div>
       </header>
       <main id="main">
-        <Suspense fallback={<p className="muted">Loading view…</p>}>{view}</Suspense>
+        <Suspense fallback={<div className="frame"><p className="muted">Loading view…</p></div>}>
+          {overview ? view : <div className="frame">{view}</div>}
+        </Suspense>
       </main>
       <footer className="site">
         <span>
