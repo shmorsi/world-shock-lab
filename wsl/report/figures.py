@@ -1,8 +1,9 @@
 """SVG figures for the research note, drawn from the same facts as the text.
 
-Plain SVG (no plotting library): one hue per entity (Fed blue, BoC orange, the palette the
-web app uses), one axis per panel, recessive grid, direct labels, 90% bands as whiskers or
-light fills and 68% as darker fills."""
+Plain SVG (no plotting library): one hue per entity (Fed blue, BoC orange), one axis per
+panel, recessive grid, direct labels, 90% bands as whiskers or light fills and 68% as
+darker fills. ``palette(dark=True)`` is the site's instrument colours, for the README
+PNGs only. The files this module writes for the research note stay on the print palette."""
 
 from __future__ import annotations
 
@@ -17,6 +18,25 @@ from wsl.report.facts import CATALOG, MINUS, Z90
 BLUE, ORANGE, INK, INK2, MUTED, GRID, LINE = ("#2a78d6", "#eb6834", "#121722", "#485164",
                                               "#5d6677", "#e3e7ee", "#c9d0dc")
 FONT = "IBM Plex Sans, Helvetica Neue, Arial, sans-serif"
+# Same hues as the site's series colours, on the site's ground. README rasters only.
+DARK_BLUE, DARK_ORANGE = "#6f9fe0", "#e08a62"
+DARK_INK, DARK_INK2, DARK_MUTED = "#f4f6f8", "#c9d1dc", "#aeb6c4"
+DARK_GRID, DARK_LINE, DARK_BG = "#2a3140", "#3c4452", "#07080c"
+DARK_FONT = "Space Grotesk, Inter, Helvetica Neue, Arial, sans-serif"
+
+
+def palette(dark: bool = False) -> dict[str, str]:
+    """Colours for one figure.
+
+    The print palette is what the research-note SVGs save. The dark palette matches the
+    site and is used only for the README PNGs.
+    """
+    if not dark:
+        return {"blue": BLUE, "orange": ORANGE, "ink": INK, "ink2": INK2, "muted": MUTED,
+                "grid": GRID, "line": LINE, "bg": "#ffffff", "font": FONT}
+    return {"blue": DARK_BLUE, "orange": DARK_ORANGE, "ink": DARK_INK, "ink2": DARK_INK2,
+            "muted": DARK_MUTED, "grid": DARK_GRID, "line": DARK_LINE, "bg": DARK_BG,
+            "font": DARK_FONT}
 
 
 def _fmt(v: float, d: int) -> str:
@@ -43,13 +63,14 @@ def _ticks(lo: float, hi: float, n: int = 5) -> tuple[list[float], int]:
 
 
 class Svg:
-    def __init__(self, w: int, h: int, title: str) -> None:
+    def __init__(self, w: int, h: int, title: str, *, font: str = FONT,
+                 bg: str = "#ffffff") -> None:
         self.w, self.h = w, h
         self.parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
                       f'width="{w}" height="{h}" role="img" aria-label="{escape(title)}" '
-                      f'font-family="{FONT}">',
+                      f'font-family="{font}">',
                       f"<title>{escape(title)}</title>",
-                      f'<rect width="{w}" height="{h}" fill="#ffffff"/>']
+                      f'<rect width="{w}" height="{h}" fill="{bg}"/>']
 
     def text(self, x: float, y: float, s: str, size: float = 12, fill: str = INK,
              anchor: str = "start", weight: int = 400) -> None:
@@ -71,8 +92,15 @@ class Svg:
         return path
 
 
-def canada_lens(f: dict[str, Any], path: Path) -> Path:
-    """Dot-and-whisker: Fed vs BoC (event LP and Rigobon-Sack), announcement day."""
+def canada_lens(f: dict[str, Any], path: Path, *, dark: bool = False) -> Path:
+    """Dot-and-whisker: Fed vs BoC (event LP and Rigobon-Sack), announcement day.
+
+    ``dark=False`` is the print figure. ``dark=True`` uses the site palette for the README
+    raster and does not move a point.
+    """
+    p = palette(dark)
+    blue, orange, ink, ink2 = p["blue"], p["orange"], p["ink"], p["ink2"]
+    muted, grid, line, bg = p["muted"], p["grid"], p["line"], p["bg"]
     c = f["canada"]
     panels = [
         ("Canadian equities, % on the announcement day", "%", [
@@ -84,18 +112,18 @@ def canada_lens(f: dict[str, Any], path: Path) -> Path:
     heights = [34 + len(rows) * 3 * row_h + 30 for _, _, rows in panels]
     svg = Svg(760, top + sum(heights) + 10,
               "Fed vs Bank of Canada: effect on Canadian assets of a surprise that raises the "
-              "bank's own 2-year yield by 10 bp")
+              "bank's own 2-year yield by 10 bp", font=p["font"], bg=bg)
     svg.text(16, 22, "A 10 bp surprise in each bank's own 2-year yield: effect on Canadian assets",
-             14, INK, weight=600)
-    keys = [("fed0", "Fed (US 2y instrumented by JK)", BLUE, True),
-            ("boc0", "BoC, event LP", ORANGE, True),
-            ("rs0", "BoC, Rigobon–Sack", ORANGE, False)]
+             14, ink, weight=600)
+    keys = [("fed0", "Fed (US 2y instrumented by JK)", blue, True),
+            ("boc0", "BoC, event LP", orange, True),
+            ("rs0", "BoC, Rigobon–Sack", orange, False)]
     lx = 16.0
     for _, lab, col, filled in keys:
-        fill = col if filled else "#ffffff"
+        fill = col if filled else bg
         svg.raw(f'<circle cx="{lx + 5}" cy="40" r="5" fill="{fill}" stroke="{col}" '
                 'stroke-width="2"/>')
-        svg.text(lx + 15, 44, lab, 11.5, INK2)
+        svg.text(lx + 15, 44, lab, 11.5, ink2)
         lx += 16 + 7.2 * len(lab) + 18
     y0 = top
     for (title, _units, rows), ph in zip(panels, heights, strict=True):
@@ -109,24 +137,24 @@ def canada_lens(f: dict[str, Any], path: Path) -> Path:
         def x(v: float, lo: float = lo, hi: float = hi) -> float:
             return left + (v - lo) / (hi - lo) * (svg.w - left - right)
 
-        svg.text(16, y0 + 18, title, 12.5, INK, weight=600)
+        svg.text(16, y0 + 18, title, 12.5, ink, weight=600)
         plot_top, plot_bot = y0 + 30, y0 + 30 + len(rows) * 3 * row_h
         for t in ticks:
-            svg.line(x(t), plot_top, x(t), plot_bot, GRID)
-            svg.text(x(t), plot_bot + 16, _fmt(t, d), 10.5, MUTED, "middle")
-        svg.line(x(0), plot_top, x(0), plot_bot, LINE, 1.5)
+            svg.line(x(t), plot_top, x(t), plot_bot, grid)
+            svg.text(x(t), plot_bot + 16, _fmt(t, d), 10.5, muted, "middle")
+        svg.line(x(0), plot_top, x(0), plot_bot, line, 1.5)
         yy = plot_top
         for name, r in rows:
-            svg.text(16, yy + 1.5 * row_h + 4, name, 12, INK2)
+            svg.text(16, yy + 1.5 * row_h + 4, name, 12, ink2)
             for i, (k, _lab, col, filled) in enumerate(keys):
                 m, a, b = r[k][0], r[k][1], r[k][2]
                 cy = yy + (i + 0.5) * row_h
                 svg.line(x(a), cy, x(b), cy, col, 2)
-                fill = col if filled else "#ffffff"
+                fill = col if filled else bg
                 svg.raw(f'<circle cx="{x(m):.1f}" cy="{cy:.1f}" r="5" fill="{fill}" '
                         f'stroke="{col}" stroke-width="2"/>')
             yy += 3 * row_h
-            svg.line(left, yy, svg.w - right, yy, GRID)
+            svg.line(left, yy, svg.w - right, yy, grid)
         y0 += ph
     return svg.save(path)
 

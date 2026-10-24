@@ -8,7 +8,7 @@ from typing import Any
 
 from wsl.mlstudy.evaluate import FINAL_PATH, VAL_PATH
 from wsl.paths import ROOT
-from wsl.report.figures import BLUE, GRID, INK, INK2, MUTED, ORANGE, Svg
+from wsl.report.figures import GRID, INK, INK2, Svg, palette
 
 DOC = ROOT / "docs" / "ML_STUDY.md"
 FIG = ROOT / "docs" / "figures" / "fig_ml_study.svg"
@@ -40,8 +40,9 @@ def _short(key: str) -> str:
             "hist": "Historical quantile", "gauss_lp": "Gaussian linear projection"}.get(name, name)
 
 
-def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg) -> int:
-    svg.text(16, y, title, 13, INK, weight=600)
+def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg, *,
+          ink: str = INK, ink2: str = INK2, grid: str = GRID) -> int:
+    svg.text(16, y, title, 13, ink, weight=600)
     y += 22
     vals = [v for _nme, v, _c in rows]
     lo, hi = min(vals) - 0.02, max(vals) + 0.04
@@ -51,34 +52,37 @@ def _bars(title: str, rows: list[tuple[str, float, str]], y: int, svg: Svg) -> i
         return left + (v - lo) / (hi - lo) * (svg.w - left - right)
 
     for name, val, col in rows:
-        svg.text(16, y + 4, name, 12, INK2)
-        svg.line(left, y, x(val), y, GRID, 1)
+        svg.text(16, y + 4, name, 12, ink2)
+        svg.line(left, y, x(val), y, grid, 1)
         svg.raw(f'<circle cx="{x(val):.1f}" cy="{y:.1f}" r="5.5" fill="{col}"/>')
-        svg.text(x(val) + 10, y + 4, _n(val), 11, INK2)
+        svg.text(x(val) + 10, y + 4, _n(val), 11, ink2)
         y += 26
     return y + 8
 
 
-def _figure(doc: dict[str, Any], path: Path) -> Path:
+def _figure(doc: dict[str, Any], path: Path, *, dark: bool = False) -> Path:
+    """Selected-model chart. ``dark=True`` is the README raster; the print SVG stays light."""
+    p = palette(dark)
     mean = doc["mean"]["pooled_scaled_mae"]
     tail = doc["tail"]["pooled_scaled_pinball"]
     mean_key = doc["chosen"]["mean"]
     tail_key = doc["chosen"]["tail"]
-    svg = Svg(720, 340, "Held-out scaled error of the selected models and their baselines")
+    svg = Svg(720, 340, "Held-out scaled error of the selected models and their baselines",
+              font=p["font"], bg=p["bg"])
     svg.text(16, 22, "Held-out test set: selected model against the pre-specified baselines", 14,
-             INK, weight=600)
+             p["ink"], weight=600)
     svg.text(16, 40, "Lower is better. Scales are the training-split loss of a naive forecast.",
-             11.5, MUTED)
+             11.5, p["muted"])
     y = _bars("Mean response, pooled scaled MAE", [
-        ("Predict zero", mean["zero"], MUTED),
-        ("Linear projection", mean["lp"], BLUE),
-        (_short(mean_key), mean[mean_key], ORANGE),
-    ], 64, svg)
+        ("Predict zero", mean["zero"], p["muted"]),
+        ("Linear projection", mean["lp"], p["blue"]),
+        (_short(mean_key), mean[mean_key], p["orange"]),
+    ], 64, svg, ink=p["ink"], ink2=p["ink2"], grid=p["grid"])
     _bars("5% tail, pooled scaled pinball", [
-        ("Historical quantile", tail["hist"], MUTED),
-        ("Gaussian linear projection", tail["gauss_lp"], BLUE),
-        (_short(tail_key), tail[tail_key], ORANGE),
-    ],     y, svg)
+        ("Historical quantile", tail["hist"], p["muted"]),
+        ("Gaussian linear projection", tail["gauss_lp"], p["blue"]),
+        (_short(tail_key), tail[tail_key], p["orange"]),
+    ], y, svg, ink=p["ink"], ink2=p["ink2"], grid=p["grid"])
     return svg.save(path)
 
 

@@ -26,7 +26,22 @@ With the site preview running, `cd web && npm run a11y` checks WCAG. Do not pass
 
 `uv run wsl report docs` is how a number enters the marked regions of `README.md`, `docs/RESEARCH_NOTE.md` and `docs/RESUME_BULLETS.md`. Change the wording in `wsl/report/docs.py`, then run the generator. `tests/test_docs.py` fails if a marked region contains a number the formatter did not emit, or if a generated file differs from a fresh render.
 
-Two README images are rasters of generated SVGs, so GitHub can display them: `docs/figures/fig1_canada_lens.png` and `docs/figures/fig_ml_study.png`. Re-export a PNG when its SVG is regenerated. The SVG remains the figure the generator writes. The research note and the ML study note keep the SVG paths.
+Two README images are dark rasters of the same figures the generator writes for the notes, so GitHub can display them and they match the site: `docs/figures/fig1_canada_lens.png` and `docs/figures/fig_ml_study.png`. The print SVGs stay on the light palette. Re-export a PNG when its SVG is regenerated:
+
+```bash
+uv run python -c "
+from pathlib import Path
+from wsl.mlstudy.report import _figure, _load
+from wsl.report.docs import facts
+from wsl.report.figures import canada_lens
+canada_lens(facts(), Path('/tmp/fig1-dark.svg'), dark=True)
+_figure(_load(), Path('/tmp/fig_ml-dark.svg'), dark=True)
+"
+( cd web && node scripts/readme-png.mjs /tmp/fig1-dark.svg ../docs/figures/fig1_canada_lens.png )
+( cd web && node scripts/readme-png.mjs /tmp/fig_ml-dark.svg ../docs/figures/fig_ml_study.png )
+```
+
+The research note and the ML study note keep the SVG paths.
 
 ## Files a change should leave alone
 

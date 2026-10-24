@@ -35,6 +35,7 @@ A price regression cannot tell a Fed surprise from the rest of the day's news. T
 ## Architecture
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"darkMode": true, "background": "#07080c", "primaryColor": "#0e1016", "primaryTextColor": "#f4f6f8", "primaryBorderColor": "#3c4452", "lineColor": "#9ebbe8", "secondaryColor": "#141820", "tertiaryColor": "#141820", "clusterBkg": "#0e1016", "clusterBorder": "#3c4452", "titleColor": "#f4f6f8", "edgeLabelBackground": "#07080c", "fontFamily": "Inter, Helvetica Neue, Arial, sans-serif"}}}%%
 flowchart LR
   subgraph S[Sources]
     A["FRED · BoC Valet · Yahoo · OECD · StatCan · World Bank"]
