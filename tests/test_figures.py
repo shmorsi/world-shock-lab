@@ -24,7 +24,7 @@ def _same_drawing(light: Path, dark: Path, committed: Path) -> None:
     light_txt, dark_txt = light.read_text(), dark.read_text()
     assert light_txt == committed.read_text()
     assert _structure(light_txt) == _structure(dark_txt)
-    assert 'fill="#07080c"' in dark_txt
+    assert 'fill="#000000"' in dark_txt
     assert "#ffffff" not in dark_txt
 
 

@@ -19,10 +19,10 @@ BLUE, ORANGE, INK, INK2, MUTED, GRID, LINE = ("#2a78d6", "#eb6834", "#121722", "
                                               "#5d6677", "#e3e7ee", "#c9d0dc")
 FONT = "IBM Plex Sans, Helvetica Neue, Arial, sans-serif"
 # Same hues as the site's series colours, on the site's ground. README rasters only.
-DARK_BLUE, DARK_ORANGE = "#6f9fe0", "#e08a62"
-DARK_INK, DARK_INK2, DARK_MUTED = "#f4f6f8", "#c9d1dc", "#aeb6c4"
-DARK_GRID, DARK_LINE, DARK_BG = "#2a3140", "#3c4452", "#07080c"
-DARK_FONT = "Space Grotesk, Inter, Helvetica Neue, Arial, sans-serif"
+DARK_BLUE, DARK_ORANGE = "#8ec5ff", "#e08a62"
+DARK_INK, DARK_INK2, DARK_MUTED = "#f5f5f7", "#d2d2d6", "#a8a8ad"
+DARK_GRID, DARK_LINE, DARK_BG = "#242424", "#575757", "#000000"
+DARK_FONT = "Inter Tight, Helvetica Neue, Arial, sans-serif"
 
 
 def palette(dark: bool = False) -> dict[str, str]:

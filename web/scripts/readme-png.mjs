@@ -18,14 +18,12 @@ if (!width || !height) {
 }
 const face = (file, family, weight) =>
   `@font-face{font-family:"${family}";font-weight:${weight};font-style:normal;src:url("${file.href}") format("woff2")}`;
-const font = (pkg, name) => new URL(`../node_modules/@fontsource/${pkg}/files/${name}`, import.meta.url);
-const css = [
-  face(font("space-grotesk", "space-grotesk-latin-400-normal.woff2"), "Space Grotesk", 400),
-  face(font("space-grotesk", "space-grotesk-latin-500-normal.woff2"), "Space Grotesk", 500),
-  face(font("space-grotesk", "space-grotesk-latin-600-normal.woff2"), "Space Grotesk", 600),
-  face(font("inter", "inter-latin-400-normal.woff2"), "Inter", 400),
-].join("");
-const html = `<!doctype html><html><head><style>${css} html,body{margin:0;background:#07080c}</style></head><body>${svg}</body></html>`;
+const tight = new URL(
+  "../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2",
+  import.meta.url,
+);
+const css = face(tight, "Inter Tight", "100 900");
+const html = `<!doctype html><html><head><style>${css} html,body{margin:0;background:#000000}</style></head><body>${svg}</body></html>`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 2 });

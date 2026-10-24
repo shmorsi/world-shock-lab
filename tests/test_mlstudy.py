@@ -174,11 +174,12 @@ def test_embedding_ari_of_separated_groups_is_one() -> None:
 
 
 def test_study_note_matches_the_committed_results() -> None:
-    from wsl.mlstudy.report import DOC, WEB, _load, _md, _web
+    from wsl.mlstudy.report import CARD, DOC, WEB, _load, _md, _web, model_card
 
     doc = _load()
     assert DOC.read_text() == _md(doc)
     assert json.loads(WEB.read_text()) == _web(doc)
+    assert CARD.read_text() == model_card(doc)
 
 
 def test_final_run_guard(monkeypatch: pytest.MonkeyPatch, tmp_path: pytest.TempPathFactory) -> None:

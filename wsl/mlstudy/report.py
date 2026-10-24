@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from wsl.mlstudy.evaluate import FINAL_PATH, VAL_PATH
 from wsl.paths import ROOT
 from wsl.report.figures import GRID, INK, INK2, Svg, palette
@@ -249,6 +251,111 @@ def _web(doc: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+CARD = ROOT / "docs" / "MODEL_CARD.md"
+
+
+def model_card(doc: dict[str, Any]) -> str:
+    """Reviewer-facing card. Every score is read from the committed study file."""
+    mean, tail = doc["mean"], doc["tail"]
+    mk, tk = doc["chosen"]["mean"], doc["chosen"]["tail"]
+    md, td = mean["difference_ml_minus_lp"], tail["difference_ml_minus_gauss"]
+    ev = yaml.safe_load((ROOT / "config" / "evaluation.yaml").read_text())
+    cfg = yaml.safe_load((ROOT / "config" / "ml_study.yaml").read_text())
+    splits, rule = ev["splits"], cfg["decision_rule"]["bootstrap"]
+    counts = doc["counts"]
+    q_mean, q_tail = cfg["questions"]["mean"], cfg["questions"]["tail"]
+    return "\n".join([
+        "# Model card",
+        "",
+        "Generated from `results/mlstudy/final.json` by `wsl.mlstudy.report.model_card`. "
+        "Do not edit by hand. This is the second study. It does not replace the per-asset "
+        "benchmark in [ML_BENCHMARK.md](ML_BENCHMARK.md).",
+        "",
+        "## What was compared",
+        "",
+        f"Protocol `{doc['protocol_tag']}`, frozen {cfg['frozen_on']}. The calendar split is "
+        f"the parent protocol's: train through {splits['train']['end']}, validation "
+        f"{splits['validation']['start']} to {splits['validation']['end']}, test "
+        f"{splits['test']['start']} to {splits['test']['end']}. This file counts "
+        f"{counts['train_events']} training announcements, {counts['validation_events']} "
+        f"validation, and {doc['n_test']} test ({doc['test_years'][0]}–{doc['test_years'][-1]}).",
+        "",
+        "Validation chooses the model. The test set is scored once. A model adds value only "
+        f"when the {rule['ci']:.0%} event-block bootstrap interval of selected minus baseline "
+        f"lies entirely below zero ({rule['resamples']} resamples, seed {rule['seed']}). "
+        "Negative means lower loss.",
+        "",
+        f"- **Mean move.** Metric `{q_mean['metric']}`. Baseline `{q_mean['baseline']}`, the "
+        f"linear projection, not re-selected. Candidates: {', '.join(f'`{c}`' for c in q_mean['candidates'])}. "
+        f"Selected `{mk}` ({_short(mk)}). Refit `{q_mean['refit']}`.",
+        f"- **Left tail.** Metric `{q_tail['metric']}` at tau {tail['tau']}. Baseline "
+        f"`{q_tail['baseline']}`, a Gaussian residual around the linear projection. Candidates: "
+        f"{', '.join(f'`{c}`' for c in q_tail['candidates'])}. Selected `{tk}` ({_short(tk)}).",
+        "",
+        "Training settings are fixed in `config/ml_study.yaml` (learning rate, early stopping, "
+        f"{len(cfg['training']['seeds'])} seeds averaged, Huber loss for the mean, pinball loss "
+        "for the quantiles). The only choice made on validation is the small grid in that file.",
+        "",
+        "## Scores on the test set",
+        "",
+        "| Question | Selected model | Score | Baseline | Difference (90% CI) | Verdict |",
+        "|---|---|---:|---:|---|---|",
+        f"| Mean, pooled scaled MAE | {_short(mk)} | {_n(mean['pooled_scaled_mae'][mk])} "
+        f"| linear {_n(mean['pooled_scaled_mae']['lp'])} | {_n(md['point'])} ({_ci(md['ci90'])}) "
+        f"| {mean['verdict']} |",
+        f"| Mean, predict zero | — | {_n(mean['pooled_scaled_mae']['zero'])} | — | — | reported |",
+        f"| 5% pinball | {_short(tk)} | {_n(tail['pooled_scaled_pinball'][tk])} "
+        f"| Gaussian {_n(tail['pooled_scaled_pinball']['gauss_lp'])} | {_n(td['point'])} "
+        f"({_ci(td['ci90'])}) | {tail['verdict']} |",
+        f"| 5% pinball, historical | — | {_n(tail['pooled_scaled_pinball']['hist'])} | — | — | reported |",
+        "",
+        f"Static refit of the mean model, which cannot change the verdict: "
+        f"{_n(mean['static_refit']['difference_ml_minus_lp']['point'])} "
+        f"(90% CI {_ci(mean['static_refit']['difference_ml_minus_lp']['ci90'])}), "
+        f"{mean['static_refit']['verdict']}.",
+        "",
+        "## Calibration is reported and is not the decision",
+        "",
+        f"Mean-model 90% interval coverage: linear {_n(mean['coverage90']['lp'], 3)}, "
+        f"selected {_n(mean['coverage90'][mk], 3)}. "
+        f"Tail 5% hit rate: historical {_n(tail['hit_rate_05']['hist'], 3)}, "
+        f"Gaussian {_n(tail['hit_rate_05']['gauss_lp'], 3)}, "
+        f"selected {_n(tail['hit_rate_05'][tk], 3)}. "
+        f"Tail central-interval coverage: Gaussian {_n(tail['coverage_90']['gauss_lp'], 3)}, "
+        f"selected {_n(tail['coverage_90'][tk], 3)}. "
+        "The tail win is the pinball loss named in advance. A hit rate above the nominal "
+        "5% level is a calibration miss, and it is published beside the win.",
+        "",
+        "## Intended use",
+        "",
+        "A research comparison of flexible models with a linear local projection on "
+        "announcement-window returns, using public data and a split that was tagged before "
+        "fitting. The scenario tool and the live forecasts are separate code paths.",
+        "",
+        "## Out of scope",
+        "",
+        "Not a forecast of what markets will do, and not investment advice. Statement text, "
+        "options, positioning and intraday paths were not features. Nothing here should be "
+        "re-scored on the test set without a logged reason: `wsl mlstudy --final` refuses a "
+        "second run. Limitations that apply to the whole project are in "
+        "[LIMITATIONS.md](LIMITATIONS.md).",
+        "",
+        "## Provenance",
+        "",
+        f"- Result file: `results/mlstudy/final.json`, generated {doc['generated_at']}.",
+        f"- Git commit recorded in that file: `{doc['git_sha']}`.",
+        f"- Config sha256: `{doc['config_sha256']}`.",
+        f"- Parent evaluation: `{doc['parent_final_eval']}`.",
+        "- Inputs are pinned. The study note records how many artifacts still matched those "
+        "pins. Sources and licences: [data/SOURCES.md](../data/SOURCES.md). "
+        "How a hash gets into a result file: [PROVENANCE.md](PROVENANCE.md).",
+        "",
+        "The longer write-up, including validation scores, attribution and the secondary "
+        "checks, is [ML_STUDY.md](ML_STUDY.md).",
+        "",
+    ])
+
+
 def write() -> list[Path]:
     doc = _load()
     FIG.parent.mkdir(parents=True, exist_ok=True)
@@ -256,4 +363,5 @@ def write() -> list[Path]:
     DOC.write_text(_md(doc))
     _figure(doc, FIG)
     WEB.write_text(json.dumps(_web(doc), indent=1) + "\n")
-    return [DOC, FIG, WEB]
+    CARD.write_text(model_card(doc))
+    return [DOC, FIG, WEB, CARD]

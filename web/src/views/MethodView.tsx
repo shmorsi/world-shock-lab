@@ -101,6 +101,13 @@ export default function MethodView() {
           <li>Country equity responses use US-listed ETFs in US dollars, which combine stock and currency moves.</li>
           <li>No regime difference survives multiple-testing correction; small effects of this kind would be invisible at these sample sizes.</li>
         </ul>
+        <p>
+          The written accounts are the{" "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/METHOD.md">methodology</a>, the{" "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/MODEL_CARD.md">model card</a>,{" "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/PROVENANCE.md">data provenance</a> and the{" "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/LIMITATIONS.md">limitations</a>.
+        </p>
       </Panel>
     </>
   );

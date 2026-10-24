@@ -26,6 +26,8 @@ With the site preview running, `cd web && npm run a11y` checks WCAG. Do not pass
 
 `uv run wsl report docs` is how a number enters the marked regions of `README.md`, `docs/RESEARCH_NOTE.md` and `docs/RESUME_BULLETS.md`. Change the wording in `wsl/report/docs.py`, then run the generator. `tests/test_docs.py` fails if a marked region contains a number the formatter did not emit, or if a generated file differs from a fresh render.
 
+`docs/MODEL_CARD.md` is written by `wsl.mlstudy.report.model_card` from `results/mlstudy/final.json` and the two protocol files. `tests/test_mlstudy.py` fails if that file differs from a fresh render. Do not edit it by hand. Do not call `wsl.mlstudy.report.write`: that also rewrites the study note, the print SVG and the site payload.
+
 Two README images are dark rasters of the same figures the generator writes for the notes, so GitHub can display them and they match the site: `docs/figures/fig1_canada_lens.png` and `docs/figures/fig_ml_study.png`. The print SVGs stay on the light palette. Re-export a PNG when its SVG is regenerated:
 
 ```bash

@@ -24,7 +24,7 @@ Across 53 assets. Each central-bank surprise below is scaled to a 10 bp rise in 
 | Live forecasts | Forecasts for the 2026-10-28 Fed and BoC decisions were committed on 2026-10-13, before the decisions. No decision has been scored yet, so there is no track record. | Model forecast |
 <!-- top:end -->
 
-**Open:** [the site](https://shmorsi.github.io/world-shock-lab/) · [research note (PDF)](docs/RESEARCH_NOTE.pdf) · [all results](docs/RESULTS.md) · [ML study](docs/ML_STUDY.md) · [replication](docs/REPLICATION.md) · [limitations](docs/LIMITATIONS.md)
+**Open:** [the site](https://shmorsi.github.io/world-shock-lab/) · [research note (PDF)](docs/RESEARCH_NOTE.pdf) · [methodology](docs/METHOD.md) · [model card](docs/MODEL_CARD.md) · [data provenance](docs/PROVENANCE.md) · [limitations](docs/LIMITATIONS.md) · [ML study](docs/ML_STUDY.md) · [replication](docs/REPLICATION.md)
 
 [![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/world-shock-lab/)
 
@@ -35,7 +35,7 @@ A price regression cannot tell a Fed surprise from the rest of the day's news. T
 ## Architecture
 
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"darkMode": true, "background": "#07080c", "primaryColor": "#0e1016", "primaryTextColor": "#f4f6f8", "primaryBorderColor": "#3c4452", "lineColor": "#9ebbe8", "secondaryColor": "#141820", "tertiaryColor": "#141820", "clusterBkg": "#0e1016", "clusterBorder": "#3c4452", "titleColor": "#f4f6f8", "edgeLabelBackground": "#07080c", "fontFamily": "Inter, Helvetica Neue, Arial, sans-serif"}}}%%
+%%{init: {"theme": "base", "themeVariables": {"darkMode": true, "background": "#000000", "primaryColor": "#0a0a0a", "primaryTextColor": "#f5f5f7", "primaryBorderColor": "#575757", "lineColor": "#8ec5ff", "secondaryColor": "#111113", "tertiaryColor": "#111113", "clusterBkg": "#0a0a0a", "clusterBorder": "#575757", "titleColor": "#f5f5f7", "edgeLabelBackground": "#000000", "fontFamily": "Inter Tight, Helvetica Neue, Arial, sans-serif"}}}%%
 flowchart LR
   subgraph S[Sources]
     A["FRED · BoC Valet · Yahoo · OECD · StatCan · World Bank"]
@@ -88,7 +88,7 @@ cd web && npm ci && npm run dev
 
 ## What I'd do next
 
-Future work, not a result. A language agent could draft the strategist brief from the catalogue, still forbidden by the existing test from printing a digit the engine did not compute. A new protocol tag could ask whether conformal or regime-conditional quantiles calibrate the tail, without reopening the frozen tests. A larger model would be that kind of new protocol, with its own tag, and would not replace the scores above. Live mode could add another central bank once a public surprise and a licence that allows the score file both exist. None of that is in the estimates above.
+Future work, not a result. A language agent could read a central-bank statement and draft the strategist brief from the catalogue, still forbidden by the existing test from printing a digit the engine did not compute. A new protocol tag could ask whether conformal or regime-conditional quantiles calibrate the tail, without reopening the frozen tests. A larger model would be that kind of new protocol, with its own tag, and would not replace the scores above. Live mode could add another central bank once a public surprise and a licence that allows the score file both exist. None of that is in the estimates above.
 
 ## Results
 
@@ -164,6 +164,9 @@ Every output carries one of four labels: **identified causal**, **reduced form**
 | [docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md) | The pre-registered protocol and its change log (git tags `protocol-v1` to `protocol-v4`) |
 | [data/SOURCES.md](data/SOURCES.md) | Every source: verified URL, coverage, licence, redistribution policy, open items |
 | [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md), [docs/SIMULATION.md](docs/SIMULATION.md), [docs/REPLICATION.md](docs/REPLICATION.md), [docs/RESULTS.md](docs/RESULTS.md), [docs/ML_BENCHMARK.md](docs/ML_BENCHMARK.md) | Generated reports: data quality, estimator validation, replication, the M4 results, the ML benchmark |
+| [docs/METHOD.md](docs/METHOD.md) | Identification, estimation and labels, without restating the estimates |
+| [docs/MODEL_CARD.md](docs/MODEL_CARD.md) | The second ML study: question, split, decision rule, scores, out of scope |
+| [docs/PROVENANCE.md](docs/PROVENANCE.md) | How a download, a commit and a protocol hash get into a result file |
 | [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | What the results cannot tell you |
 | [docs/REPRODUCING.md](docs/REPRODUCING.md) | One-command reproduction, and what changes when sources revise their data |
 | [docs/DEV.md](docs/DEV.md) | How to set up, what the checks run, and which files stay untouched |
@@ -183,6 +186,6 @@ Shocks: Jarociński and Karadi (2020, *AEJ: Macroeconomics*), Bauer and Swanson 
 
 ## Licence
 
-Code: MIT ([LICENSE](LICENSE)). Cite the software with [CITATION.cff](CITATION.cff). Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Yahoo prices are published only as derived statistics. Nothing derived from VIX or Moody's spreads is published (open item O-9). Fonts: Space Grotesk, Inter, and IBM Plex Mono (SIL Open Font License), bundled with the site. World map: Natural Earth via world-atlas (public domain).
+Code: MIT ([LICENSE](LICENSE)). Cite the software with [CITATION.cff](CITATION.cff). Data: each provider's terms, as listed in [data/SOURCES.md](data/SOURCES.md). Raw data are never committed. Yahoo prices are published only as derived statistics. Nothing derived from VIX or Moody's spreads is published (open item O-9). Fonts: Inter Tight and IBM Plex Mono (SIL Open Font License), bundled with the site. The research-note PDF still sets IBM Plex Sans. World map: Natural Earth via world-atlas (public domain).
 
 This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Nothing here is investment advice.

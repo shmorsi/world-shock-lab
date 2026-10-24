@@ -153,6 +153,12 @@ export default function App() {
           {" · "}
           <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/RESEARCH_NOTE.md">Research note</a>
           {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/METHOD.md">Methodology</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/MODEL_CARD.md">Model card</a>
+          {" · "}
+          <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/PROVENANCE.md">Provenance</a>
+          {" · "}
           <a href="https://github.com/shmorsi/world-shock-lab/blob/main/docs/LIMITATIONS.md">Limitations</a>
         </span>
         <span>
