@@ -42,7 +42,7 @@ reproduce:        ## checks, then the two committed evaluations and the generate
 site:             ## web app data -> web/public/data/ (public licence filter)
 	uv run wsl export site
 
-docs:             ## README findings, docs/RESEARCH_NOTE.md + figures, docs/RESUME_BULLETS.md
+docs:             ## README findings, docs/RESEARCH_NOTE.md + figures
 	uv run wsl report docs
 
 live:             ## fetch fresh data, score finished decisions, publish due forecasts

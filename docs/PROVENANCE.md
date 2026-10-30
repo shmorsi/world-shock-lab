@@ -22,4 +22,4 @@ Three licence questions are still open. Until they are answered, the published r
 - **O-4.** Yahoo prices are published only as derived statistics. Event replay shows a realized path only for public-domain series. The pre-registered final-evaluation file is kept complete, because it is the evidence, and it is not copied onto the site.
 - **O-9.** VIX and Moody's spreads are used in local research only. Nothing derived from them is in the repository's published outputs.
 
-The decisions, and the commands that stay unrun until they exist, are in [SHIP_CHECKLIST.md](SHIP_CHECKLIST.md).
+The decisions are tracked as open items in [data/SOURCES.md](../data/SOURCES.md) §6.

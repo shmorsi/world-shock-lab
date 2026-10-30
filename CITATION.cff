@@ -10,7 +10,11 @@ authors:
   - given-names: Sherif
     family-names: Morsi
 repository-code: https://github.com/shmorsi/world-shock-lab
-url: https://shmorsi.github.io/world-shock-lab/
+url: https://shmorsi.github.io/
+identifiers:
+  - type: url
+    value: https://shmorsi.github.io/world-shock-lab/
+    description: Live site
 license: MIT
 version: 0.1.0
 date-released: 2026-10-13

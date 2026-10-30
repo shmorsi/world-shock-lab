@@ -37,7 +37,7 @@ What the results in this repository cannot tell you, and why. Numbers are not re
 
 - **Live forecasts are not causal.** They condition on the day's 2-year yield move, which mixes policy and information news; that is why their bank-stock slopes are near zero while the identified Fed effect is clearly negative.
 - **Collision days** (both banks announce) cannot be separated with daily data. They are scored but summarized separately, and they include the first two live decision dates.
-- **Scoring depends on data access.** The scheduled job downloads from FRED, the BoC and Yahoo. If Yahoo blocks the CI runner, scores for Canadian banks wait until the job is run locally ([SHIP_CHECKLIST.md](SHIP_CHECKLIST.md)).
+- **Scoring depends on data access.** The scheduled job downloads from FRED, the BoC and Yahoo. If Yahoo blocks the CI runner, scores for Canadian banks wait until the job is run locally (`uv run wsl live run`).
 - **A track record takes years.** A handful of scored decisions says little: with ten decisions, a 90% range would be expected to miss several cells by chance alone.
 
 ## Licensing and what is withheld

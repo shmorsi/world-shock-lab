@@ -1,4 +1,4 @@
-"""The generated documents (README findings, research note, resume bullets) contain no number
+"""The generated documents (README findings, research note) contain no number
 that is not read from the committed results, and match what the results produce today."""
 
 from __future__ import annotations
@@ -44,10 +44,8 @@ def test_no_number_is_typed_by_hand(rendered: dict) -> None:  # type: ignore[typ
             bad += unregistered_numbers(_block(text, TLDR_START, TLDR_END), fmts["tldr"])
             bad += unregistered_numbers(_block(text, LEARNED_START, LEARNED_END), fmts["learned"])
             bad += unregistered_numbers(_block(text, TOP_START, TOP_END), fmts["top"])
-        elif path.name == "RESEARCH_NOTE.md":
-            bad = unregistered_numbers(text, fmts["note"])
         else:
-            bad = unregistered_numbers(text, fmts["bullets"])
+            bad = unregistered_numbers(text, fmts["note"])
         assert bad == [], f"{path.name}: numbers not read from the results: {bad}"
 
 

@@ -1,11 +1,15 @@
 # World Shock Lab
 
-[![ci](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml)
-[![license](https://img.shields.io/badge/license-MIT-2c2c2e?style=flat-square)](LICENSE)
-[![python](https://img.shields.io/badge/python-3.12-2c2c2e?style=flat-square)](https://www.python.org/downloads/)
-[![site](https://img.shields.io/badge/site-GitHub%20Pages-2c2c2e?style=flat-square)](https://shmorsi.github.io/world-shock-lab/)
+**How 53 markets react to Fed, Bank of Canada and OPEC surprises: identified causal estimates, a pre-registered test of machine learning against econometrics, and live forecasts published before each decision.**
 
-Identified Fed, Bank of Canada and OPEC surprises. A pre-registered test of a neural net against a linear projection. A scenario tool that can only print a number the estimates contain.
+**[Live site](https://shmorsi.github.io/world-shock-lab/)** · [Case study](https://shmorsi.github.io/projects/world-shock-lab.html) · [Portfolio](https://shmorsi.github.io/) · [Research note (PDF)](docs/RESEARCH_NOTE.pdf) · [Model card](docs/MODEL_CARD.md)
+
+[![ci](https://img.shields.io/github/actions/workflow/status/shmorsi/world-shock-lab/ci.yml?branch=main&label=ci&labelColor=000000&color=000000)](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml)
+[![license](https://img.shields.io/badge/license-MIT-000000?labelColor=000000)](LICENSE)
+[![python](https://img.shields.io/badge/python-3.12-000000?labelColor=000000)](https://www.python.org/downloads/)
+[![site](https://img.shields.io/badge/site-live-000000?labelColor=000000)](https://shmorsi.github.io/world-shock-lab/)
+
+<a href="https://shmorsi.github.io/world-shock-lab/"><img alt="Announcement-day response of Canadian equities, the 10-year yield and the Canadian dollar when a Fed or Bank of Canada surprise is scaled to a rise in that bank's own 2-year yield. Dots are point estimates and whiskers are 90% bands; Fed in blue, Bank of Canada in orange, open circles for the Rigobon–Sack estimator." src="docs/figures/fig1_canada_lens.png" width="760" /></a>
 
 ## Key results
 
@@ -22,17 +26,11 @@ Across 53 assets. Each central-bank surprise is scaled to a 10 bp rise in that c
 | Live forecasts | **Pending** | Forecasts for the 2026-10-28 Fed and BoC decisions were committed on 2026-10-13, before the decisions. No decision has been scored yet, so there is no track record. |
 <!-- top:end -->
 
-<a href="https://shmorsi.github.io/world-shock-lab/"><img alt="Announcement-day response of Canadian equities, the 10-year yield and the Canadian dollar when a Fed or Bank of Canada surprise is scaled to a rise in that bank's own 2-year yield. Dots are point estimates and whiskers are 90% bands; Fed in blue, Bank of Canada in orange, open circles for the Rigobon–Sack estimator." src="docs/figures/fig1_canada_lens.png" width="760" /></a>
+Every output carries one of four labels: **identified causal**, **reduced form**, **model forecast** or **hypothetical scenario**. **Read with care:** the ML gain is one pre-registered score on the 5% tail, not a calibrated tail forecast; on the average move there is no evidence ML beats the linear projection. The full list of limits is in [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
-**Open:** [the site](https://shmorsi.github.io/world-shock-lab/) · [research note (PDF)](docs/RESEARCH_NOTE.pdf) · [methodology](docs/METHOD.md) · [model card](docs/MODEL_CARD.md) · [data provenance](docs/PROVENANCE.md) · [limitations](docs/LIMITATIONS.md) · [ML study](docs/ML_STUDY.md) · [replication](docs/REPLICATION.md)
+## How it works
 
-[![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/world-shock-lab/)
-
-## Why this matters
-
-A price regression cannot tell a Fed surprise from the rest of the day's news. The surprises here are measured in a short window around a scheduled announcement, checked against the published papers, and labelled for the kind of claim they support: identified causal, reduced form, model forecast, or hypothetical scenario. The machine-learning comparison was tagged in git before the test set was opened, including the rule for a disappointing answer. That answer is what the first benchmark returned. The tail result is one pre-registered score, and the calibration miss is reported beside it. The scenario brief is template text; a test fails if it prints a digit the results do not contain.
-
-## Architecture
+A price regression cannot tell a Fed surprise from the rest of the day's news. Here each surprise is measured in a short window around a scheduled announcement and checked against the published papers. The ML comparison was tagged in git before the test set was opened, including the rule for a disappointing answer. The scenario brief is template text, and a test fails if it prints a digit the results do not contain.
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"darkMode": true, "background": "#000000", "primaryColor": "#0a0a0a", "primaryTextColor": "#f5f5f7", "primaryBorderColor": "#575757", "lineColor": "#8ec5ff", "secondaryColor": "#111113", "tertiaryColor": "#111113", "clusterBkg": "#0a0a0a", "clusterBorder": "#575757", "titleColor": "#f5f5f7", "edgeLabelBackground": "#000000", "fontFamily": "Inter Tight, Helvetica Neue, Arial, sans-serif"}}}%%
@@ -66,31 +64,52 @@ flowchart LR
 - **Scenarios** (`wsl/scenarios/`, `web/src/engine/`): one engine, two languages, shared fixtures.
 - **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. The job reads `FRED_API_KEY` from the Actions secret and fails if the secret is missing.
 
+[![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/world-shock-lab/)
+
 ## Quick start
 
-[uv](https://docs.astral.sh/uv/getting-started/installation/) installs the pinned Python. The site needs Node 22 (`web/.nvmrc`). These three commands do not need an API key.
+[uv](https://docs.astral.sh/uv/getting-started/installation/) installs the pinned Python; the site needs Node 22 (`web/.nvmrc`). No API key needed:
 
 ```bash
 make setup
-make reproduce
+make reproduce          # lint, typecheck, tests, regenerate docs from committed results
 cd web && npm ci && npm run dev
 ```
 
-`make reproduce` lints, typechecks, tests, and regenerates the documents from the committed results. It does not refit a model or download data. A full rebuild from the sources is `make all`, after a free FRED key is in `.env` ([docs/REPRODUCING.md](docs/REPRODUCING.md)).
+`make reproduce` does not refit a model or download data. A full rebuild from the sources is `make all`, with a free FRED key in `.env` ([docs/REPRODUCING.md](docs/REPRODUCING.md)).
 
-## Reproducibility and integrity
+## Repository map
 
-- **Pre-registration.** Splits, metrics and decision rules are in `config/evaluation.yaml` and `config/live.yaml`, tagged `protocol-v1` through `protocol-v4` before the fitting those tags govern. The second study has its own tag, `ml-study-v1`.
-- **One look at each test set.** `wsl evaluate --final` and `wsl mlstudy --final` refuse a second run unless a reason is logged. The committed files in `results/final_eval/` and `results/mlstudy/` are the record.
-- **Locked outputs.** Published forecasts in `live/forecasts/` and scores in `live/scores/` are write-once. Result files carry the input hashes, the code version and the protocol hash. Do not edit them by hand. [docs/DEV.md](docs/DEV.md) lists the files a change should leave alone.
-- **CI.** Every pull request runs ruff, mypy, pytest, the web typecheck, the web tests, the production build, and axe-core. The Pages workflow builds the same site from the committed data and deploys it from `main`.
-- **Compute.** The lockfile installs CPU torch. The committed scores are the record, and the result files do not store a wall-clock for those fits, so none is stated. `make reproduce` does not train.
+| Path | What it is |
+|---|---|
+| `wsl/` | The Python package (`uv run wsl --help`): data, shocks, estimation, ML, scenarios, live mode, reports |
+| `web/` | The static site (Vite, React, TypeScript, d3), with a TypeScript twin of the scenario engine |
+| `results/` | Result files with provenance: input hashes, code version, protocol hash, evidence label |
+| `live/` | Pre-registered live forecasts and their scores, write-once |
+| `config/` | Series registry, evaluation protocol, ML-study protocol, live-mode rules |
+| `data/` | Source registry ([data/SOURCES.md](data/SOURCES.md)), hash manifest and event lists; raw data are never committed |
+| `tests/` | Estimator recovery, scenario-engine fixtures, and the no-hand-typed-number checks on generated docs |
 
-## What I'd do next
+## Documents
 
-Future work, not a result. A language agent could read a central-bank statement and draft the strategist brief from the catalogue, still forbidden by the existing test from printing a digit the engine did not compute. A new protocol tag could ask whether conformal or regime-conditional quantiles calibrate the tail, without reopening the frozen tests. A larger model would be that kind of new protocol, with its own tag, and would not replace the scores above. Live mode could add another central bank once a public surprise and a licence that allows the score file both exist. None of that is in the estimates above.
+| Document | What it is |
+|---|---|
+| [docs/RESEARCH_NOTE.md](docs/RESEARCH_NOTE.md) / [.pdf](docs/RESEARCH_NOTE.pdf) | The research note, generated from the results |
+| [docs/METHOD.md](docs/METHOD.md) | Identification, estimation and evidence labels |
+| [docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md) · [docs/ML_STUDY_PROTOCOL.md](docs/ML_STUDY_PROTOCOL.md) | Pre-registered protocols and change logs (tags `protocol-v1` to `protocol-v4`, `ml-study-v1`) |
+| [docs/MODEL_CARD.md](docs/MODEL_CARD.md) · [docs/ML_STUDY.md](docs/ML_STUDY.md) · [docs/ML_BENCHMARK.md](docs/ML_BENCHMARK.md) | The two ML studies: question, split, decision rule, scores |
+| [docs/REPLICATION.md](docs/REPLICATION.md) · [docs/SIMULATION.md](docs/SIMULATION.md) · [docs/RESULTS.md](docs/RESULTS.md) · [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md) | Generated reports: replication, estimator validation, main results, data quality |
+| [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | What the results cannot tell you |
+| [docs/PROVENANCE.md](docs/PROVENANCE.md) · [docs/COMMIT_MAP.md](docs/COMMIT_MAP.md) | How a download, commit and protocol hash reach a result file; old-to-current commit hashes |
+| [docs/PLAN.md](docs/PLAN.md) | The pre-estimation plan: scope, design decisions, risks, milestones |
+| [docs/REPRODUCING.md](docs/REPRODUCING.md) · [docs/DEV.md](docs/DEV.md) | Reproduction, checks, and which files a change must leave alone |
 
-## Results
+## Full results
+
+The blocks below are generated from the committed results by `uv run wsl report docs`. Click to expand.
+
+<details>
+<summary><b>Headline findings and why to trust them</b></summary>
 
 <!-- findings:start (generated by `uv run wsl report docs`; do not edit) -->
 ### Headline findings
@@ -103,6 +122,11 @@ Future work, not a result. A language agent could read a central-bank statement 
 
 **Site:** every view renders in 2.7 s or less on a throttled phone profile (slow 4G, CPU slowed four times; `npm run measure`), and axe-core finds 0 WCAG 2.1 A/AA violations across 9 views in light and dark themes.
 <!-- findings:end -->
+
+</details>
+
+<details>
+<summary><b>Second ML study: temporal CNN and quantile boosting</b></summary>
 
 <!-- tldr:start (generated by `uv run wsl report docs`; do not edit) -->
 ### Second ML study
@@ -125,6 +149,11 @@ Quantile gradient boosting's 5% pinball loss minus the Gaussian linear projectio
 Reproduce the checks and these documents from the committed results with `make reproduce`. That command does not refit the test set.
 <!-- tldr:end -->
 
+</details>
+
+<details>
+<summary><b>What I built and learned</b></summary>
+
 <!-- learned:start (generated by `uv run wsl report docs`; do not edit) -->
 ### What I built and learned
 
@@ -139,11 +168,16 @@ Two secondary checks did not rescue the average-move model or extend the tail re
 The comparison uses this checkout's data vintage: 3 artifacts matched the committed pins and 22 market series had been revised by the source. Shock files are among the matched artifacts. The linear projection's test scaled error on this vintage is 1.142.
 <!-- learned:end -->
 
+</details>
+
+## Reproducibility and integrity
+
+- **Pre-registration.** Splits, metrics and decision rules live in `config/evaluation.yaml`, `config/ml_study.yaml` and `config/live.yaml`, tagged before the fitting those tags govern.
+- **One look at each test set.** `wsl evaluate --final` and `wsl mlstudy --final` refuse a second run unless a reason is logged; `results/final_eval/` and `results/mlstudy/` are the record.
+- **Locked outputs.** Forecasts in `live/forecasts/` and scores in `live/scores/` are write-once. Result files carry input hashes, code version and protocol hash.
+- **CI.** Every pull request runs ruff, mypy, pytest, the web typecheck and tests, the production build and axe-core. Pages deploys the site from `main`.
+
 ## Limits
-
-The full list, with reasons, is in [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
-
-### What this is, and what it is not
 
 | It is | It is not |
 |---|---|
@@ -153,32 +187,9 @@ The full list, with reasons, is in [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 | Scenarios that add estimated responses, with uncertainty and explicit warnings about linearity and out-of-range sizes | Reliable for monthly macro effects: those instruments are weak |
 | Live forecasts published before each Fed and BoC decision and scored automatically | A track record yet: the first live decisions are in late 2026 |
 
-Every output carries one of four labels: **identified causal**, **reduced form**, **model forecast** or **hypothetical scenario**.
+## What I'd do next
 
-## Repository map
-
-| Path | What it is |
-|---|---|
-| [docs/RESEARCH_NOTE.md](docs/RESEARCH_NOTE.md) / [.pdf](docs/RESEARCH_NOTE.pdf) | The research note, generated from the results |
-| [docs/PLAN.md](docs/PLAN.md) | Scope, push-backs on the original brief, risks, milestones |
-| [docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md) | The pre-registered protocol and its change log (git tags `protocol-v1` to `protocol-v4`) |
-| [data/SOURCES.md](data/SOURCES.md) | Every source: verified URL, coverage, licence, redistribution policy, open items |
-| [docs/DATA_QUALITY.md](docs/DATA_QUALITY.md), [docs/SIMULATION.md](docs/SIMULATION.md), [docs/REPLICATION.md](docs/REPLICATION.md), [docs/RESULTS.md](docs/RESULTS.md), [docs/ML_BENCHMARK.md](docs/ML_BENCHMARK.md) | Generated reports: data quality, estimator validation, replication, the M4 results, the ML benchmark |
-| [docs/METHOD.md](docs/METHOD.md) | Identification, estimation and labels, without restating the estimates |
-| [docs/MODEL_CARD.md](docs/MODEL_CARD.md) | The second ML study: question, split, decision rule, scores, out of scope |
-| [docs/PROVENANCE.md](docs/PROVENANCE.md) | How a download, a commit and a protocol hash get into a result file |
-| [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | What the results cannot tell you |
-| [docs/REPRODUCING.md](docs/REPRODUCING.md) | One-command reproduction, and what changes when sources revise their data |
-| [docs/DEV.md](docs/DEV.md) | How to set up, what the checks run, and which files stay untouched |
-| [docs/RESUME_BULLETS.md](docs/RESUME_BULLETS.md) | Generated summary bullets and interview questions with honest answers |
-| [CITATION.cff](CITATION.cff) | Software citation |
-| [docs/SHIP_CHECKLIST.md](docs/SHIP_CHECKLIST.md) | The decisions and steps left for the owner before going public |
-| [docs/COMMIT_MAP.md](docs/COMMIT_MAP.md) | Old to current commit hashes (history rewritten twice, for attribution only; contents unchanged) |
-| `results/` | Result files with provenance (input hashes, code version, protocol hash, evidence label) |
-| `live/` | Pre-registered live forecasts and their scores |
-| `config/` | Series registry, evaluation protocol, live-mode rules |
-| `wsl/` | The Python package (`uv run wsl --help`) |
-| `web/` | The static web app (Vite, React, TypeScript, d3) |
+Future work, not a result: a language agent that reads a central-bank statement and drafts the strategist brief from the catalogue, still barred by the existing test from printing a digit the engine did not compute; conformal or regime-conditional tail quantiles under a new protocol tag; another central bank in live mode once a public surprise series with a suitable licence exists.
 
 ## Citations
 

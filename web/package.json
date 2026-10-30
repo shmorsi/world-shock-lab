@@ -2,6 +2,11 @@
   "name": "world-shock-lab-web",
   "private": true,
   "version": "0.1.0",
+  "description": "Static site for World Shock Lab: shock responses, scenarios and live forecasts.",
+  "author": "Sherif Morsi",
+  "license": "MIT",
+  "homepage": "https://shmorsi.github.io/",
+  "repository": { "type": "git", "url": "https://github.com/shmorsi/world-shock-lab.git", "directory": "web" },
   "type": "module",
   "scripts": {
     "dev": "vite",
