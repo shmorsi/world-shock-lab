@@ -5,6 +5,7 @@ description = "How the world, and Canada in particular, reacts to identified eco
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }
+authors = [{ name = "Sherif Morsi" }]
 dependencies = [
     "pandas>=2.2",
     "numpy>=1.26",
@@ -23,6 +24,12 @@ dependencies = [
     "torch>=2.14.1",
     "scikit-learn>=1.9.1",
 ]
+
+[project.urls]
+Homepage = "https://shmorsi.github.io/"
+"Live site" = "https://shmorsi.github.io/world-shock-lab/"
+"Case study" = "https://shmorsi.github.io/projects/world-shock-lab.html"
+Repository = "https://github.com/shmorsi/world-shock-lab"
 
 [project.scripts]
 wsl = "wsl.cli:app"

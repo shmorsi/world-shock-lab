@@ -205,7 +205,7 @@ def _live_data(download: bool) -> tuple[dict[str, Any], LiveData, datetime]:
 
 @report_app.command("docs")
 def report_docs() -> None:
-    """README findings, docs/RESEARCH_NOTE.md (+ figures) and docs/RESUME_BULLETS.md."""
+    """README findings and docs/RESEARCH_NOTE.md (+ figures)."""
     from wsl.report.docs import write_all
 
     for p in write_all():

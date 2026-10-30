@@ -15,7 +15,7 @@ Results live in the generated reports (README findings, docs/RESEARCH_NOTE.md, d
 | M5 ML benchmark | Run exactly per the protocol; test set scored once; verdict written as computed | — |
 | M6 Scenario engine | Catalog of single-shock event LPs (Fed policy and information responses from one joint regression, with their covariance); shocks from different event families are added; label propagation; out-of-range and linearity warnings; JSON with provenance; Python and TypeScript engines tied by fixtures | A fully joint LP across families is not estimable because their events rarely coincide; the additivity assumption is stated in every scenario |
 | M7 Web app | Six views plus overview and track record; static JSON; keyboard access and a table alternative for every chart; brief "no number not in JSON" test | Load time is measured with a scripted Playwright profile equal to Lighthouse's slow-4G and 4x-CPU settings rather than with Lighthouse itself; accessibility with axe-core |
-| M8 Live mode and write-up | `config/live.yaml` (protocol v4), daily workflow, first forecasts for 2026-10-28, research note and PDF, README, limitations, resume bullets | Publishing steps (repository, secrets, Pages, licensing decisions O-3/O-4/O-9) are for the owner: docs/SHIP_CHECKLIST.md |
+| M8 Live mode and write-up | `config/live.yaml` (protocol v4), daily workflow, first forecasts for 2026-10-28, research note and PDF, README, limitations | Publishing (repository, secrets, Pages) is done; licensing decisions O-3/O-4/O-9 remain open items in data/SOURCES.md §6 |
 
 ---
 

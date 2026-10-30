@@ -21,7 +21,7 @@ make all                   # everything below, in order
 | Analysis | `make analyze` | `docs/RESULTS.md`, `results/m4/` |
 | ML report | `make evaluate-report` | `docs/ML_BENCHMARK.md` from the committed validation and final-evaluation files |
 | Site data | `make site` | `web/public/data/` (public licence filter) |
-| Documents | `make docs` | README findings, `docs/RESEARCH_NOTE.md`, figures, `docs/RESUME_BULLETS.md` |
+| Documents | `make docs` | README findings, `docs/RESEARCH_NOTE.md`, figures |
 
 Then `make web-check` builds the site and runs its tests, the accessibility check and the load-time check, and `make pdf` writes `docs/RESEARCH_NOTE.pdf`. Both need Node 22 (`web/.nvmrc`) and run `npx playwright install chromium` once (about 150 MB).
 
