@@ -2,14 +2,16 @@
 
 **How 53 markets react to Fed, Bank of Canada and OPEC surprises: identified causal estimates, a pre-registered test of machine learning against econometrics, and live forecasts published before each decision.**
 
-**[Live site](https://shmorsi.github.io/world-shock-lab/)** · [Case study](https://shmorsi.github.io/projects/world-shock-lab.html) · [Portfolio](https://shmorsi.github.io/) · [Research note (PDF)](docs/RESEARCH_NOTE.pdf) · [Model card](docs/MODEL_CARD.md)
+The third of three studies in [Deep Portfolio Constructor](https://github.com/shmorsi/deep-portfolio-constructor), a project on AI for long-term investing: growing wealth, keeping a pension promise funded, and (here) what a shock does to the markets a long-term investor holds. The lab's app is served as part of [shmorsi.github.io](https://shmorsi.github.io/), under that site's header.
+
+**[Open the lab](https://shmorsi.github.io/shock-lab/)** · [Case study](https://shmorsi.github.io/projects/world-shock-lab.html) · [Portfolio](https://shmorsi.github.io/) · [Research note (PDF)](docs/RESEARCH_NOTE.pdf) · [Model card](docs/MODEL_CARD.md)
 
 [![ci](https://img.shields.io/github/actions/workflow/status/shmorsi/world-shock-lab/ci.yml?branch=main&label=ci&labelColor=000000&color=000000)](https://github.com/shmorsi/world-shock-lab/actions/workflows/ci.yml)
 [![license](https://img.shields.io/badge/license-MIT-000000?labelColor=000000)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.12-000000?labelColor=000000)](https://www.python.org/downloads/)
-[![site](https://img.shields.io/badge/site-live-000000?labelColor=000000)](https://shmorsi.github.io/world-shock-lab/)
+[![site](https://img.shields.io/badge/site-live-000000?labelColor=000000)](https://shmorsi.github.io/shock-lab/)
 
-<a href="https://shmorsi.github.io/world-shock-lab/"><img alt="Announcement-day response of Canadian equities, the 10-year yield and the Canadian dollar when a Fed or Bank of Canada surprise is scaled to a rise in that bank's own 2-year yield. Dots are point estimates and whiskers are 90% bands; Fed in blue, Bank of Canada in orange, open circles for the Rigobon–Sack estimator." src="docs/figures/fig1_canada_lens.png" width="760" /></a>
+<a href="https://shmorsi.github.io/shock-lab/"><img alt="Announcement-day response of Canadian equities, the 10-year yield and the Canadian dollar when a Fed or Bank of Canada surprise is scaled to a rise in that bank's own 2-year yield. Dots are point estimates and whiskers are 90% bands; Fed in blue, Bank of Canada in orange, open circles for the Rigobon–Sack estimator." src="docs/figures/fig1_canada_lens.png" width="760" /></a>
 
 ## Key results
 
@@ -64,7 +66,7 @@ flowchart LR
 - **Scenarios** (`wsl/scenarios/`, `web/src/engine/`): one engine, two languages, shared fixtures.
 - **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. The job reads `FRED_API_KEY` from the Actions secret and fails if the secret is missing.
 
-[![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/world-shock-lab/)
+[![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/shock-lab/)
 
 ## Quick start
 
