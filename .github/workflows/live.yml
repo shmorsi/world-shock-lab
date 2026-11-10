@@ -13,8 +13,9 @@ name: live
 # weekday run whose download contains every h = 5 outcome (USD/CAD is the weekly H.10
 # rate, so the protocol expects this about 6–10 days after the decision). Score 2, FOMC
 # only, is written on the first run after Jarociński–Karadi's file lists that meeting.
-# Each file is written once and never edited. The job then commits it and starts the
-# Pages workflow.
+# Each file is written once and never edited. The job then commits it. The lab's app is
+# served as part of shmorsi.github.io (shock-lab/ there): that site's daily sync builds it
+# from this repository's main, so a new forecast or score appears there without a deploy here.
 on:
   schedule:
     - cron: "30 22 * * 1-5"
@@ -22,7 +23,6 @@ on:
 
 permissions:
   contents: write
-  actions: write # to start the pages workflow
 
 concurrency:
   group: live
@@ -61,8 +61,6 @@ jobs:
 
       - name: Commit new forecasts and scores
         if: success() && env.FRED_API_KEY != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           # actions/checkout leaves a detached HEAD. A bare `git push` then has no branch
           # to update, so the 2026-10-28 scores would never reach main. Name the branch.
@@ -76,7 +74,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-          gh workflow run pages.yml --ref "${GITHUB_REF_NAME}"
 
       # Runs even if a step above failed, once the key is present: what is published, what
       # is still owed, and an error if a forecast that is due was not written.
