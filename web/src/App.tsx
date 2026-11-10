@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { load, useData } from "./data";
 import { ScenarioProvider } from "./scenario";
 import type { Meta } from "./types";
@@ -57,37 +57,59 @@ function useRoute(): string {
   return route;
 }
 
-type Theme = "system" | "light" | "dark";
+type Theme = "light" | "dark";
+// The same storage key and values as every other page of shmorsi.github.io, so a theme chosen
+// anywhere on the site carries over. Dark unless the visitor picked light, as on those pages.
 function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(() => {
     try {
-      const stored = localStorage.getItem("wsl-theme");
-      return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+      return localStorage.getItem("theme") === "light" ? "light" : "dark";
     } catch {
-      return "system";
+      return "dark";
     }
   });
-  // "System" leaves the page to prefers-color-scheme, and only clears a theme this toggle set,
-  // so a theme chosen by an embedding host is respected.
-  const setByUs = useRef(false);
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme !== "system") {
-      root.setAttribute("data-theme", theme);
-      setByUs.current = true;
-    } else if (setByUs.current) {
-      root.removeAttribute("data-theme");
-      setByUs.current = false;
-    }
-    try {
-      localStorage.setItem("wsl-theme", theme);
-    } catch {
-      /* ignore */
-    }
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
-  const next = () => setTheme((t) => (t === "system" ? "dark" : t === "dark" ? "light" : "system"));
+  const next = () =>
+    setTheme((t) => {
+      const chosen = t === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("theme", chosen);
+      } catch {
+        /* ignore */
+      }
+      return chosen;
+    });
   return [theme, next];
 }
+
+// The header hides while the reader scrolls down and returns on the way up, as on the project pages.
+function useTuckedHeader(disabled: boolean) {
+  useEffect(() => {
+    let last = window.scrollY;
+    const on = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - last) < 6) return;
+      document.body.classList.toggle("tucked", !disabled && y > last && y > 120);
+      last = y;
+    };
+    if (disabled) document.body.classList.remove("tucked");
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, [disabled]);
+}
+
+// World Shock Lab is one section of shmorsi.github.io. These are that site's pages, relative to
+// this app's folder, in the order of its header (scripts/sync_chrome.py there).
+const SITE = [
+  { href: "../#work", text: "Work", here: false },
+  { href: "../projects/deep-portfolio-constructor.html", text: "Portfolio", here: false },
+  { href: "../projects/pension-lab.html", text: "Pension", here: false },
+  { href: "../projects/tsfm.html", text: "TSFM", here: false },
+  { href: "../projects/world-shock-lab.html", text: "Shock Lab", here: true },
+  { href: "../aurvane/", text: "Aurvane", here: false },
+] as const;
 
 export default function App() {
   const route = useRoute();
@@ -119,7 +141,7 @@ export default function App() {
       document.querySelector("footer.site")?.removeAttribute("inert");
     };
   }, [menuOpen]);
-  const themeName = theme === "system" ? "Auto" : theme === "dark" ? "Dark" : "Light";
+  useTuckedHeader(menuOpen);
   const view = (() => {
     switch (route) {
       case "map":
@@ -147,7 +169,44 @@ export default function App() {
       <a className="skip" href="#main">
         Skip to content
       </a>
-      <header className="topbar">
+      <header className="site-header">
+        <a className="wordmark" href="../">
+          Sherif Morsi
+        </a>
+        <div className="header-tools">
+          <nav id="site-nav" className={menuOpen ? "site-nav open" : "site-nav"} aria-label="Main">
+            {SITE.map((l) => (
+              <a key={l.href} href={l.href} aria-current={l.here ? "true" : undefined}>
+                {l.text}
+              </a>
+            ))}
+            <a className="nav-resume" href="../resume/Sherif_Morsi_Resume.pdf">
+              Resume
+            </a>
+          </nav>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={nextTheme}
+            aria-label={`Switch to the ${theme === "dark" ? "light" : "dark"} theme`}
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M10 2.75a7.25 7.25 0 0 1 0 14.5Z" fill="currentColor" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="menu-button"
+            aria-expanded={menuOpen}
+            aria-controls="site-nav"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? "Close" : "Menu"}
+          </button>
+        </div>
+      </header>
+      <div className="topbar">
         <div className="topbar-in">
           <a className="brand" href="#/">
             <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -156,28 +215,15 @@ export default function App() {
             </svg>
             World Shock Lab
           </a>
-          <button
-            type="button"
-            className="menu"
-            aria-expanded={menuOpen}
-            aria-controls="view-nav"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? "Close" : "Menu"}
-          </button>
-          <nav id="view-nav" className={menuOpen ? "views open" : "views"} aria-label="Views">
+          <nav id="view-nav" className="views" aria-label="World Shock Lab">
             {ROUTES.map((r) => (
               <a key={r.path} href={`#/${r.path}`} aria-current={route === r.path ? "page" : undefined}>
-                <span className="nav-short">{r.short}</span>
-                <span className="nav-long">{r.text}</span>
+                {r.short}
               </a>
             ))}
           </nav>
-          <button type="button" className="theme" onClick={nextTheme} aria-label={`Colour theme: ${theme}. Change theme.`}>
-            {themeName}
-          </button>
         </div>
-      </header>
+      </div>
       <main id="main">
         <Suspense fallback={<div className="frame"><p className="muted">Loading view…</p></div>}>
           {overview ? view : <div className="frame">{view}</div>}
@@ -187,6 +233,13 @@ export default function App() {
         <span>
           Every number on this site is produced by the project's code from pinned public data; nothing is typed in by hand.
           {meta.data && ` Built ${meta.data.built_at.replace("T", " ").replace("Z", " UTC")} from commit ${meta.data.git_sha.slice(0, 7)}.`}
+        </span>
+        <span className="site-links">
+          <span>© 2026 Sherif Morsi, Montreal</span>
+          <a href="../#work">All projects</a>
+          <a href="../projects/world-shock-lab.html">Case study</a>
+          <a href="../resume/Sherif_Morsi_Resume.pdf">Resume</a>
+          <a href="../#contact">Contact</a>
         </span>
         <span>
           <a href="https://github.com/shmorsi/world-shock-lab">Source</a>

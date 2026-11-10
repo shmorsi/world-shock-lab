@@ -11,9 +11,10 @@
     <link rel="preload" href="./data/summary.json" as="fetch" crossorigin />
     <script>
       try {
-        var t = localStorage.getItem("wsl-theme");
-        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
-      } catch (e) {}
+        document.documentElement.dataset.theme = localStorage.getItem("theme") === "light" ? "light" : "dark";
+      } catch (e) {
+        document.documentElement.dataset.theme = "dark";
+      }
     </script>
   </head>
   <body>

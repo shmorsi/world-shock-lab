@@ -16,7 +16,7 @@ let failures = 0;
 for (const scheme of ["light", "dark"]) {
   const context = await browser.newContext({ colorScheme: scheme });
   await context.addInitScript((chosen) => {
-    localStorage.setItem("wsl-theme", chosen);
+    localStorage.setItem("theme", chosen);
   }, scheme);
   const page = await context.newPage();
   for (const r of routes) {
