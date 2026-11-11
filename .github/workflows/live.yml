@@ -60,6 +60,13 @@ jobs:
       - name: Score finished decisions and publish due forecasts
         run: uv run --no-dev wsl live run
 
+      # The README's "Live forecasts" line and the research note count the scored decisions
+      # (tests/test_docs.py fails when they no longer match live/), so they are regenerated
+      # here and committed with the files they describe. On a day with nothing new they come
+      # out unchanged.
+      - name: Regenerate the documents that quote the live results
+        run: uv run --no-dev wsl report docs
+
       - name: Commit new forecasts and scores
         run: |
           # actions/checkout leaves a detached HEAD. A bare `git push` then has no branch
@@ -69,7 +76,7 @@ jobs:
             echo "No new forecasts or scores today."
             exit 0
           fi
-          git add web/public/data/live.json
+          git add web/public/data/live.json README.md docs/RESEARCH_NOTE.md docs/figures
           git config user.name "world-shock-lab live"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"

@@ -57,7 +57,21 @@ def test_a_missing_fred_key_does_not_stop_the_job() -> None:
     names = [s.get("name") for s in steps]
     assert names.index("Choose the FRED route") < names.index(
         "Score finished decisions and publish due forecasts") < names.index(
+        "Regenerate the documents that quote the live results") < names.index(
         "Commit new forecasts and scores") < names.index("Report what is still owed")
+
+
+def test_a_new_score_is_committed_with_the_documents_that_count_it() -> None:
+    """A score changes the README's "Live forecasts" line. If the job committed the score
+    alone, tests/test_docs.py would fail on the next push to main."""
+    doc = _workflow()
+    regen = _step(doc, "Regenerate the documents that quote the live results")
+    assert "if" not in regen and regen["run"] == "uv run --no-dev wsl report docs"
+    script = _step(doc, "Commit new forecasts and scores")["run"]
+    quiet = script.index("git diff --cached --quiet")
+    docs_add = script.index(
+        "git add web/public/data/live.json README.md docs/RESEARCH_NOTE.md docs/figures")
+    assert quiet < docs_add  # documents are added only when live/ itself changed
 
 
 def test_score_commit_pushes_the_detached_head_to_main() -> None:
