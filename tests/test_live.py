@@ -215,21 +215,157 @@ def _cut(data: LiveData, last: str) -> LiveData:
     return replace(data, series=series)
 
 
-# ------------------------------------------------------------- the workflow's skip report
+# ------------------------------------------------------------- FRED without an API key
+FRED_ROWS = {"DGS2": "observation_date,DGS2\n2026-11-05,4.46\n2026-11-06,4.51\n2026-11-09,\n",
+             "DEXCAUS": "observation_date,DEXCAUS\n2026-11-05,1.3980\n2026-11-06,1.4106\n"}
+
+
+class _FakeHttp:
+    """Answers every request from ``reply(url, params)`` and records what was asked."""
+
+    def __init__(self, reply) -> None:  # type: ignore[no-untyped-def]
+        self.reply = reply
+        self.calls: list[tuple[str, dict[str, str]]] = []
+
+    def request(self, method: str, url: str, *, params=None, json_body=None,  # type: ignore[no-untyped-def]
+                headers=None):
+        from urllib.parse import urlencode
+
+        from wsl.data.http import Fetched, redact_url
+
+        self.calls.append((url, dict(params or {})))
+        body = self.reply(url, dict(params or {}))
+        if isinstance(body, Exception):
+            raise body
+        full = url + ("?" + urlencode(params) if params else "")
+        return Fetched(url=redact_url(full), content=body, content_type=None)
+
+    def get(self, url: str, **kw):  # type: ignore[no-untyped-def]
+        return self.request("GET", url, **kw)
+
+
+def _reply(fred_csv=None):  # type: ignore[no-untyped-def]
+    """FRED's public CSV for its two live series; a small JSON or CSV body for the rest."""
+    def reply(url: str, params: dict[str, str]) -> bytes | Exception:
+        if "fredgraph.csv" in url:
+            got = (fred_csv or FRED_ROWS.get)(params["id"])
+            return got if isinstance(got, Exception) else got.encode()
+        if "api.stlouisfed.org" in url:
+            return b'{"observations": [{"date": "2026-11-06", "value": "4.51"}]}'
+        return b"start,TFUT02\n" if url.endswith(".csv") else b"{}"
+    return reply
+
+
+@pytest.fixture
+def no_dotenv(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A developer's own .env must not decide which route a test takes."""
+    from wsl.live import data as live_data
+
+    monkeypatch.setattr(live_data, "load_dotenv", lambda *a, **k: False)
+
+
+def test_live_reads_fred_from_the_public_csv_when_no_key_is_set(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, no_dotenv: None) -> None:
+    from wsl.data.cache import RawCache, sha256_bytes
+    from wsl.data.sources import fred
+    from wsl.live import data as live_data
+
+    monkeypatch.setenv("FRED_API_KEY", "")  # what GitHub Actions passes for a missing secret
+    assert live_data.fred_route() == "csv"
+    cache = RawCache(root=tmp_path, manifest=Path("manifest.json"))
+    http = _FakeHttp(_reply())
+    outcomes = live_data.download(config(), cache, http)  # type: ignore[arg-type]
+
+    assert live_data.failed_downloads(outcomes) is None
+    assert not any(o.status == "skipped" for o in outcomes)
+    assert all("api.stlouisfed.org" not in url for url, _ in http.calls)
+    asked = [p["id"] for url, p in http.calls if url == fred.CSV_URL]
+    assert asked == ["DGS2", "DEXCAUS"]
+    # Observations only: the API's metadata and tags artifacts are neither asked for nor read.
+    fred_keys = [o.key for o in outcomes if o.key.startswith("fred/")]
+    assert fred_keys == ["fred/observations/DGS2", "fred/observations/DEXCAUS"]
+    assert outcomes[-1].key == live_data.JK_KEY  # the JK file is still fetched last
+
+    content, rec = cache.read("fred/observations/DGS2")
+    assert json.loads(content)["observations"][-1] == {"date": "2026-11-09", "value": "."}
+    prov = live_data._provenance("fred/observations/DGS2", rec)
+    assert prov["url"] == "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2"
+    assert prov["via"] == fred.CSV_NOTE and "no API key" in prov["via"]
+    assert prov["sha256"] == sha256_bytes(content)
+
+    # The FRED parser reads what the CSV route stored, with nothing filled in.
+    reg = {s.id: s for s in live_data.load_registry()}
+    obs = fred.parse([reg["US2Y"], reg["USDCAD"]], cache).obs
+    us2 = obs[obs["series_id"] == "US2Y"]
+    assert us2["value"].tolist()[:2] == [4.46, 4.51] and us2["status"].tolist()[-1] != "ok"
+    assert obs[obs["series_id"] == "USDCAD"]["value"].tolist() == [1.398, 1.4106]
+
+
+def test_live_keeps_the_fred_api_when_a_key_is_set(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, no_dotenv: None) -> None:
+    from wsl.data.cache import RawCache
+    from wsl.live import data as live_data
+
+    monkeypatch.setenv("FRED_API_KEY", "k-123")
+    assert live_data.fred_route() == "api"
+    cache = RawCache(root=tmp_path, manifest=Path("manifest.json"))
+    http = _FakeHttp(_reply())
+    outcomes = live_data.download(config(), cache, http)  # type: ignore[arg-type]
+
+    assert live_data.failed_downloads(outcomes) is None
+    assert all("fredgraph.csv" not in url for url, _ in http.calls)
+    api = [(url, p) for url, p in http.calls if "api.stlouisfed.org" in url]
+    assert len(api) == 6 and all(p["api_key"] == "k-123" for _, p in api)
+    assert sum(o.key.startswith("fred/") for o in outcomes) == 6  # observations, series, tags
+    prov = live_data._provenance("fred/observations/DGS2",
+                                 cache.pinned_record("fred/observations/DGS2"))
+    assert "via" not in prov and "api_key=REDACTED" in prov["url"] and "k-123" not in prov["url"]
+
+
+@pytest.mark.parametrize(("bad", "why"), [
+    ("<!DOCTYPE html><html><body>Access Denied</body></html>", "returned HTML"),
+    ("observation_date,DGS10\n2026-11-06,4.10\n", "unexpected CSV header"),
+    ("observation_date,DGS2\n", "no observations"),
+])
+def test_a_bad_public_csv_stops_the_live_run_before_anything_is_stored(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch, no_dotenv: None, bad: str,
+        why: str) -> None:
+    from wsl.data.cache import RawCache
+    from wsl.data.http import FetchError
+    from wsl.live import data as live_data
+
+    monkeypatch.delenv("FRED_API_KEY", raising=False)
+    cache = RawCache(root=tmp_path, manifest=Path("manifest.json"))
+    rows = dict(FRED_ROWS, DGS2=bad)
+    outcomes = live_data.download(config(), cache, _FakeHttp(_reply(rows.get)))  # type: ignore[arg-type]
+    failed = [o for o in outcomes if o.status == "failed"]
+    assert [o.key for o in failed] == ["fred/observations/DGS2"] and why in failed[0].detail
+    message = live_data.failed_downloads(outcomes)
+    assert message is not None and why in message and "Nothing was published" in message
+    assert cache.entry("fred/observations/DGS2") is None  # the bad bytes were never stored
+
+    refused = dict(FRED_ROWS, DEXCAUS=FetchError("GET fredgraph.csv failed: HTTP 403"))
+    outcomes = live_data.download(config(), RawCache(root=tmp_path / "b",
+                                                     manifest=Path("manifest.json")),
+                                  _FakeHttp(_reply(refused.get)))  # type: ignore[arg-type]
+    message = live_data.failed_downloads(outcomes)
+    assert message is not None and "fred/observations/DEXCAUS" in message and "HTTP 403" in message
+
+
+# ------------------------------------------------------------- the workflow's report
 def test_live_run_stops_before_writing_when_a_download_fails() -> None:
     from wsl.data.fetch import FetchOutcome
     from wsl.live.data import failed_downloads
 
     assert failed_downloads([FetchOutcome("fred/observations/DGS2", "unchanged")]) is None
-    missing = failed_downloads([
-        FetchOutcome("fred/observations/DGS2", "skipped", "FRED_API_KEY not set")])
-    assert missing is not None and "FRED_API_KEY" in missing and "Nothing was published" in missing
     blocked = failed_downloads([FetchOutcome("yahoo/RY", "failed", "HTTP 429")])
-    assert blocked is not None and "HTTP 429" in blocked
-    assert "FRED_API_KEY is not set" not in blocked
+    assert blocked is not None and "HTTP 429" in blocked and "Nothing was published" in blocked
+    # An input that was skipped is as incomplete as one that failed.
+    skipped = failed_downloads([FetchOutcome("x/y", "skipped", "SOME_KEY not set")])
+    assert skipped is not None and "SOME_KEY not set" in skipped
 
 
-def test_pending_lists_what_a_skipped_run_owes(tmp_path: Path) -> None:
+def test_pending_lists_what_a_run_still_owes(tmp_path: Path) -> None:
     from wsl.live import pending
 
     cfg = _cfg()
@@ -246,10 +382,14 @@ def test_pending_lists_what_a_skipped_run_owes(tmp_path: Path) -> None:
     assert [x.split(":")[0] for x in o.scores] == ["2026-10-07_fomc"]  # BoC needs no score 2
     assert "score1, score2" in o.scores[0]
 
-    notes, md = pending.report(o, no_key=True)
-    assert notes[0][0] == "warning" and "FRED_API_KEY" in notes[0][1]
-    assert ("error", o.due[0] + ". Without the key it will be missed.") in notes
-    assert "Skipped" in md and "2026-10-14_boc" in md
+    # No key is needed any more, so a missing one is not reported as a problem: the summary
+    # says which route the run read FRED by, and a forecast that is still due is an error.
+    notes, md = pending.report(o, "csv")
+    assert notes == [("error", o.due[0])]
+    assert "public CSV" in md and "not needed" in md and "Skipped" not in md
+    assert "2026-10-14_boc" in md and "Score 1 waits" in md
+    assert "the FRED API" in pending.report(o, "api")[1]
+    assert "FRED data" not in pending.report(o)[1] and "FRED data" not in pending.report(o, "")[1]
 
     late = pending.owed(cfg, datetime(2026, 10, 14, tzinfo=UTC), fc, sc)
     assert late.due == [] and [x.split(":")[0] for x in late.missed] == ["2026-10-14_boc"]
@@ -262,10 +402,13 @@ def test_pending_exit_code_fails_only_when_a_forecast_is_due(monkeypatch: pytest
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     # The committed config: nothing is due on 2026-10-23 (the 10-28 forecasts exist), but the
     # 12-09 forecasts are due on 2026-11-30.
-    assert pending.main(["--no-key", "--now", "2026-10-23T19:00:00Z"]) == 0
+    assert pending.main(["--route", "csv", "--now", "2026-10-23T19:00:00Z"]) == 0
     summary = tmp_path / "summary.md"
     monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
     monkeypatch.setattr(pending, "SCORES", tmp_path)  # no scores yet
-    assert pending.main(["--no-key", "--now", "2026-11-30T22:30:00Z"]) == 1
+    assert pending.main(["--route", "csv", "--now", "2026-11-30T22:30:00Z"]) == 1
     text = summary.read_text()
     assert "2026-12-09_fomc: forecast due" in text and "2026-10-28_boc" in text
+    assert "fredgraph.csv" in text
+    # The workflow passes an empty route if its first step did not run; that is not an error.
+    assert pending.main(["--route", "", "--now", "2026-10-23T19:00:00Z"]) == 0

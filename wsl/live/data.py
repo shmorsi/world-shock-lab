@@ -5,6 +5,10 @@ cache (``data/live_cache/``, git-ignored) and always adopts what the source serv
 research cache and its pins are never touched. Every forecast and score file records the
 SHA-256 and retrieval time of the bytes it used.
 
+The two FRED series (US 2-year yield, USD/CAD) come from the FRED API when ``FRED_API_KEY``
+is set, and from FRED's public CSV download when it is not: the same observations, no key.
+The URL recorded with each series says which route a file was made from.
+
 Event history comes from files that are either committed or fetched here:
   * FOMC: the JK surprise file (current ``main``), which lists every announcement JK has
     measured, plus calendar dates that have passed but JK has not yet added;
@@ -14,6 +18,7 @@ Event history comes from files that are either committed or fetched here:
 from __future__ import annotations
 
 import io
+import os
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -24,10 +29,11 @@ import yaml
 from dotenv import load_dotenv
 
 from wsl.analysis.boc_proxy import ASSUMED
-from wsl.data.cache import RawCache
-from wsl.data.fetch import SERIES_SOURCES, FetchOutcome, fetch_artifact
-from wsl.data.http import Http, redact_url
+from wsl.data.cache import RawCache, RawRecord
+from wsl.data.fetch import SERIES_SOURCES, FetchOutcome, fetch_artifact, store_outcome
+from wsl.data.http import FetchError, Http, redact_url
 from wsl.data.registry import SeriesSpec, load_derived, load_registry
+from wsl.data.sources import fred
 from wsl.data.sources.base import Artifact
 from wsl.data.transforms import ew_return_index
 from wsl.paths import ROOT
@@ -80,35 +86,75 @@ def _jk_artifact(cfg: dict[str, Any]) -> Artifact:
     return Artifact(JK_KEY, cfg["scoring"]["jk_surprises_url"], "csv")
 
 
+def fred_route() -> str:
+    """How this run reads FRED: "api" when ``FRED_API_KEY`` is set (environment or .env),
+    else "csv", FRED's public download, which needs no key."""
+    load_dotenv(ROOT / ".env")
+    return "api" if os.environ.get(fred.KEY_ENV) else "csv"
+
+
+def _fetch_fred_csv(spec: SeriesSpec, cache: RawCache, http: Http) -> FetchOutcome:
+    """One FRED series by the public CSV route, stored under the key the FRED parser reads.
+
+    The stored bytes are the CSV's rows in the JSON shape of an API response, and the record's
+    URL is the CSV address, so the provenance of every file made from them names the route.
+    """
+    key = fred.observations_key(spec.key)
+    try:
+        content, url = fred.fetch_observations_csv(http, spec.key)
+    except (FetchError, fred.FredCsvError) as exc:
+        return FetchOutcome(key, "failed", str(exc))
+    return store_outcome(key, cache.store(key, content, url=url, ext="json",
+                                          content_type="application/json", repin=True))
+
+
 def download(cfg: dict[str, Any], cache: RawCache, http: Http | None = None
              ) -> list[FetchOutcome]:
-    """Fetch the current version of every live input; the newest bytes become the pin."""
-    load_dotenv(ROOT / ".env")
+    """Fetch the current version of every live input; the newest bytes become the pin.
+
+    Without ``FRED_API_KEY`` the FRED series come from the public CSV: observations only,
+    which is all live mode reads from FRED (the API's metadata and tags are not used here).
+    """
+    route = fred_route()
     http = http or Http()
-    arts: list[Artifact] = []
     specs = _specs()
+    outcomes: list[FetchOutcome] = []
     for source in sorted({s.source for s in specs}):
-        arts += SERIES_SOURCES[source].artifacts([s for s in specs if s.source == source])
-    arts.append(_jk_artifact(cfg))
-    return [fetch_artifact(a, cache, http, repin=True) for a in arts]
+        group = [s for s in specs if s.source == source]
+        if source == "fred" and route == "csv":
+            outcomes += [_fetch_fred_csv(s, cache, http) for s in group]
+        else:
+            outcomes += [fetch_artifact(a, cache, http, repin=True)
+                         for a in SERIES_SOURCES[source].artifacts(group)]
+    outcomes.append(fetch_artifact(_jk_artifact(cfg), cache, http, repin=True))
+    return outcomes
 
 
 def failed_downloads(outcomes: list[FetchOutcome]) -> str | None:
     """Why a live run must stop, or None when every download succeeded.
 
-    A skipped FRED series means ``FRED_API_KEY`` is unset. A score file can never be edited
-    once it is published, so the run stops before writing anything when a download failed.
+    A score file can never be edited once it is published, so the run stops before writing
+    anything when a download failed, was skipped, or did not contain the series asked for.
     """
     bad = [o for o in outcomes if o.status in ("failed", "skipped")]
     if not bad:
         return None
     lines = [f"  {o.status:<8} {o.key}: {o.detail}" for o in bad]
-    if any("FRED_API_KEY" in o.detail for o in bad):
-        hint = ("FRED_API_KEY is not set. Add it to .env, or as the GitHub Actions secret, "
-                "and rerun. Nothing was published or scored.")
-    else:
-        hint = "Nothing was published or scored. Fix the downloads and rerun."
-    return "Live run stopped; these downloads did not succeed:\n" + "\n".join(lines) + "\n" + hint
+    return ("Live run stopped; these downloads did not succeed:\n" + "\n".join(lines)
+            + "\nNothing was published or scored. Fix the downloads and rerun.")
+
+
+def _provenance(key: str, rec: RawRecord) -> dict[str, str]:
+    """What a forecast or score file records about one downloaded series.
+
+    Bytes from FRED's public CSV carry a note, because their SHA-256 is of the rows as
+    stored for the parser and the URL beside it is the CSV they were read from.
+    """
+    out = {"artifact": key, "sha256": rec.sha256, "retrieved_at": rec.retrieved_at,
+           "url": redact_url(rec.url)}
+    if rec.url.startswith(fred.CSV_URL):
+        out["via"] = fred.CSV_NOTE
+    return out
 
 
 def _series_from(spec_id: str, values: pd.Series, obs_time: str, tz: str, units: str
@@ -136,9 +182,7 @@ def load(cfg: dict[str, Any], cache: RawCache, now: datetime) -> LiveData:
         parsed = SERIES_SOURCES[source].parse(group, cache)
         frames.append(parsed.obs)
         for sid, key in parsed.artifact_of.items():
-            rec = cache.pinned_record(key)
-            provenance[sid] = {"artifact": key, "sha256": rec.sha256,
-                               "retrieved_at": rec.retrieved_at, "url": redact_url(rec.url)}
+            provenance[sid] = _provenance(key, cache.pinned_record(key))
     obs = pd.concat(frames, ignore_index=True)
 
     series: dict[str, WindowSeries] = {}

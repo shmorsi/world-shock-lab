@@ -8,7 +8,7 @@ from types import ModuleType
 
 from dotenv import load_dotenv
 
-from wsl.data.cache import RawCache
+from wsl.data.cache import RawCache, StoreResult
 from wsl.data.http import FetchError, Http
 from wsl.data.registry import SeriesSpec, by_source, load_registry
 from wsl.data.sources import (
@@ -75,14 +75,19 @@ def fetch_artifact(art: Artifact, cache: RawCache, http: Http, repin: bool = Fal
         return FetchOutcome(art.key, "failed", "got an HTML page instead of data (bot check?)")
     res = cache.store(art.key, got.content, url=got.url, ext=art.ext,
                       content_type=got.content_type, repin=repin)
+    return store_outcome(art.key, res)
+
+
+def store_outcome(key: str, res: StoreResult) -> FetchOutcome:
+    """What storing freshly downloaded bytes did to the artifact's pin."""
     new, old = res.record.sha256, res.previous_pin
     if old is None:
-        return FetchOutcome(art.key, "pinned_new")
+        return FetchOutcome(key, "pinned_new")
     if new == old:
-        return FetchOutcome(art.key, "unchanged")
+        return FetchOutcome(key, "unchanged")
     if res.pinned:
-        return FetchOutcome(art.key, "repinned", f"{old[:12]} -> {new[:12]}")
-    return FetchOutcome(art.key, "changed_not_pinned",
+        return FetchOutcome(key, "repinned", f"{old[:12]} -> {new[:12]}")
+    return FetchOutcome(key, "changed_not_pinned",
                         f"source now serves {new[:12]}, pinned {old[:12]}; --repin adopts it")
 
 

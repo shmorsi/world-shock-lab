@@ -35,6 +35,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
+      # Optional. The secret is the only place a key is read; the job runs without it.
       FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
     steps:
       - uses: actions/checkout@v4
@@ -42,25 +43,31 @@ jobs:
         with:
           enable-cache: true
 
-      # The secret is the only place the key is read. An empty value fails the job after
-      # the log and the job summary list every forecast and score this run could not touch.
-      - name: Fail if the FRED_API_KEY secret is missing
-        if: success() && env.FRED_API_KEY == ''
+      # With the secret, the two FRED series (US 2-year yield, USD/CAD) come from the FRED
+      # API. Without it they come from FRED's public CSV download: the same observations, no
+      # key (wsl/live/data.py). A missing secret therefore never stops a forecast or a score.
+      - name: Choose the FRED route
+        id: fred
         run: |
-          uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending --no-key || true
-          echo "::error::FRED_API_KEY secret is not set. Add it under Settings > Secrets and variables > Actions. This job downloads nothing, publishes no forecast, and scores nothing until that secret exists."
-          exit 1
+          if [ -n "$FRED_API_KEY" ]; then route=api; else route=csv; fi
+          echo "route=$route" >> "$GITHUB_OUTPUT"
+          echo "FRED route for this run: $route"
 
       - name: Install
-        if: success() && env.FRED_API_KEY != ''
         run: uv sync --locked --no-dev
 
+      # Stops with an error, before writing anything, if any download fails.
       - name: Score finished decisions and publish due forecasts
-        if: success() && env.FRED_API_KEY != ''
         run: uv run --no-dev wsl live run
 
+      # The README's "Live forecasts" line and the research note count the scored decisions
+      # (tests/test_docs.py fails when they no longer match live/), so they are regenerated
+      # here and committed with the files they describe. On a day with nothing new they come
+      # out unchanged.
+      - name: Regenerate the documents that quote the live results
+        run: uv run --no-dev wsl report docs
+
       - name: Commit new forecasts and scores
-        if: success() && env.FRED_API_KEY != ''
         run: |
           # actions/checkout leaves a detached HEAD. A bare `git push` then has no branch
           # to update, so the 2026-10-28 scores would never reach main. Name the branch.
@@ -69,14 +76,14 @@ jobs:
             echo "No new forecasts or scores today."
             exit 0
           fi
-          git add web/public/data/live.json
+          git add web/public/data/live.json README.md docs/RESEARCH_NOTE.md docs/figures
           git config user.name "world-shock-lab live"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "live: new forecasts or scores ($(date -u +%Y-%m-%d))"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
-      # Runs even if a step above failed, once the key is present: what is published, what
-      # is still owed, and an error if a forecast that is due was not written.
+      # Runs even if a step above failed: the route this run read FRED by, what is still
+      # owed, and an error if a forecast that is due was not written.
       - name: Report what is still owed
-        if: always() && env.FRED_API_KEY != ''
-        run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending
+        if: always()
+        run: uv run --no-project --with pyyaml==6.0.3 python -m wsl.live.pending --route "${{ steps.fred.outputs.route }}"

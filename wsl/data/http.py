@@ -23,6 +23,7 @@ HOST_MIN_INTERVAL: dict[str, float] = {
     "query1.finance.yahoo.com": 1.5,
     "api.nasdaq.com": 1.5,
     "api.stlouisfed.org": 0.6,  # FRED allows 120 requests/minute
+    "fred.stlouisfed.org": 1.0,  # the public graph CSV: no stated limit, so go slowly
     "sdmx.oecd.org": 3.0,  # OECD rate-limits its public API
     "www150.statcan.gc.ca": 0.5,
 }

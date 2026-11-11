@@ -1,12 +1,12 @@
 """What live mode owes right now, read from the committed files alone (no data, no network).
 
-The live workflow runs this on every scheduled run and writes the result to the log and the
-job summary. Without the FRED_API_KEY secret nothing can be forecast or scored, so this is how
-a skipped run says what it skipped. A forecast that is due fails the run: one that is not
-published at least ``min_hours_before`` the announcement can never count, while scores can
-always be computed later.
+The live workflow runs this at the end of every scheduled run and writes the result to the
+log and the job summary, with the route the run read FRED by (the API when the FRED_API_KEY
+secret is set, FRED's public CSV when it is not). A forecast that is still due fails the
+run: one that is not published at least ``min_hours_before`` the announcement can never
+count, while scores can always be computed later.
 
-    python -m wsl.live.pending [--no-key] [--now 2026-11-30T22:30:00Z]
+    python -m wsl.live.pending [--route csv|api] [--now 2026-11-30T22:30:00Z]
 
 Imports only the standard library and PyYAML, so the workflow can run it without installing
 the project.
@@ -34,6 +34,12 @@ LOOKBACK = timedelta(days=60)
 # A decision whose forecast window opened less than this long ago is not yet called due, so a
 # run that starts just before the window opens and reports just after it does not fail.
 GRACE = timedelta(hours=1)
+# How a run read the two FRED series (wsl/live/data.py: fred_route).
+ROUTE_TEXT = {
+    "api": "FRED data: the FRED API (the `FRED_API_KEY` secret is set).",
+    "csv": "FRED data: FRED's public CSV download, `fredgraph.csv`. The `FRED_API_KEY` secret "
+           "is not set and is not needed: the series and their values are the same.",
+}
 
 
 @dataclass
@@ -85,30 +91,23 @@ def owed(cfg: dict[str, Any], now: datetime, forecasts: Path = FORECASTS,
     return out
 
 
-def report(o: Owed, no_key: bool) -> tuple[list[tuple[str, str]], str]:
-    """(level, message) annotations and the Markdown job summary."""
-    notes: list[tuple[str, str]] = []
-    if no_key:
-        notes.append(("warning", "FRED_API_KEY secret is not set, so this run published no "
-                      "forecasts and scored nothing. Add it under Settings > Secrets and "
-                      "variables > Actions, or run 'uv run wsl live run' locally and push."))
-    notes += [("error", f"{x}. Without the key it will be missed." if no_key else x)
-              for x in o.due]
+def report(o: Owed, route: str | None = None) -> tuple[list[tuple[str, str]], str]:
+    """(level, message) annotations and the Markdown job summary.
+
+    ``route`` is how the run read FRED ("api" or "csv"); anything else leaves the line out.
+    """
+    notes: list[tuple[str, str]] = [("error", x) for x in o.due]
     notes += [("warning", x) for x in o.missed]
-    if no_key:
-        notes += [("warning", f"{x}. Scoring needs the key.") for x in o.scores]
 
     md = ["## Live mode", ""]
-    if no_key:
-        md += ["**Skipped: the `FRED_API_KEY` secret is not set.** Nothing was downloaded, "
-               "forecast or scored. Add the secret under Settings > Secrets and variables > "
-               "Actions, or run `uv run wsl live run` locally and push.", ""]
+    if route in ROUTE_TEXT:
+        md += [ROUTE_TEXT[route], ""]
     for title, rows in (("Forecasts due", o.due), ("Forecasts missed", o.missed),
                         ("Waiting for scores", o.scores)):
         md += [f"**{title}:** " + ("none" if not rows else ""), *[f"- {r}" for r in rows], ""]
     if o.next_window:
         md += [f"**Next:** {o.next_window}", ""]
-    if o.scores and not no_key:
+    if o.scores:
         md += ["Score 1 waits until every 5-day outcome is published (USD/CAD comes from the "
                "weekly H.10 release); score 2 waits for the JK intraday surprise.", ""]
     return notes, "\n".join(md)
@@ -116,14 +115,14 @@ def report(o: Owed, no_key: bool) -> tuple[list[tuple[str, str]], str]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="What live mode owes right now.")
-    ap.add_argument("--no-key", action="store_true",
-                    help="the FRED key is missing, so this run did nothing")
+    ap.add_argument("--route", default="",
+                    help="how the run read FRED: 'api' (key set) or 'csv' (public download)")
     ap.add_argument("--now", help="ISO time to evaluate at (default: now)")
     args = ap.parse_args(argv)
     now = (datetime.fromisoformat(args.now.replace("Z", "+00:00")) if args.now
            else datetime.now(UTC))
     o = owed(yaml.safe_load(LIVE_CONFIG.read_text()), now, FORECASTS, SCORES)
-    notes, md = report(o, args.no_key)
+    notes, md = report(o, args.route)
     gha = os.environ.get("GITHUB_ACTIONS") == "true"
     for level, msg in notes:
         print(f"::{level}::{msg}" if gha else f"{level}: {msg}")
