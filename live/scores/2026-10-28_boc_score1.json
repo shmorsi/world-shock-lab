@@ -1,0 +1,93 @@
+{
+ "schema": 1,
+ "kind": "score",
+ "score": 1,
+ "label": "model_forecast",
+ "event_id": "2026-10-28_boc",
+ "bank": "boc",
+ "decision_date": "2026-10-28",
+ "collision": true,
+ "proxy": "CA2Y",
+ "forecast_file": "live/forecasts/2026-10-28_boc.json",
+ "forecast_sha256": "fa515f8fb23a180d82fee1b5c79b49bfe28e6c832fa4d13b09969d798722e552",
+ "scored_at": "2026-11-11T03:56:56Z",
+ "surprise_source": "daily proxy: announcement-day change in the Government of Canada 2-year yield (bp)",
+ "realized_proxy_bp": null,
+ "restricted_note": "The realized BoC proxy is a CA 2Y change (open item O-3), so only hit rates are published for this score.",
+ "scores": [
+  {
+   "outcome": "CA2Y",
+   "h": 1,
+   "mechanical": true,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true
+  },
+  {
+   "outcome": "CA2Y",
+   "h": 5,
+   "mechanical": false,
+   "inside68": false,
+   "inside90": true,
+   "beats_no_change": false
+  },
+  {
+   "outcome": "USDCAD",
+   "h": 1,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": false
+  },
+  {
+   "outcome": "USDCAD",
+   "h": 5,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true
+  },
+  {
+   "outcome": "CA_BANKS_EW6",
+   "h": 1,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": false
+  },
+  {
+   "outcome": "CA_BANKS_EW6",
+   "h": 5,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": false
+  }
+ ],
+ "data": {
+  "CA2Y": {
+   "artifact": "valet/BD.CDN.2YR.DQ.YLD",
+   "sha256": "15474716fdd737e0ba7f94c50708d0f17e9fc0f212bc654321bd83140f7c33b7",
+   "retrieved_at": "2026-11-11T03:56:59Z",
+   "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01",
+   "last_obs": "2026-11-09"
+  },
+  "USDCAD": {
+   "artifact": "fred/observations/DEXCAUS",
+   "sha256": "dfb05bf24a32dcab9ba9c161f34ddf4d63d3bf1bb97ce1b4498bf2de6753adf2",
+   "retrieved_at": "2026-11-11T03:56:58Z",
+   "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DEXCAUS",
+   "via": "FRED public graph CSV, no API key; the SHA-256 is of the rows as stored ({\"observations\": [...]} JSON), not of the CSV file",
+   "last_obs": "2026-11-06"
+  },
+  "CA_BANKS_EW6": {
+   "artifact": "derived:RY.tr,TD.tr,BNS.tr,BMO.tr,CM.tr,NA.tr",
+   "sha256": "30de2bb61e6b,5668d84779cc,df416fdb66e6,e5aebd825256,965e5193c6a1,46cc31d575db",
+   "retrieved_at": "2026-11-11T03:57:08Z",
+   "url": "",
+   "last_obs": "2026-11-10"
+  }
+ },
+ "live_config_sha256": "a29907112f481e8fcc70525e9e7ce79e2233a54ac39b8d51a632098b4835d1ba",
+ "code_git_sha": "37e398aaf5e51994c3721f1ef2e0908b8fa5b935"
+}

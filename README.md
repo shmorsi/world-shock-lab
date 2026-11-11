@@ -25,7 +25,7 @@ Across 53 assets. Each central-bank surprise is scaled to a 10 bp rise in that c
 | Mean forecast, temporal CNN minus linear | **+0.015** | 90% CI −0.006 to +0.037 on 168 held-out announcements. No evidence ML adds value. |
 | 5% pinball, quantile boosting minus Gaussian | **−0.112** | 90% CI −0.228 to −0.010. The quantile is crossed 9.0% of the time. ML adds value on the 5% tail. |
 | Published findings that replicate | **11 of 13** | Sign and 90% band. |
-| Live forecasts | **Pending** | Forecasts for the 2026-10-28 Fed and BoC decisions were committed on 2026-10-13, before the decisions. No decision has been scored yet, so there is no track record. |
+| Live forecasts | **2** | Forecasts for the 2026-10-28 Fed and BoC decisions were committed on 2026-10-13, before the decisions. 2 scored so far; a track record takes years. |
 <!-- top:end -->
 
 Every output carries one of four labels: **identified causal**, **reduced form**, **model forecast** or **hypothetical scenario**. **Read with care:** the ML gain is one pre-registered score on the 5% tail, not a calibrated tail forecast; on the average move there is no evidence ML beats the linear projection. The full list of limits is in [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
@@ -64,7 +64,7 @@ flowchart LR
 - **Estimation** (`wsl/estimation/`, `wsl/analysis/`): event-sample local projections, LP-IV, a Minnesota proxy BVAR, and state-dependent projections with a wild cluster bootstrap. Each estimator was checked by Monte Carlo first ([docs/SIMULATION.md](docs/SIMULATION.md)).
 - **Models** (`wsl/ml/`, `wsl/mlstudy/`): a per-asset network benchmark, then a separate study of a temporal CNN and quantile boosting ([docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md), [docs/ML_STUDY_PROTOCOL.md](docs/ML_STUDY_PROTOCOL.md)).
 - **Scenarios** (`wsl/scenarios/`, `web/src/engine/`): one engine, two languages, shared fixtures.
-- **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. The job needs no secret: with a `FRED_API_KEY` Actions secret it reads the FRED API, and without one it reads the same two series from FRED's public CSV download. Each forecast and score file records the route it was made from.
+- **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. With a `FRED_API_KEY` Actions secret the job reads the FRED API. Without one it reads the same two series from FRED's public CSV download, which FRED's website does not serve to every network: GitHub's hosted runners were refused on 2026-11-11, so the scheduled job needs the secret, and the key-free route is for a run on another machine (`uv run wsl live run`, then push). Each forecast and score file records the route it was made from.
 
 [![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/shock-lab/)
 
