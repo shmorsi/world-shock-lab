@@ -191,15 +191,21 @@ def export_live() -> None:
 
 
 def _live_data(download: bool) -> tuple[dict[str, Any], LiveData, datetime]:
-    """Fresh live inputs, or a clean stop when a download failed or the FRED key is missing."""
-    from wsl.live.data import config, failed_downloads, live_cache, load
+    """Fresh live inputs, or a clean stop when a download failed.
+
+    No FRED key is needed: without ``FRED_API_KEY`` the FRED series come from its public CSV.
+    """
+    from wsl.live.data import config, failed_downloads, fred_route, live_cache, load
     from wsl.live.data import download as fetch_live
+    from wsl.live.pending import ROUTE_TEXT
     from wsl.live.run import _now
 
     cfg, cache, now = config(), live_cache(), _now()
-    if download and (message := failed_downloads(fetch_live(cfg, cache))):
-        typer.echo(message, err=True)
-        raise typer.Exit(code=1)
+    if download:
+        typer.echo(ROUTE_TEXT[fred_route()].replace("`", ""))
+        if message := failed_downloads(fetch_live(cfg, cache)):
+            typer.echo(message, err=True)
+            raise typer.Exit(code=1)
     return cfg, load(cfg, cache, now), now
 
 

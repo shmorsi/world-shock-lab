@@ -22,6 +22,7 @@ from wsl.data.fetch import SERIES_SOURCES
 from wsl.data.http import Http
 from wsl.data.registry import load_derived, load_registry
 from wsl.data.schemas import BOC_FAD, FOMC, OBS, OPEC, SERIES
+from wsl.data.sources import fred
 from wsl.data.sources.base import Artifact
 from wsl.data.transforms import datetimes_to_ns
 from wsl.paths import CLEAN_DIR, EVENTS_DIR, MANIFEST
@@ -35,23 +36,6 @@ NEEDED = (
 )
 SHOCK_KEYS = ("jk_fed/shocks_t", "jk_fed/surprises", "kaenzig/oil_supply_news")
 INPUTS_PATH = CLEAN_DIR / "study_inputs.json"
-
-
-def _fred_observations(http: Http, series_key: str) -> tuple[bytes, str]:
-    """FRED's graph CSV needs no API key. Wrapped in the JSON shape the parser reads."""
-    url = "https://fred.stlouisfed.org/graph/fredgraph.csv"
-    got = http.get(url, params={"id": series_key})
-    text = got.content.decode("utf-8-sig")
-    if text.lstrip().startswith("<"):
-        raise RuntimeError(f"FRED returned HTML for {series_key}")
-    lines = [ln for ln in text.splitlines() if ln.strip()]
-    obs = []
-    for line in lines[1:]:
-        date, _, val = line.partition(",")
-        val = val.strip().strip('"')
-        obs.append({"date": date.strip(), "value": "." if val in {"", "."} else val})
-    body = json.dumps({"observations": obs}).encode()
-    return body, f"{url}?id={series_key}"
 
 
 def _place(cache: RawCache, key: str, content: bytes, url: str, ext: str) -> str:
@@ -77,8 +61,8 @@ def _place(cache: RawCache, key: str, content: bytes, url: str, ext: str) -> str
 
 def _download_one(http: Http, art: Artifact, source: str) -> tuple[bytes, str]:
     if source == "fred" and "/observations/" in art.key:
-        series_key = art.key.rsplit("/", 1)[-1]
-        return _fred_observations(http, series_key)
+        # FRED's graph CSV needs no API key (wsl/data/sources/fred.py wraps it for the parser).
+        return fred.fetch_observations_csv(http, art.key.rsplit("/", 1)[-1])
     got = http.request(art.method, art.url, params=art.params or None, json_body=art.payload)
     if art.ext in {"json", "csv"} and got.content[:64].lstrip().lower().startswith(b"<"):
         raise RuntimeError(f"{art.key} returned HTML")

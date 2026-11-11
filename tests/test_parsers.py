@@ -49,6 +49,61 @@ def test_fred_missing_dot_becomes_flagged_nan(cache: RawCache) -> None:
     _validate(p.obs)
 
 
+# FRED's public graph CSV, as the keyless route receives it: a BOM, CRLF line ends, a blank
+# value (a holiday), the older "." marker, a quoted value and a trailing blank line.
+FRED_CSV = ("\ufeffobservation_date,DGS2\r\n2020-12-24,0.12\r\n2020-12-25,\r\n"
+            '2020-12-28,.\r\n2020-12-29,"0.13"\r\n\r\n')
+
+
+def test_fred_public_csv_is_wrapped_for_the_parser(cache: RawCache) -> None:
+    body = fred.observations_from_csv(FRED_CSV.encode("utf-8"), "DGS2")
+    assert json.loads(body) == {"observations": [
+        {"date": "2020-12-24", "value": "0.12"}, {"date": "2020-12-25", "value": "."},
+        {"date": "2020-12-28", "value": "."}, {"date": "2020-12-29", "value": "0.13"}]}
+    cache.store(fred.observations_key("DGS2"), body, url=f"{fred.CSV_URL}?id=DGS2", ext="json")
+    p = fred.parse([spec(id="US2Y", source="fred", key="DGS2")], cache)
+    assert p.obs["status"].tolist() == [STATUS_OK, STATUS_MISSING, STATUS_MISSING, STATUS_OK]
+    assert p.obs["value"].iloc[[0, 3]].tolist() == [0.12, 0.13]
+    assert p.artifact_of == {"US2Y": "fred/observations/DGS2"}
+    _validate(p.obs)
+
+
+def test_fred_csv_and_api_routes_parse_to_the_same_observations(tmp_path: Path) -> None:
+    """The same observations, once as an API response and once as the public CSV."""
+    api = {"realtime_start": "2026-11-10", "observations": [
+        {"realtime_start": "2026-11-10", "date": "2020-12-24", "value": "0.12"},
+        {"realtime_start": "2026-11-10", "date": "2020-12-25", "value": "."},
+        {"realtime_start": "2026-11-10", "date": "2020-12-28", "value": "0.13"}]}
+    csv = b"observation_date,DGS2\n2020-12-24,0.12\n2020-12-25,\n2020-12-28,0.13\n"
+    by_api, by_csv = RawCache(root=tmp_path / "api"), RawCache(root=tmp_path / "csv")
+    by_api.store("fred/observations/DGS2", json.dumps(api).encode(), url="u", ext="json")
+    by_csv.store("fred/observations/DGS2", fred.observations_from_csv(csv, "DGS2"), url="u",
+                 ext="json")
+    specs = [spec(id="US2Y", source="fred", key="DGS2")]
+    pd.testing.assert_frame_equal(fred.parse(specs, by_api).obs, fred.parse(specs, by_csv).obs)
+
+
+@pytest.mark.parametrize(("content", "why"), [
+    (b"<!DOCTYPE html><html><body>Access Denied</body></html>", "returned HTML"),
+    (b"  \n<html>blocked</html>", "returned HTML"),
+    (b"", "empty file"),
+    (b"observation_date,DGS10\n2020-12-24,0.90\n", "unexpected CSV header"),  # another series
+    (b"2020-12-24,0.12\n2020-12-28,0.13\n", "unexpected CSV header"),  # no header row
+    (b"observation_date,DGS2,DGS10\n2020-12-24,0.12,0.90\n", "unexpected CSV header"),
+    (b"observation_date,DGS2\n", "no observations"),
+    (b"observation_date,DGS2\n2020-12-24,\n2020-12-25,.\n", "no observations"),
+    (b"observation_date,DGS2\n2020-12-24,0.12\n12/28/2020,0.13\n", "unexpected CSV row"),
+    (b"observation_date,DGS2\n2020-12-24,0.12\n2020-12-28,N/A\n", "unexpected CSV row"),
+    (b"observation_date,DGS2\n2020-12-24,0.12\n2020-12-28,nan\n", "unexpected CSV row"),
+    (b"observation_date,DGS2\n2020-12-24,0.12\n2020-12-28\n", "unexpected CSV row"),  # cut off
+])
+def test_fred_public_csv_rejects_anything_that_is_not_the_series(content: bytes,
+                                                                 why: str) -> None:
+    """A challenge page, another series or a damaged file must never be read as data."""
+    with pytest.raises(fred.FredCsvError, match=why):
+        fred.observations_from_csv(content, "DGS2")
+
+
 def test_fred_artifacts_keep_key_out_of_params() -> None:
     arts = fred.artifacts([spec(source="fred", key="DGS2")])
     assert all("api_key" not in a.params and a.secret_params == {"api_key": "FRED_API_KEY"}

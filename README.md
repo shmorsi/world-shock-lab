@@ -64,7 +64,7 @@ flowchart LR
 - **Estimation** (`wsl/estimation/`, `wsl/analysis/`): event-sample local projections, LP-IV, a Minnesota proxy BVAR, and state-dependent projections with a wild cluster bootstrap. Each estimator was checked by Monte Carlo first ([docs/SIMULATION.md](docs/SIMULATION.md)).
 - **Models** (`wsl/ml/`, `wsl/mlstudy/`): a per-asset network benchmark, then a separate study of a temporal CNN and quantile boosting ([docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md), [docs/ML_STUDY_PROTOCOL.md](docs/ML_STUDY_PROTOCOL.md)).
 - **Scenarios** (`wsl/scenarios/`, `web/src/engine/`): one engine, two languages, shared fixtures.
-- **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. The job reads `FRED_API_KEY` from the Actions secret and fails if the secret is missing.
+- **Live mode** (`wsl/live/`, [`.github/workflows/live.yml`](.github/workflows/live.yml)): a forecast before each Fed and Bank of Canada decision. The job needs no secret: with a `FRED_API_KEY` Actions secret it reads the FRED API, and without one it reads the same two series from FRED's public CSV download. Each forecast and score file records the route it was made from.
 
 [![Building a scenario in World Shock Lab and reading the effect on Canadian assets](docs/img/demo.gif)](https://shmorsi.github.io/shock-lab/)
 
