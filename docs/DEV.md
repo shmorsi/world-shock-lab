@@ -9,7 +9,7 @@ make setup
 cd web && npm ci && npx playwright install chromium
 ```
 
-`make setup` prints the uv install link and stops if `uv` is not on `PATH`. Copy `.env.example` to `.env` only when a command needs a FRED key: `wsl data fetch` does (the pinned research cache is built from the FRED API); `wsl live run` and `wsl mlstudy` do not, because without a key they read FRED's public CSV download. The key is never committed. In Actions it is the optional `FRED_API_KEY` secret.
+`make setup` prints the uv install link and stops if `uv` is not on `PATH`. Copy `.env.example` to `.env` only when a command needs a FRED key: `wsl data fetch` does (the pinned research cache is built from the FRED API); `wsl live run` and `wsl mlstudy` do not, because without a key they read FRED's public CSV download. The key is never committed. In Actions it is the `FRED_API_KEY` secret, which the scheduled live job needs in practice: FRED's website refused GitHub's hosted runner on 2026-11-11, and only the API route works there.
 
 ## Checks
 

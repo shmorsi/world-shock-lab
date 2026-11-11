@@ -1,4 +1,4 @@
-"""The live workflow needs no FRED key and can publish a score commit.
+"""The live workflow never waits for a FRED key and can publish a score commit.
 
 The scheduled job never had the FRED_API_KEY secret, and until 2026-11-11 it stopped without
 it, so it published and scored nothing. These checks lock the failure modes that would drop

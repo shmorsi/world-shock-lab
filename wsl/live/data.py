@@ -86,6 +86,17 @@ def _jk_artifact(cfg: dict[str, Any]) -> Artifact:
     return Artifact(JK_KEY, cfg["scoring"]["jk_surprises_url"], "csv")
 
 
+# FRED's website answers at once or, from some networks, not at all: GitHub's hosted runner got
+# a read timeout on every attempt on 2026-11-11 (16 minutes for two series) while other machines
+# were served. Waiting longer only delays the error, so the CSV route has a short budget.
+CSV_TIMEOUT, CSV_RETRIES = 30.0, 1
+CSV_REFUSED = (
+    "FRED's public CSV did not answer from this machine. FRED's website refuses some networks "
+    "(GitHub's hosted runners timed out on 2026-11-11 while other machines were served). "
+    "Set FRED_API_KEY, a free key (the Actions secret, or .env), so the FRED API is used, "
+    "or run `uv run wsl live run` on another machine and push.")
+
+
 def fred_route() -> str:
     """How this run reads FRED: "api" when ``FRED_API_KEY`` is set (environment or .env),
     else "csv", FRED's public download, which needs no key."""
@@ -116,13 +127,14 @@ def download(cfg: dict[str, Any], cache: RawCache, http: Http | None = None
     which is all live mode reads from FRED (the API's metadata and tags are not used here).
     """
     route = fred_route()
+    csv_http = http or Http(timeout=CSV_TIMEOUT, retries=CSV_RETRIES)
     http = http or Http()
     specs = _specs()
     outcomes: list[FetchOutcome] = []
     for source in sorted({s.source for s in specs}):
         group = [s for s in specs if s.source == source]
         if source == "fred" and route == "csv":
-            outcomes += [_fetch_fred_csv(s, cache, http) for s in group]
+            outcomes += [_fetch_fred_csv(s, cache, csv_http) for s in group]
         else:
             outcomes += [fetch_artifact(a, cache, http, repin=True)
                          for a in SERIES_SOURCES[source].artifacts(group)]
@@ -140,8 +152,10 @@ def failed_downloads(outcomes: list[FetchOutcome]) -> str | None:
     if not bad:
         return None
     lines = [f"  {o.status:<8} {o.key}: {o.detail}" for o in bad]
+    csv = any(o.key.startswith("fred/observations/") and "fredgraph.csv" in o.detail for o in bad)
     return ("Live run stopped; these downloads did not succeed:\n" + "\n".join(lines)
-            + "\nNothing was published or scored. Fix the downloads and rerun.")
+            + "\nNothing was published or scored. "
+            + (CSV_REFUSED if csv else "Fix the downloads and rerun."))
 
 
 def _provenance(key: str, rec: RawRecord) -> dict[str, str]:

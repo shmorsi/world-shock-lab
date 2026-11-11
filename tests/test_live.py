@@ -350,6 +350,17 @@ def test_a_bad_public_csv_stops_the_live_run_before_anything_is_stored(
                                   _FakeHttp(_reply(refused.get)))  # type: ignore[arg-type]
     message = live_data.failed_downloads(outcomes)
     assert message is not None and "fred/observations/DEXCAUS" in message and "HTTP 403" in message
+    # A refused CSV download says what to do about it: the key, or another machine.
+    assert "FRED_API_KEY" in message and "another machine" in message
+
+
+def test_the_csv_route_gives_up_quickly_and_other_failures_keep_the_plain_hint() -> None:
+    from wsl.data.fetch import FetchOutcome
+    from wsl.live import data as live_data
+
+    assert (live_data.CSV_TIMEOUT, live_data.CSV_RETRIES) == (30.0, 1)
+    other = live_data.failed_downloads([FetchOutcome("yahoo/RY", "failed", "HTTP 429")])
+    assert other is not None and "FRED_API_KEY" not in other and "Fix the downloads" in other
 
 
 # ------------------------------------------------------------- the workflow's report
@@ -382,11 +393,12 @@ def test_pending_lists_what_a_run_still_owes(tmp_path: Path) -> None:
     assert [x.split(":")[0] for x in o.scores] == ["2026-10-07_fomc"]  # BoC needs no score 2
     assert "score1, score2" in o.scores[0]
 
-    # No key is needed any more, so a missing one is not reported as a problem: the summary
-    # says which route the run read FRED by, and a forecast that is still due is an error.
+    # A missing key is not reported as a problem by itself: the summary says which route the
+    # run read FRED by (and that FRED's website refuses some networks), and a forecast that is
+    # still due is an error.
     notes, md = pending.report(o, "csv")
     assert notes == [("error", o.due[0])]
-    assert "public CSV" in md and "not needed" in md and "Skipped" not in md
+    assert "public CSV" in md and "add the secret" in md and "Skipped" not in md
     assert "2026-10-14_boc" in md and "Score 1 waits" in md
     assert "the FRED API" in pending.report(o, "api")[1]
     assert "FRED data" not in pending.report(o)[1] and "FRED data" not in pending.report(o, "")[1]

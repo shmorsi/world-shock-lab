@@ -45,7 +45,9 @@ jobs:
 
       # With the secret, the two FRED series (US 2-year yield, USD/CAD) come from the FRED
       # API. Without it they come from FRED's public CSV download: the same observations, no
-      # key (wsl/live/data.py). A missing secret therefore never stops a forecast or a score.
+      # key (wsl/live/data.py). FRED's website refused this runner on 2026-11-11 (read timeouts),
+      # so on GitHub the secret is what makes the job work; without it the run stops within a
+      # few minutes, before writing anything, and says so.
       - name: Choose the FRED route
         id: fred
         run: |

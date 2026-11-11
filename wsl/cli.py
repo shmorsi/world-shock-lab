@@ -193,7 +193,8 @@ def export_live() -> None:
 def _live_data(download: bool) -> tuple[dict[str, Any], LiveData, datetime]:
     """Fresh live inputs, or a clean stop when a download failed.
 
-    No FRED key is needed: without ``FRED_API_KEY`` the FRED series come from its public CSV.
+    Without ``FRED_API_KEY`` the FRED series come from FRED's public CSV, which its website
+    does not serve to every network (GitHub's hosted runners were refused on 2026-11-11).
     """
     from wsl.live.data import config, failed_downloads, fred_route, live_cache, load
     from wsl.live.data import download as fetch_live
