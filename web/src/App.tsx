@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { load, useData } from "./data";
 import { ScenarioProvider } from "./scenario";
 import type { Meta } from "./types";
-import Overview from "./views/Overview";
 
 const MapView = lazy(() => import("./views/MapView"));
 const ExplorerView = lazy(() => import("./views/ExplorerView"));
@@ -14,7 +13,6 @@ const TrackView = lazy(() => import("./views/TrackView"));
 const ModelsView = lazy(() => import("./views/ModelsView"));
 
 const ROUTES = [
-  { path: "", text: "Overview", short: "Overview" },
   { path: "map", text: "World map", short: "Map" },
   { path: "explorer", text: "Explorer", short: "Explorer" },
   { path: "scenario", text: "Scenario", short: "Scenario" },
@@ -28,7 +26,6 @@ const ROUTES = [
 // The data each view needs, requested as soon as the route is known so the downloads run in
 // parallel with the view's code chunk instead of after it.
 const ROUTE_DATA: Record<string, string[]> = {
-  "": ["summary", "mlstudy", "live"],
   map: ["catalog", "meta"],
   explorer: ["catalog", "ml"], // regimes and m4 load after the first chart is drawn
   scenario: ["catalog"],
@@ -38,7 +35,7 @@ const ROUTE_DATA: Record<string, string[]> = {
   models: ["mlstudy"],
   track: ["live"],
 };
-const prefetch = (route: string) => ROUTE_DATA[route]?.forEach((n) => void load(n).catch(() => undefined));
+const prefetch = (route: string) => (ROUTE_DATA[route] ?? ROUTE_DATA.map).forEach((n) => void load(n).catch(() => undefined));
 const currentRoute = () => window.location.hash.replace(/^#\/?/, "").split("?")[0];
 prefetch(currentRoute());
 
@@ -71,6 +68,14 @@ function useTheme(): [Theme, () => void] {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+  // A theme chosen on another page of the site (or on the page that embeds the lab) arrives here too.
+  useEffect(() => {
+    const on = (e: StorageEvent) => {
+      if (e.key === "theme") setTheme(e.newValue === "light" ? "light" : "dark");
+    };
+    window.addEventListener("storage", on);
+    return () => window.removeEventListener("storage", on);
+  }, []);
   const next = () =>
     setTheme((t) => {
       const chosen = t === "dark" ? "light" : "dark";
@@ -84,20 +89,19 @@ function useTheme(): [Theme, () => void] {
   return [theme, next];
 }
 
-// The header hides while the reader scrolls down and returns on the way up, as on the project pages.
-function useTuckedHeader(disabled: boolean) {
+// Inside a page of the main site (projects/world-shock-lab.html embeds the map), the lab draws only its view:
+// no header, no bar, no footer. It tells the page how tall it is, so the frame never scrolls on its own.
+const EMBED = new URLSearchParams(window.location.search).has("embed");
+function useEmbedHeight() {
   useEffect(() => {
-    let last = window.scrollY;
-    const on = () => {
-      const y = window.scrollY;
-      if (Math.abs(y - last) < 6) return;
-      document.body.classList.toggle("tucked", !disabled && y > last && y > 120);
-      last = y;
-    };
-    if (disabled) document.body.classList.remove("tucked");
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, [disabled]);
+    if (!EMBED) return;
+    document.documentElement.classList.add("embed");
+    const tell = () => window.parent.postMessage({ labHeight: Math.ceil(document.documentElement.scrollHeight) }, window.location.origin);
+    const ro = new ResizeObserver(tell);
+    ro.observe(document.body);
+    tell();
+    return () => ro.disconnect();
+  }, []);
 }
 
 // World Shock Lab is one section of shmorsi.github.io. These are that site's pages, relative to
@@ -116,7 +120,7 @@ export default function App() {
   const [theme, nextTheme] = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const meta = useData<Meta>("meta");
-  const overview = route === "" || !ROUTES.some((r) => r.path === route);
+  const shown = ROUTES.some((r) => r.path === route) ? route : "map"; // the lab opens on its map
   useEffect(() => {
     setMenuOpen(false);
   }, [route]);
@@ -141,11 +145,9 @@ export default function App() {
       document.querySelector("footer.site")?.removeAttribute("inert");
     };
   }, [menuOpen]);
-  useTuckedHeader(menuOpen);
+  useEmbedHeight();
   const view = (() => {
-    switch (route) {
-      case "map":
-        return <MapView />;
+    switch (shown) {
       case "explorer":
         return <ExplorerView />;
       case "scenario":
@@ -161,7 +163,7 @@ export default function App() {
       case "track":
         return <TrackView />;
       default:
-        return <Overview />;
+        return <MapView />;
     }
   })();
   return (
@@ -169,6 +171,8 @@ export default function App() {
       <a className="skip" href="#main">
         Skip to content
       </a>
+      {!EMBED && (
+        <>
       <header className="site-header">
         <a className="wordmark" href="../">
           Sherif Morsi
@@ -208,27 +212,27 @@ export default function App() {
       </header>
       <div className="topbar">
         <div className="topbar-in">
-          <a className="brand" href="#/">
-            <svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-              <rect width="31" height="31" x="0.5" y="0.5" fill="none" stroke="currentColor" />
-              <path d="M4 20 C9 20 10 8 16 8 S23 24 28 18" stroke="currentColor" strokeWidth="2" fill="none" />
-            </svg>
+          <a className="brand" href="../projects/world-shock-lab.html">
+            <span className="num">01.3</span>
             World Shock Lab
           </a>
           <nav id="view-nav" className="views" aria-label="World Shock Lab">
             {ROUTES.map((r) => (
-              <a key={r.path} href={`#/${r.path}`} aria-current={route === r.path ? "page" : undefined}>
+              <a key={r.path} href={`#/${r.path}`} aria-current={shown === r.path ? "page" : undefined}>
                 {r.short}
               </a>
             ))}
           </nav>
         </div>
       </div>
+        </>
+      )}
       <main id="main">
         <Suspense fallback={<div className="frame"><p className="muted">Loading view…</p></div>}>
-          {overview ? view : <div className="frame">{view}</div>}
+          <div className="frame">{view}</div>
         </Suspense>
       </main>
+      {!EMBED && (
       <footer className="site">
         <span>
           Every number on this site is produced by the project's code from pinned public data; nothing is typed in by hand.
@@ -258,6 +262,7 @@ export default function App() {
           Data: Jarociński &amp; Karadi (CC BY 4.0), Bauer &amp; Swanson, Känzig (CC BY 4.0), Baumeister &amp; Hamilton, Caldara &amp; Iacoviello, Bank of Canada, Statistics Canada, OECD, World Bank, FRED. This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. Not investment advice.
         </span>
       </footer>
+      )}
     </ScenarioProvider>
   );
 }

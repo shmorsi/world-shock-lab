@@ -36,12 +36,10 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-html { scroll-padding-top: calc(var(--header) + 60px); }
+html { scroll-padding-top: calc(var(--header) + 12px); }
 body {
   background-color: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--body);
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: clip;
-  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 80px 80px;
 }
 body.nav-open { overflow: hidden; }
 img, svg { max-width: 100%; }
@@ -75,9 +73,7 @@ p { margin: 0; max-width: 68ch; }
   padding-left: max(var(--gutter), env(safe-area-inset-left), calc((100vw - var(--max)) / 2));
   padding-right: max(var(--gutter), env(safe-area-inset-right), calc((100vw - var(--max)) / 2));
   background: var(--bg); border-bottom: 1px solid var(--line);
-  transition: transform .45s var(--ease);
 }
-body.tucked .site-header { transform: translateY(-101%); }
 .wordmark {
   display: inline-flex; align-items: center; gap: 10px; color: var(--ink);
   font: 600 13px var(--display); letter-spacing: .24em; text-transform: uppercase;
@@ -105,8 +101,12 @@ body.tucked .site-header { transform: translateY(-101%); }
 .menu-button { display: none; border: 1.5px solid var(--line-2); padding: 0 14px; min-height: 40px; }
 
 /* The lab's own views: a second bar under the header, like the section index on the project pages. */
-.topbar { position: sticky; top: var(--header); z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line); transition: top .45s var(--ease); }
-body.tucked .topbar { top: 0; }
+.topbar { background: var(--bg); border-bottom: 1px solid var(--line); }
+.brand .num { color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+/* Embedded in a page of the main site: only the view, on that page's own background. */
+html.embed, html.embed body { background: transparent; }
+html.embed .frame { padding: 0; gap: 0; max-width: none; }
+html.embed .skip { display: none; }
 .topbar-in {
   max-width: var(--max); margin: 0 auto; min-height: 48px; padding-inline: var(--gutter);
   display: flex; flex-wrap: nowrap; align-items: center; gap: 8px 18px;
