@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { load, useData } from "./data";
+import { Sky } from "./components/Sky";
 import { ScenarioProvider } from "./scenario";
 import type { Meta } from "./types";
 
@@ -110,8 +111,8 @@ const SITE = [
   { href: "../#work", text: "Work", here: false },
   { href: "../projects/deep-portfolio-constructor.html", text: "Portfolio", here: false },
   { href: "../projects/pension-lab.html", text: "Pension", here: false },
-  { href: "../projects/tsfm.html", text: "TSFM", here: false },
   { href: "../projects/world-shock-lab.html", text: "Shock Lab", here: true },
+  { href: "../projects/tsfm.html", text: "TSFM", here: false },
   { href: "../aurvane/", text: "Aurvane", here: false },
 ] as const;
 
@@ -173,6 +174,7 @@ export default function App() {
       </a>
       {!EMBED && (
         <>
+      <Sky />
       <header className="site-header">
         <a className="wordmark" href="../">
           Sherif Morsi
