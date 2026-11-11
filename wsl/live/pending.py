@@ -37,8 +37,10 @@ GRACE = timedelta(hours=1)
 # How a run read the two FRED series (wsl/live/data.py: fred_route).
 ROUTE_TEXT = {
     "api": "FRED data: the FRED API (the `FRED_API_KEY` secret is set).",
-    "csv": "FRED data: FRED's public CSV download, `fredgraph.csv`. The `FRED_API_KEY` secret "
-           "is not set and is not needed: the series and their values are the same.",
+    "csv": "FRED data: FRED's public CSV download, `fredgraph.csv` (the `FRED_API_KEY` secret is "
+           "not set). The series and their values are the same as the API's, but FRED's website "
+           "refuses some networks, GitHub's hosted runners among them on 2026-11-11: if this run "
+           "stopped on those downloads, add the secret.",
 }
 
 

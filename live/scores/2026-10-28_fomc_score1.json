@@ -1,0 +1,137 @@
+{
+ "schema": 1,
+ "kind": "score",
+ "score": 1,
+ "label": "model_forecast",
+ "event_id": "2026-10-28_fomc",
+ "bank": "fomc",
+ "decision_date": "2026-10-28",
+ "collision": true,
+ "proxy": "US2Y",
+ "forecast_file": "live/forecasts/2026-10-28_fomc.json",
+ "forecast_sha256": "50bb31046a04be8a52a25a0407d7f2b7e8cd6ed8f9f834bc0da32c03a67e8b70",
+ "scored_at": "2026-11-11T03:56:56Z",
+ "surprise_source": "daily proxy: announcement-day change in the US 2-year Treasury yield (bp)",
+ "realized_proxy_bp": -3.0,
+ "restricted_note": "",
+ "scores": [
+  {
+   "outcome": "CA2Y",
+   "h": 1,
+   "mechanical": false,
+   "inside68": false,
+   "inside90": false,
+   "beats_no_change": false,
+   "lo68": -5.1606,
+   "hi68": 1.3197,
+   "lo90": -8.45,
+   "hi90": 4.609,
+   "forecast": -1.9205
+  },
+  {
+   "outcome": "CA2Y",
+   "h": 5,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true,
+   "lo68": -10.2501,
+   "hi68": 8.312,
+   "lo90": -21.7511,
+   "hi90": 19.8129,
+   "forecast": -0.9691
+  },
+  {
+   "outcome": "USDCAD",
+   "h": 1,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true,
+   "lo68": -0.5615,
+   "hi68": 0.5069,
+   "lo90": -1.1659,
+   "hi90": 1.1113,
+   "forecast": -0.0273,
+   "realized": -0.4355,
+   "abs_error": 0.4083,
+   "no_change_abs_error": 0.4355
+  },
+  {
+   "outcome": "USDCAD",
+   "h": 5,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true,
+   "lo68": -1.0616,
+   "hi68": 1.0033,
+   "lo90": -1.8289,
+   "hi90": 1.7706,
+   "forecast": -0.0291,
+   "realized": -0.4499,
+   "abs_error": 0.4207,
+   "no_change_abs_error": 0.4499
+  },
+  {
+   "outcome": "CA_BANKS_EW6",
+   "h": 1,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": true,
+   "lo68": -0.787,
+   "hi68": 1.0263,
+   "lo90": -1.8559,
+   "hi90": 2.0953,
+   "forecast": 0.1197
+  },
+  {
+   "outcome": "CA_BANKS_EW6",
+   "h": 5,
+   "mechanical": false,
+   "inside68": true,
+   "inside90": true,
+   "beats_no_change": false,
+   "lo68": -1.6419,
+   "hi68": 2.3411,
+   "lo90": -3.8645,
+   "hi90": 4.5637,
+   "forecast": 0.3496
+  }
+ ],
+ "data": {
+  "US2Y": {
+   "artifact": "fred/observations/DGS2",
+   "sha256": "71234b09b9275af578584d53699c82f458e7e7d7446b920bf7d8bc89970703ff",
+   "retrieved_at": "2026-11-11T03:56:57Z",
+   "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2",
+   "via": "FRED public graph CSV, no API key; the SHA-256 is of the rows as stored ({\"observations\": [...]} JSON), not of the CSV file",
+   "last_obs": "2026-11-09"
+  },
+  "CA2Y": {
+   "artifact": "valet/BD.CDN.2YR.DQ.YLD",
+   "sha256": "15474716fdd737e0ba7f94c50708d0f17e9fc0f212bc654321bd83140f7c33b7",
+   "retrieved_at": "2026-11-11T03:56:59Z",
+   "url": "https://www.bankofcanada.ca/valet/observations/BD.CDN.2YR.DQ.YLD/json?start_date=1900-01-01",
+   "last_obs": "2026-11-09"
+  },
+  "USDCAD": {
+   "artifact": "fred/observations/DEXCAUS",
+   "sha256": "dfb05bf24a32dcab9ba9c161f34ddf4d63d3bf1bb97ce1b4498bf2de6753adf2",
+   "retrieved_at": "2026-11-11T03:56:58Z",
+   "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DEXCAUS",
+   "via": "FRED public graph CSV, no API key; the SHA-256 is of the rows as stored ({\"observations\": [...]} JSON), not of the CSV file",
+   "last_obs": "2026-11-06"
+  },
+  "CA_BANKS_EW6": {
+   "artifact": "derived:RY.tr,TD.tr,BNS.tr,BMO.tr,CM.tr,NA.tr",
+   "sha256": "30de2bb61e6b,5668d84779cc,df416fdb66e6,e5aebd825256,965e5193c6a1,46cc31d575db",
+   "retrieved_at": "2026-11-11T03:57:08Z",
+   "url": "",
+   "last_obs": "2026-11-10"
+  }
+ },
+ "live_config_sha256": "a29907112f481e8fcc70525e9e7ce79e2233a54ac39b8d51a632098b4835d1ba",
+ "code_git_sha": "37e398aaf5e51994c3721f1ef2e0908b8fa5b935"
+}
