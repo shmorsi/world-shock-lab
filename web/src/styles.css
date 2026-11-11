@@ -1,9 +1,12 @@
 /* Mission-control instrument. Dark by default. One accent for chrome; Fed blue and
-   Bank of Canada orange stay on the series, matching the figures. */
+   Bank of Canada orange stay on the series, matching the figures.
+   The lab is one section of shmorsi.github.io, so the colours of the page (background, surfaces,
+   ink, muted, lines, accent), the width and the gutter are that site's own values, in both themes
+   (assets/site.css there). Its check_site.py compares them when the built app is copied in. */
 :root {
-  --bg: #000000; --surface: #0a0a0a; --surface-2: #111113; --ink: #f5f5f7; --ink-2: #d2d2d6; --muted: #a8a8ad;
-  --line: rgba(255, 255, 255, 0.14); --line-2: rgba(255, 255, 255, 0.34); --accent: #8ec5ff; --accent-ink: #000000;
-  --grid: rgba(255, 255, 255, 0.035); --gutter: clamp(16px, 4.4vw, 40px); --max: 1180px; --header: 64px;
+  --bg: #000; --surface: #0b0c0f; --surface-2: #13151a; --ink: #f4f5f7; --ink-2: #d2d4d9; --muted: #a6a9b0;
+  --line: rgba(255, 255, 255, 0.12); --line-2: rgba(255, 255, 255, 0.3); --accent: #8ec5ff; --accent-ink: #000000;
+  --grid: rgba(255, 255, 255, 0.035); --gutter: clamp(16px, 4.4vw, 64px); --max: 1240px; --header: 64px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --s1: #8ec5ff; --s2: #e08a62; --s3: #7fd6c2; --band90: rgba(142, 197, 255, 0.16); --band68: rgba(142, 197, 255, 0.30);
   --pos: #8ec5ff; --neg: #ff8a7a; --zero: #161616; --nodata: #141414;
@@ -14,9 +17,9 @@
   color-scheme: dark;
 }
 :root[data-theme="light"] {
-  --bg: #fbfbfd; --surface: #ffffff; --surface-2: #f1f1f4; --ink: #1d1d1f; --ink-2: #2c2c2e; --muted: #48484d;
-  --line: rgba(0, 0, 0, 0.12); --line-2: rgba(0, 0, 0, 0.30); --accent: #0b5cad; --accent-ink: #ffffff;
-  --grid: rgba(0, 0, 0, 0.045); --gutter: clamp(16px, 4.4vw, 40px); --max: 1180px; --header: 64px;
+  --bg: #fbfbfd; --surface: #f2f3f6; --surface-2: #e8eaef; --ink: #111216; --ink-2: #2a2c31; --muted: #44464c;
+  --line: rgba(0, 0, 0, 0.11); --line-2: rgba(0, 0, 0, 0.3); --accent: #0b5cad; --accent-ink: #ffffff;
+  --grid: rgba(0, 0, 0, 0.045); --gutter: clamp(16px, 4.4vw, 64px); --max: 1240px; --header: 64px;
   --s1: #1f5fbf; --s2: #c4511f; --s3: #0f6e5c; --band90: rgba(31, 95, 191, 0.12); --band68: rgba(31, 95, 191, 0.24);
   --pos: #1f5fbf; --neg: #b3261e; --zero: #e6e6ea; --nodata: #e4e4e8;
   --warn-bg: #fbf6ea; --warn-line: #8a7340; --warn-ink: #3d2e08;
@@ -24,9 +27,9 @@
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
-    --bg: #fbfbfd; --surface: #ffffff; --surface-2: #f1f1f4; --ink: #1d1d1f; --ink-2: #2c2c2e; --muted: #48484d;
-    --line: rgba(0, 0, 0, 0.12); --line-2: rgba(0, 0, 0, 0.30); --accent: #0b5cad; --accent-ink: #ffffff;
-    --grid: rgba(0, 0, 0, 0.045); --gutter: clamp(16px, 4.4vw, 40px); --max: 1180px; --header: 64px;
+    --bg: #fbfbfd; --surface: #f2f3f6; --surface-2: #e8eaef; --ink: #111216; --ink-2: #2a2c31; --muted: #44464c;
+    --line: rgba(0, 0, 0, 0.11); --line-2: rgba(0, 0, 0, 0.3); --accent: #0b5cad; --accent-ink: #ffffff;
+    --grid: rgba(0, 0, 0, 0.045); --gutter: clamp(16px, 4.4vw, 64px); --max: 1240px; --header: 64px;
     --s1: #1f5fbf; --s2: #c4511f; --s3: #0f6e5c; --band90: rgba(31, 95, 191, 0.12); --band68: rgba(31, 95, 191, 0.24);
     --pos: #1f5fbf; --neg: #b3261e; --zero: #e6e6ea; --nodata: #e4e4e8;
     --warn-bg: #fbf6ea; --warn-line: #8a7340; --warn-ink: #3d2e08;
@@ -48,10 +51,10 @@ p a, .lede a, .brief a, footer.site a, details.tbl summary, button.rowbtn {
   text-decoration: underline; text-underline-offset: 0.22em; text-decoration-color: var(--line-2);
 }
 p a:hover, .lede a:hover, .brief a:hover, footer.site a:hover, details.tbl summary:hover, button.rowbtn:hover { text-decoration-color: var(--ink); }
-h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; font-weight: 650; letter-spacing: -0.04em; }
-h1 { font-size: clamp(40px, 6vw, 64px); line-height: 0.95; letter-spacing: -0.045em; }
-h2 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05; }
-h3 { font-size: 18px; letter-spacing: -0.02em; line-height: 1.2; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; font-weight: 600; letter-spacing: -0.022em; }
+h1 { font-size: clamp(40px, 6vw, 64px); line-height: 0.98; letter-spacing: -0.026em; }
+h2 { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.08; }
+h3 { font-size: 18px; letter-spacing: -0.012em; line-height: 1.2; }
 .card h2 { font-size: clamp(22px, 2.2vw, 28px); }
 p { margin: 0; max-width: 68ch; }
 .mono { font-family: var(--mono); }
@@ -72,7 +75,9 @@ p { margin: 0; max-width: 68ch; }
   min-height: var(--header);
   padding-left: max(var(--gutter), env(safe-area-inset-left), calc((100vw - var(--max)) / 2));
   padding-right: max(var(--gutter), env(safe-area-inset-right), calc((100vw - var(--max)) / 2));
-  background: var(--bg); border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  -webkit-backdrop-filter: saturate(140%) blur(12px); backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid var(--line);
 }
 .wordmark {
   display: inline-flex; align-items: center; gap: 10px; color: var(--ink);
@@ -101,14 +106,19 @@ p { margin: 0; max-width: 68ch; }
 .menu-button { display: none; border: 1.5px solid var(--line-2); padding: 0 14px; min-height: 40px; }
 
 /* The lab's own views: a second bar under the header, like the section index on the project pages. */
-.topbar { background: var(--bg); border-bottom: 1px solid var(--line); }
+.topbar { position: relative; z-index: 1; background: color-mix(in srgb, var(--bg) 88%, transparent); border-bottom: 1px solid var(--line); }
+/* The site's still sky, behind the page (components/Sky.tsx), with the faint glow its pages open on. */
+.sky { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.9;
+  background: radial-gradient(60% 55% at 78% 0%, rgba(77, 143, 255, 0.11), transparent 70%), radial-gradient(45% 40% at 6% 18%, rgba(157, 140, 255, 0.06), transparent 70%); }
+:root[data-theme="light"] .sky { display: none; }
+main, footer.site { position: relative; z-index: 1; }
 .brand .num { color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: .12em; }
 /* Embedded in a page of the main site: only the view, on that page's own background. */
 html.embed, html.embed body { background: transparent; }
 html.embed .frame { padding: 0; gap: 0; max-width: none; }
 html.embed .skip { display: none; }
 .topbar-in {
-  max-width: var(--max); margin: 0 auto; min-height: 48px; padding-inline: var(--gutter);
+  max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; min-height: 48px; padding-inline: var(--gutter);
   display: flex; flex-wrap: nowrap; align-items: center; gap: 8px 18px;
   overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
 }
@@ -120,7 +130,7 @@ nav.views a:hover { color: var(--ink); }
 nav.views a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -1px 0 var(--accent); }
 
 main { max-width: none; margin: 0; padding: 0; display: block; min-width: 0; }
-.frame { max-width: var(--max); margin: 0 auto; padding: 64px var(--gutter) 96px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; min-width: 0; }
+.frame { max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; padding: 64px var(--gutter) 96px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; min-width: 0; }
 .panel { background: color-mix(in srgb, var(--surface) 92%, transparent); border: 1px solid var(--line); padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; min-width: 0; }
 .panel-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 20px; }
 .lede { color: var(--ink-2); font-size: 16.5px; max-width: 62ch; }
@@ -155,7 +165,7 @@ input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border-radius
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 ::selection { background: var(--ink); color: var(--bg); }
 .hero { min-height: calc(100svh - var(--header) - 49px); display: flex; flex-direction: column; background: transparent; }
-.hero-in { flex: 1; width: min(100%, var(--max)); margin: 0 auto; padding: clamp(36px, 7vh, 84px) var(--gutter) 0; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(32px, 6vh, 72px); min-width: 0; }
+.hero-in { flex: 1; width: min(100%, calc(var(--max) + 2 * var(--gutter))); margin: 0 auto; padding: clamp(36px, 7vh, 84px) var(--gutter) 0; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(32px, 6vh, 72px); min-width: 0; }
 .hero-main { display: grid; gap: clamp(14px, 2.2vh, 24px); align-content: end; }
 .hero .eyebrow::before { content: ""; display: inline-block; width: 28px; height: 1px; margin-right: 12px; background: var(--accent); vertical-align: middle; transform-origin: left center; }
 .hero h1 { font-size: clamp(64px, min(12vw, 16vh), 148px); font-weight: 700; letter-spacing: -0.055em; line-height: 0.86; text-transform: uppercase; }
@@ -207,7 +217,7 @@ button.rowbtn:focus-visible { outline: 2px solid var(--accent); }
 .brief { font-size: 15px; display: grid; gap: 14px; }
 .brief h3 { font-size: 16px; }
 .brief ul { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
-footer.site { max-width: var(--max); margin: 0 auto; padding: 28px var(--gutter) 48px; font-size: 12.5px; color: var(--muted); display: grid; gap: 8px; border-top: 1px solid var(--line); }
+footer.site { max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; padding: 28px var(--gutter) 48px; font-size: 12.5px; color: var(--muted); display: grid; gap: 8px; border-top: 1px solid var(--line); }
 footer.site .site-links { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 600 12px var(--display); letter-spacing: .15em; text-transform: uppercase; padding-bottom: 8px; }
 footer.site .site-links a { color: var(--muted); text-decoration: none; }
 footer.site .site-links a:hover { color: var(--ink); }
