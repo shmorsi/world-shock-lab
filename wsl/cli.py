@@ -26,6 +26,9 @@ app.add_typer(validate_app, name="validate")
 app.add_typer(export_app, name="export")
 app.add_typer(live_app, name="live")
 app.add_typer(report_app, name="report")
+rag_app = typer.Typer(no_args_is_help=True,
+                      help="Ask the decisions: search Fed and BoC statements.")
+app.add_typer(rag_app, name="rag")
 
 
 @data_app.command("fetch")
@@ -248,3 +251,77 @@ def live_status() -> None:
 
 if __name__ == "__main__":
     app()
+
+
+@rag_app.command("corpus")
+def rag_corpus(
+    refresh: Annotated[bool, typer.Option(help="Download every page again.")] = False,
+    last_date: Annotated[str, typer.Option(help="Last Fed statement date.")] = "2026-10-28",
+    repin: Annotated[bool, typer.Option(help="Accept statements whose text changed.")] = False,
+) -> None:
+    """Statement texts -> data/rag/statements.jsonl (pages cached and hashed)."""
+    from wsl.rag import corpus
+
+    statements = corpus.build(refresh=refresh, last_date=last_date, repin=repin)
+    typer.echo(f"wrote {corpus.write(statements)} ({len(statements)} statements)")
+
+
+@rag_app.command("evaluate")
+def rag_evaluate(
+    split: Annotated[str, typer.Option(help="dev, or test (once, after rag-v1).")] = "dev",
+    reason: Annotated[str | None, typer.Option(help="Why a scored test is scored again.")] = None,
+) -> None:
+    """Score the five retrievers on the fixed questions -> results/rag/<split>.json."""
+    from wsl.rag.evaluate import GateError, run
+
+    try:
+        typer.echo(f"wrote {run(split, reason)}")
+    except GateError as exc:
+        typer.echo(f"refused: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+
+@rag_app.command("fixtures")
+def rag_fixtures() -> None:
+    """Cases shared with the TypeScript twin -> tests/fixtures/rag_cases.json."""
+    from wsl.rag.fixtures import write
+
+    typer.echo(f"wrote {write()}")
+
+
+@rag_app.command("export")
+def rag_export() -> None:
+    """The Ask view's search files -> web/public/data/ask*.{json,bin}."""
+    from wsl.rag.site import export
+
+    for p in export():
+        typer.echo(f"wrote {p} ({p.stat().st_size // 1024} KB)")
+
+
+@rag_app.command("ask")
+def rag_ask(
+    question: Annotated[str, typer.Argument(help="A question about Fed or BoC decisions.")],
+    retriever: Annotated[str, typer.Option(help="bm25, static, transformer, hybrid_static, "
+                                                 "hybrid.")] = "hybrid",
+    model: Annotated[bool, typer.Option(help="Write the answer with Claude (needs "
+                                             "Anthropic credentials); else quote.")] = True,
+    bank: Annotated[str | None, typer.Option(help="Only fed or boc statements.")] = None,
+) -> None:
+    """Answer from the statements, citing them; numbers are checked against the sources."""
+    from wsl.rag.answer import ask, default_client, market_text
+
+    a = ask(question, kind=retriever, client=default_client() if model else None, bank=bank)
+    typer.echo(f"\n{a.text}\n\n({a.method})\n")
+    for i, c in enumerate(a.passages, start=1):
+        typer.echo(f"[{i}] {c.header}\n    {c.body[:240]}{'...' if len(c.body) > 240 else ''}")
+    if a.market:
+        typer.echo(f"\nMarkets after the cited announcement (lab data): {market_text(a.market)}")
+
+
+@rag_app.command("report")
+def rag_report() -> None:
+    """docs/RAG.md and the README's Ask the decisions block, from results/rag/."""
+    from wsl.rag.report import write
+
+    for p in write():
+        typer.echo(f"wrote {p}")

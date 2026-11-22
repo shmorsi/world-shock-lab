@@ -20,6 +20,7 @@ RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
 # Minimum seconds between requests to the same host. Conservative by design.
 HOST_MIN_INTERVAL: dict[str, float] = {
     "www.bankofcanada.ca": 1.0,
+    "www.federalreserve.gov": 1.0,
     "query1.finance.yahoo.com": 1.5,
     "api.nasdaq.com": 1.5,
     "api.stlouisfed.org": 0.6,  # FRED allows 120 requests/minute

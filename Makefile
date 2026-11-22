@@ -1,4 +1,4 @@
-.PHONY: setup fetch events build report data simulation replicate analyze evaluate-report site docs preview test test-data lint typecheck check web-setup web-check pdf gif live all
+.PHONY: setup fetch events build report data simulation replicate analyze evaluate-report site docs preview test test-data lint typecheck check web-setup web-check pdf gif live rag all
 
 setup:            ## create the pinned environment (Python 3.12 via uv)
 	@command -v uv >/dev/null 2>&1 || { echo "uv is not installed. Install it from https://docs.astral.sh/uv/getting-started/installation/ and rerun 'make setup'."; exit 1; }
@@ -44,6 +44,11 @@ site:             ## web app data -> web/public/data/ (public licence filter)
 
 docs:             ## README findings, docs/RESEARCH_NOTE.md + figures
 	uv run wsl report docs
+
+rag:              ## Ask the decisions: dev scores, the browser's files, docs/RAG.md (test is scored once; see docs/RAG.md)
+	uv run wsl rag evaluate
+	uv run wsl rag export
+	uv run wsl rag report
 
 live:             ## fetch fresh data, score finished decisions, publish due forecasts
 	uv run wsl live run

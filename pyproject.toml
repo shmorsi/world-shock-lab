@@ -44,6 +44,18 @@ dev = [
     "types-requests>=2.32",
     "types-PyYAML>=6.0",
 ]
+# Ask the decisions (wsl/rag): embeddings, a vector store, and the LangChain wrapper
+rag = [
+    "sentence-transformers>=5.1",
+    "qdrant-client>=1.15",
+    "safetensors>=0.6",
+    "huggingface-hub>=0.35",
+    "langchain-core>=1.0",
+    "anthropic>=2.12",
+]
+
+[tool.uv]
+default-groups = ["dev", "rag"]
 
 # On Linux (CI, the live workflow) take torch from PyTorch's CPU-only index: the default
 # PyPI wheel pulls about 3 GB of CUDA libraries the project never uses. macOS is unchanged.
@@ -73,6 +85,7 @@ ignore = ["RUF001", "RUF002", "RUF003"]  # allow unicode (×, –, ¼) in string
 [tool.ruff.lint.per-file-ignores]
 "wsl/report/docs.py" = ["E501"]  # document templates: one Markdown paragraph per line
 "wsl/mlstudy/report.py" = ["E501"]
+"wsl/rag/report.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"

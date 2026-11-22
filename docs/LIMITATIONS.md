@@ -40,6 +40,14 @@ What the results in this repository cannot tell you, and why. Numbers are not re
 - **Scoring depends on data access.** The scheduled job downloads from FRED, the BoC and Yahoo. FRED is read through its API when a key is set and through its public CSV download otherwise; the series are the same. If a source refuses the CI runner, the run stops before writing anything, and the forecasts or scores wait until the job is run locally (`uv run wsl live run`). This has happened: FRED's website refused GitHub's hosted runner on 2026-11-11, so without the `FRED_API_KEY` secret the scheduled job cannot read FRED, and the first two scores (2026-10-28) were written by a local run of the same commit.
 - **A track record takes years.** A handful of scored decisions says little: with ten decisions, a 90% range would be expected to miss several cells by chance alone.
 
+## Ask the decisions (retrieval)
+
+- **Search, not judgment.** It finds statements that match a question; it does not know which was the first or the last of its kind. Most test misses are such questions ([RAG.md](RAG.md)).
+- **One labeller.** The questions and their answers were written by an AI assistant reading the statements, with no second check, and may lean towards the statements' own words, which favours keyword search.
+- **Small test.** With 48 test questions only large differences between retrievers are detectable.
+- **Generated answers are not scored.** The number and citation checks stop an answer that invents a figure or cites nothing; they do not show that a cited passage supports the claim made from it.
+- **Market moves beside a statement are what moved that day**, from the replay period only, not what the statement caused.
+
 ## Licensing and what is withheld
 
 - **CA yields** (CanDeal, via the BoC's Valet; open item O-3): derived responses are published, but per-event realized values are not, and the live scores report only whether outcomes fell inside the forecast ranges.

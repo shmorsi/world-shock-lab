@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url);
 const axeSource = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
 const args = process.argv.slice(2);
 const base = args.find((a) => !a.startsWith("--")) ?? "http://localhost:4173/";
-const routes = ["", "map", "explorer", "scenario", "replay", "brief", "method", "models", "track"];
+const routes = ["", "map", "explorer", "scenario", "replay", "brief", "method", "models", "track", "ask", "ask?q=When%20did%20the%20Fed%20begin%20tapering%3F"];
 
 const browser = await chromium.launch();
 let failures = 0;
