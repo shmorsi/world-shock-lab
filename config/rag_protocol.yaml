@@ -1,0 +1,109 @@
+# Ask the decisions: retrieval protocol, fixed before any retriever was written.
+#
+# Frozen by the git tag `rag-v1` together with config/rag_questions.yaml and the corpus
+# data/rag/statements.jsonl. `wsl rag evaluate --test` refuses to score the test split unless
+# that tag is an ancestor of HEAD, and refuses a second scoring unless a reason is logged.
+# A later change of method needs its own tag (rag-v2) and must not reopen these scores.
+version: 1
+
+question: >
+  Does adding embedding search to keyword search find the right central-bank statement
+  more often, for questions asked the way a reader would ask them?
+
+corpus:
+  file: data/rag/statements.jsonl
+  file_sha256: 251c1d582655d23c2d67cbbfcb0d2ed3b783527b3f33f6b1b342d43aabfb7e60
+  statements: 438          # 211 Bank of Canada (data/events/boc_fad.csv), 227 FOMC, 2000-02-02 to 2026-10-28
+  unit_scored: statement   # a statement's rank is the rank of its best chunk
+
+chunking:
+  unit: paragraph
+  merge_below_chars: 200   # a shorter paragraph is joined to the next one (to the previous, if last)
+  header: "{bank_name}, {day} {Month} {year}: {title}"   # prefixed to every chunk's text
+  bank_names: {boc: Bank of Canada, fed: Federal Reserve}
+
+retrievers:
+  bm25:
+    k1: 1.2
+    b: 0.75
+    idf: "ln(1 + (N - df + 0.5) / (df + 0.5))"
+    tokenizer: >
+      Unicode NFKD, drop combining marks, lowercase, split on anything not a-z or 0-9,
+      drop the stopwords below, then the S-stemmer (Harman 1991): -ies -> -y unless -eies or
+      -aies; -es -> -e unless -aes, -ees or -oes; -s -> '' unless -us or -ss.
+    stopwords: [a, about, above, after, again, against, all, am, an, and, any, are, as, at, be,
+      because, been, before, being, below, between, both, but, by, can, could, did, do, does,
+      doing, down, during, each, few, for, from, further, had, has, have, having, he, her, here,
+      hers, him, his, how, i, if, in, into, is, it, its, itself, just, me, more, most, my, no,
+      nor, not, now, of, off, on, once, only, or, other, our, ours, out, over, own, same, she,
+      should, so, some, such, than, that, the, their, theirs, them, then, there, these, they,
+      this, those, through, to, too, under, until, up, very, was, we, were, what, when, where,
+      which, while, who, whom, why, will, with, would, you, your, yours]
+  static:                  # also runs in the browser, so the site can search without a server
+    model: minishlab/potion-base-8M
+    revision: bf8b056651a2c21b8d2565580b8569da283cab23
+    licence: MIT
+    method: >
+      The model's WordPiece tokenizer (lowercase, accents stripped, split on whitespace and
+      punctuation, greedy longest match, no special tokens, unknown pieces dropped); the text's
+      vector is the mean of its pieces' vectors, L2-normalised. Score: cosine similarity.
+  transformer:
+    model: BAAI/bge-small-en-v1.5
+    revision: 5c38ec7c405ec4b44b94cc5a9bb96e735b38267a
+    licence: MIT
+    method: >
+      sentence-transformers, CLS pooling, L2-normalised; queries are prefixed with
+      "Represent this sentence for searching relevant passages: " as the model card says.
+      Chunk vectors are stored in Qdrant (local mode, cosine, exact search).
+  fusion:
+    method: reciprocal rank fusion
+    k: 60
+    depth: 100             # top chunks taken from each retriever
+    weights: equal
+  compared:
+    - bm25
+    - static
+    - transformer
+    - hybrid_static        # bm25 + static: what the website runs
+    - hybrid               # bm25 + transformer
+
+metrics:
+  primary: hit@5           # share of questions with a gold statement among the top 5 statements
+  also: [hit@1, hit@10, mrr@10]
+
+primary_comparison:
+  a: hybrid
+  b: bm25
+  statistic: difference in hit@5 on the 48 test questions (a minus b)
+  interval: paired bootstrap over questions, 10000 resamples, seed 20261122, 90% percentile
+  decision:
+    helps: the interval's lower bound is above 0
+    hurts: the interval's upper bound is below 0
+    otherwise: no detectable difference
+  note: >
+    With 48 questions the interval is wide; only a large difference can be detected. The
+    result is reported as it comes, including a null.
+
+secondary:
+  - hybrid_static minus bm25, hit@5, same bootstrap (the retriever the website uses)
+  - every retriever's hit@1, hit@5, hit@10 and mrr@10 on dev and test
+
+no_tuning: >
+  Nothing above is tuned. The dev questions were used only to build and debug the pipeline.
+
+answers:
+  scored_here: false
+  rule: >
+    An answer cites the paragraphs it uses. It may not print a number (any run of digits)
+    that is not in a cited paragraph or in the lab's results for that announcement; an answer
+    that does is withheld and the cited paragraphs are shown instead. Scoring generated
+    answers needs a model key and is left to its own protocol tag (rag-answers-v1).
+
+risks:
+  - >
+    The questions and labels were written by an AI assistant reading the statements, so their
+    wording may lean towards the statements' words, which favours keyword search. The rule was
+    to avoid the gold paragraph's distinctive words where a reader would not use them.
+  - >
+    Central-bank statements repeat boilerplate from meeting to meeting. Questions name an event
+    or a date so that one statement, or a short listed run of them, answers each.

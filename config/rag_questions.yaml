@@ -1,0 +1,77 @@
+# Ask the decisions: the fixed question set (protocol: config/rag_protocol.yaml).
+#
+# Written before any retriever existed and tagged `rag-v1` with the protocol. Each question is
+# phrased the way a reader would ask it, avoiding where possible the statement's own words.
+# `gold` lists every statement that answers it; a retriever scores a hit when any of them is
+# in its top k. Labels come from reading the statements in data/rag/statements.jsonl.
+# `dev` questions were used to build and debug the pipeline. `test` questions are scored once.
+version: 1
+questions:
+  # ---------------------------------------------------------------- dev (16) ----------------
+  - {id: d01, split: dev, bank: fed, question: "What did the Fed say when it cut half a point in September 2007 as credit markets tightened?", gold: [fed-2007-09-18]}
+  - {id: d02, split: dev, bank: fed, question: "Which FOMC statement responded to the hurricane that devastated New Orleans?", gold: [fed-2005-09-20]}
+  - {id: d03, split: dev, bank: fed, question: "When did the Fed start buying Treasury bills to keep reserves ample in late 2019?", gold: [fed-2019-10-11]}
+  - {id: d04, split: dev, bank: fed, question: "When did the Fed say oil prices and war worries were holding back the recovery and it could not usefully judge the balance of risks?", gold: [fed-2003-03-18]}
+  - {id: d05, split: dev, bank: fed, question: "When did the Fed raise rates in September 2026 by a quarter point?", gold: [fed-2026-09-16]}
+  - {id: d06, split: dev, bank: fed, question: "When did the Fed cut rates to three and a half to three and three quarters percent because the risks had shifted?", gold: [fed-2025-12-10]}
+  - {id: d07, split: dev, bank: fed, question: "When did the Fed raise its target to two and a half percent in February 2005 while calling policy still accommodative?", gold: [fed-2005-02-02]}
+  - {id: d08, split: dev, bank: fed, question: "What did the FOMC say about the economy in January 2026 when it held rates?", gold: [fed-2026-01-28]}
+  - {id: d09, split: dev, bank: boc, question: "How did the Bank of Canada react to the terrorist attacks of September 2001?", gold: [boc-2001-09-17]}
+  - {id: d10, split: dev, bank: boc, question: "When did the Bank of Canada end its exceptional forward guidance because slack had been absorbed?", gold: [boc-2022-01-26]}
+  - {id: d11, split: dev, bank: boc, question: "When did the Bank of Canada stop reinvesting maturing bonds and start shrinking its balance sheet?", gold: [boc-2022-04-13]}
+  - {id: d12, split: dev, bank: boc, question: "What did the Bank of Canada say about minimum wage increases pushing up inflation?", gold: [boc-2018-03-07, boc-2018-04-18, boc-2018-10-24]}
+  - {id: d13, split: dev, bank: boc, question: "How did the Bank of Canada describe Europe's sovereign debt troubles in 2011?", gold: [boc-2011-04-12, boc-2011-07-19, boc-2011-09-07, boc-2011-12-06]}
+  - {id: d14, split: dev, bank: boc, question: "When did the Bank of Canada cut by three quarters of a point in December 2008?", gold: [boc-2008-12-09]}
+  - {id: d15, split: dev, bank: boc, question: "When did the Bank of Canada first mention the war in the Middle East and the Strait of Hormuz?", gold: [boc-2026-03-18]}
+  - {id: d16, split: dev, bank: boc, question: "When did the Bank of Canada raise rates for the first time in seven years in July 2017?", gold: [boc-2017-07-12]}
+  # ---------------------------------------------------------------- test (48) ---------------
+  # Federal Reserve (24)
+  - {id: t01, split: test, bank: fed, question: "What did the Fed say about spending after the September 2001 attacks in the week that followed?", gold: [fed-2001-09-17, fed-2001-10-02]}
+  - {id: t02, split: test, bank: fed, question: "When did the Fed cut rates jointly with other major central banks during the 2008 crisis?", gold: [fed-2008-10-08]}
+  - {id: t03, split: test, bank: fed, question: "When did the Fed first set its policy rate target as a range from zero to a quarter percent?", gold: [fed-2008-12-16]}
+  - {id: t04, split: test, bank: fed, question: "When did the FOMC first decide to buy longer-term Treasury securities during the 2009 recession?", gold: [fed-2009-03-18]}
+  - {id: t05, split: test, bank: fed, question: "Which statement launched the second round of bond buying in late 2010?", gold: [fed-2010-11-03]}
+  - {id: t06, split: test, bank: fed, question: "When did the Fed first say rates would stay near zero until a specific date in 2013?", gold: [fed-2011-08-09]}
+  - {id: t07, split: test, bank: fed, question: "When did the Fed start selling short-term Treasuries to buy long-term ones, known as Operation Twist?", gold: [fed-2011-09-21]}
+  - {id: t08, split: test, bank: fed, question: "Which FOMC statement started open-ended monthly purchases of mortgage-backed securities in 2012?", gold: [fed-2012-09-13]}
+  - {id: t09, split: test, bank: fed, question: "When did the Fed tie its rate outlook to joblessness staying above a threshold?", gold: [fed-2012-12-12]}
+  - {id: t10, split: test, bank: fed, question: "When did the Fed begin tapering its bond purchases?", gold: [fed-2013-12-18]}
+  - {id: t11, split: test, bank: fed, question: "When did the FOMC wind down and finish its third round of asset purchases?", gold: [fed-2014-10-29]}
+  - {id: t12, split: test, bank: fed, question: "When did the Fed raise rates for the first time after seven years near zero?", gold: [fed-2015-12-16]}
+  - {id: t13, split: test, bank: fed, question: "When did the FOMC say it would start running down its balance sheet in October 2017?", gold: [fed-2017-09-20]}
+  - {id: t14, split: test, bank: fed, question: "When did the Fed make its first rate cut since the financial crisis, in summer 2019?", gold: [fed-2019-07-31]}
+  - {id: t15, split: test, bank: fed, question: "What did the Fed say when it made an emergency half-point cut in early March 2020?", gold: [fed-2020-03-03]}
+  - {id: t16, split: test, bank: fed, question: "When did the Fed cut to near zero on a Sunday and announce large purchases of Treasuries and mortgage bonds?", gold: [fed-2020-03-15]}
+  - {id: t17, split: test, bank: fed, question: "When did the Fed first commit to overshooting its inflation goal so that inflation averages two percent over time?", gold: [fed-2020-09-16]}
+  - {id: t18, split: test, bank: fed, question: "When did the Fed announce it would slow its pandemic bond buying each month in late 2021?", gold: [fed-2021-11-03]}
+  - {id: t19, split: test, bank: fed, question: "How did the FOMC describe the effect of Russia's war in Ukraine when it began raising rates in 2022?", gold: [fed-2022-03-16]}
+  - {id: t20, split: test, bank: fed, question: "When did the Fed hike to one and a half to one and three quarters percent in June 2022?", gold: [fed-2022-06-15]}
+  - {id: t21, split: test, bank: fed, question: "What did the Fed say about the health of US banks after the bank failures in March 2023?", gold: [fed-2023-03-22]}
+  - {id: t22, split: test, bank: fed, question: "When did the Fed begin its easing cycle with a half-point cut in 2024?", gold: [fed-2024-09-18]}
+  - {id: t23, split: test, bank: fed, question: "When did the FOMC warn that inflation falling too far was now the bigger risk, in 2003?", gold: [fed-2003-05-06, fed-2003-06-25]}
+  - {id: t24, split: test, bank: fed, question: "When did the Fed first say it would remove policy support at a pace likely to be measured?", gold: [fed-2004-05-04]}
+  # Bank of Canada (24)
+  - {id: t25, split: test, bank: boc, question: "When did the Bank of Canada mention the SARS outbreak as weighing on the economy?", gold: [boc-2003-06-03, boc-2003-07-15, boc-2003-09-03]}
+  - {id: t26, split: test, bank: boc, question: "What did the Bank of Canada expect from Hurricane Katrina's effect on the US and Canada?", gold: [boc-2005-09-07]}
+  - {id: t27, split: test, bank: boc, question: "When did the Bank of Canada commit to keeping its rate at the floor until mid-2010, conditional on inflation?", gold: [boc-2009-04-21]}
+  - {id: t28, split: test, bank: boc, question: "When did the Bank of Canada first raise rates after the financial crisis?", gold: [boc-2010-06-01]}
+  - {id: t29, split: test, bank: boc, question: "Why did the Bank of Canada surprise markets with a cut in January 2015?", gold: [boc-2015-01-21]}
+  - {id: t30, split: test, bank: boc, question: "How did the Alberta wildfires affect the Bank of Canada's growth outlook in 2016?", gold: [boc-2016-05-25, boc-2016-07-13, boc-2016-09-07]}
+  - {id: t31, split: test, bank: boc, question: "What did the Bank of Canada say about Britain's vote to leave the European Union?", gold: [boc-2016-07-13]}
+  - {id: t32, split: test, bank: boc, question: "How did the Bank of Canada expect the new North American trade agreement to affect investment in 2018?", gold: [boc-2018-10-24]}
+  - {id: t33, split: test, bank: boc, question: "When did the Bank of Canada say tighter mortgage rules would slow housing?", gold: [boc-2018-01-17, boc-2018-03-07, boc-2018-04-18, boc-2018-05-30, boc-2019-01-09]}
+  - {id: t34, split: test, bank: boc, question: "When did the Bank of Canada cut between scheduled dates in March 2020?", gold: [boc-2020-03-13, boc-2020-03-27]}
+  - {id: t35, split: test, bank: boc, question: "When did the Bank of Canada launch large-scale purchases of government bonds in the pandemic?", gold: [boc-2020-03-27]}
+  - {id: t36, split: test, bank: boc, question: "When did the Bank of Canada end quantitative easing and move to keeping its bond holdings steady?", gold: [boc-2021-10-27]}
+  - {id: t37, split: test, bank: boc, question: "How did the Bank of Canada describe the invasion of Ukraine when it first raised rates in 2022?", gold: [boc-2022-03-02]}
+  - {id: t38, split: test, bank: boc, question: "When did the Bank of Canada raise its rate by a full percentage point at once?", gold: [boc-2022-07-13]}
+  - {id: t39, split: test, bank: boc, question: "When did the Bank of Canada signal it would stop hiking to assess the effect of past increases?", gold: [boc-2023-01-25]}
+  - {id: t40, split: test, bank: boc, question: "When did the Bank of Canada make its first cut after the 2022 to 2023 hiking cycle?", gold: [boc-2024-06-05]}
+  - {id: t41, split: test, bank: boc, question: "When did the Bank of Canada publish scenarios instead of a single forecast because of tariff uncertainty?", gold: [boc-2025-04-16]}
+  - {id: t42, split: test, bank: boc, question: "When did the Bank of Canada cut because US tariffs and trade threats were hurting spending and hiring?", gold: [boc-2025-03-12]}
+  - {id: t43, split: test, bank: boc, question: "What did the Bank of Canada say about energy prices and the Middle East conflict in 2026?", gold: [boc-2026-03-18, boc-2026-04-29, boc-2026-06-10, boc-2026-07-15, boc-2026-09-02]}
+  - {id: t44, split: test, bank: boc, question: "When did the Bank of Canada say the trade war had permanently reduced Canada's productive capacity?", gold: [boc-2025-10-29]}
+  - {id: t45, split: test, bank: boc, question: "When did the Bank of Canada cut by half a point in October 2024?", gold: [boc-2024-10-23]}
+  - {id: t46, split: test, bank: boc, question: "When did the Bank of Canada say labour shortages were adding to price pressures?", gold: [boc-2021-10-27, boc-2022-06-01, boc-2022-07-13, boc-2022-10-26, boc-2023-04-12]}
+  - {id: t47, split: test, bank: boc, question: "When did the Bank of Canada describe its 2015 cut as insurance against the oil price shock?", gold: [boc-2015-01-21]}
+  - {id: t48, split: test, bank: boc, question: "When did the Bank of Canada promise to hold rates low until slack is absorbed and inflation sustainably at target, in late 2020?", gold: [boc-2020-10-28, boc-2020-12-09]}

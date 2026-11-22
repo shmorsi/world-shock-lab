@@ -310,3 +310,14 @@ The day-0 window for a series must contain the announcement. The table records w
 | Live market data | FRED (DGS2, DEXCAUS: the API with a key, the public CSV without one, §3.1), Valet (BD.CDN.2YR.DQ.YLD), Yahoo (RY, TD, BNS, BMO, CM, NA on the TSX) | Same adapters as §3; fresh downloads into the git-ignored `data/live_cache/`. Each forecast and score records the URL it read, so the FRED route is on the file | Policies as §3. Committed scores contain realized values only for [C] series (`config/live.yaml`). |
 | World map | `world-atlas` 2.0.2 (npm, ISC licence), a TopoJSON redistribution of Natural Earth 1:110m Admin 0 boundaries | 2026-10-12: package metadata and README | Natural Earth data are public domain. Bundled with the site. |
 | Fonts | Site: `@fontsource-variable/inter-tight` 5.3.0, `@fontsource/ibm-plex-mono` 5.1.0. Research-note PDF and print-figure labels: `@fontsource/ibm-plex-sans` 5.2.8 | 2026-10-24: package metadata | SIL Open Font License 1.1. Bundled with the site or the PDF script, so no request goes to a font host. |
+
+## 8. Statement texts and models for Ask the decisions (`wsl/rag/`)
+
+| Item | Source | Verified | Licence and use |
+|---|---|---|---|
+| Bank of Canada rate-announcement press releases, 2000-12-05 to 2026-09-02 (211) | The `url` column of `data/events/boc_fad.csv` (§2.2) | 2026-11-22: every page downloaded through the raw cache, hashes in `data/manifest_rag.json` | BoC terms (https://www.bankofcanada.ca/terms/) allow use, copying and distribution of BoC content with attribution. The extracted paragraphs are committed in `data/rag/statements.jsonl` with each release's official URL. [C] |
+| FOMC statements, 2000-02-02 to 2026-10-28 (227) | Links named "Statement" on https://www.federalreserve.gov/monetarypolicy/fomchistorical{YEAR}.htm (2000–2020), and releases titled "Federal Reserve issues FOMC statement" in https://www.federalreserve.gov/json/ne-press.json (2021 on) | 2026-11-22: as above | US government work, public domain. Committed as above. [C] |
+| Static embedding model | `minishlab/potion-base-8M` on Hugging Face, revision `bf8b056651a2c21b8d2565580b8569da283cab23` | 2026-11-22: model card and API | MIT. An int8 copy of its vectors and its vocabulary are bundled with the site so a question is embedded in the browser. |
+| Transformer embedding model | `BAAI/bge-small-en-v1.5` on Hugging Face, revision `5c38ec7c405ec4b44b94cc5a9bb96e735b38267a` | 2026-11-22: model card and API | MIT. Used in Python only; downloaded on first use, never committed. |
+
+Pages from both banks carry a per-request bot-check snippet, so a re-download has different bytes even when the statement has not changed. The page hash records what was read; `text_sha256`, the hash of the extracted paragraphs, is what `wsl rag corpus` checks against the committed file.
