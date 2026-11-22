@@ -238,3 +238,99 @@ def test_a_second_test_scoring_needs_a_reason(monkeypatch: pytest.MonkeyPatch,
     (tmp_path / "test.json").write_text("{}")
     with pytest.raises(evaluate.GateError, match="reason"):
         evaluate.run("test")
+
+
+# -- answers ----------------------------------------------------------------------------------
+
+class _Block:
+    def __init__(self, text: str) -> None:
+        self.type, self.text = "text", text
+
+
+class _FakeClient:
+    """Stands in for anthropic.Anthropic(): returns a fixed reply, records the request."""
+
+    def __init__(self, reply: str, stop_reason: str = "end_turn") -> None:
+        self.reply, self.stop_reason, self.calls = reply, stop_reason, []
+        self.beta = self
+        self.messages = self
+
+    def create(self, **kw):  # type: ignore[no-untyped-def]
+        self.calls.append(kw)
+        return type("R", (), {"stop_reason": self.stop_reason,
+                              "content": [_Block(self.reply)]})()
+
+
+class _OneDocSearcher:
+    def __init__(self, chunks: list[Chunk]) -> None:
+        self.chunks = chunks
+
+    def passages(self, kind: str, query: str, k: int = 5) -> list[Chunk]:
+        return self.chunks[:k]
+
+
+def _july_2022() -> list[Chunk]:
+    d = next(s for s in load() if s.doc_id == "boc-2022-07-13")
+    return chunks([d])[:2]
+
+
+def test_answer_with_supported_numbers_and_a_citation_passes() -> None:
+    from wsl.rag.answer import ask
+
+    client = _FakeClient("The Bank raised its policy rate by 100 basis points to 2½% [1].")
+    a = ask("full point hike?", _OneDocSearcher(_july_2022()), client=client)  # type: ignore[arg-type]
+    assert a.method == "claude" and a.cited == [1] and a.unsupported == []
+    req = client.calls[0]
+    assert req["model"] == "claude-opus-5-5" and req["fallbacks"] == "default"
+    assert "[1] Bank of Canada, 13 July 2022" in req["messages"][0]["content"]
+
+
+def test_answer_with_an_invented_number_is_withheld() -> None:
+    from wsl.rag.answer import ask
+
+    client = _FakeClient("The Bank raised by 150 basis points [1].")
+    a = ask("full point hike?", _OneDocSearcher(_july_2022()), client=client)  # type: ignore[arg-type]
+    assert a.method == "withheld" and a.unsupported == ["150"]
+
+
+def test_answer_without_citation_is_withheld_and_refusal_falls_back_to_a_quote() -> None:
+    from wsl.rag.answer import ask
+
+    s = _OneDocSearcher(_july_2022())
+    assert ask("q", s, client=_FakeClient("No citation here.")).method == "withheld"  # type: ignore[arg-type]
+    a = ask("what deposit rate did it set", s,  # type: ignore[arg-type]
+            client=_FakeClient("", stop_reason="refusal"))
+    assert a.method == "extract" and a.text.startswith("Bank of Canada, 13 July 2022: “")
+    assert "deposit rate" in a.text and a.unsupported == []
+
+
+def test_market_moves_come_from_the_lab_replay() -> None:
+    from wsl.rag.answer import market_moves, market_text
+
+    moves = market_moves("boc-2019-01-09")
+    assert {m["asset"] for m in moves} == {"US2Y", "USDCAD", "WTI"}
+    assert "US 2-year yield -2.00 bp" in market_text(moves)
+    assert market_moves("boc-2001-01-23") == []
+
+
+def test_langchain_retriever_returns_documents_with_sources() -> None:
+    from wsl.rag.lc import StatementRetriever
+
+    r = StatementRetriever(searcher=_OneDocSearcher(_july_2022()), k=1)
+    r.searcher.statements = load()  # what the real Searcher carries
+    docs = r.invoke("anything")
+    assert len(docs) == 1
+    assert docs[0].metadata["url"].startswith("https://www.bankofcanada.ca/2022/07/")
+    assert docs[0].metadata["date"] == "2022-07-13"
+
+
+# -- the generated write-up -------------------------------------------------------------------
+
+def test_rag_documents_match_the_results_and_type_no_number_by_hand() -> None:
+    from wsl.rag.report import END, START, render, unregistered
+
+    out, nums = render()
+    for path, text in out.items():
+        assert path.read_text() == text, f"{path.name} is stale; run `uv run wsl rag report`"
+        part = text.split(START, 1)[1].split(END, 1)[0] if START in text else text
+        assert unregistered(part, nums) == [], path.name

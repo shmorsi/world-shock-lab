@@ -287,3 +287,41 @@ def rag_fixtures() -> None:
     from wsl.rag.fixtures import write
 
     typer.echo(f"wrote {write()}")
+
+
+@rag_app.command("export")
+def rag_export() -> None:
+    """The Ask view's search files -> web/public/data/ask*.{json,bin}."""
+    from wsl.rag.site import export
+
+    for p in export():
+        typer.echo(f"wrote {p} ({p.stat().st_size // 1024} KB)")
+
+
+@rag_app.command("ask")
+def rag_ask(
+    question: Annotated[str, typer.Argument(help="A question about Fed or BoC decisions.")],
+    retriever: Annotated[str, typer.Option(help="bm25, static, transformer, hybrid_static, "
+                                                 "hybrid.")] = "hybrid",
+    model: Annotated[bool, typer.Option(help="Write the answer with Claude (needs "
+                                             "Anthropic credentials); else quote.")] = True,
+    bank: Annotated[str | None, typer.Option(help="Only fed or boc statements.")] = None,
+) -> None:
+    """Answer from the statements, citing them; numbers are checked against the sources."""
+    from wsl.rag.answer import ask, default_client, market_text
+
+    a = ask(question, kind=retriever, client=default_client() if model else None, bank=bank)
+    typer.echo(f"\n{a.text}\n\n({a.method})\n")
+    for i, c in enumerate(a.passages, start=1):
+        typer.echo(f"[{i}] {c.header}\n    {c.body[:240]}{'...' if len(c.body) > 240 else ''}")
+    if a.market:
+        typer.echo(f"\nMarkets after the cited announcement (lab data): {market_text(a.market)}")
+
+
+@rag_app.command("report")
+def rag_report() -> None:
+    """docs/RAG.md and the README's Ask the decisions block, from results/rag/."""
+    from wsl.rag.report import write
+
+    for p in write():
+        typer.echo(f"wrote {p}")

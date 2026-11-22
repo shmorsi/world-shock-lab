@@ -116,12 +116,16 @@ class Searcher:
         """Statement ids, best first."""
         return to_statements(self.rank_chunks(kind, query), self.chunks)
 
-    def passages(self, kind: str, query: str, k: int = 5) -> list[Chunk]:
-        """The best chunk of each of the top ``k`` statements."""
+    def passages(self, kind: str, query: str, k: int = 5,
+                 bank: str | None = None) -> list[Chunk]:
+        """The best chunk of each of the top ``k`` statements, optionally of one bank only
+        (a filter after ranking; the scored results use no filter)."""
         out: list[Chunk] = []
         seen: set[str] = set()
         for i in self.rank_chunks(kind, query):
             c = self.chunks[i]
+            if bank is not None and c.bank != bank:
+                continue
             if c.doc_id not in seen:
                 seen.add(c.doc_id)
                 out.append(c)

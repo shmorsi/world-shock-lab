@@ -13,6 +13,7 @@ const routes = [
   ["explorer", "text=Show this chart as a table"],
   ["scenario", "text=Canada dashboard"],
   ["replay", "text=Verdict"],
+  ["ask", "text=Scored once"],
 ];
 const SLOW = { latency: 150, downloadThroughput: (1.6 * 1024 * 1024) / 8, uploadThroughput: (750 * 1024) / 8 };
 

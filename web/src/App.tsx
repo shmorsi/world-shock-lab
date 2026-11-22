@@ -12,6 +12,7 @@ const BriefView = lazy(() => import("./views/BriefView"));
 const MethodView = lazy(() => import("./views/MethodView"));
 const TrackView = lazy(() => import("./views/TrackView"));
 const ModelsView = lazy(() => import("./views/ModelsView"));
+const AskView = lazy(() => import("./views/AskView"));
 
 const ROUTES = [
   { path: "map", text: "World map", short: "Map" },
@@ -22,6 +23,7 @@ const ROUTES = [
   { path: "method", text: "Methodology", short: "Method" },
   { path: "models", text: "Models", short: "Models" },
   { path: "track", text: "Track record", short: "Track" },
+  { path: "ask", text: "Ask the decisions", short: "Ask" },
 ] as const;
 
 // The data each view needs, requested as soon as the route is known so the downloads run in
@@ -35,6 +37,7 @@ const ROUTE_DATA: Record<string, string[]> = {
   method: ["m3", "m4"],
   models: ["mlstudy"],
   track: ["live"],
+  ask: ["ask"],
 };
 const prefetch = (route: string) => (ROUTE_DATA[route] ?? ROUTE_DATA.map).forEach((n) => void load(n).catch(() => undefined));
 const currentRoute = () => window.location.hash.replace(/^#\/?/, "").split("?")[0];
@@ -163,6 +166,8 @@ export default function App() {
         return <ModelsView />;
       case "track":
         return <TrackView />;
+      case "ask":
+        return <AskView />;
       default:
         return <MapView />;
     }
