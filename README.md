@@ -136,7 +136,7 @@ The blocks below are generated from the committed results by `uv run wsl report 
 
 **Why trust the numbers:** 11 of 13 published findings replicate (sign and 90% band), including 6 of the 7 that are not true almost by construction. In simulation, the primary estimator's 90% bands contain the true response 90% of the time. 24 of 30 headline responses keep their sign in every pre-registered robustness variant and stay significant in at least two thirds of them.
 
-**Site:** every view renders in 2.7 s or less on a throttled phone profile (slow 4G, CPU slowed four times; `npm run measure`), and axe-core finds 0 WCAG 2.1 A/AA violations across 9 views in light and dark themes.
+**Site:** every view renders in 2.7 s or less on a throttled phone profile (slow 4G, CPU slowed four times; `npm run measure`), and axe-core finds 0 WCAG 2.1 A/AA violations across 11 views in light and dark themes.
 <!-- findings:end -->
 
 </details>
