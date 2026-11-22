@@ -44,6 +44,18 @@ dev = [
     "types-requests>=2.32",
     "types-PyYAML>=6.0",
 ]
+# Ask the decisions (wsl/rag): embeddings, a vector store, and the LangChain wrapper
+rag = [
+    "sentence-transformers>=5.1",
+    "qdrant-client>=1.15",
+    "safetensors>=0.6",
+    "huggingface-hub>=0.35",
+    "langchain-core>=1.0",
+    "langchain-anthropic>=1.0",
+]
+
+[tool.uv]
+default-groups = ["dev", "rag"]
 
 # On Linux (CI, the live workflow) take torch from PyTorch's CPU-only index: the default
 # PyPI wheel pulls about 3 GB of CUDA libraries the project never uses. macOS is unchanged.

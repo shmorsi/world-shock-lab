@@ -32,3 +32,6 @@ web/.claude/
 
 # Live-mode download cache (fresh data, never pinned for research)
 data/live_cache/
+
+# Ask the decisions: embedding vectors and the local Qdrant store (rebuilt from the corpus)
+data/rag/index/

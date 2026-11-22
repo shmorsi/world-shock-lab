@@ -215,7 +215,8 @@ def build(refresh: bool = False, last_date: str | None = None,
     out.sort(key=lambda s: (s.date, s.bank))
     if STATEMENTS.exists() and not repin:
         before = {s.doc_id: s.text_sha256 for s in load()}
-        changed = [s.doc_id for s in out if s.doc_id in before and before[s.doc_id] != s.text_sha256]
+        changed = [s.doc_id for s in out
+                   if s.doc_id in before and before[s.doc_id] != s.text_sha256]
         if changed:
             raise IntegrityError(
                 f"{len(changed)} statement(s) now read differently from data/rag/statements.jsonl "
