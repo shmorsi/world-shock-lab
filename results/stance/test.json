@@ -1,0 +1,104 @@
+{
+ "n_test": 496,
+ "majority": {
+  "macro_f1": 0.22162404665769406,
+  "weighted_f1": 0.3310956019624018,
+  "accuracy": 0.49798387096774194,
+  "f1_by_class": {
+   "dovish": 0.0,
+   "hawkish": 0.0,
+   "neutral": 0.6649
+  },
+  "confusion": [
+   [
+    0,
+    0,
+    135
+   ],
+   [
+    0,
+    0,
+    114
+   ],
+   [
+    0,
+    0,
+    247
+   ]
+  ]
+ },
+ "tfidf_logreg": {
+  "macro_f1": 0.5612777051373542,
+  "weighted_f1": 0.5897046606724026,
+  "accuracy": 0.592741935483871,
+  "f1_by_class": {
+   "dovish": 0.5405,
+   "hawkish": 0.4727,
+   "neutral": 0.6706
+  },
+  "confusion": [
+   [
+    70,
+    14,
+    51
+   ],
+   [
+    19,
+    52,
+    43
+   ],
+   [
+    35,
+    40,
+    172
+   ]
+  ]
+ },
+ "lora_roberta": {
+  "macro_f1": 0.6634645165759182,
+  "weighted_f1": 0.6869696701736177,
+  "accuracy": 0.6834677419354839,
+  "f1_by_class": {
+   "dovish": 0.5887,
+   "hawkish": 0.6388,
+   "neutral": 0.7629
+  },
+  "confusion": [
+   [
+    78,
+    30,
+    27
+   ],
+   [
+    17,
+    84,
+    13
+   ],
+   [
+    35,
+    35,
+    177
+   ]
+  ]
+ },
+ "primary": {
+  "difference": 0.10218681143856401,
+  "lo": 0.05985413511578461,
+  "hi": 0.14503203070551907,
+  "verdict": "helps"
+ },
+ "lora_cpu_ms_per_sentence": 41.48883396579373,
+ "provenance": {
+  "generated_at": "2026-11-23T08:08:09Z",
+  "git_sha": "33503a0efbb471b21cee03c6949c512cbd99f044",
+  "protocol_tag": "stance-v1",
+  "protocol_sha256": "8c4d4a8df816f100a7d2872fa22c32335da18d8908e70cf31324112a78dafe7e",
+  "packages": {
+   "torch": "2.14.1+cpu",
+   "transformers": "5.24.0",
+   "peft": "0.22.0",
+   "scikit-learn": "1.9.1",
+   "numpy": "2.5.4"
+  }
+ }
+}

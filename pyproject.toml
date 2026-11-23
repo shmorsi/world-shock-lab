@@ -53,6 +53,10 @@ rag = [
     "langchain-core>=1.0",
     "anthropic>=2.12",
 ]
+stance = [
+    "peft>=0.17",
+    "transformers>=4.57",
+]
 
 [tool.uv]
 default-groups = ["dev", "rag"]
@@ -86,6 +90,7 @@ ignore = ["RUF001", "RUF002", "RUF003"]  # allow unicode (×, –, ¼) in string
 "wsl/report/docs.py" = ["E501"]  # document templates: one Markdown paragraph per line
 "wsl/mlstudy/report.py" = ["E501"]
 "wsl/rag/report.py" = ["E501"]
+"wsl/stance/report.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"

@@ -1,0 +1,60 @@
+# Policy stance: protocol, fixed before any model was trained or any test sentence scored.
+#
+# Frozen by the git tag `stance-v1`. `wsl stance evaluate --split test` refuses to score unless
+# that tag is an ancestor of HEAD and this file is unchanged since the tag, and refuses a second
+# scoring. A later change of method needs its own tag (stance-v2) and must not reopen these scores.
+version: 1
+
+question: >
+  Does fine-tuning a pretrained transformer with low-rank adapters (LoRA) classify the stance of
+  central-bank sentences (dovish, hawkish, neutral) better than a strong bag-of-words baseline,
+  and does the classifier's reading of a statement carry information about the next decision?
+
+data:
+  source: gtfintechlab/fomc_communication     # Shah, Paturi and Chava (ACL 2023), "Trillion Dollar Words"
+  revision: 6b0283f55f0005a6d38d49f271d795c21fccc1a3
+  licence: CC BY-NC 4.0                       # downloaded on demand into the raw cache, never committed
+  files: {train: train.csv, test: test.csv}   # the authors' own split (seed 944601)
+  labels: {0: dovish, 1: hawkish, 2: neutral}
+  development: 20% of train, stratified by label, seed 0; the rest trains
+  final_fit: none                             # the models scored on test are the ones selected on development; no refit on train + dev
+
+models:
+  majority: predict the most frequent training label
+  tfidf_logreg:
+    features: word 1- and 2-grams, sublinear tf, min_df 2, lowercase
+    classifier: multinomial logistic regression, class_weight balanced
+    choose_on_dev: {C: [0.3, 1.0, 3.0, 10.0]}
+  lora_roberta:
+    base: FacebookAI/roberta-base
+    base_revision: e2da8e2f811d1448a5b465c236feacd80ffbac7b
+    adapters: {r: 8, alpha: 16, dropout: 0.1, target: [query, value]}   # the classification head is trained too
+    max_tokens: 96
+    batch: 16
+    optimiser: AdamW, weight decay 0.01, linear decay with 6% warm-up
+    epochs: 6                                  # the epoch kept is the one with the best development macro-F1
+    choose_on_dev: {learning_rate: [2.0e-4, 5.0e-4]}
+    seed: 0
+    device: cpu                                # four threads; the run's wall time is recorded
+
+metric:
+  primary: macro-F1 on the test split (each class counts equally; neutral is half the data)
+  also_reported: [accuracy, weighted-F1, per-class F1, confusion matrix]
+
+primary_comparison:
+  what: macro-F1 of lora_roberta minus macro-F1 of tfidf_logreg, on the test split
+  interval: paired bootstrap over test sentences, 10000 draws, seed 0, 90% percentile interval
+  rule: helps if the interval is above zero, hurts if below, otherwise no detectable difference
+
+external_check:
+  what: >
+    Bank of Canada statements (out of domain: the classifier never saw a BoC sentence).
+    Each statement's stance = (hawkish sentences - dovish sentences) / sentences, from the
+    selected LoRA model. The first paragraph, which announces the decision itself, is dropped.
+  test: >
+    Spearman correlation between a statement's stance and the next scheduled decision's change
+    in basis points (data/events/boc_fad.csv), with a 90% interval from a bootstrap over
+    statements, and an OLS of the next change on the stance and the current change with HC1
+    errors (does stance add anything beyond the current decision).
+  rule: informative if the Spearman interval is above zero
+  label: reduced form       # a correlation, not a causal estimate
