@@ -53,6 +53,10 @@ rag = [
     "langchain-core>=1.0",
     "anthropic>=2.12",
 ]
+stance = [
+    "peft>=0.17",
+    "transformers>=4.57",
+]
 
 [tool.uv]
 default-groups = ["dev", "rag"]
