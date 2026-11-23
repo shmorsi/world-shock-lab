@@ -43,8 +43,9 @@ def readme_block(dev: dict[str, Any], test: dict[str, Any] | None, ext: dict[str
               f"LoRA minus TF-IDF: {p['difference']:+.3f} macro-F1 (90% CI {p['lo']:+.3f} to {p['hi']:+.3f}): **{p['verdict']}**."]
     if ext:
         s = ext["spearman"]
-        L.append(f" Out of domain, on {ext['pairs']} Bank of Canada statements: the classifier's stance and the next decision correlate at "
-                 f"{s['rho']:.2f} (90% CI {s['lo']:.2f} to {s['hi']:.2f}): {s['verdict']} (reduced form).")
+        L += ["", f"Out of domain, on {ext['pairs']} Bank of Canada statements: the classifier's stance and the next decision correlate at "
+              f"{s['rho']:.2f} (90% CI {s['lo']:.2f} to {s['hi']:.2f}): {s['verdict']} (reduced form), though little of it survives "
+              f"once today's decision is known (t {ext['ols']['t_stance']:.2f})."]
     L.append(END)
     return "\n".join(L)
 

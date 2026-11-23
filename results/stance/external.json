@@ -1,0 +1,39 @@
+{
+ "statements_scored": 211,
+ "pairs": 206,
+ "first": "2000-12-05",
+ "last": "2026-07-15",
+ "spearman": {
+  "rho": 0.3349877019478972,
+  "lo": 0.21404827613040694,
+  "hi": 0.44494067482620786,
+  "verdict": "informative"
+ },
+ "spearman_with_current_change": 0.431883409440482,
+ "ols": {
+  "coef_stance": 9.22715924518193,
+  "t_stance": 1.5961695604930017,
+  "coef_current": 0.6779998303728823,
+  "t_current": 11.83083632513452,
+  "r2": 0.5463869278440715
+ },
+ "mean_stance_before": {
+  "hike": 0.23564482948184004,
+  "hold": 0.003383926995368414,
+  "cut": -0.079229451224509
+ },
+ "label": "reduced form",
+ "provenance": {
+  "generated_at": "2026-11-23T08:10:03Z",
+  "git_sha": "cd4844a77d8d10087293c6acc501ec995bc7a1b7",
+  "protocol_tag": "stance-v1",
+  "protocol_sha256": "8c4d4a8df816f100a7d2872fa22c32335da18d8908e70cf31324112a78dafe7e",
+  "packages": {
+   "torch": "2.14.1+cpu",
+   "transformers": "5.24.0",
+   "peft": "0.22.0",
+   "scikit-learn": "1.9.1",
+   "numpy": "2.5.4"
+  }
+ }
+}
