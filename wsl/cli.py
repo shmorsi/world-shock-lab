@@ -29,6 +29,9 @@ app.add_typer(report_app, name="report")
 rag_app = typer.Typer(no_args_is_help=True,
                       help="Ask the decisions: search Fed and BoC statements.")
 app.add_typer(rag_app, name="rag")
+stance_app = typer.Typer(no_args_is_help=True,
+                         help="Policy stance: LoRA fine-tuning against TF-IDF.")
+app.add_typer(stance_app, name="stance")
 
 
 @data_app.command("fetch")
@@ -322,6 +325,41 @@ def rag_ask(
 def rag_report() -> None:
     """docs/RAG.md and the README's Ask the decisions block, from results/rag/."""
     from wsl.rag.report import write
+
+    for p in write():
+        typer.echo(f"wrote {p}")
+
+
+@stance_app.command("dev")
+def stance_dev() -> None:
+    """Every choice on the development split; saves the selected adapter."""
+    from wsl.stance.study import run_dev
+
+    run_dev(typer.echo)
+
+
+@stance_app.command("evaluate")
+def stance_evaluate(split: Annotated[str, typer.Option(help="Only 'test'.")] = "test") -> None:
+    """Score the test split once (needs the stance-v1 tag in history and no earlier score)."""
+    from wsl.stance.study import run_test
+
+    if split != "test":
+        raise typer.BadParameter("development scores come from `wsl stance dev`")
+    run_test(typer.echo)
+
+
+@stance_app.command("external")
+def stance_external() -> None:
+    """The out-of-domain check: Bank of Canada statements against the next decision."""
+    from wsl.stance.external import run
+
+    run(typer.echo)
+
+
+@stance_app.command("report")
+def stance_report() -> None:
+    """docs/STANCE.md and the README block, from results/stance/."""
+    from wsl.stance.report import write
 
     for p in write():
         typer.echo(f"wrote {p}")
